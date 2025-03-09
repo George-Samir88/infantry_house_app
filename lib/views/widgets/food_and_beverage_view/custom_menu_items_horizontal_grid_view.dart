@@ -1,11 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/models/menu_item_model.dart';
 import 'package:infantry_house_app/views/widgets_2/food_and_beverage_view/rating_view.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
+import '../../../utils/custom_snackBar.dart';
+import '../../widgets_2/food_and_beverage_view/manager/cart_cubit/cart_cubit.dart';
 
 class CustomMenuItemsHorizontalGridView extends StatelessWidget {
   const CustomMenuItemsHorizontalGridView({
@@ -68,7 +72,11 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => RatingView(menuItemModel: menuItemModel[gridIndex],)),
+              MaterialPageRoute(
+                builder:
+                    (context) =>
+                        RatingView(menuItemModel: menuItemModel[gridIndex]),
+              ),
             );
           },
           child: Stack(
@@ -158,25 +166,44 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
               Positioned(
                 bottom: -5,
                 left: -5,
-                child:     Align( // Use Align to control the position of the button
-                alignment: Alignment.centerRight, //  Align to the right
-                child: GestureDetector(
-                  onTap: () {
-                    //  Implement your "Add to Cart" logic here!
-                    print("Added ${menuItemModel[gridIndex].title} to cart");
-                    //  You might want to update state, show a snackbar, etc.
-                  },
-                  child: CircleAvatar(
-                    radius: GlobalData().isTabletLayout ? 20.r : 24.r, // Adjust the size
-                    backgroundColor: Colors.amber, // Use amber to match the price tag
-                    child: Icon(
-                      Icons.shopping_cart, // Use the shopping cart icon
-                      color: Colors.brown[800], // Icon color
-                      size: GlobalData().isTabletLayout ? 20.r : 20.r, // Adjust icon size
+                child: Align(
+                  // Use Align to control the position of the button
+                  alignment: Alignment.centerRight, //  Align to the right
+                  child: GestureDetector(
+                    onTap: () {
+                      context.read<CartCubit>().addToCart(
+                        menuItemModel[gridIndex],
+                      ); // Add to cart>
+                      //  Implement your "Add to Cart" logic here!
+                      print("Added ${menuItemModel[gridIndex].title} to cart");
+                      showSnackBar(
+                        context: context,
+                        snackBarAction: SnackBarAction(
+                          onPressed: () {},
+                          label: '',
+                        ),
+                        message:
+                            "${S.of(context).AddedSuccessfully} ${menuItemModel[gridIndex].title} ${S.of(context).ToCard}",
+                      );
+                      //  You might want to update state, show a snackbar, etc.
+                    },
+                    child: CircleAvatar(
+                      radius: GlobalData().isTabletLayout ? 20.r : 24.r,
+                      // Adjust the size
+                      backgroundColor: Colors.amber,
+                      // Use amber to match the price tag
+                      child: Icon(
+                        Icons.shopping_cart, // Use the shopping cart icon
+                        color: Colors.brown[800], // Icon color
+                        size:
+                            GlobalData().isTabletLayout
+                                ? 20.r
+                                : 20.r, // Adjust icon size
+                      ),
                     ),
                   ),
                 ),
-              ),)
+              ),
             ],
           ),
         );

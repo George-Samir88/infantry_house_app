@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
 import 'package:infantry_house_app/utils/custom_elevated_button.dart';
+import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/views/widgets/register_view/register_view.dart';
 import 'package:intl/intl.dart';
 
@@ -22,18 +23,13 @@ class _LoginViewState extends State<LoginView> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
-  void _login() {
+  void login({required context}) {
     if (_formKey.currentState!.validate()) {
       // If the form is valid, proceed with login logic
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            S.of(context).LoggedInSuccessfully,
-            style: TextStyle(
-              fontSize: GlobalData().isTabletLayout ? 12.sp : 16.sp,
-            ),
-          ),
-        ),
+      showSnackBar(
+        context: context,
+        snackBarAction: SnackBarAction(label: '', onPressed: () {}),
+        message: S.of(context).LoggedInSuccessfully,
       );
       Navigator.push(
         context,
@@ -271,7 +267,7 @@ class _LoginViewState extends State<LoginView> {
 
                         // Login button
                         CustomElevatedButton(
-                          onPressed: _login,
+                          onPressed: () => login(context: context),
                           text: S.of(context).Login,
                           width: MediaQuery.of(context).size.width,
                           tabletLayout: GlobalData().isTabletLayout,

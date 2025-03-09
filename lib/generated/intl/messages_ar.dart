@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل صورة الشيك"),
         "Ad5lSortElsnf":
             MessageLookupByLibrary.simpleMessage("أدخل صورة الصنف"),
+        "AddedSuccessfully": MessageLookupByLibrary.simpleMessage("تمت إضافة"),
         "AlreadyHaveAnAccount":
             MessageLookupByLibrary.simpleMessage("لديك حساب بالفعل؟"),
         "AnyComments": MessageLookupByLibrary.simpleMessage("أية ملاحظات"),
@@ -143,9 +144,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "TalabatEdafyaLLftar":
             MessageLookupByLibrary.simpleMessage("طلبات إضافية للإفطار"),
         "Taste": MessageLookupByLibrary.simpleMessage("المذاق غير مرضٍ"),
+        "ToCard": MessageLookupByLibrary.simpleMessage("إلي السلة"),
         "Total": MessageLookupByLibrary.simpleMessage("الإجمالي:"),
         "Twagn": MessageLookupByLibrary.simpleMessage("طواجن"),
         "Tyor": MessageLookupByLibrary.simpleMessage("الطيور"),
+        "Undo": MessageLookupByLibrary.simpleMessage("تراجع"),
         "UserName": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "VerificationCodeSent":
             MessageLookupByLibrary.simpleMessage("تم إرسال رمز التحقق"),

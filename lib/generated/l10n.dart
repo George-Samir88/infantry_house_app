@@ -1069,6 +1069,36 @@ class S {
       args: [],
     );
   }
+
+  /// `تراجع`
+  String get Undo {
+    return Intl.message(
+      'تراجع',
+      name: 'Undo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تمت إضافة`
+  String get AddedSuccessfully {
+    return Intl.message(
+      'تمت إضافة',
+      name: 'AddedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إلي السلة`
+  String get ToCard {
+    return Intl.message(
+      'إلي السلة',
+      name: 'ToCard',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

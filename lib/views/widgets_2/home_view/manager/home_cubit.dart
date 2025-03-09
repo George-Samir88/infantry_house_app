@@ -1,5 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../widgets/activities_view/activities_view_body.dart';
@@ -7,7 +7,6 @@ import '../../../widgets/housing_view/housing_view_body.dart';
 import '../../../widgets/reservation_view/reservation_view_body.dart';
 import '../../../widgets/washing_view/washing_view_body.dart';
 import '../../food_and_beverage_view/food_and_beverage_view_body.dart';
-
 
 part 'home_state.dart';
 

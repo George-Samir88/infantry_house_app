@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:infantry_house_app/views/widgets_2/food_and_beverage_view/my_cart_view.dart';
+import 'package:infantry_house_app/views/widgets_2/food_and_beverage_view/my_cart_food_and_beverage_view.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
@@ -18,13 +18,14 @@ class HomeView extends StatefulWidget {
 }
 
 class HomeViewState extends State<HomeView> {
-  String selectedCategory = "";
   List<String> categories = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool isArabic() {
     return Intl.getCurrentLocale() == 'ar';
   }
+
+  String selectedCategory = "";
 
   @override
   void initState() {
@@ -49,12 +50,6 @@ class HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    // if (context
-    //     .read<CustomButtonAndMenuCubit>()
-    //     .allButtonsAndItemsMap
-    //     .isEmpty) {
-    //   context.read<CustomButtonAndMenuCubit>().initializeMap(context);
-    // }
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > 600) {
@@ -154,19 +149,20 @@ class HomeViewState extends State<HomeView> {
                         appBarTitle:
                             context.read<HomeCubit>().selectedAppBarTitle,
                         onPressedOnMyCartButton: () {
-                          context.read<HomeCubit>().selectedAppBarTitle ==
-                                  S.of(context).KesmElA8zyaWlma4robat
-                              ? Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MyCartsView(),
-                                ),
-                              )
-                              : null;
+                          {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MyCartView(),
+                              ),
+                            );
+                          }
                         },
                       ),
                       SizedBox(height: 10.h),
-                      context.read<HomeCubit>().selectedScreen,
+                      context
+                          .read<HomeCubit>()
+                          .selectedScreen, //food and bevearage view
                     ],
                   ),
                 );

@@ -38,6 +38,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter check image"),
         "Ad5lSortElsnf":
             MessageLookupByLibrary.simpleMessage("Enter item image"),
+        "AddedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Added successfully"),
         "AlreadyHaveAnAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account? "),
         "AnyComments": MessageLookupByLibrary.simpleMessage("Any comments?"),
@@ -147,9 +149,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "TalabatEdafyaLLftar": MessageLookupByLibrary.simpleMessage(
             "Additional Breakfast Requests"),
         "Taste": MessageLookupByLibrary.simpleMessage("Taste"),
+        "ToCard": MessageLookupByLibrary.simpleMessage("To Card"),
         "Total": MessageLookupByLibrary.simpleMessage("Total:"),
         "Twagn": MessageLookupByLibrary.simpleMessage("Casseroles"),
         "Tyor": MessageLookupByLibrary.simpleMessage("Poultry"),
+        "Undo": MessageLookupByLibrary.simpleMessage("Undo"),
         "UserName": MessageLookupByLibrary.simpleMessage("User Name"),
         "VerificationCodeSent":
             MessageLookupByLibrary.simpleMessage("Verification Code Sent"),

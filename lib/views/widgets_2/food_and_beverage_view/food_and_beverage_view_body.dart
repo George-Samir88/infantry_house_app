@@ -16,9 +16,7 @@ class FoodAndBeverageViewBody extends StatelessWidget {
         BlocProvider<FoodAndBeverageCubit>(
           create:
               (context) =>
-          FoodAndBeverageCubit()
-            ..initializeMapBetweenScreensAndData()
-          ,
+                  FoodAndBeverageCubit()..initializeMapBetweenScreensAndData(),
         ),
       ],
       child: BlocBuilder<FoodAndBeverageCubit, FoodAndBeverageState>(

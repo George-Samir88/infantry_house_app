@@ -100,7 +100,9 @@
   "MyCarts" : "My Carts",
   "YourCartIsEmpty" : "Your cart is empty!",
   "Total" : "Total:",
-  "Checkout" : "Checkout"
-
+  "Checkout" : "Checkout",
+  "Undo" : "Undo",
+  "AddedSuccessfully" : "Added successfully",
+  "ToCard" : "To Card"
 
 }

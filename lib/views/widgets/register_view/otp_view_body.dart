@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/custom_elevated_button.dart';
+import '../../../utils/custom_snackBar.dart';
 import '../../widgets_2/home_view/home_view.dart';
 import 'custom_otp_fields.dart';
 
@@ -88,18 +89,13 @@ class OtpViewBody extends StatelessWidget {
                           Expanded(
                             child: CustomElevatedButton(
                               onPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      S.of(context).RegisteredSuccessfully,
-                                      style: TextStyle(
-                                        fontSize:
-                                            GlobalData().isTabletLayout
-                                                ? 12.sp
-                                                : 16.sp,
-                                      ),
-                                    ),
+                                showSnackBar(
+                                  context: context,
+                                  snackBarAction: SnackBarAction(
+                                    label: '',
+                                    onPressed: () {},
                                   ),
+                                  message: S.of(context).LoggedInSuccessfully,
                                 );
                                 Navigator.push(
                                   context,
