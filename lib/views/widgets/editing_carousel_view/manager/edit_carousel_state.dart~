@@ -1,0 +1,14 @@
+part of 'edit_carousel_cubit.dart';
+
+@immutable
+sealed class EditCarouselState {}
+
+final class EditCarouselInitialState extends EditCarouselState {}
+
+final class EditCarouseInitState extends EditCarouselState {}
+
+final class EditCarouseInitializeCarouselState extends EditCarouselState {}
+
+final class EditCarouselAddNewCarouselState extends EditCarouselState {}
+
+final class EditCarouselRemoveCarouselState extends EditCarouselState {}

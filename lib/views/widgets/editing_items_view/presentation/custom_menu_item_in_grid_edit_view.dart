@@ -1,0 +1,127 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../models/menu_item_model.dart';
+
+class CustomMenuItemInGridEditView extends StatelessWidget {
+  const CustomMenuItemInGridEditView({super.key, required this.menuItemModel, required this.tabletLayout});
+
+  final MenuItemModel menuItemModel;
+  final bool tabletLayout;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 10.w),
+          decoration: BoxDecoration(
+            color: Colors.brown,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade400,
+                spreadRadius: 2.r,
+                blurRadius: 6.r,
+                offset: Offset(0, 3.h),
+              ),
+            ],
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  menuItemModel.title,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: tabletLayout ? 8.sp : 12.sp,
+                    overflow: TextOverflow.ellipsis,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: tabletLayout ? 14.h : 10.h),
+              Row(
+                children: List.generate(5, (index) {
+                  return Icon(
+                    index < menuItemModel.rating
+                        ? Icons.star
+                        : Icons.star_border,
+                    color: Colors.yellow,
+                    size: tabletLayout ? 16.r : 12.r,
+                  );
+                }),
+              ),
+              SizedBox(height: tabletLayout ? 20.h : 10.h),
+            ],
+          ),
+        ),
+        // Positioned Circle Avatar (Image)
+        Positioned(
+          top: -20.h,
+          right: -8.w,
+          child: _buildCircularImage(menuItemModel.image),
+        ),
+        // Positioned Price Tag
+        Positioned(
+          bottom: -10.h,
+          right: -8.w,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w),
+            decoration: BoxDecoration(
+              color: Colors.amber,
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            child: Text(
+              '\$${menuItemModel.price}',
+              style: TextStyle(
+                fontSize: tabletLayout ?6.sp : 12.sp,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCircularImage(String imagePath) {
+    if (imagePath.startsWith('assets/')) {
+      return CircleAvatar(
+        radius: tabletLayout ? 52.r : 31.r,
+        backgroundColor: Colors.white, // Prevents image cropping
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(50.r),
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
+            width: tabletLayout ? 100.r : 60.r,
+            height: tabletLayout ? 100.r : 60.r,
+          ),
+        ),
+      );
+    } else if (File(imagePath).existsSync()) {
+      return CircleAvatar(
+        radius: tabletLayout ? 52.r : 31.r,
+        backgroundColor: Colors.white, // Prevents image cropping
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(50.r),
+          child: Image.file(
+            File(imagePath),
+            fit: BoxFit.cover,
+            width: tabletLayout ? 100.r : 60.r,
+            height: tabletLayout ? 100.r : 60.r,
+          ),
+        ),
+      );
+    }
+    return Icon(Icons.broken_image, size: 40.r, color: Colors.grey);
+  }
+}

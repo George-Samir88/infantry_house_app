@@ -1,0 +1,180 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/views/widgets/editing_menu_buttons_view/presentation/editing_menu_buttons_view.dart';
+import 'package:infantry_house_app/views/widgets/home_view/custom_app_bar.dart';
+import 'package:infantry_house_app/views/widgets/home_view/custom_button_in_filtration.dart';
+import 'package:infantry_house_app/views/widgets/home_view/dots_indicator.dart';
+
+import '../../../generated/l10n.dart';
+import '../editing_carousel_view/presentation/edit_carousel_view.dart';
+import '../editing_carousel_view/presentation/empty_carousel_item.dart';
+import 'custom_carousel_item.dart';
+import 'custom_edit_button.dart';
+import 'manager/custom_button_and_menu_cubit.dart';
+
+class HomeViewBody extends StatefulWidget {
+  const HomeViewBody({super.key, required this.onPressed});
+
+  final void Function() onPressed;
+
+  @override
+  State<HomeViewBody> createState() => _HomeViewBodyState();
+}
+
+class _HomeViewBodyState extends State<HomeViewBody> {
+  int currentIndex = 0;
+  List<Widget> carouselItems = [
+    CustomCarouselItem(
+      imagePath: 'assets/images/coffee.jpg',
+      isPickedImage: false,
+    ),
+    CustomCarouselItem(
+      imagePath: 'assets/images/coffee2.jpg',
+      isPickedImage: false,
+    ),
+    CustomCarouselItem(
+      imagePath: 'assets/images/coffee.jpg',
+      isPickedImage: false,
+    ),
+    CustomCarouselItem(
+      imagePath: 'assets/images/coffee2.jpg',
+      isPickedImage: false,
+    ),
+    CustomCarouselItem(
+      imagePath: 'assets/images/coffee.jpg',
+      isPickedImage: false,
+    ),
+  ];
+
+  @override
+  void didChangeDependencies() {
+    context.read<CustomButtonAndMenuCubit>().getButtonTitlesList(
+      context: context,
+    );
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          customAppBar(onPressed: widget.onPressed, context: context),
+          SizedBox(height: 5.h),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              // double screenWidth = constraints.maxWidth;
+              // double viewportFraction = screenWidth > 600 ? 0.4 : 0.8;
+              return Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  if (carouselItems.isNotEmpty)
+                    CarouselSlider.builder(
+                      itemCount: carouselItems.length,
+                      itemBuilder:
+                          (context, index, realIndex) => carouselItems[index],
+                      options: CarouselOptions(
+                        onPageChanged: (index, other) {
+                          currentIndex = index;
+                          setState(() {});
+                        },
+                        height: 180.h,
+                        clipBehavior: Clip.none,
+                        padEnds: true,
+                        enlargeCenterPage: true,
+                        viewportFraction: 1.2,
+                        enableInfiniteScroll: true,
+                        autoPlay: true,
+                      ),
+                    ),
+                  if (carouselItems.isEmpty) EmptyCarouselContainer(),
+                  Positioned(
+                    left: 10,
+                    bottom: -20,
+                    child: CustomEditButton(
+                      iconColor: Colors.black,
+                      backgroundColor: Colors.grey.shade200,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => EditCarouselView(
+                                  carouselItemsList: carouselItems,
+                                ),
+                          ),
+                        ).then((updatedItems) {
+                          if (updatedItems != null) {
+                            setState(() {
+                              carouselItems = updatedItems;
+                            });
+                          }
+                        });
+                      },
+                      icon: Icons.edit,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+          SizedBox(height: 20.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              DotsIndicator(
+                currentIndex: currentIndex,
+                itemCount: carouselItems.length,
+              ),
+            ],
+          ),
+          SizedBox(height: 20.h),
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16),
+            child: Row(
+              children: [
+                Text(
+                  S.of(context).Menu,
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(width: 20.w),
+                CustomEditButton(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditingMenuButtonsView(),
+                      ),
+                    ).then((updatedMenuItems) {
+                      // context.read<CustomButtonAndMenuCubit>().updateMenuItems(
+                      //   updatedMenuItems,
+                      // );
+                      // if (updatedMenuItems != null) {
+                      //   setState(() {
+                      //     buttonTitlesList = updatedMenuItems;
+                      //   });
+                      // }
+                    });
+                    ;
+                  },
+                  icon: Icons.edit,
+                  iconColor: Colors.black,
+                  backgroundColor: Colors.grey.shade200,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20.h),
+          CustomButtonInfiltrationAndMenuItems(),
+          SizedBox(height: 40.h),
+        ],
+      ),
+    );
+  }
+}
