@@ -59,7 +59,7 @@ class _InfantryHouseAppState extends State<InfantryHouseApp> {
       _locale = locale;
     });
   }
-///changes
+///changes  test commit
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
