@@ -88,7 +88,7 @@
   "HighPrice": "السعر مرتفع",
   "PreparationTime": "وقت التحضير طويل",
   "Taste": "المذاق غير مرضٍ",
-  "Other": "مشكلة أخرى",
+  "Other": "أخرى",
   "ShareYourFeedback": "شارك ملاحظاتك",
   "Submit" : "إرسال",
   "PleaseSelectAtLeastOneOptionBeforeSubmitting" : "يرجى اختيار خيار واحد على الأقل قبل الإرسال",
@@ -96,6 +96,9 @@
   "RateYourExperience" : "قيم تجربتك",
   "Send" : "ارسال",
   "ComplaintsAndSuggestions" : "الشكاوي والاقتراحات",
-  "Ad5lMola7zat" : "أدخل ملاحظاتك أو أي اقتراح"
-
+  "Ad5lMola7zat" : "أدخل ملاحظاتك أو أي اقتراح",
+  "MyCarts" : "السلة",
+  "YourCartIsEmpty" : "السلة فارغة!",
+  "Total" : "الإجمالي:",
+  "Checkout" : "دفع"
 }

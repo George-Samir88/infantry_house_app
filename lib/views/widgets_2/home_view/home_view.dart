@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/views/widgets_2/food_and_beverage_view/my_cart_view.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
@@ -146,12 +147,23 @@ class HomeViewState extends State<HomeView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       customAppBar(
-                        onPressed: () {
+                        onPressedOnMenuButton: () {
                           _scaffoldKey.currentState!.openDrawer();
                         },
                         context: context,
                         appBarTitle:
                             context.read<HomeCubit>().selectedAppBarTitle,
+                        onPressedOnMyCartButton: () {
+                          context.read<HomeCubit>().selectedAppBarTitle ==
+                                  S.of(context).KesmElA8zyaWlma4robat
+                              ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MyCartsView(),
+                                ),
+                              )
+                              : null;
+                        },
                       ),
                       SizedBox(height: 10.h),
                       context.read<HomeCubit>().selectedScreen,

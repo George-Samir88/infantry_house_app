@@ -39,7 +39,6 @@ class CustomAppBarEditingView extends StatelessWidget {
             elevation: 0.5,
             centerTitle: true,
             automaticallyImplyLeading: false,
-
             title: Text(
               title,
               style: TextStyle(

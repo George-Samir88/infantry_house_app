@@ -96,7 +96,11 @@
   "RateYourExperience" : "Rate Your Experience",
   "Send" : "Send",
   "ComplaintsAndSuggestions" :"Complaints and Suggestions",
-  "Ad5lMola7zat" : "Enter your complaint or suggestion"
+  "Ad5lMola7zat" : "Enter your complaint or suggestion",
+  "MyCarts" : "My Carts",
+  "YourCartIsEmpty" : "Your cart is empty!",
+  "Total" : "Total:",
+  "Checkout" : "Checkout"
 
 
 }

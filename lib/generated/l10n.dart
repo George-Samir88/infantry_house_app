@@ -940,10 +940,10 @@ class S {
     );
   }
 
-  /// `مشكلة أخرى`
+  /// `أخرى`
   String get Other {
     return Intl.message(
-      'مشكلة أخرى',
+      'أخرى',
       name: 'Other',
       desc: '',
       args: [],
@@ -1025,6 +1025,46 @@ class S {
     return Intl.message(
       'أدخل ملاحظاتك أو أي اقتراح',
       name: 'Ad5lMola7zat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `السلة`
+  String get MyCarts {
+    return Intl.message(
+      'السلة',
+      name: 'MyCarts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `السلة فارغة!`
+  String get YourCartIsEmpty {
+    return Intl.message(
+      'السلة فارغة!',
+      name: 'YourCartIsEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الإجمالي:`
+  String get Total {
+    return Intl.message(
+      'الإجمالي:',
+      name: 'Total',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `دفع`
+  String get Checkout {
+    return Intl.message(
+      'دفع',
+      name: 'Checkout',
       desc: '',
       args: [],
     );

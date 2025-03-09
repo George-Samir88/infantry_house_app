@@ -41,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("لديك حساب بالفعل؟"),
         "AnyComments": MessageLookupByLibrary.simpleMessage("أية ملاحظات"),
         "AtbakGanbya": MessageLookupByLibrary.simpleMessage("أطباق جانبية"),
+        "Checkout": MessageLookupByLibrary.simpleMessage("دفع"),
         "ComplaintsAndSuggestions":
             MessageLookupByLibrary.simpleMessage("الشكاوي والاقتراحات"),
         "Confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
@@ -93,8 +94,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("من فضلك أدخل صورة الصنف"),
         "Mo3gnat": MessageLookupByLibrary.simpleMessage("المعجنات"),
         "Mokablat": MessageLookupByLibrary.simpleMessage("المقبلات"),
+        "MyCarts": MessageLookupByLibrary.simpleMessage("السلة"),
         "OR": MessageLookupByLibrary.simpleMessage("أو"),
-        "Other": MessageLookupByLibrary.simpleMessage("مشكلة أخرى"),
+        "Other": MessageLookupByLibrary.simpleMessage("أخرى"),
         "Paradise": MessageLookupByLibrary.simpleMessage("باراديس"),
         "Password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "PasswordMustBeAtLeast6CharactersLong":
@@ -141,6 +143,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "TalabatEdafyaLLftar":
             MessageLookupByLibrary.simpleMessage("طلبات إضافية للإفطار"),
         "Taste": MessageLookupByLibrary.simpleMessage("المذاق غير مرضٍ"),
+        "Total": MessageLookupByLibrary.simpleMessage("الإجمالي:"),
         "Twagn": MessageLookupByLibrary.simpleMessage("طواجن"),
         "Tyor": MessageLookupByLibrary.simpleMessage("الطيور"),
         "UserName": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
@@ -151,6 +154,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبًا بعودتك!"),
         "WelcomeToInfantryHouse":
             MessageLookupByLibrary.simpleMessage("مرحبا بك في دار المشاه"),
+        "YourCartIsEmpty": MessageLookupByLibrary.simpleMessage("السلة فارغة!"),
         "anshta": MessageLookupByLibrary.simpleMessage("أنشطة"),
         "eskan": MessageLookupByLibrary.simpleMessage("إسكان"),
         "hefz": MessageLookupByLibrary.simpleMessage("حفظ"),

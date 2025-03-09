@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Already have an account? "),
         "AnyComments": MessageLookupByLibrary.simpleMessage("Any comments?"),
         "AtbakGanbya": MessageLookupByLibrary.simpleMessage("Side Dishes"),
+        "Checkout": MessageLookupByLibrary.simpleMessage("Checkout"),
         "ComplaintsAndSuggestions":
             MessageLookupByLibrary.simpleMessage("Complaints and Suggestions"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -96,6 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter item image"),
         "Mo3gnat": MessageLookupByLibrary.simpleMessage("Pastries"),
         "Mokablat": MessageLookupByLibrary.simpleMessage("Appetizers"),
+        "MyCarts": MessageLookupByLibrary.simpleMessage("My Carts"),
         "OR": MessageLookupByLibrary.simpleMessage("OR"),
         "Other": MessageLookupByLibrary.simpleMessage("Other"),
         "Paradise": MessageLookupByLibrary.simpleMessage("Paradise"),
@@ -145,6 +147,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "TalabatEdafyaLLftar": MessageLookupByLibrary.simpleMessage(
             "Additional Breakfast Requests"),
         "Taste": MessageLookupByLibrary.simpleMessage("Taste"),
+        "Total": MessageLookupByLibrary.simpleMessage("Total:"),
         "Twagn": MessageLookupByLibrary.simpleMessage("Casseroles"),
         "Tyor": MessageLookupByLibrary.simpleMessage("Poultry"),
         "UserName": MessageLookupByLibrary.simpleMessage("User Name"),
@@ -155,6 +158,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome Back!"),
         "WelcomeToInfantryHouse":
             MessageLookupByLibrary.simpleMessage("Welcome to Infantry House"),
+        "YourCartIsEmpty":
+            MessageLookupByLibrary.simpleMessage("Your cart is empty!"),
         "anshta": MessageLookupByLibrary.simpleMessage("Activities"),
         "eskan": MessageLookupByLibrary.simpleMessage("Housing"),
         "hefz": MessageLookupByLibrary.simpleMessage("Save"),
