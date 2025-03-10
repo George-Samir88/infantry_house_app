@@ -67,9 +67,10 @@ class CustomCartGridView extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: GlobalData().isTabletLayout ? 20.h : 12.h,
-                    horizontal: GlobalData().isTabletLayout ? 14.w : 12.w,
+                  padding: EdgeInsets.only(
+                    bottom: GlobalData().isTabletLayout ? 10.h : 20.h,
+                    left: GlobalData().isTabletLayout ? 14.w : 6.w,
+                    right: GlobalData().isTabletLayout ? 14.w : 12.w,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.brown[400],
@@ -125,7 +126,7 @@ class CustomCartGridView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
-                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 IconButton(
                                   icon: Icon(
@@ -136,7 +137,6 @@ class CustomCartGridView extends StatelessWidget {
                                             ? 20.r
                                             : 16.r,
                                   ),
-                                  constraints: BoxConstraints(),
                                   onPressed: () {
                                     cubit.updateQuantity(index, quantity - 1);
                                   },
@@ -153,7 +153,6 @@ class CustomCartGridView extends StatelessWidget {
                                   ),
                                 ),
                                 IconButton(
-                                  constraints: BoxConstraints(),
                                   icon: Icon(
                                     Icons.add,
                                     color: Colors.white,
@@ -172,7 +171,6 @@ class CustomCartGridView extends StatelessWidget {
                             SizedBox(width: 10.w),
                             Expanded(
                               child: IconButton(
-                                constraints: BoxConstraints(),
                                 icon: Icon(
                                   Icons.delete,
                                   color: Colors.white,
@@ -199,7 +197,7 @@ class CustomCartGridView extends StatelessWidget {
                   right: GlobalData().isTabletLayout ? -12.w : -8.w,
                   child: Container(
                     padding: EdgeInsets.symmetric(
-                      vertical: GlobalData().isTabletLayout ? 6.h : 4.h,
+                      vertical: GlobalData().isTabletLayout ? 4.h : 4.h,
                       horizontal: GlobalData().isTabletLayout ? 4.w : 8.w,
                     ),
                     decoration: BoxDecoration(
@@ -209,7 +207,7 @@ class CustomCartGridView extends StatelessWidget {
                     child: Text(
                       '\$${item.price}',
                       style: TextStyle(
-                        fontSize: GlobalData().isTabletLayout ? 8.sp : 12.sp,
+                        fontSize: GlobalData().isTabletLayout ? 6.sp : 12.sp,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/views/widgets_2/food_and_beverage_view/item_feedback_view.dart';
@@ -11,6 +12,8 @@ import '../../../global_variables.dart';
 import '../../../models/menu_item_model.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_elevated_button.dart';
+import '../../../utils/custom_snackBar.dart';
+import 'manager/cart_cubit/cart_cubit.dart';
 
 class RatingView extends StatefulWidget {
   const RatingView({super.key, required this.menuItemModel});
@@ -103,9 +106,10 @@ class _RatingViewState extends State<RatingView>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 30.h),
+
               ///card Item section
               Padding(
-                padding: EdgeInsets.only(right:  8.0),
+                padding: EdgeInsets.only(right: 8.0),
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -145,7 +149,9 @@ class _RatingViewState extends State<RatingView>
                                   overflow: TextOverflow.ellipsis,
                                   color: Colors.white,
                                   fontSize:
-                                      GlobalData().isTabletLayout ? 8.sp : 12.sp,
+                                      GlobalData().isTabletLayout
+                                          ? 8.sp
+                                          : 12.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -160,7 +166,8 @@ class _RatingViewState extends State<RatingView>
                                       ? Icons.star
                                       : Icons.star_border,
                                   color: Colors.yellow,
-                                  size: GlobalData().isTabletLayout ? 16.r : 12.r,
+                                  size:
+                                      GlobalData().isTabletLayout ? 16.r : 12.r,
                                 );
                               }),
                             ),
@@ -177,12 +184,12 @@ class _RatingViewState extends State<RatingView>
                       child: _buildCircularImage(widget.menuItemModel.image),
                     ),
                     Positioned(
-                      bottom: -10,
-                      right: -8,
+                      bottom: GlobalData().isTabletLayout ? -8.h : -10.h,
+                      right: GlobalData().isTabletLayout ? -2.w : -8.w,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 4,
-                          horizontal: 8,
+                        padding: EdgeInsets.symmetric(
+                          vertical: GlobalData().isTabletLayout ? 4.h : 4.h,
+                          horizontal: GlobalData().isTabletLayout ? 4.w : 8.w,
                         ),
                         decoration: BoxDecoration(
                           color: Colors.amber,
@@ -191,7 +198,8 @@ class _RatingViewState extends State<RatingView>
                         child: Text(
                           '\$${widget.menuItemModel.price}',
                           style: TextStyle(
-                            fontSize: GlobalData().isTabletLayout ? 6.sp : 12.sp,
+                            fontSize:
+                                GlobalData().isTabletLayout ? 6.sp : 12.sp,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -207,12 +215,26 @@ class _RatingViewState extends State<RatingView>
                         // Align to the right
                         child: GestureDetector(
                           onTap: () {
-                            // Implement your "Add to Cart" logic here!
-                            print("Added ${widget.menuItemModel.title} to cart");
-                            // You might want to update state, show a snackbar, etc.
+                            context.read<CartCubit>().addToCart(
+                              widget.menuItemModel,
+                            ); // Add to cart>
+                            //  Implement your "Add to Cart" logic here!
+                            print(
+                              "Added ${widget.menuItemModel.title} to cart",
+                            );
+                            showSnackBar(
+                              context: context,
+                              snackBarAction: SnackBarAction(
+                                onPressed: () {},
+                                label: '',
+                              ),
+                              message:
+                                  "${S.of(context).AddedSuccessfully} ${widget.menuItemModel.title} ${S.of(context).ToCard}",
+                            );
+                            //  You might want to update state, show a snackbar, etc.
                           },
                           child: CircleAvatar(
-                            radius: GlobalData().isTabletLayout ? 20.r : 24.r,
+                            radius: GlobalData().isTabletLayout ? 30.r : 24.r,
                             // Adjust the size
                             backgroundColor: Colors.amber,
                             // Use amber to match the price tag
@@ -222,7 +244,7 @@ class _RatingViewState extends State<RatingView>
                               color: Colors.brown[800], // Icon color
                               size:
                                   GlobalData().isTabletLayout
-                                      ? 20.r
+                                      ? 30.r
                                       : 20.r, // Adjust icon size
                             ),
                           ),

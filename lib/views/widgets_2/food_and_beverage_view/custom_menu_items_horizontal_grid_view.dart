@@ -54,7 +54,6 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("--------------------------------------------- ${menuItemModel.length}");
     return GridView.builder(
       scrollDirection: Axis.horizontal,
       shrinkWrap: true,
@@ -63,7 +62,7 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
       // Ensure we don't exceed list length
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: GlobalData().isTabletLayout ? 1 : 2,
-        childAspectRatio: 1,
+        childAspectRatio: GlobalData().isTabletLayout ? 1 : 0.85,
         mainAxisSpacing: 20.0,
         crossAxisSpacing: 40.0,
         // mainAxisExtent: 120.h
@@ -143,12 +142,12 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                 child: _buildCircularImage(menuItemModel[gridIndex].image),
               ),
               Positioned(
-                bottom: -10,
-                right: -8,
+                bottom: GlobalData().isTabletLayout ? -8.h : -10.h,
+                right: GlobalData().isTabletLayout ? -2.w : -8.w,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 4,
-                    horizontal: 8,
+                  padding:  EdgeInsets.symmetric(
+                    vertical: GlobalData().isTabletLayout ? 4.h : 4.h,
+                    horizontal: GlobalData().isTabletLayout ? 4.w : 8.w,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.amber,
@@ -189,7 +188,7 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                       //  You might want to update state, show a snackbar, etc.
                     },
                     child: CircleAvatar(
-                      radius: GlobalData().isTabletLayout ? 20.r : 24.r,
+                      radius: GlobalData().isTabletLayout ? 30.r : 24.r,
                       // Adjust the size
                       backgroundColor: Colors.amber,
                       // Use amber to match the price tag
@@ -198,7 +197,7 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                         color: Colors.brown[800], // Icon color
                         size:
                             GlobalData().isTabletLayout
-                                ? 20.r
+                                ? 30.r
                                 : 20.r, // Adjust icon size
                       ),
                     ),
