@@ -5,7 +5,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/views/widgets/splash_view/splash_view.dart';
 import 'package:infantry_house_app/views/widgets_2/food_and_beverage_view/manager/cart_cubit/cart_cubit.dart';
-import 'package:infantry_house_app/views/widgets_2/home_view/home_view.dart';
 import 'package:infantry_house_app/views/widgets_2/home_view/manager/home_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'bloc_observer.dart';

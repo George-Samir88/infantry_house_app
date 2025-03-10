@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:infantry_house_app/views/widgets/food_and_beverage_view/manager/food_and_beverage/food_and_beverage_cubit.dart';
 import 'package:infantry_house_app/views/widgets_2/food_and_beverage_view/edit_screen_department_view.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../widgets/food_and_beverage_view/custom_edit_button.dart';
+import 'manager/food_and_beverage/food_and_beverage_cubit.dart';
 
 class CustomHorizontalListDepartment extends StatefulWidget {
   const CustomHorizontalListDepartment({super.key});

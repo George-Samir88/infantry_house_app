@@ -96,6 +96,8 @@ class FoodAndBeverageCubit extends Cubit<FoodAndBeverageState> {
   }
 
   /// Get the list of screen names (keys)
+  int selectedButtonCategoryIndex = 0;
+
   List<String> getScreenKeys() {
     return screensMap.keys.toList();
   }
@@ -118,9 +120,12 @@ class FoodAndBeverageCubit extends Cubit<FoodAndBeverageState> {
   }
 
   void changeSelectedScreen({required String buttonCategoryTitle}) {
+    debugPrint("+++++++++++++++++++++++++++++++++++++++++++++++++ ${newScreensMap.containsKey(selectedScreen)}");
+    print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     selectedScreen = buttonCategoryTitle;
     selectedButtonIndex = 0;
     listToBeShow = [];
+
     if(newScreensMap.containsKey(selectedScreen)){
       if(newScreensMap[selectedScreen]?.buttonsAndItemsMap.isNotEmpty ?? false){
         String firstButtonTitle = newScreensMap[selectedScreen]!.buttonsAndItemsMap.keys.first;
@@ -130,6 +135,7 @@ class FoodAndBeverageCubit extends Cubit<FoodAndBeverageState> {
       listToBeShow = [];
     }
     // selectedScreen = getScreenKeys()[getScreenKeys().indexOf(buttonTitle)];
+
     emit(FoodAndBeverageChangeScreenState());
   }
 

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/views/widgets_2/food_and_beverage_view/custom_horizontal_list_department.dart';
 
-import '../../widgets/food_and_beverage_view/manager/food_and_beverage/food_and_beverage_cubit.dart';
 import 'custom_template.dart';
+import 'manager/food_and_beverage/food_and_beverage_cubit.dart';
 
 class FoodAndBeverageViewBody extends StatelessWidget {
   const FoodAndBeverageViewBody({super.key});

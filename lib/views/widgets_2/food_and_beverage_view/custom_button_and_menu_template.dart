@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/views/widgets/editing_items_view/presentation/editing_items_view.dart';
-import 'package:infantry_house_app/views/widgets/food_and_beverage_view/manager/food_and_beverage/food_and_beverage_cubit.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../widgets/food_and_beverage_view/custom_edit_button.dart';
 import '../../widgets/food_and_beverage_view/custom_menu_items_horizontal_grid_view.dart';
 import 'editing_menu_buttons_view_template.dart';
+import 'manager/food_and_beverage/food_and_beverage_cubit.dart';
 
 class CustomButtonAndMenuTemplate extends StatelessWidget {
   const CustomButtonAndMenuTemplate({super.key, required this.menuTitle});
@@ -77,10 +77,10 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                   itemCount: newButtonTitlesList.length,
                   // Number of buttons
                   itemBuilder: (context, index) {
-                    bool isSelected = index == cubit.selectedIndex;
+                    bool isSelected = index == cubit.selectedButtonIndex;
                     return GestureDetector(
                       onTap: () {
-                        cubit.selectedIndex = index;
+                        cubit.selectedButtonIndex = index;
                         cubit.updateSelectedList(
                           buttonTitle: newButtonTitlesList[index].toString(),
                           screenName: cubit.selectedScreen,
@@ -286,12 +286,12 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                                     value: cubit,
                                     child: EditingItemsView(
                                       menuItemsModelList: cubit.listToBeShow,
-                                      listIndex: cubit.selectedIndex,
+                                      listIndex: cubit.selectedButtonIndex,
                                       // listIndex: editMenuCubit.selectedIndex,
                                       // buttonTitle: buttonTitlesList[editMenuCubit.selectedIndex],
                                       buttonTitle:
                                           newButtonTitlesList[cubit
-                                              .selectedIndex]!,
+                                              .selectedButtonIndex]!,
                                       screenName: cubit.selectedScreen,
                                     ),
                                   ),

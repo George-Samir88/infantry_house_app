@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:infantry_house_app/views/widgets/food_and_beverage_view/manager/food_and_beverage/food_and_beverage_cubit.dart';
-
 import '../../../global_variables.dart';
 import '../../widgets/editing_carousel_view/presentation/empty_carousel_item.dart';
 import '../../widgets/food_and_beverage_view/custom_edit_button.dart';
 import 'custom_button_and_menu_template.dart';
 import 'dots_indicator.dart';
 import 'edit_carousel_template.dart';
+import 'manager/food_and_beverage/food_and_beverage_cubit.dart';
 
 class CustomTemplate extends StatefulWidget {
   const CustomTemplate({super.key});
@@ -72,7 +71,11 @@ class _CustomTemplateState extends State<CustomTemplate> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => BlocProvider.value(value: cubit , child: EditCarouselTemplateView(),),
+                              builder:
+                                  (context) => BlocProvider.value(
+                                    value: cubit,
+                                    child: EditCarouselTemplateView(),
+                                  ),
                             ),
                           );
                         },
@@ -94,7 +97,8 @@ class _CustomTemplateState extends State<CustomTemplate> {
                 SizedBox(height: 20.h),
                 CustomButtonAndMenuTemplate(
                   menuTitle:
-                      cubit.newScreensMap[cubit.selectedScreen]?.menuTitle ?? '',
+                      cubit.newScreensMap[cubit.selectedScreen]?.menuTitle ??
+                      '',
                 ),
                 SizedBox(height: 40.h),
               ],

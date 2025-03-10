@@ -5,13 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:infantry_house_app/models/menu_item_model.dart';
-import 'package:infantry_house_app/views/widgets/food_and_beverage_view/manager/food_and_beverage/food_and_beverage_cubit.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../global_variables.dart';
 import '../../../../utils/custom_elevated_button.dart';
 import '../../../../utils/custom_appbar_editing_view.dart';
+import '../../../widgets_2/food_and_beverage_view/manager/food_and_beverage/food_and_beverage_cubit.dart';
 
 class AddNewItemView extends StatefulWidget {
   const AddNewItemView({
