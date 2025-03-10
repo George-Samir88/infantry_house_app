@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PaymentMethodItem extends StatelessWidget {
   const PaymentMethodItem({
@@ -13,17 +14,16 @@ class PaymentMethodItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: const Duration(
-        milliseconds: 600,
-      ),
+      duration: const Duration(milliseconds: 600),
       child: Container(
         width: 103,
         height: 62,
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
             side: BorderSide(
-                width: 1.50,
-                color: isActive ? const Color(0xFF34A853) : Colors.grey),
+              width: 1.50,
+              color: isActive ? const Color(0xFF34A853) : Colors.grey,
+            ),
             borderRadius: BorderRadius.circular(15),
           ),
           shadows: [
@@ -36,7 +36,7 @@ class PaymentMethodItem extends StatelessWidget {
               offset: const Offset(0, 0),
               //radius of the internal box
               spreadRadius: 0,
-            )
+            ),
           ],
         ),
         child: Container(
@@ -45,9 +45,11 @@ class PaymentMethodItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
           ),
           child: Center(
-              child: Image.asset(
-                imagePath,
-              )),
+            child:
+                imagePath.contains('.svg')
+                    ? SvgPicture.asset(imagePath)
+                    : Image.asset(imagePath),
+          ),
         ),
       ),
     );
