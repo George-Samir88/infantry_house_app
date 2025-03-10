@@ -6,7 +6,7 @@ import 'package:infantry_house_app/views/widgets/editing_items_view/presentation
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../widgets/food_and_beverage_view/custom_edit_button.dart';
-import '../../widgets/food_and_beverage_view/custom_menu_items_horizontal_grid_view.dart';
+import 'custom_menu_items_horizontal_grid_view.dart';
 import 'editing_menu_buttons_view_template.dart';
 import 'manager/food_and_beverage/food_and_beverage_cubit.dart';
 

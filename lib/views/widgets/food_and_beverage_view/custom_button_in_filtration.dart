@@ -6,7 +6,7 @@ import 'package:infantry_house_app/views/widgets/editing_items_view/presentation
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import 'custom_edit_button.dart';
-import 'custom_menu_items_horizontal_grid_view.dart';
+import '../../widgets_2/food_and_beverage_view/custom_menu_items_horizontal_grid_view.dart';
 import 'manager/custom_menu_and_button_menu/food_and_beverage_button_and_menu_cubit.dart';
 
 class CustomButtonInfiltrationAndMenuItems extends StatelessWidget {

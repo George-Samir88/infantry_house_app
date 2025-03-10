@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/global_variables.dart';
 
 void showSnackBar({required BuildContext context , required SnackBarAction snackBarAction , required String message}) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -7,7 +8,7 @@ void showSnackBar({required BuildContext context , required SnackBarAction snack
       content: Text(
         message,
         style: TextStyle(
-          fontSize: 16.sp,
+          fontSize: GlobalData().isTabletLayout ? 8.sp : 16.sp,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),

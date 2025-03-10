@@ -9,7 +9,7 @@ import 'package:infantry_house_app/views/widgets_2/food_and_beverage_view/rating
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/custom_snackBar.dart';
-import '../../widgets_2/food_and_beverage_view/manager/cart_cubit/cart_cubit.dart';
+import 'manager/cart_cubit/cart_cubit.dart';
 
 class CustomMenuItemsHorizontalGridView extends StatelessWidget {
   const CustomMenuItemsHorizontalGridView({
