@@ -127,9 +127,11 @@ class FoodAndBeverageCubit extends Cubit<FoodAndBeverageState> {
     listToBeShow = [];
 
     if(newScreensMap.containsKey(selectedScreen)){
-      if(newScreensMap[selectedScreen]?.buttonsAndItemsMap.isNotEmpty ?? false){
+      if(newScreensMap[selectedScreen]!.buttonsAndItemsMap.isNotEmpty ){
         String firstButtonTitle = newScreensMap[selectedScreen]!.buttonsAndItemsMap.keys.first;
+        isEmptyMenuItems = false;
         listToBeShow = newScreensMap[selectedScreen]!.buttonsAndItemsMap[firstButtonTitle]!;
+        print(listToBeShow);
       }
     }else {
       listToBeShow = [];

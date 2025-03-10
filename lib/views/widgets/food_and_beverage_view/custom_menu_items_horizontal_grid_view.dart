@@ -54,6 +54,7 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("--------------------------------------------- ${menuItemModel.length}");
     return GridView.builder(
       scrollDirection: Axis.horizontal,
       shrinkWrap: true,
