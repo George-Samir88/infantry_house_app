@@ -45,3 +45,5 @@ final class FoodAndBeverageInitializeScreensMapState
 final class FoodAndBeverageAddNewScreen extends FoodAndBeverageState {}
 
 final class FoodAndBeverageRemoveScreen extends FoodAndBeverageState {}
+
+final class FoodAndBeverageResetScreenSelection extends FoodAndBeverageState {}

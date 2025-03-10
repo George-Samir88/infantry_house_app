@@ -110,13 +110,30 @@ class FoodAndBeverageCubit extends Cubit<FoodAndBeverageState> {
 
   ///---------------Screens CRUD Operations---------------
   void addNewScreen({required String screenTitle}) {
-    newMapBetweenScreenTitlesAndButtonsTitle[screenTitle] = {};
+    newScreensMap[screenTitle] = ScreenData(
+      carouselWidgets: [],
+      buttonsAndItemsMap: {},
+      menuTitle: '',
+    );
     emit(FoodAndBeverageAddNewScreen());
   }
 
   void removeScreen({required String screenTitle}) {
-    newMapBetweenScreenTitlesAndButtonsTitle.remove(screenTitle);
+    newScreensMap.remove(screenTitle);
+    resetScreenSelection();
+    print(selectedScreen);
     emit(FoodAndBeverageRemoveScreen());
+  }
+
+  void resetScreenSelection() {
+    if (newScreensMap.isNotEmpty) {
+      selectedButtonCategoryIndex = 0;
+      changeSelectedScreen(buttonCategoryTitle: newScreensMap.keys.first);
+    } else {
+      selectedScreen = "";
+      changeSelectedScreen(buttonCategoryTitle: 'emptyScreen');
+    }
+    emit(FoodAndBeverageResetScreenSelection());
   }
 
   void changeSelectedScreen({required String buttonCategoryTitle}) {
