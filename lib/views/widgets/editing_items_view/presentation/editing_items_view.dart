@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/views/widgets/editing_items_view/presentation/custom_menu_item_in_grid_edit_view.dart';
 import 'package:infantry_house_app/views/widgets/editing_items_view/presentation/update_existing_item.dart';
 import 'package:lottie/lottie.dart';
@@ -17,14 +18,12 @@ import 'add_new_item_view.dart';
 class EditingItemsView extends StatefulWidget {
   const EditingItemsView({
     super.key,
-    required this.menuItemsModelList,
     required this.listIndex,
     required this.buttonTitle,
     required this.screenName,
   });
 
   final String screenName;
-  final List<MenuItemModel> menuItemsModelList;
   final int listIndex;
   final String buttonTitle;
 
@@ -130,8 +129,8 @@ class _EditingItemsViewState extends State<EditingItemsView>
                                                     buttonTitle:
                                                         widget.buttonTitle,
                                                     menuItemModel:
-                                                        widget
-                                                            .menuItemsModelList[index],
+                                                        cubit
+                                                            .listToBeShow[index],
                                                     listIndex: index,
                                                     screenName:
                                                         widget.screenName,
@@ -166,10 +165,29 @@ class _EditingItemsViewState extends State<EditingItemsView>
                                   children: [
                                     CustomEditButton(
                                       onTap: () {
+                                        MenuItemModel deletedMenuItem =
+                                            cubit.listToBeShow[index];
+                                        print(deletedMenuItem);
                                         cubit.removeItem(
                                           screenName: widget.screenName,
                                           buttonTitle: widget.buttonTitle,
                                           indexOfItemInList: index,
+                                        );
+                                        showSnackBar(
+                                          seconds: 3,
+                                          context: context,
+                                          snackBarAction: SnackBarAction(
+                                            label: S.of(context).Undo,
+                                            onPressed: () {
+                                              cubit.addItem(
+                                                screenName: widget.screenName,
+                                                menuItemModel: deletedMenuItem,
+                                                buttonTitle: widget.buttonTitle,
+                                              );
+                                            },
+                                          ),
+                                          message:
+                                              S.of(context).DeletedSuccessfully,
                                         );
                                       },
                                       height:

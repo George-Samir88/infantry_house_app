@@ -285,7 +285,6 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                                   (context) => BlocProvider.value(
                                     value: cubit,
                                     child: EditingItemsView(
-                                      menuItemsModelList: cubit.listToBeShow,
                                       listIndex: cubit.selectedButtonIndex,
                                       // listIndex: editMenuCubit.selectedIndex,
                                       // buttonTitle: buttonTitlesList[editMenuCubit.selectedIndex],

@@ -274,8 +274,6 @@ class CustomButtonInfiltrationAndMenuItems extends StatelessWidget {
                                 (context) => BlocProvider.value(
                                   value: editMenuCubit,
                                   child: EditingItemsView(
-                                    menuItemsModelList:
-                                        editMenuCubit.listToBeShow,
                                     listIndex: editMenuCubit.selectedIndex,
                                     buttonTitle:
                                         newButtonTitlesList[editMenuCubit

@@ -103,5 +103,6 @@
   "Checkout": "دفع",
   "Undo": "تراجع",
   "AddedSuccessfully": "تمت إضافة",
-  "ToCard" : "إلي السلة"
+  "ToCard": "إلي السلة",
+  "DeletedSuccessfully": "تم الحذف بنجاح"
 }

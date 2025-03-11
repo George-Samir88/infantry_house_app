@@ -1099,6 +1099,16 @@ class S {
       args: [],
     );
   }
+
+  /// `تم الحذف بنجاح`
+  String get DeletedSuccessfully {
+    return Intl.message(
+      'تم الحذف بنجاح',
+      name: 'DeletedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

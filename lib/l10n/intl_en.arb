@@ -103,6 +103,7 @@
   "Checkout" : "Checkout",
   "Undo" : "Undo",
   "AddedSuccessfully" : "Added successfully",
-  "ToCard" : "To Card"
+  "ToCard" : "To Card",
+  "DeletedSuccessfully" : "Deleted successfully"
 
 }

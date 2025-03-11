@@ -47,6 +47,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الشكاوي والاقتراحات"),
         "Confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
         "CreateAnAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
+        "DeletedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("تم الحذف بنجاح"),
         "DontHaveAnAccount":
             MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
         "EdaftGded": MessageLookupByLibrary.simpleMessage("إضافة جديد"),

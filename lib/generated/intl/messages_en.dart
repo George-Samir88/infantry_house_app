@@ -50,6 +50,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "CreateAnAccount":
             MessageLookupByLibrary.simpleMessage("Create an account"),
+        "DeletedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Deleted successfully"),
         "DontHaveAnAccount":
             MessageLookupByLibrary.simpleMessage("Don\'t have an account?"),
         "EdaftGded": MessageLookupByLibrary.simpleMessage("Add New"),
