@@ -116,35 +116,31 @@ class _FoodAndBeverageEditingItemsViewState
                               Positioned(
                                 left: 10,
                                 top: -15,
-                                child: Row(
-                                  children: [
-                                    CustomEditButton(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder:
-                                                (context) => BlocProvider.value(
-                                                  value: cubit,
-                                                  child: FoodAndBeverageUpdateExistingItemView(
-                                                    buttonTitle:
-                                                        widget.buttonTitle,
-                                                    menuItemModel:
-                                                        cubit
-                                                            .listToBeShow[index],
-                                                    listIndex: index,
-                                                    screenName:
-                                                        widget.screenName,
-                                                  ),
-                                                ),
-                                          ),
-                                        );
-                                      },
-                                      icon: Icons.edit,
-                                      iconColor: Colors.black,
-                                      backgroundColor: Colors.grey.shade200,
-                                    ),
-                                  ],
+                                child: CustomEditButton(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => BlocProvider.value(
+                                              value: cubit,
+                                              child: FoodAndBeverageUpdateExistingItemView(
+                                                buttonTitle:
+                                                    widget.buttonTitle,
+                                                menuItemModel:
+                                                    cubit
+                                                        .listToBeShow[index],
+                                                listIndex: index,
+                                                screenName:
+                                                    widget.screenName,
+                                              ),
+                                            ),
+                                      ),
+                                    );
+                                  },
+                                  icon: Icons.edit,
+                                  iconColor: Colors.black,
+                                  backgroundColor: Colors.grey.shade200,
                                 ),
                               ),
                             ],

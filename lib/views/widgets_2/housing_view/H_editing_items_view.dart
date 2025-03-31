@@ -125,47 +125,43 @@ class _HousingEditingItemsViewState extends State<HousingEditingItemsView>
                               Positioned(
                                 left: 10,
                                 top: -15,
-                                child: Row(
-                                  children: [
-                                    CustomEditButton(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder:
-                                                (context) => BlocProvider.value(
-                                                  value: cubit,
-                                                  child: HousingUpdateExistingItemView(
-                                                    buttonTitle:
-                                                        widget.buttonTitle,
-                                                    menuItemModel:
-                                                        cubit
-                                                            .listToBeShow[index],
-                                                    listIndex: index,
-                                                    screenName:
-                                                        widget.screenName,
-                                                  ),
-                                                ),
-                                          ),
-                                        );
-                                      },
-                                      height:
-                                          GlobalData().isTabletLayout
-                                              ? 44.h
-                                              : null,
-                                      width:
-                                          GlobalData().isTabletLayout
-                                              ? 25.w
-                                              : null,
-                                      iconSize:
-                                          GlobalData().isTabletLayout
-                                              ? 30.r
-                                              : null,
-                                      icon: Icons.edit,
-                                      iconColor: Colors.black,
-                                      backgroundColor: Colors.grey.shade200,
-                                    ),
-                                  ],
+                                child: CustomEditButton(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => BlocProvider.value(
+                                              value: cubit,
+                                              child: HousingUpdateExistingItemView(
+                                                buttonTitle:
+                                                    widget.buttonTitle,
+                                                menuItemModel:
+                                                    cubit
+                                                        .listToBeShow[index],
+                                                listIndex: index,
+                                                screenName:
+                                                    widget.screenName,
+                                              ),
+                                            ),
+                                      ),
+                                    );
+                                  },
+                                  height:
+                                      GlobalData().isTabletLayout
+                                          ? 44.h
+                                          : null,
+                                  width:
+                                      GlobalData().isTabletLayout
+                                          ? 25.w
+                                          : null,
+                                  iconSize:
+                                      GlobalData().isTabletLayout
+                                          ? 30.r
+                                          : null,
+                                  icon: Icons.edit,
+                                  iconColor: Colors.black,
+                                  backgroundColor: Colors.grey.shade200,
                                 ),
                               ),
                             ],

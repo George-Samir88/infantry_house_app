@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
+import '../../../utils/custom_snackBar.dart';
 
 class ReservationUpdateExistingItemView extends StatefulWidget {
   const ReservationUpdateExistingItemView({
@@ -310,26 +312,77 @@ class _ReservationUpdateExistingItemViewState
                       ),
                     ),
                   SizedBox(height: 25.h),
-                  CustomElevatedButton(
-                    onPressed: () {
-                      bool validateTextForm = _formKey.currentState!.validate();
-                      bool validateImageForm = _validateImage(_imageFile);
-                      if (validateTextForm && validateImageForm) {
-                        cubit.updateItem(
-                          newTitle: titleController.text,
-                          newImage: _imageFile!.path,
-                          newPrice: formatNumber(priceController.text),
-                          buttonTitle: widget.buttonTitle,
-                          listIndex: widget.listIndex,
-                          screenName: widget.screenName,
-                        );
-                        FocusScope.of(context).unfocus();
-                        _playAnimation();
-                      }
-                    },
-                    text: S.of(context).hefz,
-                    width: MediaQuery.of(context).size.width,
-                    tabletLayout: GlobalData().isTabletLayout,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomElevatedButton(
+                          onPressed: () {
+                            MenuItemModel? deletedMenuItem =
+                                cubit.listToBeShow[widget.listIndex];
+                            Timer? deletionTimer;
+                            cubit.removeItem(
+                              screenName: widget.screenName,
+                              buttonTitle: widget.buttonTitle,
+                              indexOfItemInList: widget.listIndex,
+                            );
+                            deletionTimer = Timer(Duration(seconds: 3), () {
+                              deletedMenuItem = null;
+                            });
+                            Navigator.pop(context);
+                            showSnackBar(
+                              backgroundColor: Colors.amber,
+                              textColor: Colors.brown[800],
+                              duration: 3,
+                              context: context,
+                              snackBarAction: SnackBarAction(
+                                label: S.of(context).Undo,
+                                textColor: Colors.brown[800],
+                                onPressed: () {
+                                  deletionTimer?.cancel();
+                                  if (deletedMenuItem != null) {
+                                    cubit.addItem(
+                                      screenName: widget.screenName,
+                                      menuItemModel: deletedMenuItem!,
+                                      buttonTitle: widget.buttonTitle,
+                                    );
+                                  }
+                                },
+                              ),
+                              message: S.of(context).DeletedSuccessfully,
+                            );
+                          },
+                          text: S.of(context).Delete,
+                          width: MediaQuery.of(context).size.width,
+                          tabletLayout: GlobalData().isTabletLayout,
+                          backGroundColor: Colors.redAccent.shade200,
+                        ),
+                      ),
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        child: CustomElevatedButton(
+                          onPressed: () {
+                            bool validateTextForm =
+                                _formKey.currentState!.validate();
+                            bool validateImageForm = _validateImage(_imageFile);
+                            if (validateTextForm && validateImageForm) {
+                              cubit.updateItem(
+                                newTitle: titleController.text,
+                                newImage: _imageFile!.path,
+                                newPrice: formatNumber(priceController.text),
+                                buttonTitle: widget.buttonTitle,
+                                listIndex: widget.listIndex,
+                                screenName: widget.screenName,
+                              );
+                              FocusScope.of(context).unfocus();
+                              _playAnimation();
+                            }
+                          },
+                          text: S.of(context).hefz,
+                          width: MediaQuery.of(context).size.width,
+                          tabletLayout: GlobalData().isTabletLayout,
+                        ),
+                      ),
+                    ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
