@@ -49,6 +49,7 @@ dependencies:
   dio: ^5.8.0+1
   flutter_paypal_payment: ^1.0.8
   flutter_staggered_animations: ^1.1.1
+  flutter_lints: ^5.0.0
 
 dev_dependencies:
   flutter_test:
