@@ -1,10 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:infantry_house_app/models/menu_item_model.dart';
-import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/views/widgets_2/housing_view/manager/housing_cubit.dart';
 
 import 'package:lottie/lottie.dart';
@@ -168,71 +164,6 @@ class _HousingEditingItemsViewState extends State<HousingEditingItemsView>
                                       icon: Icons.edit,
                                       iconColor: Colors.black,
                                       backgroundColor: Colors.grey.shade200,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                left: 10,
-                                bottom: -15,
-                                child: Row(
-                                  children: [
-                                    CustomEditButton(
-                                      onTap: () {
-                                        MenuItemModel? deletedMenuItem =
-                                            cubit.listToBeShow[index];
-                                        Timer? deletionTimer;
-                                        cubit.removeItem(
-                                          screenName: widget.screenName,
-                                          buttonTitle: widget.buttonTitle,
-                                          indexOfItemInList: index,
-                                        );
-                                        deletionTimer = Timer(
-                                          Duration(seconds: 3),
-                                          () {
-                                            deletedMenuItem = null;
-                                          },
-                                        );
-                                        showSnackBar(
-                                          duration: 3,
-                                          backgroundColor: Colors.amber,
-                                          context: context,
-                                          textColor: Colors.brown[800],
-                                          snackBarAction: SnackBarAction(
-                                            label: S.of(context).Undo,
-                                            textColor: Colors.brown[800],
-                                            onPressed: () {
-                                              deletionTimer?.cancel();
-                                              if (deletedMenuItem != null) {
-                                                cubit.addItem(
-                                                  screenName: widget.screenName,
-                                                  menuItemModel:
-                                                      deletedMenuItem!,
-                                                  buttonTitle:
-                                                      widget.buttonTitle,
-                                                );
-                                              }
-                                            },
-                                          ),
-                                          message:
-                                              S.of(context).DeletedSuccessfully,
-                                        );
-                                      },
-                                      height:
-                                          GlobalData().isTabletLayout
-                                              ? 28.h
-                                              : 25.h,
-                                      width:
-                                          GlobalData().isTabletLayout
-                                              ? 20.w
-                                              : 35.w,
-                                      iconSize:
-                                          GlobalData().isTabletLayout
-                                              ? 18.r
-                                              : 20.r,
-                                      icon: Icons.cancel,
-                                      iconColor: Colors.white,
-                                      backgroundColor: Colors.red,
                                     ),
                                   ],
                                 ),
