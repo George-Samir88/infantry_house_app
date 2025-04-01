@@ -23,29 +23,29 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
   Widget _buildCircularImage(String imagePath) {
     if (imagePath.startsWith('assets/')) {
       return CircleAvatar(
-        radius: GlobalData().isTabletLayout ? 52.r : 31.r,
+        radius: GlobalData().isTabletLayout ? 36.r : 31.r,
         backgroundColor: Colors.white, // Prevents image cropping
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50.r),
           child: Image.asset(
             imagePath,
             fit: BoxFit.cover,
-            width: GlobalData().isTabletLayout ? 100.r : 60.r,
-            height: GlobalData().isTabletLayout ? 100.r : 60.r,
+            width: GlobalData().isTabletLayout ? 70.r : 60.r,
+            height: GlobalData().isTabletLayout ? 70.r : 60.r,
           ),
         ),
       );
     } else if (File(imagePath).existsSync()) {
       return CircleAvatar(
-        radius: GlobalData().isTabletLayout ? 52.r : 31.r,
+        radius: GlobalData().isTabletLayout ? 36.r : 31.r,
         backgroundColor: Colors.white, // Prevents image cropping
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50.r),
           child: Image.file(
             File(imagePath),
             fit: BoxFit.cover,
-            width: GlobalData().isTabletLayout ? 100.r : 60.r,
-            height: GlobalData().isTabletLayout ? 100.r : 60.r,
+            width: GlobalData().isTabletLayout ? 70.r : 60.r,
+            height: GlobalData().isTabletLayout ? 70.r : 60.r,
           ),
         ),
       );
@@ -60,10 +60,10 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
         clipBehavior: Clip.none,
         scrollDirection: Axis.horizontal,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: GlobalData().isTabletLayout ? 1 : 2,
-          childAspectRatio: GlobalData().isTabletLayout ? 1.2 : 1,
+          crossAxisCount: 2,
+          childAspectRatio: 1,
           mainAxisSpacing: 20.0.w,
-          crossAxisSpacing: 30.0.h,
+          crossAxisSpacing: 40.0.h,
         ),
         itemCount: menuItemModel.length,
         itemBuilder: (context, gridIndex) {
@@ -116,7 +116,7 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 color: Colors.white,
                                 fontSize:
-                                    GlobalData().isTabletLayout ? 8.sp : 12.sp,
+                                    GlobalData().isTabletLayout ? 10.sp : 12.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -142,19 +142,19 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: -20,
-                      right: -10,
+                      top: -20.h,
+                      right: -10.w,
                       child: _buildCircularImage(
                         menuItemModel[gridIndex].image,
                       ),
                     ),
                     Positioned(
-                      bottom: GlobalData().isTabletLayout ? -8.h : -10.h,
-                      right: GlobalData().isTabletLayout ? -2.w : -8.w,
+                      bottom: -10.h,
+                      right: -8.w,
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                          vertical: GlobalData().isTabletLayout ? 4.h : 4.h,
-                          horizontal: GlobalData().isTabletLayout ? 4.w : 8.w,
+                          vertical: 4.h,
+                          horizontal: 8.w,
                         ),
                         decoration: BoxDecoration(
                           color: Colors.amber,
@@ -163,8 +163,7 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                         child: Text(
                           '\$${menuItemModel[gridIndex].price}',
                           style: TextStyle(
-                            fontSize:
-                                GlobalData().isTabletLayout ? 6.sp : 12.sp,
+                            fontSize: 12.sp,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -172,8 +171,8 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      bottom: -5,
-                      left: -5,
+                      bottom: -5.h,
+                      left: -5.w,
                       child: GestureDetector(
                         onTap: () {
                           context.read<CartCubit>().addToCart(
@@ -181,21 +180,17 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                           );
                           showSnackBar(
                             context: context,
-                            snackBarAction: SnackBarAction(
-                              onPressed: () {},
-                              label: '',
-                            ),
                             message:
                                 "${S.of(context).AddedSuccessfully} ${menuItemModel[gridIndex].title} ${S.of(context).ToCard}",
                           );
                         },
                         child: CircleAvatar(
-                          radius: GlobalData().isTabletLayout ? 30.r : 24.r,
+                          radius: 24.r,
                           backgroundColor: Colors.amber,
                           child: Icon(
                             Icons.shopping_cart,
                             color: Colors.brown[800],
-                            size: GlobalData().isTabletLayout ? 30.r : 20.r,
+                            size: 20.r,
                           ),
                         ),
                       ),

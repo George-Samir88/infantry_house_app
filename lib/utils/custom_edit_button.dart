@@ -28,8 +28,8 @@ class CustomEditButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: height ?? (GlobalData().isTabletLayout ? 40.h : 30.h),
-        width: width ?? (GlobalData().isTabletLayout ? 30.w : 40.w),
+        height: height ?? (GlobalData().isTabletLayout ? 36.h : 30.h),
+        width: width ?? (GlobalData().isTabletLayout ? 26.w : 40.w),
         decoration: BoxDecoration(
           boxShadow: [BoxShadow(color: Colors.grey.shade500)],
           borderRadius: BorderRadius.circular(12),

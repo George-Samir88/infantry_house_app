@@ -28,7 +28,7 @@ class HousingCustomTemplate extends StatelessWidget {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                if (carouselItemsList.isNotEmpty)
+                if (carouselItemsList.isNotEmpty) ...[
                   Padding(
                     padding: EdgeInsets.only(left: 10.w, right: 10.w),
                     child: CarouselSlider.builder(
@@ -50,32 +50,46 @@ class HousingCustomTemplate extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Positioned(
+                    left: 10,
+                    bottom: -20,
+                    child: CustomEditButton(
+                      iconColor: Colors.brown[800],
+                      backgroundColor: Colors.amberAccent.shade100,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => BlocProvider.value(
+                                  value: cubit,
+                                  child: HousingEditCarouselTemplateView(),
+                                ),
+                          ),
+                        );
+                      },
+                      icon: Icons.edit,
+                    ),
+                  ),
+                ],
                 if (carouselItemsList.isEmpty)
                   Padding(
                     padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                    child: EmptyCarouselContainer(),
+                    child: EmptyCarouselContainer(
+                      onTab: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => BlocProvider.value(
+                                  value: cubit,
+                                  child: HousingEditCarouselTemplateView(),
+                                ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                Positioned(
-                  left: 10,
-                  bottom: -20,
-                  child: CustomEditButton(
-                    iconColor: Colors.brown[800],
-                    backgroundColor: Colors.amberAccent.shade100,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) => BlocProvider.value(
-                                value: cubit,
-                                child: HousingEditCarouselTemplateView(),
-                              ),
-                        ),
-                      );
-                    },
-                    icon: Icons.edit,
-                  ),
-                ),
               ],
             ),
             SizedBox(height: 20.h),

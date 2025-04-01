@@ -157,36 +157,20 @@ class _ReservationEditCarouselTemplateViewState
                   ],
                 ),
                 if (carouselItems.isEmpty)
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      EmptyCarouselContainer(),
-                      Positioned(
-                        left: 10,
-                        bottom: -20,
-                        child: CustomEditButton(
-                          height: GlobalData().isTabletLayout ? 50.h : null,
-                          width: GlobalData().isTabletLayout ? 30.w : null,
-                          iconSize: GlobalData().isTabletLayout ? 40.r : null,
-                          onTap: () async {
-                            await _pickImage();
-                            setState(() {});
-                            if (_image != null) {
-                              cubit.addCarouselItem(
-                                customCarouselItem: CustomCarouselItem(
-                                  imagePath: _image!.path,
-                                  isPickedImage: true,
-                                ),
-                              );
-                              _image = null;
-                            }
-                          },
-                          icon: Icons.add,
-                          iconColor: Colors.white,
-                          backgroundColor: Color(0xFF6D3A2D),
-                        ),
-                      ),
-                    ],
+                  EmptyCarouselContainer(
+                    onTab: () async {
+                      await _pickImage();
+                      setState(() {});
+                      if (_image != null) {
+                        cubit.addCarouselItem(
+                          customCarouselItem: CustomCarouselItem(
+                            imagePath: _image!.path,
+                            isPickedImage: true,
+                          ),
+                        );
+                        _image = null;
+                      }
+                    },
                   ),
 
                 SizedBox(height: 30.h),

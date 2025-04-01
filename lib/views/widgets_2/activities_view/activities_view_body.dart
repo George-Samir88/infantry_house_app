@@ -13,7 +13,6 @@ import 'package:infantry_house_app/views/widgets_2/home_view/manager/home_cubit.
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/FAD_empty_carousel_item.dart';
-import '../../../utils/custom_edit_button.dart';
 import '../../../utils/dots_indicator.dart';
 import '../cart_view/my_cart_view.dart';
 import 'custom_activity_card_item.dart';
@@ -101,30 +100,22 @@ class _ActivitiesViewBodyState extends State<ActivitiesViewBody> {
                     if (activityCubit.carouselItems.isEmpty) ...[
                       Padding(
                         padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                        child: EmptyCarouselContainer(),
+                        child: EmptyCarouselContainer(
+                          onTab: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => BlocProvider.value(
+                                      value: activityCubit,
+                                      child: ActivityEditCarouselTemplateView(),
+                                    ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ],
-                    Positioned(
-                      left: 10,
-                      bottom: -20,
-                      child: CustomEditButton(
-                        iconColor: Colors.brown[800],
-                        backgroundColor: Colors.amberAccent.shade100,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) => BlocProvider.value(
-                                    value: activityCubit,
-                                    child: ActivityEditCarouselTemplateView(),
-                                  ),
-                            ),
-                          );
-                        },
-                        icon: Icons.edit,
-                      ),
-                    ),
                   ],
                 ),
                 SizedBox(height: 20.h),

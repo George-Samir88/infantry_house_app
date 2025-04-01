@@ -100,7 +100,7 @@ class _FoodAndBeverageEditScreenDepartmentViewState
                     if (newButtonTitlesList.isNotEmpty)
                       Container(
                         margin: EdgeInsets.only(left: 16.w, right: 16.w),
-                        height: GlobalData().isTabletLayout ? 50.h : 40.h,
+                        height: 40.h,
                         // Adjust height as needed
                         child: ListView.separated(
                           clipBehavior: Clip.none,
@@ -113,8 +113,7 @@ class _FoodAndBeverageEditScreenDepartmentViewState
                               children: [
                                 Container(
                                   padding: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 10,
+                                    horizontal: 20.w,
                                   ),
                                   decoration: BoxDecoration(
                                     boxShadow: [
@@ -141,7 +140,7 @@ class _FoodAndBeverageEditScreenDepartmentViewState
                                         color: Color(0xff5E3D2E),
                                         fontSize:
                                             GlobalData().isTabletLayout
-                                                ? 8.sp
+                                                ? 10.sp
                                                 : 12.sp,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -187,10 +186,7 @@ class _FoodAndBeverageEditScreenDepartmentViewState
                       Center(
                         child: Text(
                           S.of(context).LaYogdAksam,
-                          style: TextStyle(
-                            fontSize:
-                                GlobalData().isTabletLayout ? 16.sp : 20.sp,
-                          ),
+                          style: TextStyle(fontSize: 20.sp),
                         ),
                       ),
                     SizedBox(height: 30.h),
@@ -201,8 +197,7 @@ class _FoodAndBeverageEditScreenDepartmentViewState
                           Text(
                             S.of(context).EdaftGded,
                             style: TextStyle(
-                              fontSize:
-                                  GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -212,7 +207,7 @@ class _FoodAndBeverageEditScreenDepartmentViewState
                     SizedBox(height: 10.h),
 
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: CustomTextFormField(
                         textEditingController: arabicTextEditingController,
                         hintText: S.of(context).Ad5lEsmElkaemaInArabic,
@@ -228,7 +223,7 @@ class _FoodAndBeverageEditScreenDepartmentViewState
                     ),
                     SizedBox(height: 10.w),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: CustomTextFormField(
                         textEditingController: englishTextEditingController,
                         hintText: S.of(context).Ad5lEsmElkaemaInEnglish,

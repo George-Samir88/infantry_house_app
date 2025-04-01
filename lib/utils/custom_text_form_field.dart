@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../global_variables.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -30,19 +29,19 @@ class CustomTextFormField extends StatelessWidget {
     return TextFormField(
       controller: textEditingController,
       obscureText: obscureText ?? false,
-      minLines: minLines ?? null,
-      maxLines: maxLines ?? null,
-      style: TextStyle(fontSize: GlobalData().isTabletLayout ? 8.sp : 14.sp),
+      minLines: minLines,
+      maxLines: maxLines ,
+      style: TextStyle(fontSize:  14.sp),
       keyboardType: textInputType,
       decoration: InputDecoration(
-        suffixIcon: suffixIcon ?? null,
+        suffixIcon: suffixIcon ,
         errorStyle: TextStyle(
-          fontSize: GlobalData().isTabletLayout ? 6.sp : 10.sp,
+          fontSize:  10.sp,
         ),
         hintText: hintText,
         filled: true,
         hintStyle: TextStyle(
-          fontSize: GlobalData().isTabletLayout ? 8.sp : 14.sp,
+          fontSize:  14.sp,
           color: Colors.grey,
         ),
         fillColor: Colors.grey[200],

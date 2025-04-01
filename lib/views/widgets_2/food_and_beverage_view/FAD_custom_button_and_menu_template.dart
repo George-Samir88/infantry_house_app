@@ -39,7 +39,7 @@ class FoodAndBeverageCustomButtonAndMenuTemplate extends StatelessWidget {
                   Text(
                     menuTitle.isEmpty ? S.of(context).EdaftGded : menuTitle,
                     style: TextStyle(
-                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                      fontSize: GlobalData().isTabletLayout ? 16.sp : 20.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -74,7 +74,7 @@ class FoodAndBeverageCustomButtonAndMenuTemplate extends StatelessWidget {
                   left: GlobalData().isArabic ? 0 : 16,
                   right: GlobalData().isArabic ? 16 : 0,
                 ),
-                height: GlobalData().isTabletLayout ? 60.h : 40.h,
+                height: 40.h,
                 // Adjust height as needed
                 child: AnimationLimiter(
                   child: ListView.separated(
@@ -137,7 +137,7 @@ class FoodAndBeverageCustomButtonAndMenuTemplate extends StatelessWidget {
                                     color: Colors.white,
                                     fontSize:
                                         GlobalData().isTabletLayout
-                                            ? (isSelected ? 10.sp : 8.sp)
+                                            ? (isSelected ? 12.sp : 10.sp)
                                             : isSelected
                                             ? 16.sp
                                             : 14.sp,
@@ -197,16 +197,16 @@ class FoodAndBeverageCustomButtonAndMenuTemplate extends StatelessWidget {
                     ),
                     margin: EdgeInsets.only(top: 20, left: 12, right: 12),
                     padding: EdgeInsets.only(
-                      left: GlobalData().isTabletLayout ? 10.w : 20.w,
-                      right: GlobalData().isTabletLayout ? 10.w : 20.w,
-                      top: 22.h,
-                      bottom: 22.h,
+                      left:  20.w,
+                      right: 24.w,
+                      top: 30.h,
+                      bottom: 20.h,
                     ),
                     constraints: BoxConstraints(
                       minHeight: 100.h, // Set a reasonable minimum height
                       maxHeight:
                           GlobalData().isTabletLayout
-                              ? 300.h
+                              ? 400.h
                               : 320
                                   .h, // Set a reasonable max height if necessary
                     ),
@@ -219,8 +219,8 @@ class FoodAndBeverageCustomButtonAndMenuTemplate extends StatelessWidget {
                   CustomEmptyItemsTemplate(),
                 if (newButtonTitlesList.isNotEmpty)
                   Positioned(
-                    left: 10,
-                    bottom: -20,
+                    left: 10.w,
+                    bottom: -20.h,
                     child: CustomEditButton(
                       icon: Icons.edit,
                       iconColor: Colors.brown[800],

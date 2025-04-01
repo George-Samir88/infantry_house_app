@@ -153,10 +153,10 @@ class _FoodAndBeverageEditingMenuButtonsViewTemplateState
                     if (newButtonTitlesList.isNotEmpty)
                       Container(
                         margin: EdgeInsets.only(
-                          left: GlobalData().isArabic ? 0 : 16,
-                          right: GlobalData().isArabic ? 16 : 0,
+                          left: GlobalData().isArabic ? 0 : 16.w,
+                          right: GlobalData().isArabic ? 16.w : 0,
                         ),
-                        height: GlobalData().isTabletLayout ? 60.h : 50.h,
+                        height: 40.h,
                         // Adjust height as needed
                         child: ListView.separated(
                           clipBehavior: Clip.none,
@@ -181,16 +181,15 @@ class _FoodAndBeverageEditingMenuButtonsViewTemplateState
                                               right:
                                                   GlobalData().isArabic
                                                       ? 0
-                                                      : 16,
+                                                      : 16.w,
                                               left:
                                                   GlobalData().isArabic
-                                                      ? 16
+                                                      ? 16.w
                                                       : 0,
                                             )
                                             : null,
                                     padding: EdgeInsets.symmetric(
-                                      horizontal: 20,
-                                      vertical: 10,
+                                      horizontal: 20.w,
                                     ),
                                     decoration: BoxDecoration(
                                       boxShadow: [
@@ -220,26 +219,25 @@ class _FoodAndBeverageEditingMenuButtonsViewTemplateState
                                           color: Colors.white,
                                           fontSize:
                                               GlobalData().isTabletLayout
-                                                  ? (isSelected ? 10.sp : 8.sp)
+                                                  ? (isSelected ? 12.sp : 10.sp)
                                                   : isSelected
                                                   ? 16.sp
                                                   : 14.sp,
                                           fontWeight:
                                               isSelected
-                                                  ? FontWeight.w500
-                                                  : null,
+                                                  ? FontWeight.w600
+                                                  : FontWeight.w500,
                                         ),
                                       ),
                                     ),
                                   ),
                                   Positioned(
-                                    left: 10,
-                                    bottom: -15,
+                                    left: -5.w,
+                                    bottom: -10.h,
                                     child: Row(
                                       children: [
                                         CustomEditButton(
                                           onTap: () {
-                                            print(newButtonTitlesList[index]);
                                             cubit.removeButton(
                                               screenName: cubit.selectedScreen,
                                               buttonTitle:
@@ -278,22 +276,18 @@ class _FoodAndBeverageEditingMenuButtonsViewTemplateState
                       Center(
                         child: Text(
                           S.of(context).LaYogdAksam,
-                          style: TextStyle(
-                            fontSize:
-                                GlobalData().isTabletLayout ? 16.sp : 20.sp,
-                          ),
+                          style: TextStyle(fontSize: 20.sp),
                         ),
                       ),
                     SizedBox(height: 30.h),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: Row(
                         children: [
                           Text(
                             S.of(context).EdaftGded,
                             style: TextStyle(
-                              fontSize:
-                                  GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -302,7 +296,7 @@ class _FoodAndBeverageEditingMenuButtonsViewTemplateState
                     ),
                     SizedBox(height: 10.h),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: CustomTextFormField(
                         textEditingController: arabicTextEditingController,
                         hintText: S.of(context).Ad5lEsmElkaemaInArabic,
@@ -317,7 +311,7 @@ class _FoodAndBeverageEditingMenuButtonsViewTemplateState
                     ),
                     SizedBox(height: 10.w),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: CustomTextFormField(
                         textEditingController: englishTextEditingController,
                         hintText: S.of(context).Ad5lEsmElkaemaInEnglish,

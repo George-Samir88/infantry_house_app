@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../global_variables.dart';
 
 class CustomAppBarEditingView extends StatelessWidget {
   const CustomAppBarEditingView({
@@ -42,7 +41,7 @@ class CustomAppBarEditingView extends StatelessWidget {
             title: Text(
               title,
               style: TextStyle(
-                fontSize: GlobalData().isTabletLayout ? 10.sp : 16.sp,
+                fontSize:  16.sp,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
               ),

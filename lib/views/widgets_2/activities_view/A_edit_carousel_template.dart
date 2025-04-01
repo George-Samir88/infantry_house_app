@@ -153,33 +153,20 @@ class _ActivityEditCarouselTemplateViewState
                   ],
                 ),
                 if (carouselItems.isEmpty)
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      EmptyCarouselContainer(),
-                      Positioned(
-                        left: 10,
-                        bottom: -20,
-                        child: CustomEditButton(
-                          onTap: () async {
-                            await _pickImage();
-                            setState(() {});
-                            if (_image != null) {
-                              cubit.addCarouselItem(
-                                customCarouselItem: CustomCarouselItem(
-                                  imagePath: _image!.path,
-                                  isPickedImage: true,
-                                ),
-                              );
-                              _image = null;
-                            }
-                          },
-                          icon: Icons.add,
-                          iconColor: Colors.white,
-                          backgroundColor: Color(0xFF6D3A2D),
-                        ),
-                      ),
-                    ],
+                  EmptyCarouselContainer(
+                    onTab: () async {
+                      await _pickImage();
+                      setState(() {});
+                      if (_image != null) {
+                        cubit.addCarouselItem(
+                          customCarouselItem: CustomCarouselItem(
+                            imagePath: _image!.path,
+                            isPickedImage: true,
+                          ),
+                        );
+                        _image = null;
+                      }
+                    },
                   ),
 
                 SizedBox(height: 30.h),

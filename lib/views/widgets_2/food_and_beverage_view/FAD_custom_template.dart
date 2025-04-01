@@ -1,5 +1,5 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -30,7 +30,7 @@ class FoodAndBeverageCustomTemplate extends StatelessWidget {
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    if (carouselItemsList.isNotEmpty)
+                    if (carouselItemsList.isNotEmpty) ...[
                       Padding(
                         padding: EdgeInsets.only(left: 10.w, right: 10.w),
                         child: CarouselSlider.builder(
@@ -42,7 +42,7 @@ class FoodAndBeverageCustomTemplate extends StatelessWidget {
                             onPageChanged: (index, other) {
                               cubit.changeCarouselIndex(index: index);
                             },
-                            height: GlobalData().isTabletLayout ? 360.h : 180.h,
+                            height: GlobalData().isTabletLayout ? 280.h : 180.h,
                             clipBehavior: Clip.none,
                             padEnds: true,
                             enlargeCenterPage: true,
@@ -52,33 +52,48 @@ class FoodAndBeverageCustomTemplate extends StatelessWidget {
                           ),
                         ),
                       ),
+                      Positioned(
+                        left: 5.w,
+                        bottom: -20.h,
+                        child: CustomEditButton(
+                          iconColor: Colors.brown[800],
+                          backgroundColor: Colors.amberAccent.shade100,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => BlocProvider.value(
+                                      value: cubit,
+                                      child:
+                                          FoodAndBeverageEditCarouselTemplateView(),
+                                    ),
+                              ),
+                            );
+                          },
+                          icon: Icons.edit,
+                        ),
+                      ),
+                    ],
                     if (carouselItemsList.isEmpty)
                       Padding(
                         padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                        child: EmptyCarouselContainer(),
+                        child: EmptyCarouselContainer(
+                          onTab: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => BlocProvider.value(
+                                      value: cubit,
+                                      child:
+                                          FoodAndBeverageEditCarouselTemplateView(),
+                                    ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    Positioned(
-                      left: 10,
-                      bottom: -20,
-                      child: CustomEditButton(
-                        iconColor: Colors.brown[800],
-                        backgroundColor: Colors.amberAccent.shade100,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) => BlocProvider.value(
-                                    value: cubit,
-                                    child:
-                                        FoodAndBeverageEditCarouselTemplateView(),
-                                  ),
-                            ),
-                          );
-                        },
-                        icon: Icons.edit,
-                      ),
-                    ),
                   ],
                 ),
                 SizedBox(height: 20.h),

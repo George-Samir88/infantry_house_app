@@ -39,7 +39,7 @@ class CustomElevatedButton extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
             color: textColor ?? Colors.white,
-            fontSize: fontSize?? (tabletLayout ? 10.sp : 18.sp),
+            fontSize: fontSize?? (18.sp),
           ),
         ),
       ),
