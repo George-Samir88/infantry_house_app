@@ -13,7 +13,7 @@ import '../../models/menu_item_model.dart';
 import '../../utils/custom_appbar_editing_view.dart';
 import '../../utils/custom_elevated_button.dart';
 import '../../utils/custom_snackBar.dart';
-import '../widgets_2/cart_view/manager/cart_cubit/cart_cubit.dart';
+import '../widgets/cart_view/manager/cart_cubit/cart_cubit.dart';
 
 class RatingView extends StatefulWidget {
   const RatingView({super.key, required this.menuItemModel});
@@ -274,7 +274,6 @@ class _RatingViewState extends State<RatingView>
                     itemBuilder:
                         (context, _) => Icon(Icons.star, color: Colors.amber),
                     onRatingUpdate: (rating) {
-                      print(rating);
                       setState(() {
                         rating = rating;
                       });
@@ -323,7 +322,7 @@ class _RatingViewState extends State<RatingView>
                 children: [
                   Visibility(
                     visible: isAnimationVisible,
-                    child: Container(
+                    child: SizedBox(
                       height: 100.h,
                       child: Lottie.asset(
                         controller: _animationController,

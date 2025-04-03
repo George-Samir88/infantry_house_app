@@ -8,13 +8,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:infantry_house_app/models/daily_activity_item_model.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
-import 'package:infantry_house_app/views/widgets_2/activities_view/manager/daily_games_cubit.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_elevated_button.dart';
+import 'manager/daily_games_cubit.dart';
 
 class DailyGamesUpdateAndDeleteItemView extends StatefulWidget {
   const DailyGamesUpdateAndDeleteItemView({
@@ -311,7 +311,7 @@ class _DailyGamesUpdateAndDeleteItemViewState
                     children: [
                       Visibility(
                         visible: isAnimationVisible,
-                        child: Container(
+                        child: SizedBox(
                           height: 100.h,
                           child: Lottie.asset(
                             controller: _animationController,

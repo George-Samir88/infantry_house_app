@@ -4,42 +4,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:infantry_house_app/models/menu_item_model.dart';
+import 'package:infantry_house_app/models/daily_activity_item_model.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
-import 'package:infantry_house_app/views/widgets_2/reservation_view/manager/reservation_cubit.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
+import 'manager/daily_games_cubit.dart';
 
-class ReservationAddNewItemView extends StatefulWidget {
-  const ReservationAddNewItemView({
-    super.key,
-    required this.listIndex,
-    required this.buttonTitle,
-    required this.screenName,
-  });
-
-  final int listIndex;
-  final String buttonTitle;
-  final String screenName;
+class DailyGamesAddNewItemView extends StatefulWidget {
+  const DailyGamesAddNewItemView({super.key});
 
   @override
-  State<ReservationAddNewItemView> createState() =>
-      _ReservationAddNewItemViewState();
+  State<DailyGamesAddNewItemView> createState() =>
+      _DailyGamesAddNewItemViewState();
 }
 
-class _ReservationAddNewItemViewState extends State<ReservationAddNewItemView>
+class _DailyGamesAddNewItemViewState extends State<DailyGamesAddNewItemView>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  ScrollController scrollController = ScrollController();
 
   @override
   void dispose() {
     _animationController.dispose();
-    scrollController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -50,9 +40,9 @@ class _ReservationAddNewItemViewState extends State<ReservationAddNewItemView>
     setState(() {
       isAnimationVisible = true; // Show animation
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        scrollController.animateTo(
-          scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 500),
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 500),
           curve: Curves.easeInOutQuad,
         );
       });
@@ -91,7 +81,9 @@ class _ReservationAddNewItemViewState extends State<ReservationAddNewItemView>
   }
 
   TextEditingController titleController = TextEditingController();
+  TextEditingController trainerNameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   bool isShowValidationErrorMessages = false;
 
   bool _validateImage(File? image) {
@@ -103,6 +95,8 @@ class _ReservationAddNewItemViewState extends State<ReservationAddNewItemView>
     return true;
   }
 
+  final ScrollController _scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,124 +107,95 @@ class _ReservationAddNewItemViewState extends State<ReservationAddNewItemView>
           onPressed: () {
             Navigator.pop(context);
           },
-          title: S.of(context).EdaftSnf,
+          title: S.of(context).AddingNewDailyGame,
         ),
       ),
-      body: BlocBuilder<ReservationCubit, ReservationState>(
+      body: BlocBuilder<DailyGamesCubit, DailyGamesState>(
         builder: (context, state) {
-          var cubit = context.read<ReservationCubit>();
+          var cubit = context.read<DailyGamesCubit>();
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Form(
               key: _formKey,
               child: ListView(
-                controller: scrollController,
+                controller: _scrollController,
                 children: [
                   SizedBox(height: 20.h),
                   //------mobile design
-                  if (!GlobalData().isTabletLayout) ...[
-                    Text(
-                      S.of(context).EsmElsanf,
-                      style: TextStyle(
-                        fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
-                      ),
-                    ),
-                    CustomTextFormField(
-                      textEditingController: titleController,
-                      textInputType: TextInputType.text,
-                      hintText: S.of(context).Ad5lEsmElsnf,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return S.of(context).MnFdlkD5lEsmElsnf;
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      S.of(context).S3rElsnf,
-                      style: TextStyle(
-                        fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
-                      ),
-                    ),
-                    CustomTextFormField(
-                      textEditingController: priceController,
-                      textInputType: TextInputType.number,
-                      hintText: S.of(context).Ad5lS3rElsnf,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return S.of(context).MnFdlkD5lS3rElsnf;
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                  ],
-                  //------tablet design
-                  if (GlobalData().isTabletLayout)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                S.of(context).EsmElsanf,
-                                style: TextStyle(
-                                  fontSize:
-                                      GlobalData().isTabletLayout
-                                          ? 10.sp
-                                          : 20.sp,
-                                ),
-                              ),
-                              CustomTextFormField(
-                                textEditingController: titleController,
-                                textInputType: TextInputType.text,
-                                hintText: S.of(context).Ad5lEsmElsnf,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return S.of(context).MnFdlkD5lEsmElsnf;
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                S.of(context).S3rElsnf,
-                                style: TextStyle(
-                                  fontSize:
-                                      GlobalData().isTabletLayout
-                                          ? 10.sp
-                                          : 20.sp,
-                                ),
-                              ),
-                              CustomTextFormField(
-                                textEditingController: priceController,
-                                textInputType: TextInputType.number,
-                                hintText: S.of(context).Ad5lS3rElsnf,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return S.of(context).MnFdlkD5lS3rElsnf;
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 8),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
                   Text(
-                    S.of(context).SoraElsnf,
+                    S.of(context).TitleOfGame,
+                    style: TextStyle(
+                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    textEditingController: titleController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return S.of(context).PleaseEnterTitleOfGame;
+                      }
+                      return null;
+                    },
+                    hintText: S.of(context).EnterTitleOfGame,
+                    textInputType: TextInputType.text,
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    S.of(context).GamePrice,
+                    style: TextStyle(
+                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    textEditingController: priceController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return S.of(context).PleaseEnterPriceOfGame;
+                      }
+                      return null;
+                    },
+                    hintText: S.of(context).EnterPriceOfGame,
+                    textInputType: TextInputType.number,
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    S.of(context).TrainerName,
+                    style: TextStyle(
+                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    textEditingController: trainerNameController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return S.of(context).PleaseEnterTrainerName;
+                      }
+                      return null;
+                    },
+                    hintText: S.of(context).EnterTrainerName,
+                    textInputType: TextInputType.text,
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    S.of(context).DescriptionAboutGame,
+                    style: TextStyle(
+                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    textEditingController: descriptionController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return S.of(context).PleaseEnterDescriptionAboutGame;
+                      }
+                      return null;
+                    },
+                    hintText: S.of(context).EnterDescriptionAboutGame,
+                    textInputType: TextInputType.text,
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    S.of(context).DailyGamesItemImage,
                     style: TextStyle(
                       fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
                     ),
@@ -251,7 +216,7 @@ class _ReservationAddNewItemViewState extends State<ReservationAddNewItemView>
                               ? Image.file(_imageFile!, fit: BoxFit.cover)
                               : Center(
                                 child: Text(
-                                  S.of(context).Ad5lSortElsnf,
+                                  S.of(context).AddDailyGamesItemImage,
                                   style: TextStyle(
                                     fontSize: 14.sp,
                                     color: Colors.grey,
@@ -264,7 +229,7 @@ class _ReservationAddNewItemViewState extends State<ReservationAddNewItemView>
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0, right: 10),
                       child: Text(
-                        S.of(context).MnFdlkD5lSortElsnf,
+                        S.of(context).PleaseAddDailyGamesItemImage,
                         style: TextStyle(
                           fontSize: GlobalData().isTabletLayout ? 6.sp : 10.sp,
                           fontWeight: FontWeight.w400,
@@ -278,19 +243,20 @@ class _ReservationAddNewItemViewState extends State<ReservationAddNewItemView>
                       bool validateTextForm = _formKey.currentState!.validate();
                       bool validateImageForm = _validateImage(_imageFile);
                       if (validateTextForm && validateImageForm) {
-                        cubit.addItem(
-                          menuItemModel: MenuItemModel(
+                        cubit.addNewItem(
+                          newActivity: DailyActivityItemModel(
+                            trainerName: trainerNameController.text,
+                            activityImage: _imageFile!.path,
+                            price: priceController.text,
                             title: titleController.text,
-                            image: _imageFile!.path,
-                            price: formatNumber(priceController.text),
-                            rating: 1.0,
+                            description: descriptionController.text,
                           ),
-                          buttonTitle: widget.buttonTitle,
-                          screenName: widget.screenName,
                         );
                         FocusScope.of(context).unfocus();
                         titleController.clear();
                         priceController.clear();
+                        trainerNameController.clear();
+                        descriptionController.clear();
                         _imageFile = null;
                         _playAnimation();
                       }
@@ -304,7 +270,7 @@ class _ReservationAddNewItemViewState extends State<ReservationAddNewItemView>
                     children: [
                       Visibility(
                         visible: isAnimationVisible,
-                        child: Container(
+                        child: SizedBox(
                           height: 100.h,
                           child: Lottie.asset(
                             controller: _animationController,

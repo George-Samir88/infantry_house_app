@@ -3,10 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
 import 'package:infantry_house_app/utils/custom_empty_items_template.dart';
-import 'package:infantry_house_app/views/widgets_2/activities_view/DG_add_new_item_view.dart';
-import 'package:infantry_house_app/views/widgets_2/activities_view/DG_edit_screen_department_view.dart';
-import 'package:infantry_house_app/views/widgets_2/activities_view/DG_update_and_delete_item.dart';
-import 'package:infantry_house_app/views/widgets_2/activities_view/manager/daily_games_cubit.dart';
+import 'package:infantry_house_app/views/widgets/activities_view/DG_add_new_item_view.dart';
+import 'package:infantry_house_app/views/widgets/activities_view/DG_edit_screen_department_view.dart';
+import 'package:infantry_house_app/views/widgets/activities_view/DG_update_and_delete_item.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
@@ -14,6 +13,7 @@ import '../../../utils/custom_edit_button.dart';
 import 'custom_description_of_activity_item.dart';
 import 'custom_vertical_list_of_daily_activity.dart';
 import 'daily_games_horizontal_list_of_department.dart';
+import 'manager/daily_games_cubit.dart';
 
 class DailyGamesView extends StatelessWidget {
   const DailyGamesView({super.key});

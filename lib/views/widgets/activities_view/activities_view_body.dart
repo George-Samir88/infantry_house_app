@@ -4,18 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:infantry_house_app/utils/custom_app_bar.dart';
-import 'package:infantry_house_app/views/widgets_2/activities_view/A_edit_carousel_template.dart';
-import 'package:infantry_house_app/views/widgets_2/activities_view/daily_games_view.dart';
-import 'package:infantry_house_app/views/widgets_2/activities_view/manager/activity_cubit.dart';
-import 'package:infantry_house_app/views/widgets_2/activities_view/subscriptions_view_body.dart';
-import 'package:infantry_house_app/views/widgets_2/home_view/manager/home_cubit.dart';
+import 'package:infantry_house_app/views/widgets/activities_view/A_edit_carousel_template.dart';
+import 'package:infantry_house_app/views/widgets/activities_view/daily_games_view.dart';
+import 'package:infantry_house_app/views/widgets/activities_view/subscriptions_view_body.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/FAD_empty_carousel_item.dart';
 import '../../../utils/dots_indicator.dart';
 import '../cart_view/my_cart_view.dart';
+import '../home_view/manager/home_cubit.dart';
 import 'custom_activity_card_item.dart';
+import 'manager/activity_cubit.dart';
 
 class ActivitiesViewBody extends StatefulWidget {
   const ActivitiesViewBody({super.key});

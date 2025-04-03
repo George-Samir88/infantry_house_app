@@ -6,8 +6,8 @@ import 'package:infantry_house_app/views/widgets/general_template/general_body_t
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 
 import '../../../utils/custom_app_bar.dart';
-import '../../widgets_2/cart_view/my_cart_view.dart';
-import '../../widgets_2/home_view/manager/home_cubit.dart';
+import '../cart_view/my_cart_view.dart';
+import '../home_view/manager/home_cubit.dart';
 
 class GeneralTemplateView extends StatelessWidget {
   const GeneralTemplateView({super.key, required this.appBarTitle});

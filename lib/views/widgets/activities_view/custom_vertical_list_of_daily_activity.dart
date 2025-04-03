@@ -5,13 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:infantry_house_app/global_variables.dart';
-import 'package:infantry_house_app/views/widgets_2/activities_view/DG_add_new_item_view.dart';
+import 'package:infantry_house_app/views/widgets/activities_view/DG_add_new_item_view.dart';
 
 import '../../../utils/custom_edit_button.dart';
 import 'manager/daily_games_cubit.dart';
 
 class CustomVerticalListOfDailyActivity extends StatelessWidget {
-  CustomVerticalListOfDailyActivity({super.key, required this.cubit});
+  const CustomVerticalListOfDailyActivity({super.key, required this.cubit});
 
   final DailyGamesCubit cubit;
 
@@ -109,7 +109,7 @@ class CustomVerticalListOfDailyActivity extends StatelessWidget {
                                     width:
                                         cubit.currentSelectedItemIndex == index
                                             ? (GlobalData().isTabletLayout
-                                                  ? 4.0.w
+                                                ? 4.0.w
                                                 : 8.0.w)
                                             : 0,
                                     // Animate width instead of removing the widget

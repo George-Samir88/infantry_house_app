@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/models/daily_activity_item_model.dart';
-import 'package:infantry_house_app/views/widgets_2/activities_view/manager/daily_games_cubit.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
+import 'manager/daily_games_cubit.dart';
 
 class CustomDescriptionOfActivityItem extends StatelessWidget {
   const CustomDescriptionOfActivityItem({

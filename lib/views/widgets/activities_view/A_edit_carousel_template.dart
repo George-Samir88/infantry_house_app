@@ -6,27 +6,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:infantry_house_app/utils/custom_elevated_button.dart';
-import 'package:infantry_house_app/views/widgets_2/reservation_view/manager/reservation_cubit.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../global_variables.dart';
 import '../../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/FAD_empty_carousel_item.dart';
+import '../../../utils/custom_carousel_item.dart';
 import '../../../utils/custom_edit_button.dart';
 import '../../../utils/dots_indicator.dart';
-import '../../../utils/custom_carousel_item.dart';
+import 'manager/activity_cubit.dart';
 
-class ReservationEditCarouselTemplateView extends StatefulWidget {
-  const ReservationEditCarouselTemplateView({super.key});
+class ActivityEditCarouselTemplateView extends StatefulWidget {
+  const ActivityEditCarouselTemplateView({super.key});
 
   @override
-  State<ReservationEditCarouselTemplateView> createState() =>
-      _ReservationEditCarouselTemplateViewState();
+  State<ActivityEditCarouselTemplateView> createState() =>
+      _ActivityEditCarouselTemplateViewState();
 }
 
-class _ReservationEditCarouselTemplateViewState
-    extends State<ReservationEditCarouselTemplateView>
+class _ActivityEditCarouselTemplateViewState
+    extends State<ActivityEditCarouselTemplateView>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
@@ -60,8 +60,6 @@ class _ReservationEditCarouselTemplateViewState
     });
   }
 
-  int currentIndex = 0;
-
   File? _image;
   final ImagePicker _picker = ImagePicker();
 
@@ -89,11 +87,10 @@ class _ReservationEditCarouselTemplateViewState
           title: S.of(context).t3delE3lan,
         ),
       ),
-      body: BlocBuilder<ReservationCubit, ReservationState>(
+      body: BlocBuilder<ActivityCubit, ActivityState>(
         builder: (context, state) {
-          var cubit = context.read<ReservationCubit>();
-          List<Widget> carouselItems =
-              cubit.newScreensMap[cubit.selectedScreen]?.carouselWidgets ?? [];
+          var cubit = context.read<ActivityCubit>();
+          List<Widget> carouselItems = cubit.carouselItems;
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -132,8 +129,7 @@ class _ReservationEditCarouselTemplateViewState
                             ),
                         options: CarouselOptions(
                           onPageChanged: (index, other) {
-                            currentIndex = index;
-                            setState(() {});
+                            cubit.changeCarouselIndex(index: index);
                           },
                           height: GlobalData().isTabletLayout ? 360.h : 180.h,
                           clipBehavior: Clip.none,
@@ -151,7 +147,7 @@ class _ReservationEditCarouselTemplateViewState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     DotsIndicator(
-                      currentIndex: currentIndex,
+                      currentIndex: cubit.currentCarouselIndex,
                       itemCount: carouselItems.length,
                     ),
                   ],

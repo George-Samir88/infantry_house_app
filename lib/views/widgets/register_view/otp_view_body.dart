@@ -5,7 +5,7 @@ import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_snackBar.dart';
-import '../../widgets_2/home_view/home_view.dart';
+import '../home_view/home_view.dart';
 import 'custom_otp_fields.dart';
 
 class OtpViewBody extends StatelessWidget {

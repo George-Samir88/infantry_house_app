@@ -5,8 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 
-import 'manager/home_cubit.dart';
 import 'package:intl/intl.dart';
+
+import 'manager/home_cubit.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});

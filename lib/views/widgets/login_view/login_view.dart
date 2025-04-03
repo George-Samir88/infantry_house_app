@@ -7,7 +7,7 @@ import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:intl/intl.dart';
 
 import '../../../generated/l10n.dart';
-import '../../widgets_2/home_view/home_view.dart';
+import '../home_view/home_view.dart';
 import '../register_view/register_view.dart';
 
 class LoginView extends StatefulWidget {
