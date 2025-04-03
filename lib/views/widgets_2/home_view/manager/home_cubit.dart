@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infantry_house_app/views/widgets/food_and_beverage_view/food_and_beverage_view.dart';
+import 'package:infantry_house_app/views/widgets/housing_view/housing_view.dart';
 import 'package:infantry_house_app/views/widgets_2/reservation_view/reservation_view.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../activities_view/activities_view_body.dart';
-import '../../housing_view/housing_view.dart';
 import '../../washing_view/washing_view_body.dart';
 
 part 'home_state.dart';
@@ -25,7 +25,7 @@ class HomeCubit extends Cubit<HomeState> {
     selectedAppBarTitle = S.of(context).KesmElA8zyaWlma4robat;
     drawerItemsAndScreensMap = {
       S.of(context).hogozat: ReservationViewBody(),
-      S.of(context).eskan: HousingViewBody(),
+      S.of(context).eskan: HousingView(),
       S.of(context).KesmElA8zyaWlma4robat: FoodAndBeverageView(),
       S.of(context).m8sla: WashingViewBody(),
       S.of(context).anshta: ActivitiesViewBody(),
