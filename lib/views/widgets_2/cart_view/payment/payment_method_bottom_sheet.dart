@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
 import 'package:infantry_house_app/global_variables.dart';
 import 'package:infantry_house_app/utils/custom_elevated_button.dart';
-import 'package:infantry_house_app/views/widgets_2/food_and_beverage_view/payment/payment_method_list_view.dart';
+import 'package:infantry_house_app/views/widgets_2/cart_view/payment/payment_method_list_view.dart';
 
 import '../../../../generated/l10n.dart';
 

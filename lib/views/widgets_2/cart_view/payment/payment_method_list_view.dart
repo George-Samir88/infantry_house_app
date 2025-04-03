@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:infantry_house_app/views/widgets_2/food_and_beverage_view/payment/payment_method_item.dart';
+import 'package:infantry_house_app/views/widgets_2/cart_view/payment/payment_method_item.dart';
 
 class PaymentMethodsListView extends StatefulWidget {
   const PaymentMethodsListView({super.key});

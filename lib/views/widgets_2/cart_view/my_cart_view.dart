@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:infantry_house_app/views/widgets_2/food_and_beverage_view/payment/payment_method_bottom_sheet.dart';
+import 'package:infantry_house_app/views/widgets_2/cart_view/payment/payment_method_bottom_sheet.dart';
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
