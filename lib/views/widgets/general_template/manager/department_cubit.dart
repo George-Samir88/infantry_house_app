@@ -68,11 +68,23 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   // Screens CRUD Operations
   void addNewScreen({required String screenTitle}) {
-    newScreensMap[screenTitle] = ScreenData(
-      carouselWidgets: [],
-      buttonsAndItemsMap: {},
-      menuTitle: '',
-    );
+    ///i have a problem here that when deleting all departments
+    ///selectedScreen variable remains the last value
+    ///which is cause to error when adding new carousel or buttons or items before reinitialize selectedScreen automatically
+    if (newScreensMap.isNotEmpty) {
+      newScreensMap[screenTitle] = ScreenData(
+        carouselWidgets: [],
+        buttonsAndItemsMap: {},
+        menuTitle: '',
+      );
+    } else {
+      newScreensMap[screenTitle] = ScreenData(
+        carouselWidgets: [],
+        buttonsAndItemsMap: {},
+        menuTitle: '',
+      );
+      selectedScreen = newScreensMap.keys.first;
+    }
     emit(DepartmentAddNewCategoryState());
   }
 
