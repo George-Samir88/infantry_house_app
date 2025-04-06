@@ -108,7 +108,6 @@ class _EditScreenDepartmentTemplateViewState
                           itemCount: newButtonTitlesList.length,
                           // Number of buttons
                           itemBuilder: (context, index) {
-                            print(newButtonTitlesList.toList());
                             return Stack(
                               clipBehavior: Clip.none,
                               children: [

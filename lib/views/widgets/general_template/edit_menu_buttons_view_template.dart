@@ -94,7 +94,7 @@ class _EditMenuButtonsViewTemplateState
           var cubit = context.read<DepartmentCubit>();
           List<String?> newButtonTitlesList = [];
           newButtonTitlesList =
-              cubit.screensMap[cubit.selectedScreen]?.buttonsAndItemsMap.keys
+              cubit.newScreensMap[cubit.selectedScreen]?.buttonsAndItemsMap.keys
                   .toList() ??
               [];
           return ListView(
