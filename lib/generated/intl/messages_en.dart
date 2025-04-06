@@ -133,6 +133,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Password must be at least 6 characters long"),
         "PhoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
+        "PleaseAddAMainCategoryFirst": MessageLookupByLibrary.simpleMessage(
+            "Please add a main category first"),
         "PleaseAddDailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("Please add image of game"),
         "PleaseEnterDescriptionAboutGame": MessageLookupByLibrary.simpleMessage(

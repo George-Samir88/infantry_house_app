@@ -129,6 +129,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "يجب أن تكون كلمة المرور 6 أحرف على الأقل"),
         "PhoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+        "PleaseAddAMainCategoryFirst":
+            MessageLookupByLibrary.simpleMessage("يجب إضافة قسم رئيسي أولاً."),
         "PleaseAddDailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("الرجاء إضافة صورة اللعبة"),
         "PleaseEnterDescriptionAboutGame":

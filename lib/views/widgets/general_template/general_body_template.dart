@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/views/widgets/general_template/custom_button_and_menu_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_carousel_view_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/custom_edit_button.dart';
 import '../../../utils/FAD_empty_carousel_item.dart';
@@ -79,16 +81,26 @@ class GeneralBodyTemplateView extends StatelessWidget {
                         padding: EdgeInsets.only(left: 10.w, right: 10.w),
                         child: EmptyCarouselContainer(
                           onTab: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) => BlocProvider.value(
-                                      value: cubit,
-                                      child: EditCarouselViewTemplate(),
-                                    ),
-                              ),
-                            );
+                            if (cubit.newScreensMap.isNotEmpty) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => BlocProvider.value(
+                                        value: cubit,
+                                        child: EditCarouselViewTemplate(),
+                                      ),
+                                ),
+                              );
+                            } else {
+                              showSnackBar(
+                                context: context,
+                                message:
+                                    S.of(context).PleaseAddAMainCategoryFirst,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                              );
+                            }
                           },
                         ),
                       ),

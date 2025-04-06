@@ -127,5 +127,6 @@
   "AddingNewDailyGame": "Adding new game",
   "UpdateDailyGame": "Update Game",
   "Delete": "Delete",
-  "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName": "The section already exists, you cannot add a new section with the same name"
+  "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName": "The section already exists, you cannot add a new section with the same name",
+  "PleaseAddAMainCategoryFirst" : "Please add a main category first"
 }

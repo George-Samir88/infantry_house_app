@@ -127,5 +127,6 @@
   "AddingNewDailyGame": "إضافة لعبة جديدة",
   "UpdateDailyGame": "تعديل اللعبة",
   "Delete": "حذف",
-  "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName" : "القسم موجود بالفعل! لا يمكنك إضافة قسم جديد بنفس الاسم."
+  "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName": "القسم موجود بالفعل! لا يمكنك إضافة قسم جديد بنفس الاسم.",
+  "PleaseAddAMainCategoryFirst": "يجب إضافة قسم رئيسي أولاً."
 }

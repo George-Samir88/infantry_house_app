@@ -1339,6 +1339,16 @@ class S {
       args: [],
     );
   }
+
+  /// `يجب إضافة قسم رئيسي أولاً.`
+  String get PleaseAddAMainCategoryFirst {
+    return Intl.message(
+      'يجب إضافة قسم رئيسي أولاً.',
+      name: 'PleaseAddAMainCategoryFirst',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

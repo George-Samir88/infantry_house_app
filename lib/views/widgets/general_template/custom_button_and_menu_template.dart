@@ -10,6 +10,7 @@ import 'package:infantry_house_app/views/widgets/general_template/manager/depart
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/custom_edit_button.dart';
+import '../../../utils/custom_snackBar.dart';
 import '../../reusable_screens/custom_menu_items_horizontal_grid_view.dart';
 
 class CustomButtonAndMenuTemplate extends StatelessWidget {
@@ -43,18 +44,27 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                   SizedBox(width: 20.w),
                   CustomEditButton(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) => BlocProvider.value(
-                                value: cubit,
-                                child: EditMenuButtonsViewTemplate(
-                                  categoryName: menuTitle,
+                      if (cubit.newScreensMap.isNotEmpty) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => BlocProvider.value(
+                                  value: cubit,
+                                  child: EditMenuButtonsViewTemplate(
+                                    categoryName: menuTitle,
+                                  ),
                                 ),
-                              ),
-                        ),
-                      );
+                          ),
+                        );
+                      } else {
+                        showSnackBar(
+                          context: context,
+                          message: S.of(context).PleaseAddAMainCategoryFirst,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                        );
+                      }
                     },
                     icon: Icons.edit,
                     iconColor: Colors.brown[800],
