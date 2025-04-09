@@ -55,7 +55,8 @@ class GeneralBodyTemplateView extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        left: 5.w,
+                        left: GlobalData().isArabic ? 5.w : null,
+                        right: GlobalData().isArabic ? null : 5.w,
                         bottom: -20.h,
                         child: CustomEditButton(
                           iconColor: Colors.brown[800],

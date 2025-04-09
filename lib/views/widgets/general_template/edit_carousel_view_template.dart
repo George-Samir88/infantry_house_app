@@ -108,7 +108,8 @@ class _EditCarouselViewTemplateState extends State<EditCarouselViewTemplate>
                             children: [
                               carouselItems[index],
                               Positioned(
-                                left: -5.w,
+                                left: GlobalData().isArabic ? -5.w : null,
+                                right: GlobalData().isArabic ? null : -5.w,
                                 bottom: -20.h,
                                 child: CustomEditButton(
                                   backgroundColor: Colors.red,

@@ -201,7 +201,7 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                         10,
                       ), // Optional: Rounds corners
                     ),
-                    margin: EdgeInsets.only(top: 20, left: 12, right: 12),
+                    margin: EdgeInsets.only(top: 20.h, left: 12.w, right: 12.w),
                     padding: EdgeInsets.only(
                       left: 20.w,
                       right: 24.w,
@@ -225,7 +225,8 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                   CustomEmptyItemsTemplate(),
                 if (newButtonTitlesList.isNotEmpty)
                   Positioned(
-                    left: 10.w,
+                    left: GlobalData().isArabic ? 10.w : null,
+                    right: GlobalData().isArabic ? null : 10.w,
                     bottom: -20.h,
                     child: CustomEditButton(
                       icon: Icons.edit,

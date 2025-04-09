@@ -143,14 +143,16 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                     ),
                     Positioned(
                       top: -20.h,
-                      right: -10.w,
+                      right: GlobalData().isArabic ? -10.w : null,
+                      left: GlobalData().isArabic ? null : -10.w,
                       child: _buildCircularImage(
                         menuItemModel[gridIndex].image,
                       ),
                     ),
                     Positioned(
                       bottom: -10.h,
-                      right: -8.w,
+                      right: GlobalData().isArabic ? -8.w : null,
+                      left: GlobalData().isArabic ? null : -8.w,
                       child: Container(
                         padding: EdgeInsets.symmetric(
                           vertical: 4.h,
@@ -172,7 +174,8 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                     ),
                     Positioned(
                       bottom: -5.h,
-                      left: -5.w,
+                      left: GlobalData().isArabic ? -5.w : null,
+                      right: GlobalData().isArabic ? null : -5.w,
                       child: GestureDetector(
                         onTap: () {
                           context.read<CartCubit>().addToCart(
