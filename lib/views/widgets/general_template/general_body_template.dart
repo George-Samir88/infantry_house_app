@@ -10,7 +10,7 @@ import 'package:infantry_house_app/views/widgets/general_template/manager/depart
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/custom_edit_button.dart';
-import '../../../utils/FAD_empty_carousel_item.dart';
+import '../../../utils/empty_carousel_item.dart';
 import '../../../utils/dots_indicator.dart';
 
 class GeneralBodyTemplateView extends StatelessWidget {

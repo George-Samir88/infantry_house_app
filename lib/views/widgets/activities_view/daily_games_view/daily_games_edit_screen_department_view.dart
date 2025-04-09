@@ -6,11 +6,11 @@ import 'package:infantry_house_app/utils/check_key_map_exist_before_adding.dart'
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../../generated/l10n.dart';
-import '../../../../utils/custom_elevated_button.dart';
-import '../../../../utils/custom_appbar_editing_view.dart';
-import '../../../utils/custom_edit_button.dart';
-import '../../../utils/custom_snackBar.dart';
+import '../../../../../generated/l10n.dart';
+import '../../../../../utils/custom_elevated_button.dart';
+import '../../../../../utils/custom_appbar_editing_view.dart';
+import '../../../../utils/custom_edit_button.dart';
+import '../../../../utils/custom_snackBar.dart';
 import 'manager/daily_games_cubit.dart';
 
 class DailyGamesEditScreenDepartmentView extends StatefulWidget {

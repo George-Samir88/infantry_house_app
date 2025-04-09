@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/models/daily_activity_item_model.dart';
 
-import '../../../generated/l10n.dart';
+import '../../../../generated/l10n.dart';
 import 'manager/daily_games_cubit.dart';
 
 class CustomDescriptionOfActivityItem extends StatelessWidget {

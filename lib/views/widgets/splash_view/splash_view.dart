@@ -27,6 +27,10 @@ class _SplashViewState extends State<SplashView> {
     _loadSavedLanguage();
   }
 
+  late double width;
+
+  late double height;
+
   //This function loads the saved language from SharedPreferences
   Future<void> _loadSavedLanguage() async {
     final prefs = await SharedPreferences.getInstance();
@@ -44,6 +48,7 @@ class _SplashViewState extends State<SplashView> {
   void _changeLanguage(String languageCode) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('locale', languageCode);
+    if (!mounted) return;
     InfantryHouseApp.setLocale(context, Locale(languageCode));
     setState(() {
       selectedLanguage = languageCode;
@@ -53,12 +58,10 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
-
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        print(constraints.maxWidth);
+        height = constraints.maxHeight;
+        width = constraints.maxWidth;
         if (constraints.maxWidth > 600) {
           GlobalData().isTabletLayout = true;
         }
@@ -99,8 +102,7 @@ class _SplashViewState extends State<SplashView> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize:
-                                  GlobalData().isTabletLayout ? 20.sp : 30.sp,
+                              fontSize: 30.sp,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontFamily: "Cairo",
@@ -150,8 +152,7 @@ class _SplashViewState extends State<SplashView> {
                               S.of(context).WelcomeToInfantryHouse,
                               style: TextStyle(
                                 color: Colors.brown[800],
-                                fontSize:
-                                    GlobalData().isTabletLayout ? 14.sp : 20.sp,
+                                fontSize: 20.sp,
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: 1,
                                 wordSpacing: 2,
@@ -184,12 +185,12 @@ class _SplashViewState extends State<SplashView> {
 
                 // Language Dropdown in the Top-Right Corner
                 Positioned(
-                  top: 40, // Adjust the position
-                  right: 20, // Adjust the position
+                  top: 40.h, // Adjust the position
+                  right: 20.w, // Adjust the position
                   child: Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 10.w,
-                      vertical: 5.h,
+                      vertical: 10.h,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -208,20 +209,14 @@ class _SplashViewState extends State<SplashView> {
                             value: 'en',
                             child: Text(
                               'English',
-                              style: TextStyle(
-                                fontSize:
-                                    GlobalData().isTabletLayout ? 10.sp : 12.sp,
-                              ),
+                              style: TextStyle(fontSize: 12.sp),
                             ),
                           ),
                           DropdownMenuItem(
                             value: 'ar',
                             child: Text(
                               'العربية',
-                              style: TextStyle(
-                                fontSize:
-                                    GlobalData().isTabletLayout ? 10.sp : 12.sp,
-                              ),
+                              style: TextStyle(fontSize: 12.sp),
                             ),
                           ),
                         ],

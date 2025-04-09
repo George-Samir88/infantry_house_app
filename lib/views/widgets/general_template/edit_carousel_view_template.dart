@@ -12,7 +12,7 @@ import 'package:lottie/lottie.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../global_variables.dart';
 import '../../../../utils/custom_appbar_editing_view.dart';
-import '../../../utils/FAD_empty_carousel_item.dart';
+import '../../../utils/empty_carousel_item.dart';
 import '../../../utils/custom_carousel_item.dart';
 import '../../../utils/custom_edit_button.dart';
 import '../../../utils/dots_indicator.dart';

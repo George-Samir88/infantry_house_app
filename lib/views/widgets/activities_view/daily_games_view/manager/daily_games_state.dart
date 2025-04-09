@@ -26,3 +26,4 @@ final class DailyGamesAddNewItemState extends DailyGamesState {}
 final class DailyGamesRemoveItemState extends DailyGamesState {}
 
 final class DailyGamesUpdateItemState extends DailyGamesState {}
+

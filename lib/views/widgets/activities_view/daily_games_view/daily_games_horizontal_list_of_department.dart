@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import 'custom_item_in_horizontal_list_of_daily_activity.dart';
+import 'daily_games_custom_item_in_horizontal_list_of_daily_activity.dart';
 import 'manager/daily_games_cubit.dart';
 
 class DailyGamesHorizontalListOfDepartment extends StatelessWidget {

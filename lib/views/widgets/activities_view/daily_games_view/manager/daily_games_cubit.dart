@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:infantry_house_app/models/daily_activity_item_model.dart';
 import 'package:meta/meta.dart';
+
+import '../../../../../models/daily_activity_item_model.dart';
 
 part 'daily_games_state.dart';
 
@@ -86,8 +87,8 @@ class DailyGamesCubit extends Cubit<DailyGamesState> {
     currentSelectedItemIndex = 0;
     currentSelectedCategoryIndex = index;
     selectedCategory =
-        mapBetweenCategoriesAndActivities.keys
-            .toList()[currentSelectedCategoryIndex];
+    mapBetweenCategoriesAndActivities.keys
+        .toList()[currentSelectedCategoryIndex];
     if (mapBetweenCategoriesAndActivities[selectedCategory]!.isNotEmpty) {
       triggerRotation();
     }
@@ -160,7 +161,7 @@ class DailyGamesCubit extends Cubit<DailyGamesState> {
   }) {
     // Get the current item
     var currentItem =
-        mapBetweenCategoriesAndActivities[selectedCategory]![currentSelectedItemIndex];
+    mapBetweenCategoriesAndActivities[selectedCategory]![currentSelectedItemIndex];
 
     // Only update the field if it's different
     var updatedItem = currentItem.copyWith(
@@ -168,7 +169,7 @@ class DailyGamesCubit extends Cubit<DailyGamesState> {
       description: description != currentItem.description ? description : null,
       trainerName: trainerName != currentItem.trainerName ? trainerName : null,
       activityImage:
-          activityImage != currentItem.activityImage ? activityImage : null,
+      activityImage != currentItem.activityImage ? activityImage : null,
       price: price != currentItem.price ? price : null,
     );
 

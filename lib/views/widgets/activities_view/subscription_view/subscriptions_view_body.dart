@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../generated/l10n.dart';
-import '../../../utils/custom_appbar_editing_view.dart';
+import '../../../../generated/l10n.dart';
+import '../../../../utils/custom_appbar_editing_view.dart';
 
 class SubscriptionsViewBody extends StatelessWidget {
   const SubscriptionsViewBody({super.key});

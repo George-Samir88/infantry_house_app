@@ -1,6 +1,7 @@
 bool checkKeyMapExistBeforeAdding(Map<String, dynamic> map, String key) {
   if (map.containsKey(key)) {
     return true;
-  } else
+  } else {
     return false;
+  }
 }
