@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomOtpFields extends StatefulWidget {
   const CustomOtpFields({super.key});
@@ -39,7 +40,7 @@ class _CustomOtpFieldsState extends State<CustomOtpFields> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(5, (index) {
         return SizedBox(
-          width: 50,
+          width: 50.w,
           child: TextField(
             controller: _controllers[index],
             focusNode: _focusNodes[index],
@@ -47,20 +48,20 @@ class _CustomOtpFieldsState extends State<CustomOtpFields> {
             keyboardType: TextInputType.number,
             maxLength: 1,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w400),
             decoration: InputDecoration(
               counterText: "",
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: Color(0xFF6D3A2D), width: 2),
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Color(0xFF6D3A2D), width: 2.w),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: Color(0xFF6D3A2D), width: 3),
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Color(0xFF6D3A2D), width: 3.w),
               ),
               disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: Colors.grey, width: 2),
+                borderRadius: BorderRadius.circular(8.r),
+                borderSide: BorderSide(color: Colors.grey, width: 2.w),
               ),
             ),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],

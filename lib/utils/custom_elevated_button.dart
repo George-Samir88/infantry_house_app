@@ -9,11 +9,11 @@ class CustomElevatedButton extends StatelessWidget {
     this.width,
     this.backGroundColor,
     this.textColor,
-    required this.tabletLayout,
+    this.tabletLayout,
     this.fontSize,
   });
 
-  final bool tabletLayout;
+  final bool? tabletLayout;
   final void Function()? onPressed;
   final String text;
   final double? width;

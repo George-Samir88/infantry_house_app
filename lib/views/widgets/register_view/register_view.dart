@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:infantry_house_app/global_variables.dart';
 import 'package:infantry_house_app/utils/custom_elevated_button.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 
@@ -47,11 +46,11 @@ class _RegisterViewState extends State<RegisterView> {
               child: Container(
                 width: double.infinity,
                 height: size.height * 0.3,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Color(0xFF6D3A2D),
                   borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(40),
-                    bottomRight: Radius.circular(40),
+                    bottomLeft: Radius.circular(40.r),
+                    bottomRight: Radius.circular(40.r),
                   ),
                 ),
                 child: Center(
@@ -65,15 +64,12 @@ class _RegisterViewState extends State<RegisterView> {
               hasScrollBody: true,
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 30,
-                ),
-                decoration: const BoxDecoration(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
+                decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40),
-                    topRight: Radius.circular(40),
+                    topLeft: Radius.circular(40.r),
+                    topRight: Radius.circular(40.r),
                   ),
                 ),
                 child: SingleChildScrollView(
@@ -89,10 +85,7 @@ class _RegisterViewState extends State<RegisterView> {
                               Text(
                                 S.of(context).CreateAnAccount,
                                 style: TextStyle(
-                                  fontSize:
-                                      GlobalData().isTabletLayout
-                                          ? 16.sp
-                                          : 28.sp,
+                                  fontSize: 28.sp,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFF6D3A2D),
                                 ),
@@ -104,10 +97,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   Text(
                                     '${S.of(context).AlreadyHaveAnAccount} ',
                                     style: TextStyle(
-                                      fontSize:
-                                          GlobalData().isTabletLayout
-                                              ? 10.sp
-                                              : 14.sp,
+                                      fontSize: 14.sp,
                                       color: Colors.grey,
                                     ),
                                   ),
@@ -119,10 +109,7 @@ class _RegisterViewState extends State<RegisterView> {
                                       S.of(context).Login,
                                       style: TextStyle(
                                         color: Color(0xFF6D3A2D),
-                                        fontSize:
-                                            GlobalData().isTabletLayout
-                                                ? 10.sp
-                                                : 14.sp,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -137,10 +124,7 @@ class _RegisterViewState extends State<RegisterView> {
                         // Email field
                         Text(
                           S.of(context).UserName,
-                          style: TextStyle(
-                            fontSize:
-                                GlobalData().isTabletLayout ? 10.sp : 20.sp,
-                          ),
+                          style: TextStyle(fontSize: 20.sp),
                         ),
                         SizedBox(height: 8.h),
                         CustomTextFormField(
@@ -159,10 +143,7 @@ class _RegisterViewState extends State<RegisterView> {
                         // Email field
                         Text(
                           S.of(context).PhoneNumber,
-                          style: TextStyle(
-                            fontSize:
-                                GlobalData().isTabletLayout ? 10.sp : 20.sp,
-                          ),
+                          style: TextStyle(fontSize: 20.sp),
                         ),
                         SizedBox(height: 8.h),
                         CustomTextFormField(
@@ -181,10 +162,7 @@ class _RegisterViewState extends State<RegisterView> {
                         // Password field
                         Text(
                           S.of(context).Password,
-                          style: TextStyle(
-                            fontSize:
-                                GlobalData().isTabletLayout ? 10.sp : 20.sp,
-                          ),
+                          style: TextStyle(fontSize: 20.sp),
                         ),
                         SizedBox(height: 8.h),
                         CustomTextFormField(
@@ -194,7 +172,7 @@ class _RegisterViewState extends State<RegisterView> {
                           textInputType: TextInputType.text,
                           suffixIcon: IconButton(
                             icon: Icon(
-                              size: GlobalData().isTabletLayout ? 26.r : 20.r,
+                              size: 20.r,
                               _isPasswordVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off,
@@ -225,8 +203,6 @@ class _RegisterViewState extends State<RegisterView> {
                           onPressed: _register,
                           text: S.of(context).Register,
                           width: MediaQuery.of(context).size.width,
-                          //-------------------------------------------------------------------------------------
-                          tabletLayout: GlobalData().isTabletLayout,
                         ),
                         SizedBox(height: 20.h),
 
@@ -236,8 +212,7 @@ class _RegisterViewState extends State<RegisterView> {
                             S.of(context).OR,
                             style: TextStyle(
                               color: Colors.grey,
-                              fontSize:
-                                  GlobalData().isTabletLayout ? 10.sp : 16.sp,
+                              fontSize: 16.sp,
                             ),
                           ),
                         ),
@@ -263,7 +238,7 @@ class _RegisterViewState extends State<RegisterView> {
                                 side: const BorderSide(color: Colors.grey),
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            SizedBox(width: 10.w),
                             ElevatedButton.icon(
                               onPressed: () {},
                               icon: Icon(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../generated/l10n.dart';
-import '../../../global_variables.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_snackBar.dart';
 import '../home_view/home_view.dart';
@@ -26,7 +25,7 @@ class OtpViewBody extends StatelessWidget {
             decoration: BoxDecoration(color: const Color(0xFF6D3A2D)),
             child: Image.asset(
               'assets/images/logo.png',
-              height: 150,
+              height: 150.h,
               scale: 0.8,
             ),
           ),
@@ -49,14 +48,14 @@ class OtpViewBody extends StatelessWidget {
                     ),
                   ),
                   child: ListView(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
                     children: [
-                      const SizedBox(height: 50),
+                      SizedBox(height: 50.h),
                       Text(
                         S.of(context).VerificationCodeSent,
                         style: TextStyle(
                           color: const Color(0xFF6D3A2D),
-                          fontSize: GlobalData().isTabletLayout ? 14.sp : 24.sp,
+                          fontSize: 24.sp,
                           fontWeight: FontWeight.bold,
                           wordSpacing: 1,
                         ),
@@ -66,7 +65,7 @@ class OtpViewBody extends StatelessWidget {
                         '${S.of(context).WeTextedYouA5DigitCodeTo} 01012345678 ${S.of(context).PleaseEnterItBelow}',
                         style: TextStyle(
                           color: Colors.grey.shade600,
-                          fontSize: GlobalData().isTabletLayout ? 10.sp : 14.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
                           wordSpacing: 1,
                         ),
@@ -82,7 +81,6 @@ class OtpViewBody extends StatelessWidget {
                               text: S.of(context).Resend,
                               backGroundColor: Colors.grey.shade100,
                               textColor: const Color(0xFF6D3A2D),
-                              tabletLayout: GlobalData().isTabletLayout,
                             ),
                           ),
                           SizedBox(width: 20.h),
@@ -105,7 +103,6 @@ class OtpViewBody extends StatelessWidget {
                                 );
                               },
                               text: S.of(context).Confirm,
-                              tabletLayout: GlobalData().isTabletLayout,
                             ),
                           ),
                         ],

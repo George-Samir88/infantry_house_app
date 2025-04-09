@@ -31,7 +31,7 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
         return Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 16.0, right: 16),
+              padding: EdgeInsets.only(left: 16.0.w, right: 16.w),
               child: Row(
                 children: [
                   Text(
@@ -77,8 +77,8 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
             if (newButtonTitlesList.isNotEmpty)
               Container(
                 margin: EdgeInsets.only(
-                  left: GlobalData().isArabic ? 0 : 16,
-                  right: GlobalData().isArabic ? 16 : 0,
+                  left: GlobalData().isArabic ? 0 : 16.w,
+                  right: GlobalData().isArabic ? 16.w : 0,
                 ),
                 height: 40.h,
                 // Adjust height as needed
@@ -107,13 +107,12 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                               margin:
                                   index == newButtonTitlesList.length - 1
                                       ? EdgeInsets.only(
-                                        right: GlobalData().isArabic ? 0 : 16,
-                                        left: GlobalData().isArabic ? 16 : 0,
+                                        right: GlobalData().isArabic ? 0 : 16.w,
+                                        left: GlobalData().isArabic ? 16.w : 0,
                                       )
                                       : null,
                               padding: EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 10,
+                                horizontal: 20.w,
                               ),
                               decoration: BoxDecoration(
                                 boxShadow: [
@@ -141,12 +140,7 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                                   newButtonTitlesList[index]!,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize:
-                                        GlobalData().isTabletLayout
-                                            ? (isSelected ? 12.sp : 10.sp)
-                                            : isSelected
-                                            ? 16.sp
-                                            : 14.sp,
+                                    fontSize: isSelected ? 16.sp : 14.sp,
                                     fontWeight:
                                         isSelected ? FontWeight.w500 : null,
                                   ),
@@ -167,9 +161,7 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
               Center(
                 child: Text(
                   S.of(context).LaYogdAksam,
-                  style: TextStyle(
-                    fontSize: GlobalData().isTabletLayout ? 16.sp : 20.sp,
-                  ),
+                  style: TextStyle(fontSize: 20.sp),
                 ),
               ),
             SizedBox(height: 10.h),

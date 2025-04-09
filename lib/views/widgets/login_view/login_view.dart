@@ -4,7 +4,6 @@ import 'package:infantry_house_app/global_variables.dart';
 import 'package:infantry_house_app/utils/custom_elevated_button.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
-import 'package:intl/intl.dart';
 
 import '../../../generated/l10n.dart';
 import '../home_view/home_view.dart';
@@ -69,15 +68,12 @@ class _LoginViewState extends State<LoginView> {
               hasScrollBody: true,
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 30,
-                ),
-                decoration: const BoxDecoration(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
+                decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40),
-                    topRight: Radius.circular(40),
+                    topLeft: Radius.circular(40.r),
+                    topRight: Radius.circular(40.r),
                   ),
                 ),
                 child: SingleChildScrollView(
@@ -93,10 +89,7 @@ class _LoginViewState extends State<LoginView> {
                               Text(
                                 S.of(context).WelcomeBack,
                                 style: TextStyle(
-                                  fontSize:
-                                      GlobalData().isTabletLayout
-                                          ? 16.sp
-                                          : 28.sp,
+                                  fontSize: 28.sp,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFF6D3A2D),
                                 ),
@@ -108,10 +101,7 @@ class _LoginViewState extends State<LoginView> {
                                   Text(
                                     "${S.of(context).DontHaveAnAccount} ",
                                     style: TextStyle(
-                                      fontSize:
-                                          GlobalData().isTabletLayout
-                                              ? 10.sp
-                                              : 14.sp,
+                                      fontSize: 14.sp,
                                       color: Colors.grey,
                                     ),
                                   ),
@@ -128,10 +118,7 @@ class _LoginViewState extends State<LoginView> {
                                       S.of(context).Register,
                                       style: TextStyle(
                                         color: Color(0xFF6D3A2D),
-                                        fontSize:
-                                            GlobalData().isTabletLayout
-                                                ? 10.sp
-                                                : 14.sp,
+                                        fontSize: 14.sp,
 
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -146,10 +133,7 @@ class _LoginViewState extends State<LoginView> {
                         // Email field
                         Text(
                           S.of(context).PhoneNumber,
-                          style: TextStyle(
-                            fontSize:
-                                GlobalData().isTabletLayout ? 10.sp : 20.sp,
-                          ),
+                          style: TextStyle(fontSize: 20.sp),
                         ),
                         SizedBox(height: 8.h),
                         CustomTextFormField(
@@ -167,10 +151,7 @@ class _LoginViewState extends State<LoginView> {
                         // Password field
                         Text(
                           S.of(context).Password,
-                          style: TextStyle(
-                            fontSize:
-                                GlobalData().isTabletLayout ? 10.sp : 20.sp,
-                          ),
+                          style: TextStyle(fontSize: 20.sp),
                         ),
                         SizedBox(height: 8.h),
                         CustomTextFormField(
@@ -179,7 +160,7 @@ class _LoginViewState extends State<LoginView> {
                           obscureText: !_isPasswordVisible,
                           suffixIcon: IconButton(
                             icon: Icon(
-                              size: GlobalData().isTabletLayout ? 26.r : 20.r,
+                              size: 20.r,
                               _isPasswordVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off,
@@ -209,7 +190,7 @@ class _LoginViewState extends State<LoginView> {
                         // Forgot password
                         Align(
                           alignment:
-                              isArabic()
+                              GlobalData().isArabic
                                   ? Alignment.centerLeft
                                   : Alignment.centerRight,
                           child: TextButton(
@@ -218,8 +199,7 @@ class _LoginViewState extends State<LoginView> {
                               S.of(context).ForgotPassword,
                               style: TextStyle(
                                 color: Color(0xFF6D3A2D),
-                                fontSize:
-                                    GlobalData().isTabletLayout ? 8.sp : 12.sp,
+                                fontSize: 12.sp,
                               ),
                             ),
                           ),
@@ -231,7 +211,6 @@ class _LoginViewState extends State<LoginView> {
                           onPressed: () => login(context: context),
                           text: S.of(context).Login,
                           width: MediaQuery.of(context).size.width,
-                          tabletLayout: GlobalData().isTabletLayout,
                         ),
                         SizedBox(height: 20.h),
 
@@ -241,8 +220,7 @@ class _LoginViewState extends State<LoginView> {
                             S.of(context).OR,
                             style: TextStyle(
                               color: Colors.grey,
-                              fontSize:
-                                  GlobalData().isTabletLayout ? 10.sp : 16.sp,
+                              fontSize: 16.sp,
                             ),
                           ),
                         ),
@@ -297,9 +275,5 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
-  }
-
-  bool isArabic() {
-    return Intl.getCurrentLocale() == 'ar';
   }
 }
