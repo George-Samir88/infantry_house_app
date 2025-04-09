@@ -111,9 +111,7 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                                         left: GlobalData().isArabic ? 16.w : 0,
                                       )
                                       : null,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 20.w,
-                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 20.w),
                               decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
@@ -140,9 +138,11 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                                   newButtonTitlesList[index]!,
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: isSelected ? 16.sp : 14.sp,
+                                    fontSize: isSelected ? 14.sp : 12.sp,
                                     fontWeight:
-                                        isSelected ? FontWeight.w500 : null,
+                                        isSelected
+                                            ? FontWeight.w600
+                                            : FontWeight.w500,
                                   ),
                                 ),
                               ),

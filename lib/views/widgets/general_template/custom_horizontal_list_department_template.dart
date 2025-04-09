@@ -23,7 +23,7 @@ class CustomHorizontalListDepartmentsTemplate extends StatelessWidget {
             left: GlobalData().isTabletLayout ? 12.w : 16.w,
             right: GlobalData().isTabletLayout ? 12.w : 16.w,
           ),
-          height: GlobalData().isTabletLayout ? 40.h : 40.h,
+          height: 40.h,
           // Adjust height as needed
           child: Row(
             children: [
@@ -78,12 +78,7 @@ class CustomHorizontalListDepartmentsTemplate extends StatelessWidget {
                                         style: TextStyle(
                                           color: const Color(0xff5E3D2E),
                                           fontSize:
-                                              GlobalData().isTabletLayout
-                                                  ? (cubit.selectedButtonCategoryIndex ==
-                                                          index
-                                                      ? 12.sp
-                                                      : 10.sp)
-                                                  : cubit.selectedButtonCategoryIndex ==
+                                              cubit.selectedButtonCategoryIndex ==
                                                       index
                                                   ? 14.sp
                                                   : 12.sp,
@@ -103,7 +98,7 @@ class CustomHorizontalListDepartmentsTemplate extends StatelessWidget {
                         },
                         separatorBuilder: (BuildContext context, int index) {
                           return SizedBox(
-                            width: GlobalData().isTabletLayout ? 8.w : 12.w,
+                            width: 12.w,
                           );
                         },
                       ),
@@ -112,10 +107,7 @@ class CustomHorizontalListDepartmentsTemplate extends StatelessWidget {
                   : Center(
                     child: Text(
                       S.of(context).LaYogdAksam,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: GlobalData().isTabletLayout ? 16.sp : 20.sp,
-                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 20.sp),
                     ),
                   ),
               SizedBox(width: 12.w),
