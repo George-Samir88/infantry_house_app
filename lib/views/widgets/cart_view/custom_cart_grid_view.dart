@@ -56,8 +56,8 @@ class CustomCartGridView extends StatelessWidget {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: GlobalData().isTabletLayout ? 3 : 2,
             childAspectRatio: 0.85,
-            mainAxisSpacing: 35.h,
-            crossAxisSpacing: 20.w,
+            mainAxisSpacing: 40.h,
+            crossAxisSpacing: 30.w,
           ),
           itemCount: cubit.cartItems.length,
           itemBuilder: (context, index) {
@@ -114,7 +114,6 @@ class CustomCartGridView extends StatelessWidget {
                             );
                           }),
                         ),
-                        SizedBox(height: 10.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

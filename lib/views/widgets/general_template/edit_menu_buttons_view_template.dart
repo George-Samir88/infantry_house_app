@@ -106,7 +106,7 @@ class _EditMenuButtonsViewTemplateState
                   children: [
                     SizedBox(height: 20.h),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: CustomTextFormField(
                         textEditingController: categoryTextEditingController,
                         hintText: S.of(context).Ad5lEsmEltsnef,
@@ -149,10 +149,7 @@ class _EditMenuButtonsViewTemplateState
                   children: [
                     if (newButtonTitlesList.isNotEmpty)
                       Container(
-                        margin: EdgeInsets.only(
-                          left: GlobalData().isArabic ? 0 : 16.w,
-                          right: GlobalData().isArabic ? 16.w : 0,
-                        ),
+                        margin: EdgeInsets.only(left: 16.w, right: 16.w),
                         height: 40.h,
                         // Adjust height as needed
                         child: ListView.separated(
@@ -172,19 +169,6 @@ class _EditMenuButtonsViewTemplateState
                                 clipBehavior: Clip.none,
                                 children: [
                                   Container(
-                                    margin:
-                                        index == newButtonTitlesList.length - 1
-                                            ? EdgeInsets.only(
-                                              right:
-                                                  GlobalData().isArabic
-                                                      ? 0
-                                                      : 16.w,
-                                              left:
-                                                  GlobalData().isArabic
-                                                      ? 16.w
-                                                      : 0,
-                                            )
-                                            : null,
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 20.w,
                                     ),
@@ -229,7 +213,8 @@ class _EditMenuButtonsViewTemplateState
                                     ),
                                   ),
                                   Positioned(
-                                    left: -5.w,
+                                    left: GlobalData().isArabic ? -5.w : null,
+                                    right: GlobalData().isArabic ? null : -5.w,
                                     bottom: -10.h,
                                     child: Row(
                                       children: [

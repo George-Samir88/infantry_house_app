@@ -2,18 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/global_variables.dart';
 
 import '../../models/menu_item_model.dart';
 
 class CustomItemsInGridEditView extends StatelessWidget {
-  const CustomItemsInGridEditView({
-    super.key,
-    required this.menuItemModel,
-    required this.tabletLayout,
-  });
+  const CustomItemsInGridEditView({super.key, required this.menuItemModel});
 
   final MenuItemModel menuItemModel;
-  final bool tabletLayout;
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +40,13 @@ class CustomItemsInGridEditView extends StatelessWidget {
                   menuItemModel.title,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: tabletLayout ? 8.sp : 12.sp,
+                    fontSize: 12.sp,
                     overflow: TextOverflow.ellipsis,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              SizedBox(height: tabletLayout ? 14.h : 10.h),
+              SizedBox(height: 10.h),
               Row(
                 children: List.generate(5, (index) {
                   return Icon(
@@ -58,24 +54,26 @@ class CustomItemsInGridEditView extends StatelessWidget {
                         ? Icons.star
                         : Icons.star_border,
                     color: Colors.yellow,
-                    size: tabletLayout ? 16.r : 12.r,
+                    size: 12.r,
                   );
                 }),
               ),
-              SizedBox(height: tabletLayout ? 20.h : 10.h),
+              SizedBox(height: 10.h),
             ],
           ),
         ),
         // Positioned Circle Avatar (Image)
         Positioned(
           top: -20.h,
-          right: -8.w,
+          right: GlobalData().isArabic ? -8.w : null,
+          left: GlobalData().isArabic ? null : -8.w,
           child: _buildCircularImage(menuItemModel.image),
         ),
         // Positioned Price Tag
         Positioned(
           bottom: -10.h,
-          right: -8.w,
+          right: GlobalData().isArabic ? -8.w : null,
+          left: GlobalData().isArabic ? null : -8.w,
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w),
             decoration: BoxDecoration(
@@ -85,7 +83,7 @@ class CustomItemsInGridEditView extends StatelessWidget {
             child: Text(
               '\$${menuItemModel.price}',
               style: TextStyle(
-                fontSize: tabletLayout ? 6.sp : 12.sp,
+                fontSize: 12.sp,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -99,29 +97,29 @@ class CustomItemsInGridEditView extends StatelessWidget {
   Widget _buildCircularImage(String imagePath) {
     if (imagePath.startsWith('assets/')) {
       return CircleAvatar(
-        radius: tabletLayout ? 37.r : 31.r,
+        radius: 31.r,
         backgroundColor: Colors.white, // Prevents image cropping
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50.r),
           child: Image.asset(
             imagePath,
             fit: BoxFit.cover,
-            width: tabletLayout ? 70.r : 60.r,
-            height: tabletLayout ? 70.r : 60.r,
+            width: 60.r,
+            height: 60.r,
           ),
         ),
       );
     } else if (File(imagePath).existsSync()) {
       return CircleAvatar(
-        radius: tabletLayout ? 37.r : 31.r,
+        radius: 31.r,
         backgroundColor: Colors.white, // Prevents image cropping
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50.r),
           child: Image.file(
             File(imagePath),
             fit: BoxFit.cover,
-            width: tabletLayout ? 70.r : 60.r,
-            height: tabletLayout ? 70.r : 60.r,
+            width: 60.r,
+            height: 60.r,
           ),
         ),
       );

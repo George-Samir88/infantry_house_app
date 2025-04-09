@@ -9,7 +9,8 @@ class CustomElevatedButton extends StatelessWidget {
     this.width,
     this.backGroundColor,
     this.textColor,
-    required this.tabletLayout, this.fontSize,
+    required this.tabletLayout,
+    this.fontSize,
   });
 
   final bool tabletLayout;
@@ -33,13 +34,16 @@ class CustomElevatedButton extends StatelessWidget {
           ),
           padding: EdgeInsets.symmetric(vertical: 15.h),
         ),
-        child: Text(
-          text,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            color: textColor ?? Colors.white,
-            fontSize: fontSize?? (18.sp),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: textColor ?? Colors.white,
+              fontSize: fontSize ?? (18.sp),
+            ),
           ),
         ),
       ),

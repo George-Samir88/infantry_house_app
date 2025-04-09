@@ -133,7 +133,7 @@ class _AddNewItemTemplateViewState
                     Text(
                       S.of(context).EsmElsanf,
                       style: TextStyle(
-                        fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                        fontSize: 20.sp,
                       ),
                     ),
                     CustomTextFormField(
@@ -147,11 +147,11 @@ class _AddNewItemTemplateViewState
                         return null;
                       },
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       S.of(context).S3rElsnf,
                       style: TextStyle(
-                        fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                        fontSize:  20.sp,
                       ),
                     ),
                     CustomTextFormField(
@@ -165,7 +165,7 @@ class _AddNewItemTemplateViewState
                         return null;
                       },
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                   ],
                   //------tablet design
                   if (GlobalData().isTabletLayout)
@@ -179,9 +179,7 @@ class _AddNewItemTemplateViewState
                               Text(
                                 S.of(context).EsmElsanf,
                                 style: TextStyle(
-                                  fontSize:
-                                      GlobalData().isTabletLayout
-                                          ? 10.sp
+                                  fontSize
                                           : 20.sp,
                                 ),
                               ),
@@ -207,9 +205,7 @@ class _AddNewItemTemplateViewState
                               Text(
                                 S.of(context).S3rElsnf,
                                 style: TextStyle(
-                                  fontSize:
-                                      GlobalData().isTabletLayout
-                                          ? 10.sp
+                                  fontSize
                                           : 20.sp,
                                 ),
                               ),
@@ -224,7 +220,7 @@ class _AddNewItemTemplateViewState
                                   return null;
                                 },
                               ),
-                              const SizedBox(height: 8),
+                              SizedBox(height: 8.h),
                             ],
                           ),
                         ),
@@ -233,15 +229,15 @@ class _AddNewItemTemplateViewState
                   Text(
                     S.of(context).SoraElsnf,
                     style: TextStyle(
-                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                      fontSize: 20.sp,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   GestureDetector(
                     onTap: _pickImage,
                     child: Container(
                       clipBehavior: Clip.antiAliasWithSaveLayer,
-                      height: GlobalData().isTabletLayout ? 250.h : 150.h,
+                      height:  150.h,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
@@ -263,11 +259,11 @@ class _AddNewItemTemplateViewState
                   ),
                   if (isShowValidationErrorMessages)
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0, right: 10),
+                      padding: EdgeInsets.only(top: 8.0.h, right: 10.w),
                       child: Text(
                         S.of(context).MnFdlkD5lSortElsnf,
                         style: TextStyle(
-                          fontSize: GlobalData().isTabletLayout ? 6.sp : 10.sp,
+                          fontSize: 10.sp,
                           fontWeight: FontWeight.w400,
                           color: Colors.red[900],
                         ),
@@ -300,28 +296,24 @@ class _AddNewItemTemplateViewState
                     width: MediaQuery.of(context).size.width,
                     tabletLayout: GlobalData().isTabletLayout,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Visibility(
-                        visible: isAnimationVisible,
-                        child: SizedBox(
-                          height: 100.h,
-                          child: Lottie.asset(
-                            controller: _animationController,
-                            onLoaded: (composition) {
-                              _animationController.duration =
-                                  composition.duration;
-                            },
-                            backgroundLoading: true,
-                            alignment: Alignment.centerLeft,
-                            'assets/animation/done_lottie.json',
-                            // Local file
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                  Visibility(
+                    visible: isAnimationVisible,
+                    child: Container(
+                      height: 100.h,
+                      alignment: Alignment.center,
+                      child: Lottie.asset(
+                        controller: _animationController,
+                        onLoaded: (composition) {
+                          _animationController.duration =
+                              composition.duration;
+                        },
+                        backgroundLoading: true,
+                        alignment: Alignment.centerLeft,
+                        'assets/animation/done_lottie.json',
+                        // Local file
+                        fit: BoxFit.cover,
                       ),
-                    ],
+                    ),
                   ),
                   SizedBox(height: 20.h),
                 ],

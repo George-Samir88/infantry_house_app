@@ -32,10 +32,12 @@ class EditItemsTemplateView extends StatefulWidget {
 class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void dispose() {
     _animationController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -44,6 +46,13 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
   void _playAnimation() {
     _animationController.forward(from: 0); // Restart animation from beginning
     setState(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeInOutQuad,
+        );
+      });
       isAnimationVisible = true; // Show animation
     });
     _animationController.forward().whenComplete(() {
@@ -82,18 +91,16 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
             builder: (context, constraints) {
               int crossAxisCount = (constraints.maxWidth ~/ 280).clamp(2, 4);
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                 child: CustomScrollView(
+                  controller: scrollController,
                   slivers: [
                     SliverToBoxAdapter(child: SizedBox(height: 30.h)),
                     SliverGrid.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: crossAxisCount,
                         mainAxisSpacing: 10,
-                        childAspectRatio:
-                            GlobalData().isTabletLayout
-                                ? 1
-                                : 1, // Ensures a balanced UI
+                        childAspectRatio: 1, // Ensures a balanced UI
                       ),
                       itemCount: cubit.listToBeShow.length,
                       itemBuilder: (context, index) {
@@ -108,11 +115,11 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
                             children: [
                               CustomItemsInGridEditView(
                                 menuItemModel: cubit.listToBeShow[index],
-                                tabletLayout: GlobalData().isTabletLayout,
                               ),
                               Positioned(
-                                left: 10,
-                                top: -15,
+                                left: GlobalData().isArabic ? 10.w : null,
+                                right: GlobalData().isArabic ? null : 10.w,
+                                top: -15.h,
                                 child: CustomEditButton(
                                   onTap: () {
                                     Navigator.push(
@@ -212,7 +219,7 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
                         ),
                       ),
                     ),
-                    SliverToBoxAdapter(child: SizedBox(height: 100.h)),
+                    SliverToBoxAdapter(child: SizedBox(height: 20.h)),
                   ],
                 ),
               );

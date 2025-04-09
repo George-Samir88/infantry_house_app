@@ -56,29 +56,29 @@ class _RatingViewState extends State<RatingView>
   Widget _buildCircularImage(String imagePath) {
     if (imagePath.startsWith('assets/')) {
       return CircleAvatar(
-        radius: GlobalData().isTabletLayout ? 52.r : 31.r,
+        radius: 31.r,
         backgroundColor: Colors.white, // Prevents image cropping
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50.r),
           child: Image.asset(
             imagePath,
             fit: BoxFit.cover,
-            width: GlobalData().isTabletLayout ? 100.r : 60.r,
-            height: GlobalData().isTabletLayout ? 100.r : 60.r,
+            width: 60.r,
+            height: 60.r,
           ),
         ),
       );
     } else if (File(imagePath).existsSync()) {
       return CircleAvatar(
-        radius: GlobalData().isTabletLayout ? 52.r : 31.r,
+        radius: 31.r,
         backgroundColor: Colors.white, // Prevents image cropping
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50.r),
           child: Image.file(
             File(imagePath),
             fit: BoxFit.cover,
-            width: GlobalData().isTabletLayout ? 100.r : 60.r,
-            height: GlobalData().isTabletLayout ? 100.r : 60.r,
+            width: 60.r,
+            height: 60.r,
           ),
         ),
       );
@@ -109,19 +109,19 @@ class _RatingViewState extends State<RatingView>
 
               ///card Item section
               Padding(
-                padding: EdgeInsets.only(right: 8.0),
+                padding: EdgeInsets.symmetric(horizontal: 8.0.w),
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
                     // Container with responsive width and height
                     Container(
-                      width: GlobalData().isTabletLayout ? 100.w : 160.w,
+                      width: 160.w,
                       // Set width responsively
-                      height: GlobalData().isTabletLayout ? 240.h : 140.h,
+                      height: 140.h,
                       // Set height responsively
                       padding: EdgeInsets.symmetric(
-                        vertical: 16.0,
-                        horizontal: 12.0,
+                        vertical: 16.0.h,
+                        horizontal: 12.0.w,
                       ),
                       decoration: BoxDecoration(
                         color: Colors.brown[400],
@@ -133,7 +133,7 @@ class _RatingViewState extends State<RatingView>
                             offset: Offset(0, 3),
                           ),
                         ],
-                        borderRadius: BorderRadius.circular(16.0),
+                        borderRadius: BorderRadius.circular(16.0.r),
                       ),
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 8.h),
@@ -148,17 +148,12 @@ class _RatingViewState extends State<RatingView>
                                 style: TextStyle(
                                   overflow: TextOverflow.ellipsis,
                                   color: Colors.white,
-                                  fontSize:
-                                      GlobalData().isTabletLayout
-                                          ? 8.sp
-                                          : 12.sp,
+                                  fontSize: 12.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: GlobalData().isTabletLayout ? 14.h : 10.h,
-                            ),
+                            SizedBox(height: 10.h),
                             Row(
                               children: List.generate(5, (starIndex) {
                                 return Icon(
@@ -166,30 +161,29 @@ class _RatingViewState extends State<RatingView>
                                       ? Icons.star
                                       : Icons.star_border,
                                   color: Colors.yellow,
-                                  size:
-                                      GlobalData().isTabletLayout ? 16.r : 12.r,
+                                  size: 12.r,
                                 );
                               }),
                             ),
-                            SizedBox(
-                              height: GlobalData().isTabletLayout ? 20.h : 10.h,
-                            ),
+                            SizedBox(height: 10.h),
                           ],
                         ),
                       ),
                     ),
                     Positioned(
                       top: -20,
-                      right: -10,
+                      right: GlobalData().isArabic ? -10 : null,
+                      left: GlobalData().isArabic ? null : -10,
                       child: _buildCircularImage(widget.menuItemModel.image),
                     ),
                     Positioned(
-                      bottom: GlobalData().isTabletLayout ? -8.h : -10.h,
-                      right: GlobalData().isTabletLayout ? -2.w : -8.w,
+                      bottom: -10.h,
+                      right: GlobalData().isArabic ? -8.w : null,
+                      left: GlobalData().isArabic ? null : -8.w,
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                          vertical: GlobalData().isTabletLayout ? 4.h : 4.h,
-                          horizontal: GlobalData().isTabletLayout ? 4.w : 8.w,
+                          vertical: 4.h,
+                          horizontal: 8.w,
                         ),
                         decoration: BoxDecoration(
                           color: Colors.amber,
@@ -198,8 +192,7 @@ class _RatingViewState extends State<RatingView>
                         child: Text(
                           '\$${widget.menuItemModel.price}',
                           style: TextStyle(
-                            fontSize:
-                                GlobalData().isTabletLayout ? 6.sp : 12.sp,
+                            fontSize: 12.sp,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -208,41 +201,34 @@ class _RatingViewState extends State<RatingView>
                     ),
                     Positioned(
                       bottom: -5,
-                      left: -5,
-                      child: Align(
-                        // Use Align to control the position of the button
-                        alignment: Alignment.centerRight,
-                        // Align to the right
-                        child: GestureDetector(
-                          onTap: () {
-                            context.read<CartCubit>().addToCart(
-                              widget.menuItemModel,
-                            ); // Add to cart>
-                            showSnackBar(
-                              context: context,
-                              snackBarAction: SnackBarAction(
-                                onPressed: () {},
-                                label: '',
-                              ),
-                              message:
-                                  "${S.of(context).AddedSuccessfully} ${widget.menuItemModel.title} ${S.of(context).ToCard}",
-                            );
-                            //  You might want to update state, show a snackbar, etc.
-                          },
-                          child: CircleAvatar(
-                            radius: GlobalData().isTabletLayout ? 30.r : 24.r,
-                            // Adjust the size
-                            backgroundColor: Colors.amber,
-                            // Use amber to match the price tag
-                            child: Icon(
-                              Icons.shopping_cart,
-                              // Use the shopping cart icon
-                              color: Colors.brown[800], // Icon color
-                              size:
-                                  GlobalData().isTabletLayout
-                                      ? 30.r
-                                      : 20.r, // Adjust icon size
+                      left: GlobalData().isArabic ? -5 : null,
+                      right: GlobalData().isArabic ? null : -5,
+                      child: GestureDetector(
+                        onTap: () {
+                          context.read<CartCubit>().addToCart(
+                            widget.menuItemModel,
+                          ); // Add to cart>
+                          showSnackBar(
+                            context: context,
+                            snackBarAction: SnackBarAction(
+                              onPressed: () {},
+                              label: '',
                             ),
+                            message:
+                                "${S.of(context).AddedSuccessfully} ${widget.menuItemModel.title} ${S.of(context).ToCard}",
+                          );
+                          //  You might want to update state, show a snackbar, etc.
+                        },
+                        child: CircleAvatar(
+                          radius: 24.r,
+                          // Adjust the size
+                          backgroundColor: Colors.amber,
+                          // Use amber to match the price tag
+                          child: Icon(
+                            Icons.shopping_cart,
+                            // Use the shopping cart icon
+                            color: Colors.brown[800], // Icon color
+                            size: 20.r, // Adjust icon size
                           ),
                         ),
                       ),
@@ -256,9 +242,7 @@ class _RatingViewState extends State<RatingView>
               ///rating section
               Text(
                 S.of(context).RateYourExperience,
-                style: TextStyle(
-                  fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
-                ),
+                style: TextStyle(fontSize: 20.sp),
               ),
               SizedBox(height: 10.h),
               Row(
@@ -288,7 +272,6 @@ class _RatingViewState extends State<RatingView>
                 children: [
                   Expanded(
                     child: CustomElevatedButton(
-                      fontSize: GlobalData().isTabletLayout ? 10.sp : 14.sp,
                       onPressed: () {
                         Navigator.push(
                           context,
