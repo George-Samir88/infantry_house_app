@@ -11,7 +11,7 @@ import '../../../global_variables.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_edit_button.dart';
-import '../../reusable_screens/custom_item_in_grid_edit_view.dart';
+import 'custom_item_in_grid_edit_view.dart';
 
 class EditItemsTemplateView extends StatefulWidget {
   const EditItemsTemplateView({

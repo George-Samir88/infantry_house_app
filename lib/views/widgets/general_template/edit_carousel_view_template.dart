@@ -126,7 +126,7 @@ class _EditCarouselViewTemplateState extends State<EditCarouselViewTemplate>
                         onPageChanged: (index, other) {
                           cubit.changeCarouselIndex(index: index);
                         },
-                        height: GlobalData().isTabletLayout ? 280.h : 180.h,
+                        height: 180.h,
                         clipBehavior: Clip.none,
                         padEnds: true,
                         enlargeCenterPage: true,

@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:infantry_house_app/views/reusable_screens/item_feedback_view.dart';
+import 'package:infantry_house_app/views/widgets/general_template/item_feedback_view.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../generated/l10n.dart';
-import '../../global_variables.dart';
-import '../../models/menu_item_model.dart';
-import '../../utils/custom_appbar_editing_view.dart';
-import '../../utils/custom_elevated_button.dart';
-import '../../utils/custom_snackBar.dart';
-import '../widgets/cart_view/manager/cart_cubit/cart_cubit.dart';
+import '../../../generated/l10n.dart';
+import '../../../global_variables.dart';
+import '../../../models/menu_item_model.dart';
+import '../../../utils/custom_appbar_editing_view.dart';
+import '../../../utils/custom_elevated_button.dart';
+import '../../../utils/custom_snackBar.dart';
+import '../cart_view/manager/cart_cubit/cart_cubit.dart';
 
 class RatingView extends StatefulWidget {
   const RatingView({super.key, required this.menuItemModel});

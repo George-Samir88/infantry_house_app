@@ -37,14 +37,21 @@ class DailyGamesView extends StatelessWidget {
           builder: (context, state) {
             var cubit = context.read<DailyGamesCubit>();
             return Padding(
-              padding: EdgeInsets.only(left: 16.w, top: 20.0.h),
+              padding: EdgeInsets.only(
+                right: GlobalData().isArabic ? 0 : 16.w,
+                left: GlobalData().isArabic ? 16.w : 0,
+                top: 20.0.h,
+              ),
               child:
                   cubit.mapBetweenCategoriesAndActivities.isNotEmpty
                       ? Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(right: 16.w),
-                            height: GlobalData().isTabletLayout ? 60.h : 40.h,
+                            margin: EdgeInsets.only(
+                              right: GlobalData().isArabic ? 16.w : 0,
+                              left: GlobalData().isArabic ? 0 : 16.w,
+                            ),
+                            height: 40.h,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -131,7 +138,16 @@ class DailyGamesView extends StatelessWidget {
                                                                 .currentSelectedItemIndex],
                                                       ),
                                                       Positioned(
-                                                        left: 10,
+                                                        left:
+                                                            GlobalData()
+                                                                    .isArabic
+                                                                ? 10.w
+                                                                : null,
+                                                        right:
+                                                            GlobalData()
+                                                                    .isArabic
+                                                                ? null
+                                                                : 10.w,
                                                         top: 0,
                                                         child: CustomEditButton(
                                                           iconColor:
@@ -228,17 +244,13 @@ class DailyGamesView extends StatelessWidget {
                           children: [
                             Image.asset(
                               'assets/images/box.png',
-                              height:
-                                  GlobalData().isTabletLayout ? 80.h : 100.h,
-                              width: GlobalData().isTabletLayout ? 80.h : 100.w,
+                              height: 100.h,
+                              width: 100.w,
                             ),
                             SizedBox(height: 10.h),
                             Text(
                               S.of(context).LaYogdAksam,
-                              style: TextStyle(
-                                fontSize:
-                                    GlobalData().isTabletLayout ? 16.sp : 20.sp,
-                              ),
+                              style: TextStyle(fontSize: 20.sp),
                             ),
                             SizedBox(height: 20.h),
                             CustomEditButton(

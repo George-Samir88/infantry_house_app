@@ -11,7 +11,7 @@ import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/custom_edit_button.dart';
 import '../../../utils/custom_snackBar.dart';
-import '../../reusable_screens/custom_menu_items_horizontal_grid_view.dart';
+import 'custom_menu_items_horizontal_grid_view.dart';
 
 class CustomButtonAndMenuTemplate extends StatelessWidget {
   const CustomButtonAndMenuTemplate({super.key, required this.menuTitle});

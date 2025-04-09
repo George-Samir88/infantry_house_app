@@ -92,146 +92,145 @@ class _ActivityEditCarouselTemplateViewState
           var cubit = context.read<ActivityCubit>();
           List<Widget> carouselItems = cubit.carouselItems;
           return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 20.h),
-                if (carouselItems.isNotEmpty)
-                  Stack(
-                    children: [
-                      CarouselSlider.builder(
-                        itemCount: carouselItems.length,
-                        itemBuilder:
-                            (context, index, realIndex) => Stack(
-                              clipBehavior: Clip.none,
-                              fit: StackFit.passthrough,
-                              children: [
-                                carouselItems[index],
-                                Positioned(
-                                  left: 10,
-                                  bottom: -20,
-                                  child: Row(
-                                    children: [
-                                      CustomEditButton(
-                                        backgroundColor: Colors.red,
-                                        onTap: () {
-                                          cubit.removeCarouselItem(
-                                            index: index,
-                                          );
-                                        },
-                                        iconColor: Colors.white,
-                                        icon: Icons.cancel,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                        options: CarouselOptions(
-                          onPageChanged: (index, other) {
-                            cubit.changeCarouselIndex(index: index);
-                          },
-                          height: GlobalData().isTabletLayout ? 360.h : 180.h,
-                          clipBehavior: Clip.none,
-                          padEnds: true,
-                          enlargeCenterPage: true,
-                          viewportFraction: 1.2,
-                          enableInfiniteScroll: true,
-                          autoPlay: false,
-                        ),
-                      ),
-                    ],
-                  ),
-                SizedBox(height: 20.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    DotsIndicator(
-                      currentIndex: cubit.currentCarouselIndex,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 20.h),
+                  if (carouselItems.isNotEmpty) ...[
+                    CarouselSlider.builder(
                       itemCount: carouselItems.length,
+                      itemBuilder:
+                          (context, index, realIndex) => Stack(
+                            clipBehavior: Clip.none,
+                            fit: StackFit.passthrough,
+                            children: [
+                              carouselItems[index],
+                              Positioned(
+                                left: GlobalData().isArabic ? -5.w : null,
+                                right: GlobalData().isArabic ? null : -5.w,
+                                bottom: -20.h,
+                                child: Row(
+                                  children: [
+                                    CustomEditButton(
+                                      backgroundColor: Colors.red,
+                                      onTap: () {
+                                        cubit.removeCarouselItem(index: index);
+                                      },
+                                      iconColor: Colors.white,
+                                      icon: Icons.cancel,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                      options: CarouselOptions(
+                        onPageChanged: (index, other) {
+                          cubit.changeCarouselIndex(index: index);
+                        },
+                        height: GlobalData().isTabletLayout ? 360.h : 180.h,
+                        clipBehavior: Clip.none,
+                        padEnds: true,
+                        enlargeCenterPage: true,
+                        viewportFraction: 1.2,
+                        enableInfiniteScroll: true,
+                        autoPlay: false,
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        DotsIndicator(
+                          currentIndex: cubit.currentCarouselIndex,
+                          itemCount: carouselItems.length,
+                        ),
+                      ],
                     ),
                   ],
-                ),
-                if (carouselItems.isEmpty)
-                  EmptyCarouselContainer(
-                    onTab: () async {
-                      await _pickImage();
-                      setState(() {});
-                      if (_image != null) {
-                        cubit.addCarouselItem(
-                          customCarouselItem: CustomCarouselItem(
-                            imagePath: _image!.path,
-                            isPickedImage: true,
-                          ),
-                        );
-                        _image = null;
-                      }
-                    },
-                  ),
+                  if (carouselItems.isEmpty)
+                    EmptyCarouselContainer(
+                      onTab: () async {
+                        await _pickImage();
+                        setState(() {});
+                        if (_image != null) {
+                          cubit.addCarouselItem(
+                            customCarouselItem: CustomCarouselItem(
+                              imagePath: _image!.path,
+                              isPickedImage: true,
+                            ),
+                          );
+                          _image = null;
+                        }
+                      },
+                    ),
 
-                SizedBox(height: 30.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0.w),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: CustomElevatedButton(
-                          textColor: Color(0xFF6D3A2D),
-                          backGroundColor: Colors.grey[300],
-                          onPressed: () async {
-                            setState(() {});
-                            await _pickImage();
-                            setState(() {});
-                            if (_image != null) {
-                              cubit.addCarouselItem(
-                                customCarouselItem: CustomCarouselItem(
-                                  imagePath: _image!.path,
-                                  isPickedImage: true,
-                                ),
-                              );
-                              _image = null;
-                            }
-                          },
-                          text: S.of(context).EdaftGded,
-                          tabletLayout: GlobalData().isTabletLayout,
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      if (carouselItems.isNotEmpty)
+                  SizedBox(height: 30.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.0.w),
+                    child: Row(
+                      children: [
                         Expanded(
                           child: CustomElevatedButton(
-                            onPressed: () {
-                              _playAnimation();
+                            textColor: Color(0xFF6D3A2D),
+                            backGroundColor: Colors.grey[300],
+                            onPressed: () async {
+                              setState(() {});
+                              await _pickImage();
+                              setState(() {});
+                              if (_image != null) {
+                                cubit.addCarouselItem(
+                                  customCarouselItem: CustomCarouselItem(
+                                    imagePath: _image!.path,
+                                    isPickedImage: true,
+                                  ),
+                                );
+                                _image = null;
+                              }
                             },
-                            text: S.of(context).hefz,
+                            text: S.of(context).EdaftGded,
                             tabletLayout: GlobalData().isTabletLayout,
                           ),
                         ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10.h),
-                Visibility(
-                  visible: isAnimationVisible,
-                  child: Container(
-                    height: 100,
-                    alignment: Alignment.center,
-
-                    child: Lottie.asset(
-                      controller: _animationController,
-                      onLoaded: (composition) {
-                        _animationController.duration = composition.duration;
-                      },
-                      backgroundLoading: true,
-                      alignment: Alignment.centerLeft,
-                      'assets/animation/done_lottie.json',
-                      // Local file
-                      fit: BoxFit.cover,
+                        SizedBox(width: 10.w),
+                        if (carouselItems.isNotEmpty)
+                          Expanded(
+                            child: CustomElevatedButton(
+                              onPressed: () {
+                                _playAnimation();
+                              },
+                              text: S.of(context).hefz,
+                              tabletLayout: GlobalData().isTabletLayout,
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                ),
-                SizedBox(height: 20.h),
-              ],
+                  SizedBox(height: 10.h),
+                  Visibility(
+                    visible: isAnimationVisible,
+                    child: Container(
+                      height: 100,
+                      alignment: Alignment.center,
+
+                      child: Lottie.asset(
+                        controller: _animationController,
+                        onLoaded: (composition) {
+                          _animationController.duration = composition.duration;
+                        },
+                        backgroundLoading: true,
+                        alignment: Alignment.centerLeft,
+                        'assets/animation/done_lottie.json',
+                        // Local file
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                ],
+              ),
             ),
           );
         },

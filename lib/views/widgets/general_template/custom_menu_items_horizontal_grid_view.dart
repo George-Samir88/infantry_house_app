@@ -5,12 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:infantry_house_app/models/menu_item_model.dart';
-import 'package:infantry_house_app/views/reusable_screens/rating_view.dart';
+import 'package:infantry_house_app/views/widgets/general_template/rating_view.dart';
 
-import '../../generated/l10n.dart';
-import '../../global_variables.dart';
-import '../../utils/custom_snackBar.dart';
-import '../widgets/cart_view/manager/cart_cubit/cart_cubit.dart';
+import '../../../generated/l10n.dart';
+import '../../../global_variables.dart';
+import '../../../utils/custom_snackBar.dart';
+import '../cart_view/manager/cart_cubit/cart_cubit.dart';
 
 class CustomMenuItemsHorizontalGridView extends StatelessWidget {
   const CustomMenuItemsHorizontalGridView({
@@ -23,29 +23,29 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
   Widget _buildCircularImage(String imagePath) {
     if (imagePath.startsWith('assets/')) {
       return CircleAvatar(
-        radius: GlobalData().isTabletLayout ? 36.r : 31.r,
+        radius: 31.r,
         backgroundColor: Colors.white, // Prevents image cropping
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50.r),
           child: Image.asset(
             imagePath,
             fit: BoxFit.cover,
-            width: GlobalData().isTabletLayout ? 70.r : 60.r,
-            height: GlobalData().isTabletLayout ? 70.r : 60.r,
+            width: 60.r,
+            height: 60.r,
           ),
         ),
       );
     } else if (File(imagePath).existsSync()) {
       return CircleAvatar(
-        radius: GlobalData().isTabletLayout ? 36.r : 31.r,
+        radius: 31.r,
         backgroundColor: Colors.white, // Prevents image cropping
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50.r),
           child: Image.file(
             File(imagePath),
             fit: BoxFit.cover,
-            width: GlobalData().isTabletLayout ? 70.r : 60.r,
-            height: GlobalData().isTabletLayout ? 70.r : 60.r,
+            width: 60.r,
+            height: 60.r,
           ),
         ),
       );
@@ -89,8 +89,8 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                   children: [
                     Container(
                       padding: EdgeInsets.symmetric(
-                        vertical: 16.0,
-                        horizontal: 12.0,
+                        vertical: 16.0.h,
+                        horizontal: 12.0.w,
                       ),
                       decoration: BoxDecoration(
                         color: Colors.brown[400],
@@ -102,7 +102,7 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                             offset: Offset(0, 3),
                           ),
                         ],
-                        borderRadius: BorderRadius.circular(16.0),
+                        borderRadius: BorderRadius.circular(16.0.r),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,15 +115,12 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                               style: TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 color: Colors.white,
-                                fontSize:
-                                    GlobalData().isTabletLayout ? 10.sp : 12.sp,
+                                fontSize: 12.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: GlobalData().isTabletLayout ? 14.h : 10.h,
-                          ),
+                          SizedBox(height: 10.h),
                           Row(
                             children: List.generate(5, (starIndex) {
                               return Icon(
@@ -131,13 +128,11 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                                     ? Icons.star
                                     : Icons.star_border,
                                 color: Colors.yellow,
-                                size: GlobalData().isTabletLayout ? 16.r : 12.r,
+                                size: 12.r,
                               );
                             }),
                           ),
-                          SizedBox(
-                            height: GlobalData().isTabletLayout ? 20.h : 10.h,
-                          ),
+                          SizedBox(height: 10.h),
                         ],
                       ),
                     ),

@@ -11,6 +11,7 @@ import 'package:infantry_house_app/views/widgets/activities_view/subscriptions_v
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/FAD_empty_carousel_item.dart';
+import '../../../utils/custom_edit_button.dart';
 import '../../../utils/dots_indicator.dart';
 import '../cart_view/my_cart_view.dart';
 import '../home_view/manager/home_cubit.dart';
@@ -86,7 +87,7 @@ class _ActivitiesViewBodyState extends State<ActivitiesViewBody> {
                             onPageChanged: (index, other) {
                               activityCubit.changeCarouselIndex(index: index);
                             },
-                            height: GlobalData().isTabletLayout ? 360.h : 180.h,
+                            height: 180.h,
                             clipBehavior: Clip.none,
                             padEnds: true,
                             enlargeCenterPage: true,
@@ -94,6 +95,28 @@ class _ActivitiesViewBodyState extends State<ActivitiesViewBody> {
                             enableInfiniteScroll: true,
                             autoPlay: true,
                           ),
+                        ),
+                      ),
+                      Positioned(
+                        left: GlobalData().isArabic ? 5.w : null,
+                        right: GlobalData().isArabic ? null : 5.w,
+                        bottom: -20.h,
+                        child: CustomEditButton(
+                          iconColor: Colors.brown[800],
+                          backgroundColor: Colors.amberAccent.shade100,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => BlocProvider.value(
+                                      value: activityCubit,
+                                      child: ActivityEditCarouselTemplateView(),
+                                    ),
+                              ),
+                            );
+                          },
+                          icon: Icons.edit,
                         ),
                       ),
                     ],
