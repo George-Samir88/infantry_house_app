@@ -110,10 +110,7 @@ class _DailyGamesEditScreenDepartmentViewState
                           clipBehavior: Clip.none,
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 20.w,
-                                vertical: 10.h,
-                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 20.w),
                               decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
@@ -158,9 +155,12 @@ class _DailyGamesEditScreenDepartmentViewState
                                             .toList()[index],
                                   );
                                 },
-                                height: 25.h,
-                                width: 35.w,
-                                iconSize: 20.r,
+                                height:
+                                    GlobalData().isTabletLayout ? 28.h : 25.h,
+                                width:
+                                    GlobalData().isTabletLayout ? 20.w : 35.w,
+                                iconSize:
+                                    GlobalData().isTabletLayout ? 18.r : 20.r,
                                 icon: Icons.cancel,
                                 iconColor: Colors.white,
                                 backgroundColor: Colors.red,

@@ -137,7 +137,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: EdgeInsets.symmetric(horizontal: 16.0.w),
         child: ListView(
           controller: scrollController,
           children: [
@@ -151,9 +151,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                   ///phone number section
                   Text(
                     S.of(context).PhoneNumber,
-                    style: TextStyle(
-                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
-                    ),
+                    style: TextStyle(fontSize: 20.sp),
                   ),
                   CustomTextFormField(
                     textEditingController: phoneNumberController,
@@ -171,9 +169,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                   ///check image section
                   Text(
                     S.of(context).SortElcheck,
-                    style: TextStyle(
-                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
-                    ),
+                    style: TextStyle(fontSize: 20.sp),
                   ),
                   SizedBox(height: 8.h),
 
@@ -182,7 +178,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                     onTap: _pickImage,
                     child: Container(
                       clipBehavior: Clip.antiAliasWithSaveLayer,
-                      height: GlobalData().isTabletLayout ? 250.h : 150.h,
+                      height: GlobalData().isTabletLayout ? 220.h : 150.h,
                       width: MediaQuery.of(context).size.width * 0.5,
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
@@ -204,11 +200,11 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                   ),
                   if (isShowValidationErrorMessages)
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0, right: 10),
+                      padding: EdgeInsets.only(top: 8.0.h, right: 10.w),
                       child: Text(
                         S.of(context).MnFdlkD5lSortElcheck,
                         style: TextStyle(
-                          fontSize: GlobalData().isTabletLayout ? 6.sp : 10.sp,
+                          fontSize: 10.sp,
                           fontWeight: FontWeight.w400,
                           color: Colors.red[900],
                         ),
@@ -219,9 +215,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                   ///choice chip section
                   Text(
                     S.of(context).ShareYourFeedback,
-                    style: TextStyle(
-                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
-                    ),
+                    style: TextStyle(fontSize: 20.sp),
                   ),
                   Wrap(
                     spacing: 8.0.w,
@@ -231,8 +225,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                             label: Text(
                               complaint,
                               style: TextStyle(
-                                fontSize:
-                                    GlobalData().isTabletLayout ? 8.sp : 14.sp,
+                                fontSize: 14.sp,
                                 color:
                                     selectedComplaints.contains(complaint)
                                         ? Colors.white
@@ -259,13 +252,13 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                   ///choice chip validation error message
                   if (choiceChipEmpty)
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0, right: 10),
+                      padding: EdgeInsets.only(top: 8.0.h, right: 10.w),
                       child: Text(
                         S
                             .of(context)
                             .PleaseSelectAtLeastOneOptionBeforeSubmitting,
                         style: TextStyle(
-                          fontSize: GlobalData().isTabletLayout ? 6.sp : 10.sp,
+                          fontSize: 10.sp,
                           fontWeight: FontWeight.w400,
                           color: Colors.red[900],
                         ),
@@ -276,9 +269,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                   ///complaint section (optional)
                   Text(
                     S.of(context).AnyComments,
-                    style: TextStyle(
-                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
-                    ),
+                    style: TextStyle(fontSize: 20.sp),
                   ),
                   CustomTextFormField(
                     textEditingController: complaintController,
@@ -310,7 +301,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                     children: [
                       Visibility(
                         visible: isAnimationVisible,
-                        child: Container(
+                        child: SizedBox(
                           height: 100.h,
                           child: Lottie.asset(
                             controller: _animationController,

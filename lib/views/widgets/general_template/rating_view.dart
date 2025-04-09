@@ -254,7 +254,8 @@ class _RatingViewState extends State<RatingView>
                     direction: Axis.horizontal,
                     allowHalfRating: true,
                     itemCount: 5,
-                    itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                    itemPadding: EdgeInsets.symmetric(horizontal: 1.0.w),
+                    itemSize: 40.r,
                     itemBuilder:
                         (context, _) => Icon(Icons.star, color: Colors.amber),
                     onRatingUpdate: (rating) {

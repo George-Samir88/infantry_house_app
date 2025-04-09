@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/models/daily_activity_item_model.dart';
 
 import '../../../generated/l10n.dart';
-import '../../../global_variables.dart';
 import 'manager/daily_games_cubit.dart';
 
 class CustomDescriptionOfActivityItem extends StatelessWidget {
@@ -39,17 +38,12 @@ class CustomDescriptionOfActivityItem extends StatelessWidget {
               Text(
                 dailyActivityItemModel.title,
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: GlobalData().isTabletLayout ? 12.sp : 24.sp,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10.h),
               Text(
                 "${S.of(context).TrainerName}: ${dailyActivityItemModel.trainerName}",
-                style: TextStyle(
-                  fontSize: GlobalData().isTabletLayout ? 8.sp : 14.sp,
-                ),
+                style: TextStyle(fontSize: 14.sp),
               ),
               SizedBox(height: 10.h),
               Container(
@@ -60,19 +54,14 @@ class CustomDescriptionOfActivityItem extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
                 child: Text(
                   "\$${dailyActivityItemModel.price}.00",
-                  style: TextStyle(
-                    color: Colors.brown[800],
-                    fontSize: GlobalData().isTabletLayout ? 8.sp : 14.sp,
-                  ),
+                  style: TextStyle(color: Colors.brown[800], fontSize: 14.sp),
                 ),
               ),
               SizedBox(height: 10.h),
               Text(
                 dailyActivityItemModel.description,
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: GlobalData().isTabletLayout ? 8.sp : 14.sp,
-                ),
+                style: TextStyle(fontSize: 14.sp),
               ),
             ],
           ),

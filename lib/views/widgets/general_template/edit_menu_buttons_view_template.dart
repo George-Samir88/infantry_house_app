@@ -198,12 +198,7 @@ class _EditMenuButtonsViewTemplateState
                                         newButtonTitlesList[index]!,
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize:
-                                              GlobalData().isTabletLayout
-                                                  ? (isSelected ? 12.sp : 10.sp)
-                                                  : isSelected
-                                                  ? 16.sp
-                                                  : 14.sp,
+                                          fontSize: isSelected ? 16.sp : 14.sp,
                                           fontWeight:
                                               isSelected
                                                   ? FontWeight.w600

@@ -114,7 +114,7 @@ class _DailyGamesAddNewItemViewState extends State<DailyGamesAddNewItemView>
         builder: (context, state) {
           var cubit = context.read<DailyGamesCubit>();
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
             child: Form(
               key: _formKey,
               child: ListView(
@@ -125,7 +125,7 @@ class _DailyGamesAddNewItemViewState extends State<DailyGamesAddNewItemView>
                   Text(
                     S.of(context).TitleOfGame,
                     style: TextStyle(
-                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                      fontSize: 20.sp,
                     ),
                   ),
                   CustomTextFormField(
@@ -143,7 +143,7 @@ class _DailyGamesAddNewItemViewState extends State<DailyGamesAddNewItemView>
                   Text(
                     S.of(context).GamePrice,
                     style: TextStyle(
-                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                      fontSize: 20.sp,
                     ),
                   ),
                   CustomTextFormField(
@@ -161,7 +161,7 @@ class _DailyGamesAddNewItemViewState extends State<DailyGamesAddNewItemView>
                   Text(
                     S.of(context).TrainerName,
                     style: TextStyle(
-                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                      fontSize: 20.sp,
                     ),
                   ),
                   CustomTextFormField(
@@ -179,7 +179,7 @@ class _DailyGamesAddNewItemViewState extends State<DailyGamesAddNewItemView>
                   Text(
                     S.of(context).DescriptionAboutGame,
                     style: TextStyle(
-                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                      fontSize:  20.sp,
                     ),
                   ),
                   CustomTextFormField(
@@ -197,7 +197,7 @@ class _DailyGamesAddNewItemViewState extends State<DailyGamesAddNewItemView>
                   Text(
                     S.of(context).DailyGamesItemImage,
                     style: TextStyle(
-                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                      fontSize: 20.sp,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -205,7 +205,7 @@ class _DailyGamesAddNewItemViewState extends State<DailyGamesAddNewItemView>
                     onTap: _pickImage,
                     child: Container(
                       clipBehavior: Clip.antiAliasWithSaveLayer,
-                      height: GlobalData().isTabletLayout ? 250.h : 150.h,
+                      height: GlobalData().isTabletLayout ? 220.h : 150.h,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
@@ -231,7 +231,7 @@ class _DailyGamesAddNewItemViewState extends State<DailyGamesAddNewItemView>
                       child: Text(
                         S.of(context).PleaseAddDailyGamesItemImage,
                         style: TextStyle(
-                          fontSize: GlobalData().isTabletLayout ? 6.sp : 10.sp,
+                          fontSize:  10.sp,
                           fontWeight: FontWeight.w400,
                           color: Colors.red[900],
                         ),

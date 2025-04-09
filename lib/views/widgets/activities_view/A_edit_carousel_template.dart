@@ -130,7 +130,7 @@ class _ActivityEditCarouselTemplateViewState
                         onPageChanged: (index, other) {
                           cubit.changeCarouselIndex(index: index);
                         },
-                        height: GlobalData().isTabletLayout ? 360.h : 180.h,
+                        height: GlobalData().isTabletLayout ? 280.h : 180.h,
                         clipBehavior: Clip.none,
                         padEnds: true,
                         enlargeCenterPage: true,

@@ -140,7 +140,7 @@ class CustomVerticalListOfDailyActivity extends StatelessWidget {
               ),
               SizedBox(height: 10.h),
               CustomEditButton(
-                height: 40.h,
+                height: GlobalData().isTabletLayout ? 50.h : 40.h,
                 width: 50.w,
                 iconSize: 25.r,
                 iconColor: Colors.brown[800],

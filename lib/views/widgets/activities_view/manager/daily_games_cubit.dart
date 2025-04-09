@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infantry_house_app/models/daily_activity_item_model.dart';
 import 'package:meta/meta.dart';
 

@@ -87,7 +87,7 @@ class _ActivitiesViewBodyState extends State<ActivitiesViewBody> {
                             onPageChanged: (index, other) {
                               activityCubit.changeCarouselIndex(index: index);
                             },
-                            height: 180.h,
+                            height: GlobalData().isTabletLayout ? 280.h : 180.h,
                             clipBehavior: Clip.none,
                             padEnds: true,
                             enlargeCenterPage: true,

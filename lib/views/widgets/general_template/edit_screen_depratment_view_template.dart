@@ -150,7 +150,7 @@ class _EditScreenDepartmentTemplateViewState
                                 Positioned(
                                   left: GlobalData().isArabic ? -10 : null,
                                   bottom: -15,
-                                  right: GlobalData().isArabic ? -10 : -10,
+                                  right: GlobalData().isArabic ? null : -10,
                                   child: CustomEditButton(
                                     onTap: () {
                                       cubit.removeScreen(
