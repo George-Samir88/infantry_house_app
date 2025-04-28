@@ -28,9 +28,13 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ' 3.29.2' # Updated to match Dart SDK ^3.7.2
-          channel: 'stable'
+          flutter-version: 3.29.2
+          channel: stable
           cache: true
+          architecture: X64
+          pub-cache-path: default
+          dry-run: false
+          git-source: https://github.com/flutter/flutter.git
 
       # Get dependencies
       - name: Install dependencies
