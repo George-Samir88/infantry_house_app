@@ -36,6 +36,23 @@ jobs:
           dry-run: false
           git-source: https://github.com/flutter/flutter.git
 
+
+        #ceate key store file and key.properties
+      - name: Create keystore file
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/upload-keystore.jks
+        working-directory: ./android
+
+      - name: Create key.properties file
+        run: |
+          cat << EOF > key.properties
+          storePassword=${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=upload-keystore.jks
+          EOF
+        working-directory: ./android
+
       # Get dependencies
       - name: Install dependencies
         run: flutter pub get
