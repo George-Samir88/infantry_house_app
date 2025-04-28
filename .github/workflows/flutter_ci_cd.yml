@@ -70,7 +70,7 @@ jobs:
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
-          filename: build/app/outputs/flutter-apk/app-release.apk
+          filename: build/app/outputs/bundle/release/app-release.aab
           folderId: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
           name: infantry_house_app-release.apk
           overwrite: true
