@@ -46,7 +46,7 @@ jobs:
 
       # Upload APK to Google Drive
       - name: Upload APK to Google Drive
-        uses: adityak74/google-drive-upload-action@v0.4
+        uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
           filename: build/app/outputs/flutter-apk/app-release.apk
