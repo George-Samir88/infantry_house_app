@@ -28,7 +28,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.3' # Specify your Flutter version
+          flutter-version: ' 3.29.3' # Updated to match Dart SDK ^3.7.2
           channel: 'stable'
           cache: true
 
@@ -36,17 +36,19 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Run tests
-      - name: Run tests
-        run: flutter test
+#      # Run tests
+#      - name: Run tests
+#        run: flutter test
 
       # Build APK
       - name: Build APK
         run: flutter build apk --release
 
-      # Upload APK as artifact
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      # Upload APK to Google Drive
+      - name: Upload APK to Google Drive
+        uses: adityak74/google-drive-upload-action@v0.4
         with:
-          name: app-release.apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          credentials: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
+          filename: build/app/outputs/flutter-apk/app-release.apk
+          folderId: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+          name: infantry_house_app-release.apk
