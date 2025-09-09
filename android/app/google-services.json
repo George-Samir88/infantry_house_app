@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "900715475478",
+    "project_id": "infantry-house",
+    "storage_bucket": "infantry-house.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900715475478:android:2c3c3b111df59ef0c4bb37",
+        "android_client_info": {
+          "package_name": "com.example.infantry_house_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeoAu_S0sZJTDB7O_A8HnYlzn2OMOQzmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

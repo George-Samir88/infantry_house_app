@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
 import 'package:infantry_house_app/utils/custom_elevated_button.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
+import 'package:infantry_house_app/views/widgets/register_view/manager/register_cubit.dart';
 
 import '../../../generated/l10n.dart';
 import '../home_view/home_view.dart';
@@ -110,7 +112,13 @@ class _LoginViewState extends State<LoginView> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => RegisterView(),
+                                          builder:
+                                              (context) => BlocProvider(
+                                                create:
+                                                    (context) =>
+                                                        RegisterCubit(),
+                                                child: RegisterView(),
+                                              ),
                                         ),
                                       );
                                     },

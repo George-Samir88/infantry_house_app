@@ -69,6 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "EdaftGded": MessageLookupByLibrary.simpleMessage("Add New"),
         "EdaftSnf": MessageLookupByLibrary.simpleMessage("Add New Item"),
         "Eftar": MessageLookupByLibrary.simpleMessage("Breakfast"),
+        "Email": MessageLookupByLibrary.simpleMessage("Email"),
         "EnterDescriptionAboutGame":
             MessageLookupByLibrary.simpleMessage("Add description about game"),
         "EnterPriceOfGame":
@@ -77,6 +78,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter title of game"),
         "EnterTrainerName":
             MessageLookupByLibrary.simpleMessage("Enter trainer name"),
+        "EnterYourEmail":
+            MessageLookupByLibrary.simpleMessage("Enter your email"),
         "EnterYourPassword":
             MessageLookupByLibrary.simpleMessage("Enter your password"),
         "EnterYourPhoneNumber":
@@ -137,6 +140,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please add a main category first"),
         "PleaseAddDailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("Please add image of game"),
+        "PleaseEnterAValidEmail":
+            MessageLookupByLibrary.simpleMessage("Please enter a valid email"),
         "PleaseEnterDescriptionAboutGame": MessageLookupByLibrary.simpleMessage(
             "Please add description about game"),
         "PleaseEnterItBelow":
@@ -147,6 +152,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter title of game"),
         "PleaseEnterTrainerName":
             MessageLookupByLibrary.simpleMessage("Please enter trainer name"),
+        "PleaseEnterYourEmail":
+            MessageLookupByLibrary.simpleMessage("Please enter your email"),
         "PleaseEnterYourPassword":
             MessageLookupByLibrary.simpleMessage("Please enter your password"),
         "PleaseEnterYourPhoneNumber": MessageLookupByLibrary.simpleMessage(
