@@ -35,6 +35,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         phone: phone,
         createdAt: DateTime.now(),
         role: 'Guest',
+        department: null,
       );
 
       // Save to Firestore

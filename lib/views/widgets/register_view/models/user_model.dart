@@ -5,6 +5,7 @@ class UserModel {
   final String phone;
   final DateTime createdAt;
   final String role;
+  final String? department;
 
   UserModel({
     required this.uid,
@@ -13,6 +14,7 @@ class UserModel {
     required this.phone,
     required this.createdAt,
     required this.role,
+    required this.department,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,6 +25,7 @@ class UserModel {
       'phone': phone,
       'createdAt': createdAt.toIso8601String(),
       'role': role,
+      'department': department,
     };
   }
 
@@ -34,6 +37,7 @@ class UserModel {
       phone: map['phone'],
       createdAt: DateTime.parse(map['createdAt']),
       role: map['role'],
+      department: map['department'],
     );
   }
 }
