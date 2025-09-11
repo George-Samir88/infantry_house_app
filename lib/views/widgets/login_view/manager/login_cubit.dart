@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../register_view/models/user_model.dart';
 
@@ -38,6 +39,10 @@ class LoginCubit extends Cubit<LoginState> {
 
       // 3) Emit success state with user
       emit(LoginSuccess(user));
+
+      // 4) Save only uid to SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('uid', uid);
     } on FirebaseAuthException catch (e) {
       emit(LoginFailure(_mapFirebaseAuthError(e)));
     } catch (e) {
