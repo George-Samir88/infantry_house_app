@@ -12,7 +12,20 @@
           "package_name": "com.example.infantry_house_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "900715475478-6ruph989net4e8a2e33mk3a5q1nfh9a5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.infantry_house_app",
+            "certificate_hash": "dfe5602b0134fdad4925ff3dde59e73eea901531"
+          }
+        },
+        {
+          "client_id": "900715475478-0jr36jf59ohc2okq3mtftnj6nffkpgle.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDeoAu_S0sZJTDB7O_A8HnYlzn2OMOQzmc"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "900715475478-0jr36jf59ohc2okq3mtftnj6nffkpgle.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "900715475478-a9tbd37u9q24ap7il745e3tora0tmhtp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.infantryHouseApp"
+              }
+            }
+          ]
         }
       }
     }
