@@ -140,6 +140,46 @@ class S {
     );
   }
 
+  /// `البريد الإلكتروني`
+  String get Email {
+    return Intl.message(
+      'البريد الإلكتروني',
+      name: 'Email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `يرجى إدخال بريدك الإلكتروني`
+  String get PleaseEnterYourEmail {
+    return Intl.message(
+      'يرجى إدخال بريدك الإلكتروني',
+      name: 'PleaseEnterYourEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أدخل بريدك الإلكتروني`
+  String get EnterYourEmail {
+    return Intl.message(
+      'أدخل بريدك الإلكتروني',
+      name: 'EnterYourEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `يرجى إدخال بريد إلكتروني صالح`
+  String get PleaseEnterAValidEmail {
+    return Intl.message(
+      'يرجى إدخال بريد إلكتروني صالح',
+      name: 'PleaseEnterAValidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `كلمة المرور`
   String get Password {
     return Intl.message(

@@ -66,6 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "EdaftGded": MessageLookupByLibrary.simpleMessage("إضافة جديد"),
         "EdaftSnf": MessageLookupByLibrary.simpleMessage("إضافة صنف"),
         "Eftar": MessageLookupByLibrary.simpleMessage("إفطار"),
+        "Email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
         "EnterDescriptionAboutGame":
             MessageLookupByLibrary.simpleMessage("أضف وصفاً عن اللعبة"),
         "EnterPriceOfGame":
@@ -74,6 +75,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل أسم اللعبة"),
         "EnterTrainerName":
             MessageLookupByLibrary.simpleMessage("أدخل اسم المدرب"),
+        "EnterYourEmail":
+            MessageLookupByLibrary.simpleMessage("أدخل بريدك الإلكتروني"),
         "EnterYourPassword":
             MessageLookupByLibrary.simpleMessage("أدخل كلمة المرور"),
         "EnterYourPhoneNumber":
@@ -133,6 +136,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("يجب إضافة قسم رئيسي أولاً."),
         "PleaseAddDailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("الرجاء إضافة صورة اللعبة"),
+        "PleaseEnterAValidEmail": MessageLookupByLibrary.simpleMessage(
+            "يرجى إدخال بريد إلكتروني صالح"),
         "PleaseEnterDescriptionAboutGame":
             MessageLookupByLibrary.simpleMessage("الرجاء إضافة وصف عن اللعبة"),
         "PleaseEnterItBelow":
@@ -143,6 +148,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال أسم اللعبة"),
         "PleaseEnterTrainerName":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال اسم المدرب"),
+        "PleaseEnterYourEmail":
+            MessageLookupByLibrary.simpleMessage("يرجى إدخال بريدك الإلكتروني"),
         "PleaseEnterYourPassword":
             MessageLookupByLibrary.simpleMessage("يرجى إدخال كلمة المرور"),
         "PleaseEnterYourPhoneNumber":

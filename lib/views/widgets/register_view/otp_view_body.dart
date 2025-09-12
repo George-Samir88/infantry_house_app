@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/views/widgets/login_view/login_view.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_snackBar.dart';
-import '../home_view/home_view.dart';
 import 'custom_otp_fields.dart';
 
 class OtpViewBody extends StatelessWidget {
@@ -95,10 +95,10 @@ class OtpViewBody extends StatelessWidget {
                                   ),
                                   message: S.of(context).LoggedInSuccessfully,
                                 );
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => HomeView(),
+                                    builder: (context) => LoginView(),
                                   ),
                                 );
                               },

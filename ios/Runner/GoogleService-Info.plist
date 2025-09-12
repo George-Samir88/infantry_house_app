@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>900715475478-a9tbd37u9q24ap7il745e3tora0tmhtp.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.900715475478-a9tbd37u9q24ap7il745e3tora0tmhtp</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAlWc2TM0EqbUOe6NqNAx09rfW-vDN8Zy0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>900715475478</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.infantryHouseApp</string>
+	<key>PROJECT_ID</key>
+	<string>infantry-house</string>
+	<key>STORAGE_BUCKET</key>
+	<string>infantry-house.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:900715475478:ios:69bbe17e0e76e154c4bb37</string>
+</dict>
+</plist>
