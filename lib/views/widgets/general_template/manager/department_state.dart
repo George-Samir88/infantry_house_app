@@ -15,6 +15,52 @@ class DepartmentGetDepartmentsNamesFailureState extends DepartmentState {
   DepartmentGetDepartmentsNamesFailureState({required this.error});
 }
 
+///------------states related to Sub Screens---------
+class DepartmentGetSubScreensNamesSuccessState extends DepartmentState {}
+
+class DepartmentGetSubScreensNamesLoadingState extends DepartmentState {}
+
+class DepartmentGetSubScreensNamesFailureState extends DepartmentState {
+  final String error;
+
+  DepartmentGetSubScreensNamesFailureState({required this.error});
+}
+
+class DepartmentCreateSubScreensNamesSuccessState extends DepartmentState {
+  final DocumentReference docReference;
+
+  DepartmentCreateSubScreensNamesSuccessState({required this.docReference});
+}
+
+class DepartmentCreateSubScreensNamesLoadingState extends DepartmentState {}
+
+class DepartmentCreateSubScreensNamesFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentCreateSubScreensNamesFailureState({required this.failure});
+}
+
+class DepartmentUpdateSubScreensNamesSuccessState extends DepartmentState {}
+
+class DepartmentUpdateSubScreensNamesLoadingState extends DepartmentState {}
+
+class DepartmentUpdateSubScreensNamesFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentUpdateSubScreensNamesFailureState({required this.failure});
+}
+
+class DepartmentDeleteSubScreensNamesSuccessState extends DepartmentState {}
+
+class DepartmentDeleteSubScreensNamesLoadingState extends DepartmentState {}
+
+class DepartmentDeleteSubScreensNamesFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentDeleteSubScreensNamesFailureState({required this.failure});
+}
+
+///------------states related to ---------
 class DepartmentChangeCarouselIndexState extends DepartmentState {}
 
 class DepartmentAddNewCarouselState extends DepartmentState {}

@@ -21,8 +21,8 @@ class GeneralBodyTemplateView extends StatelessWidget {
     return BlocBuilder<DepartmentCubit, DepartmentState>(
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
-        List<Widget> carouselItemsList =[];
-            // cubit.newScreensMap[cubit.selectedScreen]?.carouselWidgets ?? [];
+        List<Widget> carouselItemsList = [];
+        // cubit.newScreensMap[cubit.selectedScreen]?.carouselWidgets ?? [];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -81,10 +81,14 @@ class GeneralBodyTemplateView extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 10.w, right: 10.w),
                         child: EmptyCarouselContainer(
-                          onTab: () {
+                          onTab: () async {
                             // if (cubit.newScreensMap.isNotEmpty) {
-                            if (1>0) {
-                              context.read<DepartmentCubit>().getDepartmentsNames();
+                            if (1 > 0) {
+                              await context.read<DepartmentCubit>().getDepartmentsNames();
+                              await context.read<DepartmentCubit>().getAllSubScreenNames();
+                              await context
+                                  .read<DepartmentCubit>()
+                                    .deleteSubScreen(subScreenName: 'lamaraaaaaaaaaa',);
 
                               // Navigator.push(
                               //   context,
