@@ -46,7 +46,6 @@ class _LoginViewState extends State<LoginView> {
           if (state is LoginSuccess) {
             showSnackBar(
               context: context,
-              snackBarAction: SnackBarAction(label: '', onPressed: () {}),
               message: S.of(context).LoggedInSuccessfully,
             );
             Navigator.pushReplacement(

@@ -17,7 +17,7 @@ class CustomHorizontalListDepartmentsTemplate extends StatelessWidget {
     return BlocBuilder<DepartmentCubit, DepartmentState>(
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
-        List<String> categories = cubit.newScreensMap.keys.toList();
+        // List<String> categories = cubit.newScreensMap.keys.toList();
         return Container(
           margin: EdgeInsets.only(
             left: GlobalData().isTabletLayout ? 12.w : 16.w,
@@ -27,13 +27,15 @@ class CustomHorizontalListDepartmentsTemplate extends StatelessWidget {
           // Adjust height as needed
           child: Row(
             children: [
-              cubit.newScreensMap.isNotEmpty
+              // cubit.newScreensMap.isNotEmpty
+              1 > 0
                   ? Expanded(
                     child: AnimationLimiter(
                       child: ListView.separated(
                         clipBehavior: Clip.none,
                         scrollDirection: Axis.horizontal,
-                        itemCount: categories.length,
+                        // itemCount: categories.length,
+                        itemCount: 1,
                         // Number of buttons
                         itemBuilder: (context, index) {
                           return AnimationConfiguration.staggeredList(
@@ -46,7 +48,8 @@ class CustomHorizontalListDepartmentsTemplate extends StatelessWidget {
                                   onTap: () {
                                     cubit.selectedButtonCategoryIndex = index;
                                     cubit.changeSelectedScreen(
-                                      buttonCategoryTitle: categories[index],
+                                      buttonCategoryTitle: '',
+                                      // buttonCategoryTitle: categories[index],
                                     );
                                   },
                                   child: Container(
@@ -74,7 +77,8 @@ class CustomHorizontalListDepartmentsTemplate extends StatelessWidget {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        categories[index],
+                                        // categories[index],
+                                        '',
                                         style: TextStyle(
                                           color: const Color(0xff5E3D2E),
                                           fontSize:
@@ -97,9 +101,7 @@ class CustomHorizontalListDepartmentsTemplate extends StatelessWidget {
                           );
                         },
                         separatorBuilder: (BuildContext context, int index) {
-                          return SizedBox(
-                            width: 12.w,
-                          );
+                          return SizedBox(width: 12.w);
                         },
                       ),
                     ),

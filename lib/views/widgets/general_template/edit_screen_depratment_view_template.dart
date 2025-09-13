@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
-import 'package:infantry_house_app/utils/check_key_map_exist_before_adding.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
@@ -87,7 +86,8 @@ class _EditScreenDepartmentTemplateViewState
         builder: (context, state) {
           var cubit = context.read<DepartmentCubit>();
           List<String?> newButtonTitlesList = [];
-          newButtonTitlesList = cubit.newScreensMap.keys.toList();
+          // newButtonTitlesList = cubit.newScreensMap.keys.toList();
+          newButtonTitlesList = [];
           return ListView(
             controller: scrollController,
             children: [
@@ -135,7 +135,8 @@ class _EditScreenDepartmentTemplateViewState
                                   ),
                                   child: Center(
                                     child: Text(
-                                      cubit.newScreensMap.keys.toList()[index],
+                                      "",
+                                      // cubit.newScreensMap.keys.toList()[index],
                                       style: TextStyle(
                                         color: Color(0xff5E3D2E),
                                         fontSize:
@@ -248,11 +249,12 @@ class _EditScreenDepartmentTemplateViewState
                               backGroundColor: Colors.grey[300],
                               onPressed: () async {
                                 if (formKey.currentState!.validate()) {
-                                  bool existingKey =
-                                      checkKeyMapExistBeforeAdding(
-                                        cubit.newScreensMap,
-                                        arabicTextEditingController.text,
-                                      );
+                                  // bool existingKey =
+                                  bool existingKey = 1 > 0;
+                                  //     checkKeyMapExistBeforeAdding(
+                                  //       cubit.newScreensMap,
+                                  //       arabicTextEditingController.text,
+                                  //     );
                                   if (!existingKey) {
                                     cubit.addNewScreen(
                                       screenTitle:
@@ -282,7 +284,8 @@ class _EditScreenDepartmentTemplateViewState
                             ),
                           ),
                           SizedBox(width: 10.w),
-                          if (cubit.newScreensMap.isNotEmpty)
+                          if (1 > 0)
+                            // if (cubit.newScreensMap.isNotEmpty)
                             Expanded(
                               child: CustomElevatedButton(
                                 onPressed: () {

@@ -21,8 +21,8 @@ class GeneralBodyTemplateView extends StatelessWidget {
     return BlocBuilder<DepartmentCubit, DepartmentState>(
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
-        List<Widget> carouselItemsList =
-            cubit.newScreensMap[cubit.selectedScreen]?.carouselWidgets ?? [];
+        List<Widget> carouselItemsList =[];
+            // cubit.newScreensMap[cubit.selectedScreen]?.carouselWidgets ?? [];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -82,17 +82,20 @@ class GeneralBodyTemplateView extends StatelessWidget {
                         padding: EdgeInsets.only(left: 10.w, right: 10.w),
                         child: EmptyCarouselContainer(
                           onTab: () {
-                            if (cubit.newScreensMap.isNotEmpty) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder:
-                                      (context) => BlocProvider.value(
-                                        value: cubit,
-                                        child: EditCarouselViewTemplate(),
-                                      ),
-                                ),
-                              );
+                            // if (cubit.newScreensMap.isNotEmpty) {
+                            if (1>0) {
+                              context.read<DepartmentCubit>().getDepartmentsNames();
+
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder:
+                              //         (context) => BlocProvider.value(
+                              //           value: cubit,
+                              //           child: EditCarouselViewTemplate(),
+                              //         ),
+                              //   ),
+                              // );
                             } else {
                               showSnackBar(
                                 context: context,
@@ -120,7 +123,7 @@ class GeneralBodyTemplateView extends StatelessWidget {
                 SizedBox(height: 20.h),
                 CustomButtonAndMenuTemplate(
                   menuTitle:
-                      cubit.newScreensMap[cubit.selectedScreen]?.menuTitle ??
+                      // cubit.newScreensMap[cubit.selectedScreen]?.menuTitle ??
                       '',
                 ),
                 SizedBox(height: 40.h),

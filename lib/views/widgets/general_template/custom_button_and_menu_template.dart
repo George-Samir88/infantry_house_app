@@ -24,10 +24,10 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
         List<String?> newButtonTitlesList = [];
-        newButtonTitlesList =
-            cubit.newScreensMap[cubit.selectedScreen]?.buttonsAndItemsMap.keys
-                .toList() ??
-            [];
+        // newButtonTitlesList =
+        //     cubit.newScreensMap[cubit.selectedScreen]?.buttonsAndItemsMap.keys
+        //         .toList() ??
+        //     [];
         return Column(
           children: [
             Padding(
@@ -44,7 +44,9 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                   SizedBox(width: 20.w),
                   CustomEditButton(
                     onTap: () {
-                      if (cubit.newScreensMap.isNotEmpty) {
+                      // if(cubit.newScreensMap.isNotEmpty)
+                      if (true) {
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -89,18 +91,18 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                     itemCount: newButtonTitlesList.length,
                     // Number of buttons
                     itemBuilder: (context, index) {
-                      bool isSelected = index == cubit.selectedButtonIndex;
+                      bool isSelected = index == 0;
                       return AnimationConfiguration.staggeredList(
                         position: index,
                         duration: Duration(seconds: 1),
                         child: FadeInAnimation(
                           child: GestureDetector(
                             onTap: () {
-                              cubit.selectedButtonIndex = index;
+                              // cubit.selectedButtonIndex = index;
                               cubit.updateSelectedList(
                                 buttonTitle:
                                     newButtonTitlesList[index].toString(),
-                                screenName: cubit.selectedScreen,
+                                screenName: cubit.selectedSubScreen,
                               );
                             },
                             child: Container(
@@ -168,8 +170,9 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                if (cubit.listToBeShow.isNotEmpty ||
-                    cubit.isEmptyMenuItems == false)
+                // if(cubit.listToBeShow.isNotEmpty ||
+                //     cubit.isEmptyMenuItems == false)
+                if (true)
                   Container(
                     width: MediaQuery.of(context).size.width,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -209,11 +212,12 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                                   .h, // Set a reasonable max height if necessary
                     ),
                     child: CustomMenuItemsHorizontalGridView(
-                      menuItemModel: cubit.listToBeShow,
+                      menuItemModel: [],
                     ),
                   ),
-                if (cubit.listToBeShow.isEmpty ||
-                    cubit.isEmptyMenuItems == true)
+                // if (cubit.listToBeShow.isEmpty ||
+                //     cubit.isEmptyMenuItems == true)
+                if(true)
                   CustomEmptyItemsTemplate(),
                 if (newButtonTitlesList.isNotEmpty)
                   Positioned(
@@ -233,11 +237,11 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                                   (context) => BlocProvider.value(
                                     value: cubit,
                                     child: EditItemsTemplateView(
-                                      listIndex: cubit.selectedButtonIndex,
-                                      buttonTitle:
-                                          newButtonTitlesList[cubit
-                                              .selectedButtonIndex]!,
-                                      screenName: cubit.selectedScreen,
+                                      // listIndex: cubit.selectedButtonIndex,
+                                      // buttonTitle:
+                                      //     newButtonTitlesList[cubit
+                                      //         .selectedButtonIndex]!,
+                                      screenName: cubit.selectedSubScreen, listIndex: 0, buttonTitle: '',
                                     ),
                                   ),
                             ),

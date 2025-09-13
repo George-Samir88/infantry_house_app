@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/models/menu_item_model.dart';
 import 'package:infantry_house_app/views/widgets/general_template/add_new_item_template_view.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 import 'package:infantry_house_app/views/widgets/general_template/update_existing_template_item.dart';
@@ -102,7 +103,8 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
                         mainAxisSpacing: 10,
                         childAspectRatio: 1, // Ensures a balanced UI
                       ),
-                      itemCount: cubit.listToBeShow.length,
+                      itemCount: 1,
+                      // itemCount: cubit.listToBeShow.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: EdgeInsets.only(
@@ -114,7 +116,13 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
                             clipBehavior: Clip.none,
                             children: [
                               CustomItemsInGridEditView(
-                                menuItemModel: cubit.listToBeShow[index],
+                                menuItemModel: MenuItemModel(
+                                  title: "111111",
+                                  image: "ddd",
+                                  price: "1",
+                                  rating: 1,
+                                ),
+                                // menuItemModel: cubit.listToBeShow[index],
                               ),
                               Positioned(
                                 left: GlobalData().isArabic ? 10.w : null,
@@ -128,17 +136,20 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
                                         builder:
                                             (context) => BlocProvider.value(
                                               value: cubit,
-                                              child:
-                                                  UpdateExistingItemTemplateView(
-                                                    buttonTitle:
-                                                        widget.buttonTitle,
-                                                    menuItemModel:
-                                                        cubit
-                                                            .listToBeShow[index],
-                                                    listIndex: index,
-                                                    screenName:
-                                                        widget.screenName,
-                                                  ),
+                                              child: UpdateExistingItemTemplateView(
+                                                buttonTitle: widget.buttonTitle,
+                                                // menuItemModel:
+                                                //     cubit
+                                                //         .listToBeShow[index],
+                                                listIndex: index,
+                                                screenName: widget.screenName,
+                                                menuItemModel: MenuItemModel(
+                                                  title: "5555",
+                                                  image: "55",
+                                                  price: "2",
+                                                  rating: 2,
+                                                ),
+                                              ),
                                             ),
                                       ),
                                     );
@@ -182,7 +193,8 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
                             ),
                           ),
                           SizedBox(width: 10.w),
-                          if (cubit.listToBeShow.isNotEmpty)
+                          if (true)
+                          // if (cubit.listToBeShow.isNotEmpty)
                             Expanded(
                               child: CustomElevatedButton(
                                 onPressed: () {

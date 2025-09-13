@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
-import 'package:infantry_house_app/utils/check_key_map_exist_before_adding.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 import 'package:lottie/lottie.dart';
@@ -93,10 +92,10 @@ class _EditMenuButtonsViewTemplateState
         builder: (context, state) {
           var cubit = context.read<DepartmentCubit>();
           List<String?> newButtonTitlesList = [];
-          newButtonTitlesList =
-              cubit.newScreensMap[cubit.selectedScreen]?.buttonsAndItemsMap.keys
-                  .toList() ??
-              [];
+          newButtonTitlesList = [];
+          // cubit.newScreensMap[cubit.selectedScreen]?.buttonsAndItemsMap.keys
+          //     .toList() ??
+          // [];
           return ListView(
             controller: scrollController,
             children: [
@@ -216,7 +215,7 @@ class _EditMenuButtonsViewTemplateState
                                         CustomEditButton(
                                           onTap: () {
                                             cubit.removeButton(
-                                              screenName: cubit.selectedScreen,
+                                              screenName: cubit.selectedSubScreen,
                                               buttonTitle:
                                                   newButtonTitlesList[index]!,
                                             );
@@ -312,14 +311,14 @@ class _EditMenuButtonsViewTemplateState
                               backGroundColor: Colors.grey[300],
                               onPressed: () async {
                                 if (buttonsFormKey.currentState!.validate()) {
-                                  bool existingButton =
-                                      checkKeyMapExistBeforeAdding(
-                                        cubit
-                                            .newScreensMap[cubit
-                                                .selectedScreen]!
-                                            .buttonsAndItemsMap,
-                                        arabicTextEditingController.text,
-                                      );
+                                  bool existingButton = 1 > 0;
+                                  // checkKeyMapExistBeforeAdding(
+                                  //   cubit
+                                  //       .newScreensMap[cubit
+                                  //           .selectedScreen]!
+                                  //       .buttonsAndItemsMap,
+                                  //   arabicTextEditingController.text,
+                                  // );
                                   if (!existingButton) {
                                     cubit.addNewButton(
                                       buttonTitle:
@@ -327,7 +326,7 @@ class _EditMenuButtonsViewTemplateState
                                               ? arabicTextEditingController.text
                                               : englishTextEditingController
                                                   .text,
-                                      screenName: cubit.selectedScreen,
+                                      screenName: cubit.selectedSubScreen,
                                     );
                                     arabicTextEditingController.clear();
                                     englishTextEditingController.clear();

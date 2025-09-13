@@ -619,11 +619,7 @@ class _HousingViewState extends State<HousingView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create:
-          (context) => DepartmentCubit(
-            initialScreensMap: housingScreensMap,
-            initialSelectedScreen: housingScreensMap.keys.first,
-          ),
+      create: (context) => DepartmentCubit(),
       child: GeneralTemplateView(appBarTitle: S.of(context).eskan),
     );
   }

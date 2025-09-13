@@ -619,11 +619,7 @@ class _FoodAndBeverageViewState extends State<FoodAndBeverageView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create:
-          (context) => DepartmentCubit(
-            initialScreensMap: foodAndBeverageScreensMap,
-            initialSelectedScreen: foodAndBeverageScreensMap.keys.first,
-          ),
+      create: (context) => DepartmentCubit(),
       child: GeneralTemplateView(
         appBarTitle: S.of(context).KesmElA8zyaWlma4robat,
       ),

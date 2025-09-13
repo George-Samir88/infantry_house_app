@@ -89,8 +89,8 @@ class _EditCarouselViewTemplateState extends State<EditCarouselViewTemplate>
       body: BlocBuilder<DepartmentCubit, DepartmentState>(
         builder: (context, state) {
           var cubit = context.read<DepartmentCubit>();
-          List<Widget> carouselItems =
-              cubit.newScreensMap[cubit.selectedScreen]?.carouselWidgets ?? [];
+          List<Widget> carouselItems =[];
+              // cubit.newScreensMap[cubit.selectedScreen]?.carouselWidgets ?? [];
           return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.w),

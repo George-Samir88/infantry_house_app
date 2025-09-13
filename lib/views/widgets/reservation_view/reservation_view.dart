@@ -619,11 +619,7 @@ class _ReservationViewState extends State<ReservationView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create:
-          (context) => DepartmentCubit(
-            initialScreensMap: reservationScreensMap,
-            initialSelectedScreen: reservationScreensMap.keys.first,
-          ),
+      create: (context) => DepartmentCubit(),
       child: GeneralTemplateView(appBarTitle: S.of(context).hogozat),
     );
   }

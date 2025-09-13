@@ -1,169 +1,156 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:infantry_house_app/models/screen_data_model.dart';
 import 'package:infantry_house_app/models/menu_item_model.dart';
 import 'package:infantry_house_app/utils/custom_carousel_item.dart';
 
 part 'department_state.dart';
 
+///App Structure Naming
+
+// Department → القسم الرئيسي (زي "الأغذية والمشروبات" أو "الأزياء").
+// 🔹 الاسم في الكود: Department
+//
+// SubScreen → الشاشة الفرعية اللي جوه القسم (زي "باراديس" أو "فنادق").
+// 🔹 الاسم في الكود: SubScreen
+//
+// Carousel → السلايدر اللي بيعرض صور أو عروض.
+// 🔹 الاسم في الكود: Carousel
+//
+// MenuTitle → عنوان القائمة اللي فوق الأزرار (مثلاً "اختر الفئة").
+// 🔹 الاسم في الكود: MenuTitle
+//
+// MenuButton → الأزرار اللي بتظهر جوه الـ SubScreen وتفلتر/تغير المحتوى.
+// 🔹 الاسم في الكود: MenuButton
+//
+// ItemList → الليستة أو الجريد اللي بتعرض العناصر بعد ما تضغط زرار.
+// 🔹 الاسم في الكود: ItemList
+//
+// ItemCard → الكارد/العنصر الواحد اللي جوه الـ ItemList.
+// 🔹 الاسم في الكود: ItemCard
+
 class DepartmentCubit extends Cubit<DepartmentState> {
-  DepartmentCubit({
-    required Map<String, ScreenData> initialScreensMap,
-    required String initialSelectedScreen,
-  }) : super(DepartmentInitial()) {
-    screensMap = initialScreensMap;
-    newScreensMap = Map.from(initialScreensMap); // Deep copy to avoid mutation
-    selectedScreen =
-        initialSelectedScreen.isNotEmpty &&
-                initialScreensMap.containsKey(initialSelectedScreen)
-            ? initialSelectedScreen
-            : initialScreensMap.keys.isNotEmpty
-            ? initialScreensMap.keys.first
-            : '';
-    initializeState();
-  }
+  DepartmentCubit() : super(DepartmentInitial());
 
-  late Map<String, ScreenData> screensMap;
-  Map<String, ScreenData> newScreensMap = {};
-  late String selectedScreen;
+  ///-------------Variables-------------
+  //selected department
+  String selectedDepartment = '';
 
-  // Carousel tracking
+  //selected subScreen title
+  String selectedSubScreen = '';
+
+  //Carousel tracking
   int currentCarouselIndex = 0;
+
+  //MenuTitle
+  String menuTitle = '';
+
+  //Menu Item List
+  List<MenuItemModel> menuItemsList = [];
+
+  //root collection name
+  String rootCollectionName = "screens_ar";
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  ///-------------Functions-------------
+
+  Future<List<String>> getDepartmentsNames() async {
+    try {
+      emit(DepartmentGetDepartmentsNamesLoadingState());
+      final querySnapshot = await firestore
+          .collection(rootCollectionName)
+          .get(GetOptions(source: Source.server));
+
+      final screenNames =
+          querySnapshot.docs
+              .map((doc) {
+                final data = doc.data() as Map<String, dynamic>?; // Safe cast
+                return data?['screen_name'] as String?;
+              })
+              .where(
+                (name) => name != null && name.isNotEmpty,
+              ) // Filter null/empty
+              .cast<String>()
+              .toList();
+      emit(DepartmentGetDepartmentsNamesSuccessState());
+      return screenNames;
+    } on FirebaseException catch (e) {
+      // Firestore-specific error
+      emit(
+        DepartmentGetDepartmentsNamesFailureState(
+          error: "Firestore error: ${e.message}",
+        ),
+      );
+      return [];
+    } catch (e) {
+      // Any other error
+      emit(DepartmentGetDepartmentsNamesFailureState(error: e.toString()));
+      return [];
+    }
+  }
 
   void changeCarouselIndex({required int index}) {
     currentCarouselIndex = index;
-    emit(DepartmentChangeCarouselState());
+    emit(DepartmentChangeCarouselIndexState());
   }
 
   // Carousel CRUD Operations
   void addCarouselItem({required CustomCarouselItem customCarouselItem}) {
-    newScreensMap[selectedScreen]!.carouselWidgets.add(customCarouselItem);
     emit(DepartmentAddNewCarouselState());
   }
 
   void removeCarouselItem({required int index}) {
-    newScreensMap[selectedScreen]!.carouselWidgets.removeAt(index);
     emit(DepartmentRemoveCarouselState());
   }
 
   // Initialization
   void initializeState() {
-    if (newScreensMap.isNotEmpty && selectedScreen.isNotEmpty) {
-      resetScreenSelection();
-    }
     emit(DepartmentInitializationState());
   }
 
-  ScreenData getScreenData(String key) {
-    return screensMap[key]!;
-  }
-
   List<String> getScreenKeys() {
-    return screensMap.keys.toList();
+    return [];
   }
 
   int selectedButtonCategoryIndex = 0;
-  int selectedButtonIndex = 0;
   bool isEmptyMenuItems = true;
-  List<MenuItemModel> listToBeShow = [];
 
   // Screens CRUD Operations
   void addNewScreen({required String screenTitle}) {
     ///i have a problem here that when deleting all departments
     ///selectedScreen variable remains the last value
     ///which is cause to error when adding new carousel or buttons or items before reinitialize selectedScreen automatically
-    if (newScreensMap.isNotEmpty) {
-      newScreensMap[screenTitle] = ScreenData(
-        carouselWidgets: [],
-        buttonsAndItemsMap: {},
-        menuTitle: '',
-      );
-    } else {
-      newScreensMap[screenTitle] = ScreenData(
-        carouselWidgets: [],
-        buttonsAndItemsMap: {},
-        menuTitle: '',
-      );
-      selectedScreen = newScreensMap.keys.first;
-    }
+
     emit(DepartmentAddNewCategoryState());
   }
 
   void removeScreen({required String screenTitle}) {
-    newScreensMap.remove(screenTitle);
-    resetScreenSelection();
     emit(DepartmentRemoveCategoryState());
   }
 
   void resetScreenSelection() {
-    if (newScreensMap.isNotEmpty) {
-      selectedButtonCategoryIndex = 0;
-      changeSelectedScreen(buttonCategoryTitle: newScreensMap.keys.first);
-    } else {
-      selectedScreen = "";
-      changeSelectedScreen(buttonCategoryTitle: 'emptyScreen');
-    }
     emit(DepartmentResetCategorySelectionState());
   }
 
   void changeSelectedScreen({required String buttonCategoryTitle}) {
-    selectedScreen = buttonCategoryTitle;
-    selectedButtonIndex = 0;
-    listToBeShow = [];
+    selectedSubScreen = buttonCategoryTitle;
 
-    if (newScreensMap.containsKey(selectedScreen)) {
-      if (newScreensMap[selectedScreen]!.buttonsAndItemsMap.isNotEmpty) {
-        String firstButtonTitle =
-            newScreensMap[selectedScreen]!.buttonsAndItemsMap.keys.first;
-        isEmptyMenuItems = false;
-        listToBeShow =
-            newScreensMap[selectedScreen]!
-                .buttonsAndItemsMap[firstButtonTitle]!;
-      }
-    } else {
-      listToBeShow = [];
-    }
     emit(DepartmentChangeScreenState());
   }
 
   // Buttons CRUD Operations
   void addNewButton({required String screenName, required String buttonTitle}) {
-    newScreensMap[screenName]!.buttonsAndItemsMap[buttonTitle] = [];
-    listToBeShow = [];
-    if (newScreensMap[screenName]!.buttonsAndItemsMap.isEmpty) {
-      isEmptyMenuItems = true;
-    }
-    isEmptyMenuItems = false;
-    resetButtonSelection(screenName: screenName);
     emit(DepartmentAddNewButtonState());
   }
 
   void removeButton({required String screenName, required String buttonTitle}) {
-    listToBeShow = [];
-    newScreensMap[screenName]!.buttonsAndItemsMap.remove(buttonTitle);
-    if (newScreensMap[screenName]!.buttonsAndItemsMap.isNotEmpty) {
-      updateSelectedList(
-        buttonTitle: newScreensMap[screenName]!.buttonsAndItemsMap.keys.first,
-        screenName: screenName,
-      );
-      resetButtonSelection(screenName: screenName);
-    } else {
-      isEmptyMenuItems = true;
-    }
     emit(DepartmentRemoveButtonState());
   }
 
   void editButtonName({required String newCategoryTitle}) {
-    newScreensMap[selectedScreen]!.menuTitle = newCategoryTitle;
     emit(DepartmentEditButtonNameState());
   }
 
   void resetButtonSelection({required String screenName}) {
-    selectedButtonIndex = 0;
-    if (newScreensMap[screenName]!.buttonsAndItemsMap.isNotEmpty) {
-      listToBeShow = newScreensMap[screenName]!.buttonsAndItemsMap.values.first;
-    } else {
-      listToBeShow = [];
-    }
     emit(DepartmentResetMenuSelection());
   }
 
@@ -171,7 +158,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     required String screenName,
     required String buttonTitle,
   }) {
-    listToBeShow = newScreensMap[screenName]!.buttonsAndItemsMap[buttonTitle]!;
     emit(DepartmentUpdateSelectedListState());
   }
 
@@ -181,9 +167,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     required MenuItemModel menuItemModel,
     required String buttonTitle,
   }) {
-    newScreensMap[screenName]!.buttonsAndItemsMap[buttonTitle]!.add(
-      menuItemModel,
-    );
     emit(DepartmentAddNewItemState());
   }
 
@@ -192,9 +175,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     required String buttonTitle,
     required int indexOfItemInList,
   }) {
-    newScreensMap[screenName]!.buttonsAndItemsMap[buttonTitle]!.removeAt(
-      indexOfItemInList,
-    );
     emit(DepartmentRemoveItemState());
   }
 
@@ -206,17 +186,17 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     String? newImage,
     String? newPrice,
   }) {
-    final item =
-        newScreensMap[screenName]!.buttonsAndItemsMap[buttonTitle]![listIndex];
-    if (newImage != null && item.image != newImage) {
-      item.image = newImage;
-    }
-    if (newTitle != null && item.title != newTitle) {
-      item.title = newTitle;
-    }
-    if (newPrice != null && item.price != newPrice) {
-      item.price = newPrice;
-    }
+    // final item =
+    //     newScreensMap[screenName]!.buttonsAndItemsMap[buttonTitle]![listIndex];
+    // if (newImage != null && item.image != newImage) {
+    //   item.image = newImage;
+    // }
+    // if (newTitle != null && item.title != newTitle) {
+    //   item.title = newTitle;
+    // }
+    // if (newPrice != null && item.price != newPrice) {
+    //   item.price = newPrice;
+    // }
     emit(DepartmentUpdateItemState());
   }
 }

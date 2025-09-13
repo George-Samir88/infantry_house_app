@@ -323,7 +323,7 @@ class _UpdateExistingItemTemplateViewState
                         child: CustomElevatedButton(
                           onPressed: () {
                             MenuItemModel? deletedMenuItem =
-                                cubit.listToBeShow[widget.listIndex];
+                                MenuItemModel(title: "222222222", image: "", price: "4", rating: 2);
                             Timer? deletionTimer;
                             cubit.removeItem(
                               screenName: widget.screenName,

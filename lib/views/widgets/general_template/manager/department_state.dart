@@ -4,7 +4,18 @@ sealed class DepartmentState {}
 
 class DepartmentInitial extends DepartmentState {}
 
-class DepartmentChangeCarouselState extends DepartmentState {}
+///------------states related to departments---------
+class DepartmentGetDepartmentsNamesSuccessState extends DepartmentState {}
+
+class DepartmentGetDepartmentsNamesLoadingState extends DepartmentState {}
+
+class DepartmentGetDepartmentsNamesFailureState extends DepartmentState {
+  final String error;
+
+  DepartmentGetDepartmentsNamesFailureState({required this.error});
+}
+
+class DepartmentChangeCarouselIndexState extends DepartmentState {}
 
 class DepartmentAddNewCarouselState extends DepartmentState {}
 
