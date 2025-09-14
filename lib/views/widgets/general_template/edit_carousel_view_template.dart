@@ -13,7 +13,6 @@ import '../../../../generated/l10n.dart';
 import '../../../../global_variables.dart';
 import '../../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/empty_carousel_item.dart';
-import '../../../utils/custom_carousel_item.dart';
 import '../../../utils/custom_edit_button.dart';
 import '../../../utils/dots_indicator.dart';
 
@@ -155,12 +154,12 @@ class _EditCarouselViewTemplateState extends State<EditCarouselViewTemplate>
                             await _pickImage();
                             setState(() {});
                             if (_image != null) {
-                              cubit.addCarouselItem(
-                                customCarouselItem: CustomCarouselItem(
-                                  imagePath: _image!.path,
-                                  isPickedImage: true,
-                                ),
-                              );
+                              // cubit.addCarouselItem(
+                              //   customCarouselItem: CustomCarouselItem(
+                              //     imagePath: _image!.path,
+                              //     isPickedImage: true,
+                              //   ),
+                              // );
                               _image = null;
                             }
                           },
@@ -179,12 +178,12 @@ class _EditCarouselViewTemplateState extends State<EditCarouselViewTemplate>
                             await _pickImage();
                             setState(() {});
                             if (_image != null) {
-                              cubit.addCarouselItem(
-                                customCarouselItem: CustomCarouselItem(
-                                  imagePath: _image!.path,
-                                  isPickedImage: true,
-                                ),
-                              );
+                              // cubit.addCarouselItem(
+                              //   customCarouselItem: CustomCarouselItem(
+                              //     imagePath: _image!.path,
+                              //     isPickedImage: true,
+                              //   ),
+                              // );
                               _image = null;
                             }
                           },

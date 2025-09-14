@@ -60,10 +60,28 @@ class DepartmentDeleteSubScreensNamesFailureState extends DepartmentState {
   DepartmentDeleteSubScreensNamesFailureState({required this.failure});
 }
 
-///------------states related to ---------
+///------------states related to CAROUSEL---------
 class DepartmentChangeCarouselIndexState extends DepartmentState {}
 
-class DepartmentAddNewCarouselState extends DepartmentState {}
+class DepartmentAddNewCarouselSuccessState extends DepartmentState {}
+
+class DepartmentAddNewCarouselLoadingState extends DepartmentState {}
+
+class DepartmentAddNewCarouselFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentAddNewCarouselFailureState({required this.failure});
+}
+
+class DepartmentGetCarouselSuccessState extends DepartmentState {}
+
+class DepartmentGetCarouselLoadingState extends DepartmentState {}
+
+class DepartmentGetCarouselFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentGetCarouselFailureState({required this.failure});
+}
 
 class DepartmentRemoveCarouselState extends DepartmentState {}
 

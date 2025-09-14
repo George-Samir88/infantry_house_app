@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infantry_house_app/models/menu_item_model.dart';
-import 'package:infantry_house_app/utils/custom_carousel_item.dart';
 
+import '../../../../models/carousel_models.dart';
 import '../../../../models/sub_screen_model.dart';
 
 part 'department_state.dart';
@@ -43,6 +43,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   //selected subScreen title
   String selectedSubScreen = '';
   Map<String, String> subScreenMap = {};
+  String? selectedSubScreenID;
 
   //Carousel tracking
   int currentCarouselIndex = 0;
@@ -115,6 +116,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
+  ///--------------SubScreens CRUD operations--------------
   Future<List<SubScreenModel>> getAllSubScreens() async {
     final String departmentId = departmentsMap[selectedDepartment]!;
     try {
@@ -129,13 +131,14 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       // رجع list of models
       final subScreens =
           querySnapshot.docs.map((doc) => SubScreenModel.fromDoc(doc)).toList();
-
-      // لو عايز تحتفظ بالـ map name → id
-      subScreenMap.clear();
-      for (var sub in subScreens) {
-        subScreenMap[sub.subScreenName] = sub.uid;
+      if (subScreens.isNotEmpty) {
+        selectedSubScreenID = subScreens[0].uid;
+        // لو عايز تحتفظ بالـ map name → id
+        subScreenMap.clear();
+        for (var sub in subScreens) {
+          subScreenMap[sub.subScreenName] = sub.uid;
+        }
       }
-
       emit(DepartmentGetSubScreensNamesSuccessState());
       return subScreens;
     } on FirebaseException catch (e) {
@@ -245,14 +248,45 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
+  ///--------------Carousel CRUD operations--------------
   void changeCarouselIndex({required int index}) {
     currentCarouselIndex = index;
     emit(DepartmentChangeCarouselIndexState());
   }
 
-  // Carousel CRUD Operations
-  void addCarouselItem({required CustomCarouselItem customCarouselItem}) {
-    emit(DepartmentAddNewCarouselState());
+  Future<List<CarouselItemModel>> getCarouselItems() async {
+    try {
+      final String departmentId = departmentsMap[selectedDepartment]!;
+      emit(DepartmentGetCarouselLoadingState());
+
+      final querySnapshot =
+          await firestore
+              .collection(rootCollectionName)
+              .doc(departmentId)
+              .collection('super_categories')
+              .doc(selectedSubScreenID)
+              .collection('carousel_items')
+              .get();
+
+      final items =
+          querySnapshot.docs
+              .map((doc) => CarouselItemModel.fromDoc(doc))
+              .toList();
+
+      emit(DepartmentGetCarouselSuccessState());
+      return items;
+    } on FirebaseException catch (e) {
+      emit(
+        DepartmentGetCarouselFailureState(
+          failure:
+              "Firestore error while fetching carousel items: ${e.message}",
+        ),
+      );
+      return [];
+    } catch (e) {
+      emit(DepartmentGetCarouselFailureState(failure: e.toString()));
+      return [];
+    }
   }
 
   void removeCarouselItem({required int index}) {

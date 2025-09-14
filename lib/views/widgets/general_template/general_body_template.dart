@@ -89,10 +89,12 @@ class GeneralBodyTemplateView extends StatelessWidget {
                                   .getDepartmentsNames();
                               await context
                                   .read<DepartmentCubit>()
-                                  .deleteSubScreen(
-                                    subScreenUID: '0abX1JlHieQaqzktymPB',
-                                  );
-                              // Navigator.push(
+                                  .getAllSubScreens();
+                              print(await context.read<DepartmentCubit>().selectedSubScreenID);
+
+                              var carouselItems = await context.read<DepartmentCubit>().getCarouselItems();
+                               print(carouselItems.length);
+                              // Navigzator.push(
                               //   context,
                               //   MaterialPageRoute(
                               //     builder:
