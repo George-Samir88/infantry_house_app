@@ -84,12 +84,14 @@ class GeneralBodyTemplateView extends StatelessWidget {
                           onTab: () async {
                             // if (cubit.newScreensMap.isNotEmpty) {
                             if (1 > 0) {
-                              await context.read<DepartmentCubit>().getDepartmentsNames();
-                              await context.read<DepartmentCubit>().getAllSubScreenNames();
                               await context
                                   .read<DepartmentCubit>()
-                                    .deleteSubScreen(subScreenName: 'lamaraaaaaaaaaa',);
-
+                                  .getDepartmentsNames();
+                              await context
+                                  .read<DepartmentCubit>()
+                                  .deleteSubScreen(
+                                    subScreenUID: '0abX1JlHieQaqzktymPB',
+                                  );
                               // Navigator.push(
                               //   context,
                               //   MaterialPageRoute(

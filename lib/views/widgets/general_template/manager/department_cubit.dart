@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infantry_house_app/models/menu_item_model.dart';
 import 'package:infantry_house_app/utils/custom_carousel_item.dart';
 
+import '../../../../models/sub_screen_model.dart';
+
 part 'department_state.dart';
 
 ///App Structure Naming
@@ -113,68 +115,66 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
-  Future<List<String>> getAllSubScreenNames() async {
+  Future<List<SubScreenModel>> getAllSubScreens() async {
     final String departmentId = departmentsMap[selectedDepartment]!;
     try {
       emit(DepartmentGetSubScreensNamesLoadingState());
+
       final querySnapshot = await firestore
           .collection(rootCollectionName)
-          .doc(departmentId) // 🔹 dynamic parent doc
+          .doc(departmentId)
           .collection('super_categories')
           .get(GetOptions(source: Source.server));
 
-      final superCategoryNames =
-          querySnapshot.docs
-              .map((doc) {
-                final data = doc.data() as Map<String, dynamic>?;
-                final name = data?['super_cat_name'] as String?;
-                return name?.trim();
-              })
-              .where(
-                (name) => name != null && name.isNotEmpty,
-              ) // filter out bad data
-              .cast<String>()
-              .toList();
-      for (var doc in querySnapshot.docs) {
-        final data = doc.data() as Map<String, dynamic>?;
-        final name = data?['super_cat_name'] as String?;
-        if (name != null && name.isNotEmpty) {
-          subScreenMap[name] = doc.id;
-        }
+      // رجع list of models
+      final subScreens =
+          querySnapshot.docs.map((doc) => SubScreenModel.fromDoc(doc)).toList();
+
+      // لو عايز تحتفظ بالـ map name → id
+      subScreenMap.clear();
+      for (var sub in subScreens) {
+        subScreenMap[sub.subScreenName] = sub.uid;
       }
 
       emit(DepartmentGetSubScreensNamesSuccessState());
-      return superCategoryNames;
+      return subScreens;
     } on FirebaseException catch (e) {
-      // 🔹 Firestore-specific errors (e.g., permission denied, unavailable, etc.)
       emit(
         DepartmentGetSubScreensNamesFailureState(
-          error:
-              "Firestore error while fetching super categories: ${e.message}",
+          error: "Firestore error while fetching sub screens: ${e.message}",
         ),
       );
       return [];
     } on Exception catch (e) {
-      // 🔹 Any other Dart/Flutter exceptions
       emit(DepartmentGetSubScreensNamesFailureState(error: e.toString()));
       return [];
     }
   }
 
-  Future<void> createSubScreen(String superCatName) async {
+  Future<void> createSubScreen({required String superCatName}) async {
     try {
       final String departmentId = departmentsMap[selectedDepartment]!;
       emit(DepartmentCreateSubScreensNamesLoadingState());
 
+      // Step 1: جهز الـ model
+      final newSubScreen = SubScreenModel(
+        subScreenName: superCatName.trim(),
+        createdAt: DateTime.now(),
+        uid: "", // هنحدثه بعدين بالـ doc.id
+        updatedAt: null,
+      );
+
+      // Step 2: add doc بالـ model
       final docRef = await firestore
           .collection(rootCollectionName)
           .doc(departmentId)
           .collection('super_categories')
-          .add({
-            'super_cat_name': superCatName.trim(),
-            'created_at': DateTime.now(),
-          });
-      await getAllSubScreenNames();
+          .add(newSubScreen.toMap());
+
+      // Step 3: update uid field
+      await docRef.update({'uid': docRef.id});
+
+      await getAllSubScreens();
       emit(DepartmentCreateSubScreensNamesSuccessState(docReference: docRef));
     } on FirebaseException catch (e) {
       emit(
@@ -188,24 +188,23 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   Future<void> updateSubScreen({
-    required String subScreenName,
     required String newSuperCatName,
+    required String subScreenUID,
   }) async {
     try {
       final String departmentId = departmentsMap[selectedDepartment]!;
-      final String subScreenId = subScreenMap[subScreenName]!;
       emit(DepartmentUpdateSubScreensNamesLoadingState());
 
       await firestore
           .collection(rootCollectionName)
           .doc(departmentId)
           .collection('super_categories')
-          .doc(subScreenId)
+          .doc(subScreenUID)
           .update({
             'super_cat_name': newSuperCatName.trim(),
             'updated_at': DateTime.now(),
           });
-
+      await getAllSubScreens();
       emit(DepartmentUpdateSubScreensNamesSuccessState());
     } on FirebaseException catch (e) {
       emit(
@@ -218,19 +217,18 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
-  Future<void> deleteSubScreen({required String subScreenName}) async {
+  Future<void> deleteSubScreen({required String subScreenUID}) async {
     try {
       String departmentId = departmentsMap[selectedDepartment]!;
-      String subScreenId = subScreenMap[subScreenName]!;
       emit(DepartmentDeleteSubScreensNamesLoadingState());
 
       await firestore
           .collection(rootCollectionName)
           .doc(departmentId)
           .collection('super_categories')
-          .doc(subScreenId)
+          .doc(subScreenUID)
           .delete();
-      getAllSubScreenNames();
+      await getAllSubScreens();
       emit(DepartmentDeleteSubScreensNamesSuccessState());
     } on FirebaseException catch (e) {
       emit(
