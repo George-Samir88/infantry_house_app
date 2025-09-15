@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
+import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
@@ -12,16 +13,15 @@ import '../../../../utils/custom_elevated_button.dart';
 import '../../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_edit_button.dart';
 
-class EditScreenDepartmentTemplateView extends StatefulWidget {
-  const EditScreenDepartmentTemplateView({super.key});
+class EditSubScreenTemplateView extends StatefulWidget {
+  const EditSubScreenTemplateView({super.key});
 
   @override
-  State<EditScreenDepartmentTemplateView> createState() =>
-      _EditScreenDepartmentTemplateViewState();
+  State<EditSubScreenTemplateView> createState() =>
+      _EditSubScreenTemplateViewState();
 }
 
-class _EditScreenDepartmentTemplateViewState
-    extends State<EditScreenDepartmentTemplateView>
+class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
     with SingleTickerProviderStateMixin {
   TextEditingController arabicTextEditingController = TextEditingController();
   TextEditingController englishTextEditingController = TextEditingController();
@@ -82,12 +82,16 @@ class _EditScreenDepartmentTemplateViewState
           title: S.of(context).T3delElaksam,
         ),
       ),
-      body: BlocBuilder<DepartmentCubit, DepartmentState>(
+      body: BlocConsumer<DepartmentCubit, DepartmentState>(
+        listener: (context, state) {
+          if (state is DepartmentCreateSubScreensNamesSuccessState) {
+            _playAnimation();
+          } else if (state is DepartmentCreateCarouselFailureState) {
+            showSnackBar(context: context, message: state.failure);
+          }
+        },
         builder: (context, state) {
           var cubit = context.read<DepartmentCubit>();
-          List<String?> newButtonTitlesList = [];
-          // newButtonTitlesList = cubit.newScreensMap.keys.toList();
-          newButtonTitlesList = [];
           return ListView(
             controller: scrollController,
             children: [
@@ -97,94 +101,103 @@ class _EditScreenDepartmentTemplateViewState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 20.h),
-                    if (newButtonTitlesList.isNotEmpty)
-                      Container(
-                        margin: EdgeInsets.only(left: 16.w, right: 16.w),
-                        height: 40.h,
-                        // Adjust height as needed
-                        child: ListView.separated(
-                          clipBehavior: Clip.none,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: newButtonTitlesList.length,
-                          // Number of buttons
-                          itemBuilder: (context, index) {
-                            return Stack(
+                    if (cubit.subScreensList.isNotEmpty) ...[
+                      state is DepartmentDeleteSubScreensNamesLoadingState ||
+                              state
+                                  is DepartmentUpdateSubScreensNamesLoadingState
+                          ? AppLoader()
+                          : Container(
+                            margin: EdgeInsets.only(left: 16.w, right: 16.w),
+                            height: 40.h,
+                            // Adjust height as needed
+                            child: ListView.separated(
                               clipBehavior: Clip.none,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 20.w,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.shade400,
-                                        // Shadow color with opacity
-                                        spreadRadius: 1,
-                                        // Spread area of the shadow
-                                        blurRadius: 4,
-                                        // Blur effect
-                                        offset: Offset(
-                                          3,
-                                          1,
-                                        ), // Changes position of shadow (X, Y)
+                              scrollDirection: Axis.horizontal,
+                              itemCount: cubit.subScreensList.length,
+                              // Number of buttons
+                              itemBuilder: (context, index) {
+                                return Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 20.w,
                                       ),
-                                    ],
-                                    color: Color(0xffFAF7F0),
-                                    borderRadius: BorderRadius.circular(14),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "",
-                                      // cubit.newScreensMap.keys.toList()[index],
-                                      style: TextStyle(
-                                        color: Color(0xff5E3D2E),
-                                        fontSize:
-                                            GlobalData().isTabletLayout
-                                                ? 10.sp
-                                                : 12.sp,
-                                        fontWeight: FontWeight.w500,
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.shade400,
+                                            // Shadow color with opacity
+                                            spreadRadius: 1,
+                                            // Spread area of the shadow
+                                            blurRadius: 4,
+                                            // Blur effect
+                                            offset: Offset(
+                                              3,
+                                              1,
+                                            ), // Changes position of shadow (X, Y)
+                                          ),
+                                        ],
+                                        color: Color(0xffFAF7F0),
+                                        borderRadius: BorderRadius.circular(14),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          cubit
+                                              .subScreensList[index]
+                                              .subScreenName,
+                                          style: TextStyle(
+                                            color: Color(0xff5E3D2E),
+                                            fontSize:
+                                                GlobalData().isTabletLayout
+                                                    ? 10.sp
+                                                    : 12.sp,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: GlobalData().isArabic ? -10 : null,
-                                  bottom: -15,
-                                  right: GlobalData().isArabic ? null : -10,
-                                  child: CustomEditButton(
-                                    onTap: () {
-                                      cubit.removeScreen(
-                                        screenTitle:
-                                            newButtonTitlesList[index]!,
-                                      );
-                                    },
-                                    height:
-                                        GlobalData().isTabletLayout
-                                            ? 28.h
-                                            : 25.h,
-                                    width:
-                                        GlobalData().isTabletLayout
-                                            ? 20.w
-                                            : 35.w,
-                                    iconSize:
-                                        GlobalData().isTabletLayout
-                                            ? 18.r
-                                            : 20.r,
-                                    icon: Icons.cancel,
-                                    iconColor: Colors.white,
-                                    backgroundColor: Colors.red,
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(width: 12.w);
-                          },
-                        ),
-                      ),
-                    if (newButtonTitlesList.isEmpty)
+                                    Positioned(
+                                      left: GlobalData().isArabic ? -10 : null,
+                                      bottom: -15,
+                                      right: GlobalData().isArabic ? null : -10,
+                                      child: CustomEditButton(
+                                        onTap: () {
+                                          cubit.deleteSubScreen(
+                                            subScreenUID:
+                                                cubit.subScreensList[index].uid,
+                                          );
+                                        },
+                                        height:
+                                            GlobalData().isTabletLayout
+                                                ? 28.h
+                                                : 25.h,
+                                        width:
+                                            GlobalData().isTabletLayout
+                                                ? 20.w
+                                                : 35.w,
+                                        iconSize:
+                                            GlobalData().isTabletLayout
+                                                ? 18.r
+                                                : 20.r,
+                                        icon: Icons.cancel,
+                                        iconColor: Colors.white,
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                              separatorBuilder: (
+                                BuildContext context,
+                                int index,
+                              ) {
+                                return SizedBox(width: 12.w);
+                              },
+                            ),
+                          ),
+                    ],
+                    if (cubit.subScreensList.isEmpty)
                       Center(
                         child: Text(
                           S.of(context).LaYogdAksam,
@@ -207,7 +220,6 @@ class _EditScreenDepartmentTemplateViewState
                       ),
                     ),
                     SizedBox(height: 10.h),
-
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: CustomTextFormField(
@@ -239,65 +251,47 @@ class _EditScreenDepartmentTemplateViewState
                       ),
                     ),
                     SizedBox(height: 30.h),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CustomElevatedButton(
-                              textColor: Color(0xFF6D3A2D),
-                              backGroundColor: Colors.grey[300],
-                              onPressed: () async {
-                                if (formKey.currentState!.validate()) {
-                                  // bool existingKey =
-                                  bool existingKey = 1 > 0;
-                                  //     checkKeyMapExistBeforeAdding(
-                                  //       cubit.newScreensMap,
-                                  //       arabicTextEditingController.text,
-                                  //     );
-                                  if (!existingKey) {
-                                    cubit.addNewScreen(
-                                      screenTitle:
-                                          GlobalData().isArabic
-                                              ? arabicTextEditingController.text
-                                              : englishTextEditingController
-                                                  .text,
-                                    );
-                                    arabicTextEditingController.clear();
-                                    englishTextEditingController.clear();
-                                    FocusScope.of(context).unfocus();
-                                  }
-                                  if (existingKey) {
-                                    showSnackBar(
-                                      context: context,
-                                      message:
-                                          S
-                                              .of(context)
-                                              .TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName,
-                                      backgroundColor: Colors.red,
-                                    );
-                                  }
-                                }
-                              },
-                              text: S.of(context).EdaftGded,
-                              tabletLayout: GlobalData().isTabletLayout,
-                            ),
-                          ),
-                          SizedBox(width: 10.w),
-                          if (1 > 0)
-                            // if (cubit.newScreensMap.isNotEmpty)
-                            Expanded(
-                              child: CustomElevatedButton(
-                                onPressed: () {
-                                  _playAnimation();
-                                },
-                                text: S.of(context).hefz,
-                                tabletLayout: GlobalData().isTabletLayout,
+                    state is DepartmentCreateSubScreensNamesLoadingState
+                        ? AppLoader()
+                        : Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: CustomElevatedButton(
+                                  textColor: Color(0xFF6D3A2D),
+                                  backGroundColor: Colors.grey[300],
+                                  onPressed: () async {
+                                    if (formKey.currentState!.validate()) {
+                                      cubit.createSubScreen(
+                                        superCatName:
+                                            GlobalData().isArabic
+                                                ? arabicTextEditingController
+                                                    .text
+                                                : englishTextEditingController
+                                                    .text,
+                                      );
+                                      arabicTextEditingController.clear();
+                                      englishTextEditingController.clear();
+                                      FocusScope.of(context).unfocus();
+                                    }
+                                  },
+                                  text: S.of(context).EdaftGded,
+                                  tabletLayout: GlobalData().isTabletLayout,
+                                ),
                               ),
-                            ),
-                        ],
-                      ),
-                    ),
+                              SizedBox(width: 10.w),
+                              if (cubit.subScreensList.isNotEmpty)
+                                Expanded(
+                                  child: CustomElevatedButton(
+                                    onPressed: () {},
+                                    text: S.of(context).hefz,
+                                    tabletLayout: GlobalData().isTabletLayout,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
                     SizedBox(height: 10.h),
                     Visibility(
                       visible: isAnimationVisible,

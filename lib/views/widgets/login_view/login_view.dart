@@ -10,6 +10,7 @@ import 'package:infantry_house_app/views/widgets/register_view/manager/register_
 
 import '../../../generated/l10n.dart';
 import '../home_view/home_view.dart';
+import '../home_view/manager/home_cubit.dart';
 import '../register_view/register_view.dart';
 
 class LoginView extends StatefulWidget {
@@ -42,12 +43,15 @@ class _LoginViewState extends State<LoginView> {
     return BlocProvider(
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is LoginSuccess) {
             showSnackBar(
               context: context,
               message: S.of(context).LoggedInSuccessfully,
             );
+            if (!context.mounted) return;
+            await context.read<HomeCubit>().getDepartmentsNames();
+            if (!context.mounted) return;
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => HomeView()),

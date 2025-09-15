@@ -31,19 +31,20 @@ part 'department_state.dart';
 // 🔹 الاسم في الكود: ItemCard
 
 class DepartmentCubit extends Cubit<DepartmentState> {
-  DepartmentCubit() : super(DepartmentInitial());
+  DepartmentCubit({required this.departmentId}) : super(DepartmentInitial());
+
+  final String departmentId;
 
   ///-------------Variables-------------
   //selected department
-  String selectedDepartment = 'food and beverage';
-
-  //document id to screen name mapping
-  Map<String, String> departmentsMap = {};
+  String selectedDepartment = 'FoodAndBeverage';
 
   //selected subScreen title
   String selectedSubScreen = '';
   Map<String, String> subScreenMap = {};
   String? selectedSubScreenID;
+  int selectedSubScreenIndex = 0;
+  List<SubScreenModel> subScreensList = [];
 
   //Carousel tracking
   int currentCarouselIndex = 0;
@@ -59,20 +60,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   ///-------------Functions-------------
-
-  String? findDocIdByDepartmentName() {
-    return departmentsMap.entries
-            .firstWhere(
-              (entry) => entry.value == selectedDepartment,
-              orElse: () => const MapEntry("", ""), // avoid crash if not found
-            )
-            .key
-            .isEmpty
-        ? null
-        : departmentsMap.entries
-            .firstWhere((entry) => entry.value == selectedDepartment)
-            .key;
-  }
 
   Future<List<String>> getDepartmentsNames() async {
     try {
@@ -92,13 +79,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
               ) // Filter null/empty
               .cast<String>()
               .toList();
-      for (var doc in querySnapshot.docs) {
-        final data = doc.data() as Map<String, dynamic>?;
-        final name = data?['screen_name'] as String?;
-        if (name != null && name.isNotEmpty) {
-          departmentsMap[name] = doc.id;
-        }
-      }
+
       emit(DepartmentGetDepartmentsNamesSuccessState());
       return screenNames;
     } on FirebaseException catch (e) {
@@ -117,8 +98,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   ///--------------SubScreens CRUD operations--------------
-  Future<List<SubScreenModel>> getAllSubScreens() async {
-    final String departmentId = departmentsMap[selectedDepartment]!;
+  Future<void> getAllSubScreens() async {
     try {
       emit(DepartmentGetSubScreensNamesLoadingState());
 
@@ -139,24 +119,21 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           subScreenMap[sub.subScreenName] = sub.uid;
         }
       }
+      subScreensList = subScreens;
       emit(DepartmentGetSubScreensNamesSuccessState());
-      return subScreens;
     } on FirebaseException catch (e) {
       emit(
         DepartmentGetSubScreensNamesFailureState(
           error: "Firestore error while fetching sub screens: ${e.message}",
         ),
       );
-      return [];
     } on Exception catch (e) {
       emit(DepartmentGetSubScreensNamesFailureState(error: e.toString()));
-      return [];
     }
   }
 
   Future<void> createSubScreen({required String superCatName}) async {
     try {
-      final String departmentId = departmentsMap[selectedDepartment]!;
       emit(DepartmentCreateSubScreensNamesLoadingState());
 
       // Step 1: جهز الـ model
@@ -177,8 +154,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       // Step 3: update uid field
       await docRef.update({'uid': docRef.id});
 
-      await getAllSubScreens();
       emit(DepartmentCreateSubScreensNamesSuccessState(docReference: docRef));
+      await getAllSubScreens();
     } on FirebaseException catch (e) {
       emit(
         DepartmentCreateSubScreensNamesFailureState(
@@ -195,7 +172,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     required String subScreenUID,
   }) async {
     try {
-      final String departmentId = departmentsMap[selectedDepartment]!;
       emit(DepartmentUpdateSubScreensNamesLoadingState());
 
       await firestore
@@ -207,8 +183,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
             'super_cat_name': newSuperCatName.trim(),
             'updated_at': DateTime.now(),
           });
-      await getAllSubScreens();
       emit(DepartmentUpdateSubScreensNamesSuccessState());
+      await getAllSubScreens();
     } on FirebaseException catch (e) {
       emit(
         DepartmentUpdateSubScreensNamesFailureState(
@@ -222,7 +198,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   Future<void> deleteSubScreen({required String subScreenUID}) async {
     try {
-      String departmentId = departmentsMap[selectedDepartment]!;
       emit(DepartmentDeleteSubScreensNamesLoadingState());
 
       await firestore
@@ -231,8 +206,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .collection('super_categories')
           .doc(subScreenUID)
           .delete();
-      await getAllSubScreens();
       emit(DepartmentDeleteSubScreensNamesSuccessState());
+      await getAllSubScreens();
     } on FirebaseException catch (e) {
       emit(
         DepartmentDeleteSubScreensNamesFailureState(
@@ -248,6 +223,15 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
+  void changeSelectedSubScreen({
+    required String subScreenButtonId,
+    required int index,
+  }) {
+    selectedSubScreenID = subScreenButtonId;
+    selectedSubScreenIndex = index;
+    emit(DepartmentChangeSubScreenState());
+  }
+
   ///--------------Carousel CRUD operations--------------
   void changeCarouselIndex({required int index}) {
     currentCarouselIndex = index;
@@ -256,7 +240,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   Future<List<CarouselItemModel>> getCarouselItems() async {
     try {
-      final String departmentId = departmentsMap[selectedDepartment]!;
       emit(DepartmentGetCarouselLoadingState());
 
       final querySnapshot =
@@ -291,7 +274,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   Future<void> createCarouselItem({required String imageUrl}) async {
     try {
-      final String departmentId = departmentsMap[selectedDepartment]!;
       emit(DepartmentCreateCarouselLoadingState());
 
       // Create a new document reference
@@ -354,13 +336,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
-
   ///--------------MenuTitle CRUD operations--------------
   void removeCarouselItem({required int index}) {
     emit(DepartmentRemoveCarouselState());
   }
 
-  int selectedButtonCategoryIndex = 0;
   bool isEmptyMenuItems = true;
 
   // Screens CRUD Operations
@@ -378,12 +358,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   void resetScreenSelection() {
     emit(DepartmentResetCategorySelectionState());
-  }
-
-  void changeSelectedScreen({required String buttonCategoryTitle}) {
-    selectedSubScreen = buttonCategoryTitle;
-
-    emit(DepartmentChangeScreenState());
   }
 
   // Buttons CRUD Operations

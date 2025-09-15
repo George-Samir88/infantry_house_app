@@ -16,7 +16,9 @@ class DepartmentGetDepartmentsNamesFailureState extends DepartmentState {
 }
 
 ///------------states related to Sub Screens---------
-class DepartmentGetSubScreensNamesSuccessState extends DepartmentState {}
+class DepartmentGetSubScreensNamesSuccessState extends DepartmentState {
+  DepartmentGetSubScreensNamesSuccessState();
+}
 
 class DepartmentGetSubScreensNamesLoadingState extends DepartmentState {}
 
@@ -92,6 +94,7 @@ class DepartmentCreateCarouselFailureState extends DepartmentState {
 
   DepartmentCreateCarouselFailureState({required this.failure});
 }
+
 class DepartmentRemoveCarouselSuccessState extends DepartmentState {}
 
 class DepartmentRemoveCarouselLoadingState extends DepartmentState {}
@@ -101,6 +104,7 @@ class DepartmentRemoveCarouselFailureState extends DepartmentState {
 
   DepartmentRemoveCarouselFailureState({required this.failure});
 }
+
 class DepartmentRemoveCarouselState extends DepartmentState {}
 
 class DepartmentInitializationState extends DepartmentState {}
@@ -111,7 +115,7 @@ class DepartmentRemoveCategoryState extends DepartmentState {}
 
 class DepartmentResetCategorySelectionState extends DepartmentState {}
 
-class DepartmentChangeScreenState extends DepartmentState {}
+class DepartmentChangeSubScreenState extends DepartmentState {}
 
 class DepartmentAddNewButtonState extends DepartmentState {}
 

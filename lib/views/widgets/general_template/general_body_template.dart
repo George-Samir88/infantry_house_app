@@ -87,10 +87,7 @@ class GeneralBodyTemplateView extends StatelessWidget {
                               await context
                                   .read<DepartmentCubit>()
                                   .getDepartmentsNames();
-                              await context
-                                  .read<DepartmentCubit>()
-                                  .getAllSubScreens();
-                              print(await context.read<DepartmentCubit>().selectedSubScreenID);
+
 
                               var carouselItems = await context.read<DepartmentCubit>().getCarouselItems();
                                print(carouselItems.length);

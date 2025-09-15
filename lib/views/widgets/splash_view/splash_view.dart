@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../generated/l10n.dart';
 import '../../../main.dart';
 import '../home_view/home_view.dart';
+import '../home_view/manager/home_cubit.dart';
 import '../login_view/login_view.dart';
 import '../../../utils/custom_elevated_button.dart';
 
@@ -60,233 +61,257 @@ class _SplashViewState extends State<SplashView> {
     });
   }
 
+  bool userIsLoggedIn = false;
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AutoLoginCubit, AutoLoginState>(
-      listener: (context, state) {
-        if (state is AutoLoginSuccess) {
-          // ✅ login success → go Home
-          Future.delayed(Duration(seconds: 2), () {
-            if (!context.mounted) return;
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<HomeCubit, HomeState>(
+          listener: (context, state) {
+            if (state is HomeGetDepartmentsSuccessState && userIsLoggedIn) {
+              // ✅ login success → Go Home
+              Future.delayed(Duration(seconds: 2), () async {
+                if (!context.mounted) return;
+                await context.read<HomeCubit>().getDepartmentsNames();
+              });
+              if (!context.mounted) return;
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => HomeView()),
+              );
+            }
+            if (state is HomeGetDepartmentsFailureState) {
+              showSnackBar(context: context, message: state.failure);
+            }
+          },
+        ),
+      ],
+      child: BlocConsumer<AutoLoginCubit, AutoLoginState>(
+        listener: (context, state) async {
+          if (state is AutoLoginSuccess) {
+            // ✅ login success → mark user as logged in
+            userIsLoggedIn = true;
+          } else if (state is AutoLoginUserNotFound) {
+            // ❌ no session → go Login
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => HomeView()),
+              MaterialPageRoute(builder: (_) => LoginView()),
             );
-          });
-        } else if (state is AutoLoginUserNotFound) {
-          // ❌ no session → go Login
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => LoginView()),
-          );
-        } else if (state is AutoLoginFailure) {
-          showSnackBar(context: context, message: state.message);
-        }
-      },
-      builder: (context, state) {
-        return LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            height = constraints.maxHeight;
-            width = constraints.maxWidth;
-            if (constraints.maxWidth > 600) {
-              GlobalData().isTabletLayout = true;
-            }
-            return Material(
-              color: Colors.white,
-              child: SizedBox(
-                width: width,
-                height: height,
-                child: Stack(
-                  children: [
-                    // Background container
-                    Container(
-                      width: width,
-                      height: height * 0.6,
-                      decoration: BoxDecoration(
-                        color: Colors.brown[800],
-                        borderRadius: const BorderRadius.only(
-                          bottomRight: Radius.circular(80),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Image.asset(
-                              'assets/images/logo.png',
-                              width: width * 0.7,
-                              height: height * 0.3,
-                              scale: 0.8,
-                            ),
-                          ),
-                          SizedBox(height: 10.h),
-                          SizedBox(
-                            width: width,
-                            child: Center(
-                              child: DefaultTextStyle(
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 30.sp,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "Cairo",
-                                ),
-                                child: AnimatedTextKit(
-                                  key: ValueKey(selectedLanguage),
-                                  repeatForever: false,
-                                  isRepeatingAnimation: false,
-                                  animatedTexts: [
-                                    TyperAnimatedText(
-                                      S.of(context).InfantryHouse,
-                                      speed: Duration(milliseconds: 100),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Bottom Section
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Stack(
-                        children: [
-                          Container(
-                            width: width,
-                            height: height * 0.4,
-                            decoration: BoxDecoration(color: Colors.brown[800]),
-                          ),
-                          Container(
-                            width: width,
-                            height: height * 0.4,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(80),
-                              ),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SizedBox(height: 20.h),
-                                Text(
-                                  S.of(context).WelcomeToInfantryHouse,
-                                  style: TextStyle(
-                                    color: Colors.brown[800],
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: 1,
-                                    wordSpacing: 2,
-                                  ),
-                                ),
-                                SizedBox(height: 10.h),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 16.0.w,
-                                  ),
-                                  child:
-                                      state is AutoLoginLoading
-                                          ? Center(
-                                            child: CircularProgressIndicator(
-                                              color: const Color(0xFF6D3A2D),
-                                              strokeWidth: 3,
-                                            ),
-                                          )
-                                          : CustomElevatedButton(
-                                            onPressed: () {
-                                              state is AutoLoginSuccess
-                                                  ? Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder:
-                                                          (context) =>
-                                                              HomeView(),
-                                                    ),
-                                                  )
-                                                  : Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder:
-                                                          (context) =>
-                                                              LoginView(),
-                                                    ),
-                                                  );
-                                            },
-                                            text: S.of(context).GetStarted,
-                                            width:
-                                                MediaQuery.of(
-                                                  context,
-                                                ).size.width.w,
-                                            tabletLayout:
-                                                GlobalData().isTabletLayout,
-                                          ),
-                                ),
-                                SizedBox(height: 20.h),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Language Dropdown in the Top-Right Corner
-                    Positioned(
-                      top: 40.h, // Adjust the position
-                      right: 20.w, // Adjust the position
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.w,
-                          vertical: 10.h,
-                        ),
+          } else if (state is AutoLoginFailure) {
+            showSnackBar(context: context, message: state.message);
+          }
+        },
+        builder: (context, state) {
+          return LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              height = constraints.maxHeight;
+              width = constraints.maxWidth;
+              if (constraints.maxWidth > 600) {
+                GlobalData().isTabletLayout = true;
+              }
+              return Material(
+                color: Colors.white,
+                child: SizedBox(
+                  width: width,
+                  height: height,
+                  child: Stack(
+                    children: [
+                      // Background container
+                      Container(
+                        width: width,
+                        height: height * 0.6,
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.brown[800],
+                          borderRadius: const BorderRadius.only(
+                            bottomRight: Radius.circular(80),
+                          ),
                         ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            value: selectedLanguage,
-                            icon: Icon(
-                              Icons.language,
-                              size: GlobalData().isTabletLayout ? 26.r : 20.r,
-                              color: Colors.brown[800],
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Image.asset(
+                                'assets/images/logo.png',
+                                width: width * 0.7,
+                                height: height * 0.3,
+                                scale: 0.8,
+                              ),
                             ),
-                            items: [
-                              DropdownMenuItem(
-                                value: 'en',
-                                child: Text(
-                                  'English',
-                                  style: TextStyle(fontSize: 12.sp),
+                            SizedBox(height: 10.h),
+                            SizedBox(
+                              width: width,
+                              child: Center(
+                                child: DefaultTextStyle(
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 30.sp,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "Cairo",
+                                  ),
+                                  child: AnimatedTextKit(
+                                    key: ValueKey(selectedLanguage),
+                                    repeatForever: false,
+                                    isRepeatingAnimation: false,
+                                    animatedTexts: [
+                                      TyperAnimatedText(
+                                        S.of(context).InfantryHouse,
+                                        speed: Duration(milliseconds: 100),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              DropdownMenuItem(
-                                value: 'ar',
-                                child: Text(
-                                  'العربية',
-                                  style: TextStyle(fontSize: 12.sp),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Bottom Section
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: width,
+                              height: height * 0.4,
+                              decoration: BoxDecoration(
+                                color: Colors.brown[800],
+                              ),
+                            ),
+                            Container(
+                              width: width,
+                              height: height * 0.4,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(80),
                                 ),
                               ),
-                            ],
-                            onChanged: (String? newValue) {
-                              if (newValue != null) {
-                                _changeLanguage(newValue);
-                              }
-                            },
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(height: 20.h),
+                                  Text(
+                                    S.of(context).WelcomeToInfantryHouse,
+                                    style: TextStyle(
+                                      color: Colors.brown[800],
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: 1,
+                                      wordSpacing: 2,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.h),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 16.0.w,
+                                    ),
+                                    child:
+                                        state is AutoLoginLoading
+                                            ? Center(
+                                              child: CircularProgressIndicator(
+                                                color: const Color(0xFF6D3A2D),
+                                                strokeWidth: 3,
+                                              ),
+                                            )
+                                            : CustomElevatedButton(
+                                              onPressed: () {
+                                                (userIsLoggedIn &&
+                                                        state
+                                                            is HomeGetDepartmentsSuccessState)
+                                                    ? Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder:
+                                                            (context) =>
+                                                                HomeView(),
+                                                      ),
+                                                    )
+                                                    : Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder:
+                                                            (context) =>
+                                                                LoginView(),
+                                                      ),
+                                                    );
+                                              },
+                                              text: S.of(context).GetStarted,
+                                              width:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width.w,
+                                              tabletLayout:
+                                                  GlobalData().isTabletLayout,
+                                            ),
+                                  ),
+                                  SizedBox(height: 20.h),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Language Dropdown in the Top-Right Corner
+                      Positioned(
+                        top: 40.h, // Adjust the position
+                        right: 20.w, // Adjust the position
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 10.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: selectedLanguage,
+                              icon: Icon(
+                                Icons.language,
+                                size: GlobalData().isTabletLayout ? 26.r : 20.r,
+                                color: Colors.brown[800],
+                              ),
+                              items: [
+                                DropdownMenuItem(
+                                  value: 'en',
+                                  child: Text(
+                                    'English',
+                                    style: TextStyle(fontSize: 12.sp),
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: 'ar',
+                                  child: Text(
+                                    'العربية',
+                                    style: TextStyle(fontSize: 12.sp),
+                                  ),
+                                ),
+                              ],
+                              onChanged: (String? newValue) {
+                                if (newValue != null) {
+                                  _changeLanguage(newValue);
+                                }
+                              },
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
-        );
-      },
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

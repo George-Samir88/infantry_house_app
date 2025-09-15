@@ -12,7 +12,9 @@ import 'horizontal_list_of_activities_types.dart';
 import 'manager/activity_cubit.dart';
 
 class ActivitiesViewBody extends StatefulWidget {
-  const ActivitiesViewBody({super.key});
+  const ActivitiesViewBody({super.key, required this.screenId});
+
+  final String screenId;
 
   @override
   State<ActivitiesViewBody> createState() => _ActivitiesViewBodyState();
