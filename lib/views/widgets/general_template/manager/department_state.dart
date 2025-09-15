@@ -83,6 +83,24 @@ class DepartmentGetCarouselFailureState extends DepartmentState {
   DepartmentGetCarouselFailureState({required this.failure});
 }
 
+class DepartmentCreateCarouselSuccessState extends DepartmentState {}
+
+class DepartmentCreateCarouselLoadingState extends DepartmentState {}
+
+class DepartmentCreateCarouselFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentCreateCarouselFailureState({required this.failure});
+}
+class DepartmentRemoveCarouselSuccessState extends DepartmentState {}
+
+class DepartmentRemoveCarouselLoadingState extends DepartmentState {}
+
+class DepartmentRemoveCarouselFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentRemoveCarouselFailureState({required this.failure});
+}
 class DepartmentRemoveCarouselState extends DepartmentState {}
 
 class DepartmentInitializationState extends DepartmentState {}

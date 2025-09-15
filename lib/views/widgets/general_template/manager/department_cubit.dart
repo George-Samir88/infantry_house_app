@@ -289,17 +289,75 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
+  Future<void> createCarouselItem({required String imageUrl}) async {
+    try {
+      final String departmentId = departmentsMap[selectedDepartment]!;
+      emit(DepartmentCreateCarouselLoadingState());
+
+      // Create a new document reference
+      final docRef =
+          firestore
+              .collection(rootCollectionName)
+              .doc(departmentId)
+              .collection('super_categories')
+              .doc(selectedSubScreenID)
+              .collection('carousel_items')
+              .doc(); // generate unique ID
+
+      final newItem = CarouselItemModel(
+        uid: docRef.id,
+        imageUrl: imageUrl.trim(),
+        createdAt: DateTime.now(),
+      );
+
+      // Save to Firestore
+      await docRef.set(newItem.toMap());
+
+      emit(DepartmentCreateCarouselSuccessState());
+    } on FirebaseException catch (e) {
+      emit(
+        DepartmentCreateCarouselFailureState(
+          failure: "Firestore error while creating carousel item: ${e.message}",
+        ),
+      );
+    } on Exception catch (e) {
+      emit(DepartmentCreateCarouselFailureState(failure: e.toString()));
+    }
+  }
+
+  Future<void> deleteCarouselItem({
+    required String departmentId,
+    required String subScreenId,
+    required String carouselItemId,
+  }) async {
+    try {
+      emit(DepartmentRemoveCarouselLoadingState());
+
+      await firestore
+          .collection(rootCollectionName)
+          .doc(departmentId)
+          .collection('super_categories')
+          .doc(subScreenId)
+          .collection('carousel_items')
+          .doc(carouselItemId)
+          .delete();
+
+      emit(DepartmentRemoveCarouselSuccessState());
+    } on FirebaseException catch (e) {
+      emit(
+        DepartmentRemoveCarouselFailureState(
+          failure: "Firestore error while deleting carousel item: ${e.message}",
+        ),
+      );
+    } catch (e) {
+      emit(DepartmentRemoveCarouselFailureState(failure: e.toString()));
+    }
+  }
+
+
+  ///--------------MenuTitle CRUD operations--------------
   void removeCarouselItem({required int index}) {
     emit(DepartmentRemoveCarouselState());
-  }
-
-  // Initialization
-  void initializeState() {
-    emit(DepartmentInitializationState());
-  }
-
-  List<String> getScreenKeys() {
-    return [];
   }
 
   int selectedButtonCategoryIndex = 0;
