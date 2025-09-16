@@ -145,7 +145,7 @@ class HomeViewState extends State<HomeView> {
                     children: [
                       context
                           .read<HomeCubit>()
-                          .selectedScreen, //food and bevearage view
+                          .selectedScreen, //food and beverage view
                     ],
                   ),
                 ),

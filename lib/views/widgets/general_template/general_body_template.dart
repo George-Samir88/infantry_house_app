@@ -84,13 +84,6 @@ class GeneralBodyTemplateView extends StatelessWidget {
                           onTab: () async {
                             // if (cubit.newScreensMap.isNotEmpty) {
                             if (1 > 0) {
-                              await context
-                                  .read<DepartmentCubit>()
-                                  .getDepartmentsNames();
-
-
-                              var carouselItems = await context.read<DepartmentCubit>().getCarouselItems();
-                               print(carouselItems.length);
                               // Navigzator.push(
                               //   context,
                               //   MaterialPageRoute(
@@ -126,11 +119,7 @@ class GeneralBodyTemplateView extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 20.h),
-                CustomButtonAndMenuTemplate(
-                  menuTitle:
-                      // cubit.newScreensMap[cubit.selectedScreen]?.menuTitle ??
-                      '',
-                ),
+                CustomButtonAndMenuTemplate(),
                 SizedBox(height: 40.h),
               ],
             ),

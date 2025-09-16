@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_empty_items_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_items_template_view.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_menu_buttons_view_template.dart';
@@ -9,18 +10,31 @@ import 'package:infantry_house_app/views/widgets/general_template/manager/depart
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
+import '../../../models/menu_title_model.dart';
 import '../../../utils/custom_edit_button.dart';
 import '../../../utils/custom_snackBar.dart';
 import 'custom_menu_items_horizontal_grid_view.dart';
 
-class CustomButtonAndMenuTemplate extends StatelessWidget {
-  const CustomButtonAndMenuTemplate({super.key, required this.menuTitle});
+class CustomButtonAndMenuTemplate extends StatefulWidget {
+  const CustomButtonAndMenuTemplate({super.key});
 
-  final String menuTitle;
+  @override
+  State<CustomButtonAndMenuTemplate> createState() => _CustomButtonAndMenuTemplateState();
+}
+
+class _CustomButtonAndMenuTemplateState extends State<CustomButtonAndMenuTemplate> {
+  MenuTitleModel? menuTitleModel;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DepartmentCubit, DepartmentState>(
+    return BlocConsumer<DepartmentCubit, DepartmentState>(
+      listener: (context, state) {
+        if (state is DepartmentGetMenuTitleSuccessState) {
+          menuTitleModel = state.menuTitleModel;
+        } else if (state is DepartmentGetMenuTitleFailureState) {
+          showSnackBar(context: context, message: state.failure);
+        }
+      },
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
         List<String?> newButtonTitlesList = [];
@@ -34,19 +48,30 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
               padding: EdgeInsets.only(left: 16.0.w, right: 16.w),
               child: Row(
                 children: [
-                  Text(
-                    menuTitle.isEmpty ? S.of(context).EdaftGded : menuTitle,
-                    style: TextStyle(
-                      fontSize: GlobalData().isTabletLayout ? 16.sp : 20.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  state is DepartmentGetMenuTitleLoadingState
+                      ? AppLoader()
+                      : (state is DepartmentGetMenuTitleSuccessState
+                          ? Text(
+                            state.menuTitleModel.menuTitle ??
+                                S.of(context).EdaftGded,
+                            style: TextStyle(
+                              fontSize:
+                                  GlobalData().isTabletLayout ? 16.sp : 20.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                          : Text(
+                            S.of(context).ErrorOccurred,
+                            style: TextStyle(
+                              fontSize:
+                                  GlobalData().isTabletLayout ? 16.sp : 20.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
                   SizedBox(width: 20.w),
                   CustomEditButton(
                     onTap: () {
-                      // if(cubit.newScreensMap.isNotEmpty)
-                      if (true) {
-
+                      if (cubit.selectedSubScreenID!.isNotEmpty) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -54,11 +79,12 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                                 (context) => BlocProvider.value(
                                   value: cubit,
                                   child: EditMenuButtonsViewTemplate(
-                                    categoryName: menuTitle,
+                                    menuTitleId: menuTitleModel!.uid!,
                                   ),
                                 ),
                           ),
                         );
+
                       } else {
                         showSnackBar(
                           context: context,
@@ -211,14 +237,11 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                               : 320
                                   .h, // Set a reasonable max height if necessary
                     ),
-                    child: CustomMenuItemsHorizontalGridView(
-                      menuItemModel: [],
-                    ),
+                    child: CustomMenuItemsHorizontalGridView(menuItemModel: []),
                   ),
                 // if (cubit.listToBeShow.isEmpty ||
                 //     cubit.isEmptyMenuItems == true)
-                if(true)
-                  CustomEmptyItemsTemplate(),
+                if (true) CustomEmptyItemsTemplate(),
                 if (newButtonTitlesList.isNotEmpty)
                   Positioned(
                     left: GlobalData().isArabic ? 10.w : null,
@@ -241,7 +264,9 @@ class CustomButtonAndMenuTemplate extends StatelessWidget {
                                       // buttonTitle:
                                       //     newButtonTitlesList[cubit
                                       //         .selectedButtonIndex]!,
-                                      screenName: cubit.selectedSubScreen, listIndex: 0, buttonTitle: '',
+                                      screenName: cubit.selectedSubScreen,
+                                      listIndex: 0,
+                                      buttonTitle: '',
                                     ),
                                   ),
                             ),

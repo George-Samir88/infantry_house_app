@@ -136,5 +136,6 @@
   "UpdateSubScreenTitle": "تحديث اسم الشاشة الفرعية",
   "TypeSubScreenTitle": "أدخل اسم الشاشة الفرعية",
   "Cancel": "إلغاء",
-  "FieldCannotBeEmpty": "لا يمكن أن يكون الحقل فارغًا"
+  "FieldCannotBeEmpty": "لا يمكن أن يكون الحقل فارغًا",
+  "ErrorOccurred": "حدث خطأ!"
 }

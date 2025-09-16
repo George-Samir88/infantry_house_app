@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infantry_house_app/models/menu_item_model.dart';
 
 import '../../../../models/carousel_models.dart';
+import '../../../../models/menu_title_model.dart';
 import '../../../../models/sub_screen_model.dart';
 
 part 'department_state.dart';
@@ -31,7 +32,9 @@ part 'department_state.dart';
 // 🔹 الاسم في الكود: ItemCard
 
 class DepartmentCubit extends Cubit<DepartmentState> {
-  DepartmentCubit({required this.departmentId}) : super(DepartmentInitial());
+  DepartmentCubit({required this.departmentId}) : super(DepartmentInitial()){
+    getAllWidgetsData();
+  }
 
   final String departmentId;
 
@@ -61,6 +64,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   ///-------------Functions-------------
 
+
+  Future<void> getAllWidgetsData() async {
+    await getAllSubScreens();
+    await getMenuTitle();
+  }
   Future<List<String>> getDepartmentsNames() async {
     try {
       emit(DepartmentGetDepartmentsNamesLoadingState());
@@ -226,10 +234,13 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   void changeSelectedSubScreen({
     required String subScreenButtonId,
     required int index,
-  }) {
+  })async {
+
     selectedSubScreenID = subScreenButtonId;
     selectedSubScreenIndex = index;
     emit(DepartmentChangeSubScreenState());
+    await getMenuTitle();
+
   }
 
   ///--------------Carousel CRUD operations--------------
@@ -337,6 +348,44 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   ///--------------MenuTitle CRUD operations--------------
+  Future<void> getMenuTitle() async {
+    try {
+      emit(DepartmentGetMenuTitleLoadingState());
+
+      final querySnapshot = await firestore
+          .collection(rootCollectionName)
+          .doc(departmentId)
+          .collection('super_categories')
+          .doc(selectedSubScreenID)
+          .collection('sub_title_name') // 👈 عشان احنا متأكدين انه واحد بس
+          .get(GetOptions(source: Source.server));
+      if (querySnapshot.docs.isEmpty) {
+        emit(
+          DepartmentGetMenuTitleFailureState(
+            failure: "No menu_title document found",
+          ),
+        );
+      }
+
+      final doc = querySnapshot.docs.first;
+      final data = doc.data();
+      final menuTitleModel = MenuTitleModel.fromMap({
+        ...data,
+        'uid': doc.id, // نخزن document ID جوه الموديل
+      });
+
+      emit(DepartmentGetMenuTitleSuccessState(menuTitleModel: menuTitleModel));
+    } on FirebaseException catch (e) {
+      emit(
+        DepartmentGetMenuTitleFailureState(
+          failure: "Firestore error while fetching menu_title: ${e.message}",
+        ),
+      );
+    } catch (e) {
+      emit(DepartmentGetMenuTitleFailureState(failure: e.toString()));
+    }
+  }
+
   void removeCarouselItem({required int index}) {
     emit(DepartmentRemoveCarouselState());
   }

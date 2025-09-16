@@ -13,9 +13,9 @@ import '../../../utils/custom_edit_button.dart';
 import '../../../utils/custom_snackBar.dart';
 
 class EditMenuButtonsViewTemplate extends StatefulWidget {
-  const EditMenuButtonsViewTemplate({super.key, required this.categoryName});
+  const EditMenuButtonsViewTemplate({super.key, required this.menuTitleId});
 
-  final String categoryName;
+  final String menuTitleId;
 
   @override
   State<EditMenuButtonsViewTemplate> createState() =>
@@ -62,7 +62,7 @@ class _EditMenuButtonsViewTemplateState
 
   @override
   void initState() {
-    categoryTextEditingController.text = widget.categoryName;
+    categoryTextEditingController.text = widget.menuTitleId;
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),

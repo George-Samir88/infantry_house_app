@@ -26,7 +26,6 @@ class _CustomHorizontalListDepartmentsTemplateState
   @override
   void initState() {
     super.initState();
-    context.read<DepartmentCubit>().getAllSubScreens();
   }
 
   @override

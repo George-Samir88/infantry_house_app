@@ -1429,6 +1429,16 @@ class S {
       args: [],
     );
   }
+
+  /// `حدث خطأ!`
+  String get ErrorOccurred {
+    return Intl.message(
+      'حدث خطأ!',
+      name: 'ErrorOccurred',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

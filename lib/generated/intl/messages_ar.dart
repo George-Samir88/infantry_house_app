@@ -84,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل رقم هاتفك"),
         "EnterYourUserName":
             MessageLookupByLibrary.simpleMessage("أدخل اسم المستخدم"),
+        "ErrorOccurred": MessageLookupByLibrary.simpleMessage("حدث خطأ!"),
         "EsmElsanf": MessageLookupByLibrary.simpleMessage("إسم الصنف"),
         "FewQuantity": MessageLookupByLibrary.simpleMessage("الكمية قليلة"),
         "FieldCannotBeEmpty": MessageLookupByLibrary.simpleMessage(

@@ -105,6 +105,21 @@ class DepartmentRemoveCarouselFailureState extends DepartmentState {
   DepartmentRemoveCarouselFailureState({required this.failure});
 }
 
+///------------states related to MenuTitle---------
+class DepartmentGetMenuTitleLoadingState extends DepartmentState {}
+
+class DepartmentGetMenuTitleSuccessState extends DepartmentState {
+  final MenuTitleModel menuTitleModel;
+
+  DepartmentGetMenuTitleSuccessState({required this.menuTitleModel});
+}
+
+class DepartmentGetMenuTitleFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentGetMenuTitleFailureState({required this.failure});
+}
+
 class DepartmentRemoveCarouselState extends DepartmentState {}
 
 class DepartmentInitializationState extends DepartmentState {}

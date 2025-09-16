@@ -136,5 +136,6 @@
   "UpdateSubScreenTitle": "Update sub screen title",
   "TypeSubScreenTitle": "Enter sub screen title",
   "Cancel": "Cancel",
-  "FieldCannotBeEmpty": "Field cannot be empty"
+  "FieldCannotBeEmpty": "Field cannot be empty",
+  "ErrorOccurred": "Error occurred"
 }
