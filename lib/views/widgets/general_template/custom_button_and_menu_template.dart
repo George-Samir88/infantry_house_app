@@ -60,9 +60,8 @@ class _CustomButtonAndMenuTemplateState
                       )
                       : state is DepartmentGetMenuTitleLoadingState
                       ? AppLoader()
-                      : (state is DepartmentGetMenuTitleSuccessState
-                          ? Text(
-                            state.menuTitleModel.menuTitle ??
+                      :  Text(
+                            menuTitleModel?.menuTitle ??
                                 S.of(context).EdaftGded,
                             style: TextStyle(
                               fontSize:
@@ -70,14 +69,7 @@ class _CustomButtonAndMenuTemplateState
                               fontWeight: FontWeight.bold,
                             ),
                           )
-                          : Text(
-                            S.of(context).ErrorOccurred,
-                            style: TextStyle(
-                              fontSize:
-                                  GlobalData().isTabletLayout ? 16.sp : 20.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )),
+                          ,
                   SizedBox(width: 20.w),
                   CustomEditButton(
                     onTap: () {

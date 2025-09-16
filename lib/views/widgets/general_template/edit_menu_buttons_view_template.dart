@@ -180,115 +180,121 @@ class _EditMenuButtonsViewTemplateState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (cubit.menuButtonList.isNotEmpty)
-                      Container(
-                        margin: EdgeInsets.only(left: 16.w, right: 16.w),
-                        height: 40.h,
-                        // Adjust height as needed
-                        child: ListView.separated(
-                          clipBehavior: Clip.none,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: menuButtonsList.length,
-                          // Number of buttons
-                          itemBuilder: (context, index) {
-                            bool isSelected =
-                                index == cubit.selectedButtonIndex;
-                            return GestureDetector(
-                              onTap: () {
-                                cubit.changeMenuButtonIndex(index: index);
-                              },
-                              child: Stack(
-                                clipBehavior: Clip.none,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 20.w,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.shade400,
-                                          // Shadow color with opacity
-                                          spreadRadius: 1,
-                                          // Spread area of the shadow
-                                          blurRadius: 10,
-                                          // Blur effect
-                                          offset: Offset(
-                                            0,
-                                            3,
-                                          ), // Changes position of shadow (X, Y)
-                                        ),
-                                      ],
-                                      color:
-                                          isSelected
-                                              ? Colors.brown[800]
-                                              : Colors.grey,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        menuButtonsList[index]!.buttonTitle!,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: isSelected ? 16.sp : 14.sp,
-                                          fontWeight:
-                                              isSelected
-                                                  ? FontWeight.w600
-                                                  : FontWeight.w500,
+                    state is DepartmentGetMenuButtonLoadingState
+                        ? AppLoader()
+                        : cubit.menuButtonList.isNotEmpty
+                        ? Container(
+                          margin: EdgeInsets.only(left: 16.w, right: 16.w),
+                          height: 40.h,
+                          // Adjust height as needed
+                          child: ListView.separated(
+                            clipBehavior: Clip.none,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: menuButtonsList.length,
+                            // Number of buttons
+                            itemBuilder: (context, index) {
+                              bool isSelected =
+                                  index == cubit.selectedButtonIndex;
+                              return GestureDetector(
+                                onTap: () {
+                                  cubit.changeMenuButtonIndex(index: index);
+                                },
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 20.w,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.shade400,
+                                            // Shadow color with opacity
+                                            spreadRadius: 1,
+                                            // Spread area of the shadow
+                                            blurRadius: 10,
+                                            // Blur effect
+                                            offset: Offset(
+                                              0,
+                                              3,
+                                            ), // Changes position of shadow (X, Y)
+                                          ),
+                                        ],
+                                        color:
+                                            isSelected
+                                                ? Colors.brown[800]
+                                                : Colors.grey,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          menuButtonsList[index]!.buttonTitle!,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize:
+                                                isSelected ? 16.sp : 14.sp,
+                                            fontWeight:
+                                                isSelected
+                                                    ? FontWeight.w600
+                                                    : FontWeight.w500,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Positioned(
-                                    left: GlobalData().isArabic ? -5.w : null,
-                                    right: GlobalData().isArabic ? null : -5.w,
-                                    bottom: -10.h,
-                                    child: Row(
-                                      children: [
-                                        CustomEditButton(
-                                          onTap: () {
-                                            // cubit.removeButton(
-                                            //   screenName:
-                                            //       cubit.selectedSubScreen,
-                                            //   buttonTitle:
-                                            //   menuButtonsList[index]!,
-                                            // );
-                                          },
-                                          height:
-                                              GlobalData().isTabletLayout
-                                                  ? 28.h
-                                                  : 25.h,
-                                          width:
-                                              GlobalData().isTabletLayout
-                                                  ? 20.w
-                                                  : 35.w,
-                                          iconSize:
-                                              GlobalData().isTabletLayout
-                                                  ? 18.r
-                                                  : 20.r,
-                                          icon: Icons.cancel,
-                                          iconColor: Colors.white,
-                                          backgroundColor: Colors.red,
-                                        ),
-                                      ],
+                                    Positioned(
+                                      left: GlobalData().isArabic ? -5.w : null,
+                                      right:
+                                          GlobalData().isArabic ? null : -5.w,
+                                      bottom: -10.h,
+                                      child: Row(
+                                        children: [
+                                          CustomEditButton(
+                                            onTap: () {
+                                              // cubit.removeButton(
+                                              //   screenName:
+                                              //       cubit.selectedSubScreen,
+                                              //   buttonTitle:
+                                              //   menuButtonsList[index]!,
+                                              // );
+                                            },
+                                            height:
+                                                GlobalData().isTabletLayout
+                                                    ? 28.h
+                                                    : 25.h,
+                                            width:
+                                                GlobalData().isTabletLayout
+                                                    ? 20.w
+                                                    : 35.w,
+                                            iconSize:
+                                                GlobalData().isTabletLayout
+                                                    ? 18.r
+                                                    : 20.r,
+                                            icon: Icons.cancel,
+                                            iconColor: Colors.white,
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(width: 8.w);
-                          },
+                                  ],
+                                ),
+                              );
+                            },
+                            separatorBuilder: (
+                              BuildContext context,
+                              int index,
+                            ) {
+                              return SizedBox(width: 8.w);
+                            },
+                          ),
+                        )
+                        : Center(
+                          child: Text(
+                            S.of(context).LaYogdAksam,
+                            style: TextStyle(fontSize: 20.sp),
+                          ),
                         ),
-                      ),
-                    if (menuButtonsList.isEmpty)
-                      Center(
-                        child: Text(
-                          S.of(context).LaYogdAksam,
-                          style: TextStyle(fontSize: 20.sp),
-                        ),
-                      ),
                     SizedBox(height: 30.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0.w),

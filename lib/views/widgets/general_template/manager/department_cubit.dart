@@ -60,7 +60,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   List<MenuButtonModel> menuButtonList = [];
   int selectedButtonIndex = 0; // Track selected button index
 
-
   //Menu Item List
   List<MenuItemModel> menuItemsList = [];
 
@@ -73,6 +72,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   Future<void> getAllWidgetsData() async {
     await getAllSubScreens();
     await getMenuTitle();
+    await getMenuButtons();
   }
 
   Future<List<String>> getDepartmentsNames() async {
@@ -436,6 +436,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   ///--------------MenuButtons CRUD operations--------------
+  void changeMenuButtonIndex({required int index}) {
+    selectedButtonIndex = index;
+    emit(DepartmentChangeMenuButtonIndexState());
+  }
+
   Future<void> createMenuButton({required String buttonTitle}) async {
     try {
       emit(DepartmentCreateMenuButtonLoadingState());
@@ -459,6 +464,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       await docRef.set(newButton.toMap());
 
       emit(DepartmentCreateMenuButtonSuccessState(menuButton: newButton));
+      await getMenuButtons();
     } on FirebaseException catch (e) {
       emit(
         DepartmentCreateMenuButtonFailureState(
@@ -470,10 +476,38 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
-  void changeMenuButtonIndex({required int index}){
-    selectedButtonIndex = index;
-    emit(DepartmentChangeMenuButtonIndexState());
+  Future<void> getMenuButtons() async {
+    try {
+      emit(DepartmentGetMenuButtonLoadingState());
+
+      final querySnapshot =
+          await firestore
+              .collection(rootCollectionName)
+              .doc(departmentId)
+              .collection('super_categories')
+              .doc(selectedSubScreenID)
+              .collection('Buttons')
+              .get();
+
+      final buttons =
+          querySnapshot.docs.map((doc) {
+            final data = doc.data();
+            return MenuButtonModel.fromMap(data);
+          }).toList();
+
+      emit(DepartmentGetMenuButtonSuccessState());
+      menuButtonList = buttons;
+    } on FirebaseException catch (e) {
+      emit(
+        DepartmentGetMenuButtonFailureState(
+          failure: "Firestore error while fetching menu buttons: ${e.message}",
+        ),
+      );
+    } catch (e) {
+      emit(DepartmentGetMenuButtonFailureState(failure: e.toString()));
+    }
   }
+
   bool isEmptyMenuItems = true;
 
   // Screens CRUD Operations
