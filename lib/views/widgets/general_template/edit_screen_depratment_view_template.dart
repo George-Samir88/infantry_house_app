@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
+import 'package:infantry_house_app/utils/custom_dialog.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
@@ -25,6 +26,7 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
     with SingleTickerProviderStateMixin {
   TextEditingController arabicTextEditingController = TextEditingController();
   TextEditingController englishTextEditingController = TextEditingController();
+  TextEditingController updatedSubScreenController = TextEditingController();
 
   late AnimationController _animationController;
 
@@ -133,40 +135,73 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                 return Stack(
                                   clipBehavior: Clip.none,
                                   children: [
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 20.w,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.shade400,
-                                            // Shadow color with opacity
-                                            spreadRadius: 1,
-                                            // Spread area of the shadow
-                                            blurRadius: 4,
-                                            // Blur effect
-                                            offset: Offset(
-                                              3,
-                                              1,
-                                            ), // Changes position of shadow (X, Y)
+                                    GestureDetector(
+                                      onTap: () {
+                                        updatedSubScreenController.text =
+                                            cubit
+                                                .subScreensList[index]
+                                                .subScreenName;
+                                        showInputDialog(
+                                          context: context,
+                                          controller:
+                                              updatedSubScreenController,
+                                          onConfirmed: (value) {
+                                            if (updatedSubScreenController
+                                                .text
+                                                .isNotEmpty) {
+                                              Navigator.of(context).pop();
+                                              String value =
+                                                  updatedSubScreenController
+                                                      .text
+                                                      .trim();
+                                              cubit.updateSubScreen(
+                                                newSuperCatName: value,
+                                                subScreenUID:
+                                                    cubit
+                                                        .subScreensList[index]
+                                                        .uid,
+                                              );
+                                            }
+                                          },
+                                        );
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 20.w,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.shade400,
+                                              // Shadow color with opacity
+                                              spreadRadius: 1,
+                                              // Spread area of the shadow
+                                              blurRadius: 4,
+                                              // Blur effect
+                                              offset: Offset(
+                                                3,
+                                                1,
+                                              ), // Changes position of shadow (X, Y)
+                                            ),
+                                          ],
+                                          color: Color(0xffFAF7F0),
+                                          borderRadius: BorderRadius.circular(
+                                            14,
                                           ),
-                                        ],
-                                        color: Color(0xffFAF7F0),
-                                        borderRadius: BorderRadius.circular(14),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          cubit
-                                              .subScreensList[index]
-                                              .subScreenName,
-                                          style: TextStyle(
-                                            color: Color(0xff5E3D2E),
-                                            fontSize:
-                                                GlobalData().isTabletLayout
-                                                    ? 10.sp
-                                                    : 12.sp,
-                                            fontWeight: FontWeight.w500,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            cubit
+                                                .subScreensList[index]
+                                                .subScreenName,
+                                            style: TextStyle(
+                                              color: Color(0xff5E3D2E),
+                                              fontSize:
+                                                  GlobalData().isTabletLayout
+                                                      ? 10.sp
+                                                      : 12.sp,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
                                         ),
                                       ),

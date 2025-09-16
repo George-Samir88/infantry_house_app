@@ -132,5 +132,9 @@
   "UpdateDailyGame": "Update Game",
   "Delete": "Delete",
   "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName": "The section already exists, you cannot add a new section with the same name",
-  "PleaseAddAMainCategoryFirst" : "Please add a main category first"
+  "PleaseAddAMainCategoryFirst" : "Please add a main category first",
+  "UpdateSubScreenTitle": "Update sub screen title",
+  "TypeSubScreenTitle": "Enter sub screen title",
+  "Cancel": "Cancel",
+  "FieldCannotBeEmpty": "Field cannot be empty"
 }

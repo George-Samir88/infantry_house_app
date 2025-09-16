@@ -1389,6 +1389,46 @@ class S {
       args: [],
     );
   }
+
+  /// `تحديث اسم الشاشة الفرعية`
+  String get UpdateSubScreenTitle {
+    return Intl.message(
+      'تحديث اسم الشاشة الفرعية',
+      name: 'UpdateSubScreenTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أدخل اسم الشاشة الفرعية`
+  String get TypeSubScreenTitle {
+    return Intl.message(
+      'أدخل اسم الشاشة الفرعية',
+      name: 'TypeSubScreenTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إلغاء`
+  String get Cancel {
+    return Intl.message(
+      'إلغاء',
+      name: 'Cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لا يمكن أن يكون الحقل فارغًا`
+  String get FieldCannotBeEmpty {
+    return Intl.message(
+      'لا يمكن أن يكون الحقل فارغًا',
+      name: 'FieldCannotBeEmpty',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

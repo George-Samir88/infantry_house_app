@@ -50,6 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Already have an account? "),
         "AnyComments": MessageLookupByLibrary.simpleMessage("Any comments?"),
         "AtbakGanbya": MessageLookupByLibrary.simpleMessage("Side Dishes"),
+        "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "Checkout": MessageLookupByLibrary.simpleMessage("Checkout"),
         "ComplaintsAndSuggestions":
             MessageLookupByLibrary.simpleMessage("Complaints and Suggestions"),
@@ -88,6 +89,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter your user name"),
         "EsmElsanf": MessageLookupByLibrary.simpleMessage("Item name"),
         "FewQuantity": MessageLookupByLibrary.simpleMessage("Few Quantity"),
+        "FieldCannotBeEmpty":
+            MessageLookupByLibrary.simpleMessage("Field cannot be empty"),
         "ForgotPassword":
             MessageLookupByLibrary.simpleMessage("Forgot Password?"),
         "FwakhElBa7r": MessageLookupByLibrary.simpleMessage("Seafood"),
@@ -203,8 +206,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "TrainerName": MessageLookupByLibrary.simpleMessage("Trainer name"),
         "Twagn": MessageLookupByLibrary.simpleMessage("Casseroles"),
         "Tyor": MessageLookupByLibrary.simpleMessage("Poultry"),
+        "TypeSubScreenTitle":
+            MessageLookupByLibrary.simpleMessage("Enter sub screen title"),
         "Undo": MessageLookupByLibrary.simpleMessage("Undo"),
         "UpdateDailyGame": MessageLookupByLibrary.simpleMessage("Update Game"),
+        "UpdateSubScreenTitle":
+            MessageLookupByLibrary.simpleMessage("Update sub screen title"),
         "UserName": MessageLookupByLibrary.simpleMessage("User Name"),
         "VerificationCodeSent":
             MessageLookupByLibrary.simpleMessage("Verification Code Sent"),

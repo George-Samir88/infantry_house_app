@@ -48,6 +48,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("لديك حساب بالفعل؟"),
         "AnyComments": MessageLookupByLibrary.simpleMessage("أية ملاحظات"),
         "AtbakGanbya": MessageLookupByLibrary.simpleMessage("أطباق جانبية"),
+        "Cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "Checkout": MessageLookupByLibrary.simpleMessage("دفع"),
         "ComplaintsAndSuggestions":
             MessageLookupByLibrary.simpleMessage("الشكاوي والاقتراحات"),
@@ -85,6 +86,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل اسم المستخدم"),
         "EsmElsanf": MessageLookupByLibrary.simpleMessage("إسم الصنف"),
         "FewQuantity": MessageLookupByLibrary.simpleMessage("الكمية قليلة"),
+        "FieldCannotBeEmpty": MessageLookupByLibrary.simpleMessage(
+            "لا يمكن أن يكون الحقل فارغًا"),
         "ForgotPassword":
             MessageLookupByLibrary.simpleMessage("هل نسيت كلمة المرور؟"),
         "FwakhElBa7r": MessageLookupByLibrary.simpleMessage("فواكه البحر"),
@@ -198,8 +201,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "TrainerName": MessageLookupByLibrary.simpleMessage("أسم المدرب"),
         "Twagn": MessageLookupByLibrary.simpleMessage("طواجن"),
         "Tyor": MessageLookupByLibrary.simpleMessage("الطيور"),
+        "TypeSubScreenTitle":
+            MessageLookupByLibrary.simpleMessage("أدخل اسم الشاشة الفرعية"),
         "Undo": MessageLookupByLibrary.simpleMessage("تراجع"),
         "UpdateDailyGame": MessageLookupByLibrary.simpleMessage("تعديل اللعبة"),
+        "UpdateSubScreenTitle":
+            MessageLookupByLibrary.simpleMessage("تحديث اسم الشاشة الفرعية"),
         "UserName": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "VerificationCodeSent":
             MessageLookupByLibrary.simpleMessage("تم إرسال رمز التحقق"),
