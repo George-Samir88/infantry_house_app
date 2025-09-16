@@ -133,7 +133,7 @@
   "Delete": "حذف",
   "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName": "القسم موجود بالفعل! لا يمكنك إضافة قسم جديد بنفس الاسم.",
   "PleaseAddAMainCategoryFirst": "يجب إضافة قسم رئيسي أولاً.",
-  "UpdateTitle": "تحديث اسم التصنيف",
+  "UpdateTitle": "تعديل اسم التصنيف",
   "TypeTitle": "أدخل اسم التصنيف",
   "Cancel": "إلغاء",
   "FieldCannotBeEmpty": "لا يمكن أن يكون الحقل فارغًا",

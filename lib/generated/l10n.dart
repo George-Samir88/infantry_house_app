@@ -1390,10 +1390,10 @@ class S {
     );
   }
 
-  /// `تحديث اسم التصنيف`
+  /// `تعديل اسم التصنيف`
   String get UpdateTitle {
     return Intl.message(
-      'تحديث اسم التصنيف',
+      'تعديل اسم التصنيف',
       name: 'UpdateTitle',
       desc: '',
       args: [],

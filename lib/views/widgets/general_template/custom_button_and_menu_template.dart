@@ -35,15 +35,12 @@ class _CustomButtonAndMenuTemplateState
           menuTitleModel = state.menuTitleModel;
         } else if (state is DepartmentGetMenuTitleFailureState) {
           showSnackBar(context: context, message: state.failure);
+        } else if (state is DepartmentGetMenuButtonFailureState) {
+          showSnackBar(context: context, message: state.failure);
         }
       },
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
-        List<String?> newButtonTitlesList = [];
-        // newButtonTitlesList =
-        //     cubit.newScreensMap[cubit.selectedScreen]?.buttonsAndItemsMap.keys
-        //         .toList() ??
-        //     [];
         return Column(
           children: [
             Padding(
@@ -60,16 +57,13 @@ class _CustomButtonAndMenuTemplateState
                       )
                       : state is DepartmentGetMenuTitleLoadingState
                       ? AppLoader()
-                      :  Text(
-                            menuTitleModel?.menuTitle ??
-                                S.of(context).EdaftGded,
-                            style: TextStyle(
-                              fontSize:
-                                  GlobalData().isTabletLayout ? 16.sp : 20.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                          ,
+                      : Text(
+                        menuTitleModel?.menuTitle ?? S.of(context).EdaftGded,
+                        style: TextStyle(
+                          fontSize: GlobalData().isTabletLayout ? 16.sp : 20.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                   SizedBox(width: 20.w),
                   CustomEditButton(
                     onTap: () {
@@ -103,96 +97,101 @@ class _CustomButtonAndMenuTemplateState
               ),
             ),
             SizedBox(height: 20.h),
-            if (newButtonTitlesList.isNotEmpty)
-              Container(
-                margin: EdgeInsets.only(
-                  left: GlobalData().isArabic ? 0 : 16.w,
-                  right: GlobalData().isArabic ? 16.w : 0,
-                ),
-                height: 40.h,
-                // Adjust height as needed
-                child: AnimationLimiter(
-                  child: ListView.separated(
-                    clipBehavior: Clip.none,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: newButtonTitlesList.length,
-                    // Number of buttons
-                    itemBuilder: (context, index) {
-                      bool isSelected = index == 0;
-                      return AnimationConfiguration.staggeredList(
-                        position: index,
-                        duration: Duration(seconds: 1),
-                        child: FadeInAnimation(
-                          child: GestureDetector(
-                            onTap: () {
-                              // cubit.selectedButtonIndex = index;
-                              cubit.updateSelectedList(
-                                buttonTitle:
-                                    newButtonTitlesList[index].toString(),
-                                screenName: cubit.selectedSubScreen,
-                              );
-                            },
-                            child: Container(
-                              margin:
-                                  index == newButtonTitlesList.length - 1
-                                      ? EdgeInsets.only(
-                                        right: GlobalData().isArabic ? 0 : 16.w,
-                                        left: GlobalData().isArabic ? 16.w : 0,
-                                      )
-                                      : null,
-                              padding: EdgeInsets.symmetric(horizontal: 20.w),
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.shade400,
-                                    // Shadow color with opacity
-                                    spreadRadius: 1,
-                                    // Spread area of the shadow
-                                    blurRadius: 10,
-                                    // Blur effect
-                                    offset: Offset(
-                                      0,
-                                      3,
-                                    ), // Changes position of shadow (X, Y)
-                                  ),
-                                ],
-                                color:
-                                    isSelected
-                                        ? Color(0xff6F4E37)
-                                        : Colors.grey,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  newButtonTitlesList[index]!,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: isSelected ? 14.sp : 12.sp,
-                                    fontWeight:
-                                        isSelected
-                                            ? FontWeight.w600
-                                            : FontWeight.w500,
+            state is DepartmentGetMenuButtonLoadingState
+                ? AppLoader()
+                : cubit.menuButtonList.isNotEmpty
+                ? Container(
+                  margin: EdgeInsets.only(
+                    left: GlobalData().isArabic ? 0 : 16.w,
+                    right: GlobalData().isArabic ? 16.w : 0,
+                  ),
+                  height: 40.h,
+                  // Adjust height as needed
+                  child: AnimationLimiter(
+                    child: ListView.separated(
+                      clipBehavior: Clip.none,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: cubit.menuButtonList.length,
+                      // Number of buttons
+                      itemBuilder: (context, index) {
+                        bool isSelected = index == cubit.selectedButtonIndex;
+                        return AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: Duration(seconds: 1),
+                          child: FadeInAnimation(
+                            child: GestureDetector(
+                              onTap: () {
+                                cubit
+                                .changeMenuButtonIndex(index: index);
+                                // // cubit.selectedButtonIndex = index;
+                                // cubit.updateSelectedList(
+                                //   buttonTitle:
+                                //   cubit.menuButtonList[index],
+                                //   screenName: cubit.selectedSubScreen,
+                                // );
+                              },
+                              child: Container(
+                                margin:
+                                    index == cubit.menuButtonList.length - 1
+                                        ? EdgeInsets.only(
+                                          right:
+                                              GlobalData().isArabic ? 0 : 16.w,
+                                          left:
+                                              GlobalData().isArabic ? 16.w : 0,
+                                        )
+                                        : null,
+                                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.shade400,
+                                      // Shadow color with opacity
+                                      spreadRadius: 1,
+                                      // Spread area of the shadow
+                                      blurRadius: 10,
+                                      // Blur effect
+                                      offset: Offset(
+                                        0,
+                                        3,
+                                      ), // Changes position of shadow (X, Y)
+                                    ),
+                                  ],
+                                  color:
+                                      isSelected
+                                          ? Color(0xff6F4E37)
+                                          : Colors.grey,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    cubit.menuButtonList[index].buttonTitle!,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: isSelected ? 14.sp : 12.sp,
+                                      fontWeight:
+                                          isSelected
+                                              ? FontWeight.w600
+                                              : FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(width: 8.w);
-                    },
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(width: 8.w);
+                      },
+                    ),
+                  ),
+                )
+                : Center(
+                  child: Text(
+                    S.of(context).LaYogdAksam,
+                    style: TextStyle(fontSize: 20.sp),
                   ),
                 ),
-              ),
-            if (newButtonTitlesList.isEmpty)
-              Center(
-                child: Text(
-                  S.of(context).LaYogdAksam,
-                  style: TextStyle(fontSize: 20.sp),
-                ),
-              ),
             SizedBox(height: 10.h),
             Stack(
               clipBehavior: Clip.none,
@@ -243,7 +242,7 @@ class _CustomButtonAndMenuTemplateState
                 // if (cubit.listToBeShow.isEmpty ||
                 //     cubit.isEmptyMenuItems == true)
                 if (true) CustomEmptyItemsTemplate(),
-                if (newButtonTitlesList.isNotEmpty)
+                if (cubit.menuButtonList.isNotEmpty)
                   Positioned(
                     left: GlobalData().isArabic ? 10.w : null,
                     right: GlobalData().isArabic ? null : 10.w,

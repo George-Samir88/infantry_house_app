@@ -206,7 +206,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Undo": MessageLookupByLibrary.simpleMessage("تراجع"),
         "UpdateDailyGame": MessageLookupByLibrary.simpleMessage("تعديل اللعبة"),
         "UpdateTitle":
-            MessageLookupByLibrary.simpleMessage("تحديث اسم التصنيف"),
+            MessageLookupByLibrary.simpleMessage("تعديل اسم التصنيف"),
         "UserName": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "VerificationCodeSent":
             MessageLookupByLibrary.simpleMessage("تم إرسال رمز التحقق"),

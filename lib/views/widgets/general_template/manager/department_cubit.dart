@@ -69,6 +69,20 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   ///-------------Functions-------------
 
+  Future<void> deleteCollection(CollectionReference colRef) async {
+    const int batchSize = 400; // أقل من 500 عشان الأمان
+    QuerySnapshot snapshot;
+    do {
+      snapshot = await colRef.limit(batchSize).get();
+      if (snapshot.docs.isEmpty) break;
+      WriteBatch batch = FirebaseFirestore.instance.batch();
+      for (var doc in snapshot.docs) {
+        batch.delete(doc.reference);
+      }
+      await batch.commit();
+    } while (snapshot.docs.length >= batchSize);
+  }
+
   Future<void> getAllWidgetsData() async {
     await getAllSubScreens();
     await getMenuTitle();
@@ -227,14 +241,18 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     try {
       emit(DepartmentDeleteSubScreensNamesLoadingState());
 
-      await firestore
+      final subScreenDocRef = firestore
           .collection(rootCollectionName)
           .doc(departmentId)
           .collection('super_categories')
-          .doc(subScreenUID)
-          .delete();
+          .doc(subScreenUID);
+      await deleteCollection(subScreenDocRef.collection('sub_title_name'));
+      await deleteCollection(subScreenDocRef.collection('Buttons'));
+
+      // امسح الـdoc نفسه
+      await subScreenDocRef.delete();
       emit(DepartmentDeleteSubScreensNamesSuccessState());
-      await getAllSubScreens();
+      getAllWidgetsData();
     } on FirebaseException catch (e) {
       emit(
         DepartmentDeleteSubScreensNamesFailureState(
