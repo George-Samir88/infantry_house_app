@@ -132,7 +132,24 @@ class DepartmentUpdateMenuTitleFailureState extends DepartmentState {
   DepartmentUpdateMenuTitleFailureState({required this.failure});
 }
 
-class DepartmentInitializationState extends DepartmentState {}
+class DepartmentCreateMenuButtonLoadingState extends DepartmentState {}
+
+class DepartmentCreateMenuButtonSuccessState extends DepartmentState {
+  final MenuButtonModel menuButton;
+
+  DepartmentCreateMenuButtonSuccessState({required this.menuButton});
+}
+
+class DepartmentCreateMenuButtonFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentCreateMenuButtonFailureState({required this.failure});
+}
+
+class DepartmentChangeMenuButtonIndexState extends DepartmentState {}
+
+
+
 
 class DepartmentAddNewCategoryState extends DepartmentState {}
 

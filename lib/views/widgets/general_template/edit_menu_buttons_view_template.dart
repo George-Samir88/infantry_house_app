@@ -11,6 +11,7 @@ import 'package:lottie/lottie.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../utils/custom_appbar_editing_view.dart';
 import '../../../../utils/custom_elevated_button.dart';
+import '../../../models/menu_button_model.dart';
 import '../../../utils/custom_edit_button.dart';
 import '../../../utils/custom_snackBar.dart';
 
@@ -33,8 +34,6 @@ class _EditMenuButtonsViewTemplateState
       TextEditingController();
   TextEditingController menuTitleENTextEditingController =
       TextEditingController();
-
-  int selectedIndex = 0; // Track selected button index
 
   late AnimationController _animationController;
 
@@ -102,17 +101,18 @@ class _EditMenuButtonsViewTemplateState
       ),
       body: BlocConsumer<DepartmentCubit, DepartmentState>(
         listener: (context, state) {
-          if (state is DepartmentUpdateMenuTitleSuccessState) {
+          if (state is DepartmentUpdateMenuTitleSuccessState ||
+              state is DepartmentCreateMenuButtonSuccessState) {
             _playAnimation();
+          } else if (state is DepartmentUpdateMenuTitleFailureState) {
+            showSnackBar(context: context, message: state.failure);
+          } else if (state is DepartmentCreateMenuButtonFailureState) {
+            showSnackBar(context: context, message: state.failure);
           }
         },
         builder: (context, state) {
           var cubit = context.read<DepartmentCubit>();
-          List<String?> newButtonTitlesList = [];
-          newButtonTitlesList = [];
-          // cubit.newScreensMap[cubit.selectedScreen]?.buttonsAndItemsMap.keys
-          //     .toList() ??
-          // [];
+          List<MenuButtonModel?> menuButtonsList = cubit.menuButtonList;
           return ListView(
             controller: scrollController,
             children: [
@@ -180,7 +180,7 @@ class _EditMenuButtonsViewTemplateState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (newButtonTitlesList.isNotEmpty)
+                    if (cubit.menuButtonList.isNotEmpty)
                       Container(
                         margin: EdgeInsets.only(left: 16.w, right: 16.w),
                         height: 40.h,
@@ -188,15 +188,14 @@ class _EditMenuButtonsViewTemplateState
                         child: ListView.separated(
                           clipBehavior: Clip.none,
                           scrollDirection: Axis.horizontal,
-                          itemCount: newButtonTitlesList.length,
+                          itemCount: menuButtonsList.length,
                           // Number of buttons
                           itemBuilder: (context, index) {
-                            bool isSelected = index == selectedIndex;
+                            bool isSelected =
+                                index == cubit.selectedButtonIndex;
                             return GestureDetector(
                               onTap: () {
-                                setState(() {
-                                  selectedIndex = index;
-                                });
+                                cubit.changeMenuButtonIndex(index: index);
                               },
                               child: Stack(
                                 clipBehavior: Clip.none,
@@ -228,7 +227,7 @@ class _EditMenuButtonsViewTemplateState
                                     ),
                                     child: Center(
                                       child: Text(
-                                        newButtonTitlesList[index]!,
+                                        menuButtonsList[index]!.buttonTitle!,
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: isSelected ? 16.sp : 14.sp,
@@ -248,12 +247,12 @@ class _EditMenuButtonsViewTemplateState
                                       children: [
                                         CustomEditButton(
                                           onTap: () {
-                                            cubit.removeButton(
-                                              screenName:
-                                                  cubit.selectedSubScreen,
-                                              buttonTitle:
-                                                  newButtonTitlesList[index]!,
-                                            );
+                                            // cubit.removeButton(
+                                            //   screenName:
+                                            //       cubit.selectedSubScreen,
+                                            //   buttonTitle:
+                                            //   menuButtonsList[index]!,
+                                            // );
                                           },
                                           height:
                                               GlobalData().isTabletLayout
@@ -283,7 +282,7 @@ class _EditMenuButtonsViewTemplateState
                           },
                         ),
                       ),
-                    if (newButtonTitlesList.isEmpty)
+                    if (menuButtonsList.isEmpty)
                       Center(
                         child: Text(
                           S.of(context).LaYogdAksam,
@@ -336,66 +335,39 @@ class _EditMenuButtonsViewTemplateState
                       ),
                     ),
                     SizedBox(height: 30.h),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CustomElevatedButton(
-                              textColor: Color(0xFF6D3A2D),
-                              backGroundColor: Colors.grey[300],
-                              onPressed: () async {
-                                if (buttonsFormKey.currentState!.validate()) {
-                                  bool existingButton = 1 > 0;
-                                  // checkKeyMapExistBeforeAdding(
-                                  //   cubit
-                                  //       .newScreensMap[cubit
-                                  //           .selectedScreen]!
-                                  //       .buttonsAndItemsMap,
-                                  //   arabicTextEditingController.text,
-                                  // );
-                                  if (!existingButton) {
-                                    cubit.addNewButton(
-                                      buttonTitle:
-                                          GlobalData().isArabic
-                                              ? arabicTextEditingController.text
-                                              : englishTextEditingController
-                                                  .text,
-                                      screenName: cubit.selectedSubScreen,
-                                    );
-                                    arabicTextEditingController.clear();
-                                    englishTextEditingController.clear();
-                                    FocusScope.of(context).unfocus();
-                                  } else if (existingButton) {
-                                    showSnackBar(
-                                      context: context,
-                                      message:
-                                          S
-                                              .of(context)
-                                              .TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName,
-                                      backgroundColor: Colors.red,
-                                    );
-                                  }
-                                }
-                              },
-                              text: S.of(context).EdaftGded,
-                              tabletLayout: GlobalData().isTabletLayout,
-                            ),
-                          ),
-                          SizedBox(width: 10.w),
-                          if (newButtonTitlesList.isNotEmpty)
-                            Expanded(
-                              child: CustomElevatedButton(
-                                onPressed: () {
-                                  _playAnimation();
-                                },
-                                text: S.of(context).hefz,
-                                tabletLayout: GlobalData().isTabletLayout,
+                    state is DepartmentCreateMenuButtonLoadingState
+                        ? AppLoader()
+                        : Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: CustomElevatedButton(
+                                  textColor: Color(0xFF6D3A2D),
+                                  backGroundColor: Colors.grey[300],
+                                  onPressed: () async {
+                                    if (buttonsFormKey.currentState!
+                                        .validate()) {
+                                      cubit.createMenuButton(
+                                        buttonTitle:
+                                            GlobalData().isArabic
+                                                ? arabicTextEditingController
+                                                    .text
+                                                : englishTextEditingController
+                                                    .text,
+                                      );
+                                      arabicTextEditingController.clear();
+                                      englishTextEditingController.clear();
+                                      FocusScope.of(context).unfocus();
+                                    }
+                                  },
+                                  text: S.of(context).EdaftGded,
+                                  tabletLayout: GlobalData().isTabletLayout,
+                                ),
                               ),
-                            ),
-                        ],
-                      ),
-                    ),
+                            ],
+                          ),
+                        ),
                     SizedBox(height: 10.h),
                     Visibility(
                       visible: isAnimationVisible,

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infantry_house_app/models/menu_item_model.dart';
 
 import '../../../../models/carousel_models.dart';
+import '../../../../models/menu_button_model.dart';
 import '../../../../models/menu_title_model.dart';
 import '../../../../models/sub_screen_model.dart';
 
@@ -54,6 +55,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   //MenuTitle
   String menuTitle = '';
+
+  //Menu Buttons
+  List<MenuButtonModel> menuButtonList = [];
+  int selectedButtonIndex = 0; // Track selected button index
+
 
   //Menu Item List
   List<MenuItemModel> menuItemsList = [];
@@ -370,7 +376,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .doc(selectedSubScreenID)
           .collection('sub_title_name') // 👈 عشان احنا متأكدين انه واحد بس
           .get(GetOptions(source: Source.server));
-      print(querySnapshot.docs);
       if (querySnapshot.docs.isEmpty) {
         emit(
           DepartmentGetMenuTitleFailureState(
@@ -430,6 +435,45 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
+  ///--------------MenuButtons CRUD operations--------------
+  Future<void> createMenuButton({required String buttonTitle}) async {
+    try {
+      emit(DepartmentCreateMenuButtonLoadingState());
+
+      final docRef =
+          firestore
+              .collection(rootCollectionName)
+              .doc(departmentId)
+              .collection('super_categories')
+              .doc(selectedSubScreenID)
+              .collection('Buttons')
+              .doc(); // 👈 هنخلي Firestore يولد ID
+
+      final newButton = MenuButtonModel(
+        uid: docRef.id,
+        buttonTitle: buttonTitle.trim(),
+        createdAt: DateTime.now().toIso8601String(),
+        updatedAt: null,
+      );
+
+      await docRef.set(newButton.toMap());
+
+      emit(DepartmentCreateMenuButtonSuccessState(menuButton: newButton));
+    } on FirebaseException catch (e) {
+      emit(
+        DepartmentCreateMenuButtonFailureState(
+          failure: "Firestore error while creating menu button: ${e.message}",
+        ),
+      );
+    } catch (e) {
+      emit(DepartmentCreateMenuButtonFailureState(failure: e.toString()));
+    }
+  }
+
+  void changeMenuButtonIndex({required int index}){
+    selectedButtonIndex = index;
+    emit(DepartmentChangeMenuButtonIndexState());
+  }
   bool isEmptyMenuItems = true;
 
   // Screens CRUD Operations
