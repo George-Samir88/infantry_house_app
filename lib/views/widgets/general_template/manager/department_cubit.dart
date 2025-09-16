@@ -541,6 +541,33 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
+  Future<void> deleteMenuButton({required String buttonId}) async {
+    try {
+      emit(DepartmentDeleteMenuButtonLoadingState());
+
+      final docRef = firestore
+          .collection(rootCollectionName)
+          .doc(departmentId)
+          .collection('super_categories')
+          .doc(selectedSubScreenID)
+          .collection('Buttons')
+          .doc(buttonId);
+
+      await docRef.delete();
+
+      emit(DepartmentDeleteMenuButtonSuccessState());
+      await getMenuButtons();
+    } on FirebaseException catch (e) {
+      emit(
+        DepartmentDeleteMenuButtonFailureState(
+          failure: "Firestore error while deleting menu button: ${e.message}",
+        ),
+      );
+    } catch (e) {
+      emit(DepartmentDeleteMenuButtonFailureState(failure: e.toString()));
+    }
+  }
+
   bool isEmptyMenuItems = true;
 
   // Screens CRUD Operations

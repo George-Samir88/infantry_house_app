@@ -104,11 +104,16 @@ class _EditMenuButtonsViewTemplateState
       body: BlocConsumer<DepartmentCubit, DepartmentState>(
         listener: (context, state) {
           if (state is DepartmentUpdateMenuTitleSuccessState ||
-              state is DepartmentCreateMenuButtonSuccessState) {
+              state is DepartmentCreateMenuButtonSuccessState ||
+              state is DepartmentDeleteMenuButtonSuccessState) {
             _playAnimation();
+          } else if (state is DepartmentGetMenuTitleFailureState) {
+            showSnackBar(context: context, message: state.failure);
           } else if (state is DepartmentUpdateMenuTitleFailureState) {
             showSnackBar(context: context, message: state.failure);
           } else if (state is DepartmentCreateMenuButtonFailureState) {
+            showSnackBar(context: context, message: state.failure);
+          } else if (state is DepartmentDeleteMenuButtonFailureState) {
             showSnackBar(context: context, message: state.failure);
           }
         },
@@ -182,7 +187,9 @@ class _EditMenuButtonsViewTemplateState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    state is DepartmentGetMenuButtonLoadingState || state is DepartmentUpdateMenuButtonLoadingState
+                    state is DepartmentGetMenuButtonLoadingState ||
+                            state is DepartmentUpdateMenuButtonLoadingState ||
+                            state is DepartmentDeleteMenuButtonLoadingState
                         ? AppLoader()
                         : cubit.menuButtonList.isNotEmpty
                         ? Container(
@@ -200,78 +207,67 @@ class _EditMenuButtonsViewTemplateState
                               return GestureDetector(
                                 onTap: () {
                                   cubit.changeMenuButtonIndex(index: index);
+                                  updateMenuButtonController.text =
+                                      menuButtonsList[cubit
+                                              .selectedButtonIndex]!
+                                          .buttonTitle!;
+                                  showInputDialog(
+                                    context: context,
+                                    controller: updateMenuButtonController,
+                                    onUpdateConfirmed: (String value) {
+                                      Navigator.pop(context);
+                                      cubit.updateMenuButton(
+                                        buttonId: menuButtonsList[index]!.uid!,
+                                        newTitle:
+                                            updateMenuButtonController.text,
+                                      );
+                                    },
+                                    onDeletePressed: () {
+                                      Navigator.pop(context);
+                                      cubit.deleteMenuButton(
+                                        buttonId: menuButtonsList[index]!.uid!,
+                                      );
+                                    },
+                                  );
                                 },
-                                child: Stack(
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        updateMenuButtonController.text =
-                                            menuButtonsList[cubit
-                                                    .selectedButtonIndex]!
-                                                .buttonTitle!;
-                                        showInputDialog(
-                                          context: context,
-                                          controller:
-                                              updateMenuButtonController,
-                                          onUpdateConfirmed: (String value) {
-                                            Navigator.pop(context);
-                                            cubit.updateMenuButton(
-                                              buttonId:
-                                                  menuButtonsList[index]!.uid!,
-                                              newTitle:
-                                                  updateMenuButtonController
-                                                      .text,
-                                            );
-                                          },
-                                          onDeletePressed: () {},
-                                        );
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 20.w,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey.shade400,
-                                              // Shadow color with opacity
-                                              spreadRadius: 1,
-                                              // Spread area of the shadow
-                                              blurRadius: 10,
-                                              // Blur effect
-                                              offset: Offset(
-                                                0,
-                                                3,
-                                              ), // Changes position of shadow (X, Y)
-                                            ),
-                                          ],
-                                          color:
-                                              isSelected
-                                                  ? Colors.brown[800]
-                                                  : Colors.grey,
-                                          borderRadius: BorderRadius.circular(
-                                            20,
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            menuButtonsList[index]!
-                                                .buttonTitle!,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize:
-                                                  isSelected ? 16.sp : 14.sp,
-                                              fontWeight:
-                                                  isSelected
-                                                      ? FontWeight.w600
-                                                      : FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 20.w,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.shade400,
+                                        // Shadow color with opacity
+                                        spreadRadius: 1,
+                                        // Spread area of the shadow
+                                        blurRadius: 10,
+                                        // Blur effect
+                                        offset: Offset(
+                                          0,
+                                          3,
+                                        ), // Changes position of shadow (X, Y)
+                                      ),
+                                    ],
+                                    color:
+                                        isSelected
+                                            ? Colors.brown[800]
+                                            : Colors.grey,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      menuButtonsList[index]!.buttonTitle!,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: isSelected ? 16.sp : 14.sp,
+                                        fontWeight:
+                                            isSelected
+                                                ? FontWeight.w600
+                                                : FontWeight.w500,
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
                               );
                             },

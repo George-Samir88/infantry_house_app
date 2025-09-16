@@ -172,6 +172,16 @@ class DepartmentUpdateMenuButtonFailureState extends DepartmentState {
   DepartmentUpdateMenuButtonFailureState({required this.failure});
 }
 
+class DepartmentDeleteMenuButtonLoadingState extends DepartmentState {}
+
+class DepartmentDeleteMenuButtonSuccessState extends DepartmentState {}
+
+class DepartmentDeleteMenuButtonFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentDeleteMenuButtonFailureState({required this.failure});
+}
+
 class DepartmentAddNewCategoryState extends DepartmentState {}
 
 class DepartmentRemoveCategoryState extends DepartmentState {}
