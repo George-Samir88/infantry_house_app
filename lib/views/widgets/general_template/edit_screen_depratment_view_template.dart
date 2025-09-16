@@ -12,7 +12,6 @@ import 'package:lottie/lottie.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../utils/custom_elevated_button.dart';
 import '../../../../utils/custom_appbar_editing_view.dart';
-import '../../../utils/custom_edit_button.dart';
 
 class EditSubScreenTemplateView extends StatefulWidget {
   const EditSubScreenTemplateView({super.key});
@@ -145,7 +144,7 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                           context: context,
                                           controller:
                                               updatedSubScreenController,
-                                          onConfirmed: (value) {
+                                          onUpdateConfirmed: (value) {
                                             if (updatedSubScreenController
                                                 .text
                                                 .isNotEmpty) {
@@ -162,6 +161,15 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                                         .uid,
                                               );
                                             }
+                                          },
+                                          onDeletePressed: () {
+                                            Navigator.pop(context);
+                                            cubit.deleteSubScreen(
+                                              subScreenUID:
+                                                  cubit
+                                                      .subScreensList[index]
+                                                      .uid,
+                                            );
                                           },
                                         );
                                       },
@@ -204,34 +212,6 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: GlobalData().isArabic ? -10 : null,
-                                      bottom: -15,
-                                      right: GlobalData().isArabic ? null : -10,
-                                      child: CustomEditButton(
-                                        onTap: () {
-                                          cubit.deleteSubScreen(
-                                            subScreenUID:
-                                                cubit.subScreensList[index].uid,
-                                          );
-                                        },
-                                        height:
-                                            GlobalData().isTabletLayout
-                                                ? 28.h
-                                                : 25.h,
-                                        width:
-                                            GlobalData().isTabletLayout
-                                                ? 20.w
-                                                : 35.w,
-                                        iconSize:
-                                            GlobalData().isTabletLayout
-                                                ? 18.r
-                                                : 20.r,
-                                        icon: Icons.cancel,
-                                        iconColor: Colors.white,
-                                        backgroundColor: Colors.red,
                                       ),
                                     ),
                                   ],

@@ -508,6 +508,39 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
+  Future<void> updateMenuButton({
+    required String buttonId,
+    required String newTitle,
+  }) async {
+    try {
+      emit(DepartmentUpdateMenuButtonLoadingState());
+
+      final docRef = firestore
+          .collection(rootCollectionName)
+          .doc(departmentId)
+          .collection('super_categories')
+          .doc(selectedSubScreenID)
+          .collection('Buttons')
+          .doc(buttonId);
+
+      await docRef.update({
+        'button_title': newTitle.trim(),
+        'updated_at': DateTime.now().toIso8601String(),
+      });
+
+      emit(DepartmentUpdateMenuButtonSuccessState());
+      await getMenuButtons();
+    } on FirebaseException catch (e) {
+      emit(
+        DepartmentUpdateMenuButtonFailureState(
+          failure: "Firestore error while updating menu button: ${e.message}",
+        ),
+      );
+    } catch (e) {
+      emit(DepartmentUpdateMenuButtonFailureState(failure: e.toString()));
+    }
+  }
+
   bool isEmptyMenuItems = true;
 
   // Screens CRUD Operations

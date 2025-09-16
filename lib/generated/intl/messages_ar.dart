@@ -202,12 +202,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "TrainerName": MessageLookupByLibrary.simpleMessage("أسم المدرب"),
         "Twagn": MessageLookupByLibrary.simpleMessage("طواجن"),
         "Tyor": MessageLookupByLibrary.simpleMessage("الطيور"),
-        "TypeSubScreenTitle":
-            MessageLookupByLibrary.simpleMessage("أدخل اسم الشاشة الفرعية"),
+        "TypeTitle": MessageLookupByLibrary.simpleMessage("أدخل اسم التصنيف"),
         "Undo": MessageLookupByLibrary.simpleMessage("تراجع"),
         "UpdateDailyGame": MessageLookupByLibrary.simpleMessage("تعديل اللعبة"),
-        "UpdateSubScreenTitle":
-            MessageLookupByLibrary.simpleMessage("تحديث اسم الشاشة الفرعية"),
+        "UpdateTitle":
+            MessageLookupByLibrary.simpleMessage("تحديث اسم التصنيف"),
         "UserName": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "VerificationCodeSent":
             MessageLookupByLibrary.simpleMessage("تم إرسال رمز التحقق"),

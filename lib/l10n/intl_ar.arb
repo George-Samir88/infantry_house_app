@@ -133,8 +133,8 @@
   "Delete": "حذف",
   "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName": "القسم موجود بالفعل! لا يمكنك إضافة قسم جديد بنفس الاسم.",
   "PleaseAddAMainCategoryFirst": "يجب إضافة قسم رئيسي أولاً.",
-  "UpdateSubScreenTitle": "تحديث اسم الشاشة الفرعية",
-  "TypeSubScreenTitle": "أدخل اسم الشاشة الفرعية",
+  "UpdateTitle": "تحديث اسم التصنيف",
+  "TypeTitle": "أدخل اسم التصنيف",
   "Cancel": "إلغاء",
   "FieldCannotBeEmpty": "لا يمكن أن يكون الحقل فارغًا",
   "ErrorOccurred": "حدث خطأ!"

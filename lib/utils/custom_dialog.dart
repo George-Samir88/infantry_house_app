@@ -6,7 +6,8 @@ import '../generated/l10n.dart';
 void showInputDialog({
   required BuildContext context,
   required TextEditingController controller,
-  required void Function(String value)? onConfirmed,
+  required void Function(String value)? onUpdateConfirmed,
+  required void Function()? onDeletePressed,
 }) {
   showDialog(
     context: context,
@@ -20,60 +21,89 @@ void showInputDialog({
               borderRadius: BorderRadius.circular(20),
             ),
             title: Text(
-              S.of(context).UpdateSubScreenTitle,
+              S.of(context).UpdateTitle,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
             ),
             content: TextField(
               controller: controller,
               style: TextStyle(fontSize: 12.sp),
               decoration: InputDecoration(
-                hintText: S.of(context).TypeSubScreenTitle,
+                hintText: S.of(context).TypeTitle,
                 hintStyle: TextStyle(fontSize: 12.sp),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 errorText: errorText,
-                errorStyle: TextStyle(
-                  fontSize: 10.sp,
-                )
+                errorStyle: TextStyle(fontSize: 10.sp),
               ),
             ),
             actionsAlignment: MainAxisAlignment.end,
             // aligns to right
             actions: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
+              Column(
                 children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Close without saving
-                    },
-                    child: Text(
-                      S.of(context).Cancel,
-                      style: TextStyle(fontSize: 12.sp),
-                    ),
-                  ),
-                  SizedBox(width: 8.w),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.r),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close without saving
+                          },
+                          child: Text(
+                            S.of(context).Cancel,
+                            style: TextStyle(fontSize: 12.sp),
+                          ),
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      String value = controller.text.trim();
-                      if (value.isEmpty) {
-                        setState(() {
-                          errorText = S.of(context).FieldCannotBeEmpty;
-                        });
-                        return;
-                      }
-                      onConfirmed?.call(value);
-                    },
-                    child: Text(
-                      S.of(context).Confirm,
-                      style: TextStyle(fontSize: 12.sp),
-                    ),
+                      SizedBox(width: 8.w),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                          ),
+                          onPressed: () {
+                            String value = controller.text.trim();
+                            if (value.isEmpty) {
+                              setState(() {
+                                errorText = S.of(context).FieldCannotBeEmpty;
+                              });
+                              return;
+                            }
+                            onUpdateConfirmed?.call(value);
+                          },
+                          child: Text(
+                            S.of(context).Confirm,
+                            style: TextStyle(fontSize: 12.sp),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5.h),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.redAccent.shade200,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                          ),
+                          onPressed: onDeletePressed,
+                          child: Text(
+                            S.of(context).Delete,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

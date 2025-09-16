@@ -1390,21 +1390,21 @@ class S {
     );
   }
 
-  /// `تحديث اسم الشاشة الفرعية`
-  String get UpdateSubScreenTitle {
+  /// `تحديث اسم التصنيف`
+  String get UpdateTitle {
     return Intl.message(
-      'تحديث اسم الشاشة الفرعية',
-      name: 'UpdateSubScreenTitle',
+      'تحديث اسم التصنيف',
+      name: 'UpdateTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `أدخل اسم الشاشة الفرعية`
-  String get TypeSubScreenTitle {
+  /// `أدخل اسم التصنيف`
+  String get TypeTitle {
     return Intl.message(
-      'أدخل اسم الشاشة الفرعية',
-      name: 'TypeSubScreenTitle',
+      'أدخل اسم التصنيف',
+      name: 'TypeTitle',
       desc: '',
       args: [],
     );

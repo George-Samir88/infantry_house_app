@@ -12,7 +12,7 @@ import '../../../../generated/l10n.dart';
 import '../../../../utils/custom_appbar_editing_view.dart';
 import '../../../../utils/custom_elevated_button.dart';
 import '../../../models/menu_button_model.dart';
-import '../../../utils/custom_edit_button.dart';
+import '../../../utils/custom_dialog.dart';
 import '../../../utils/custom_snackBar.dart';
 
 class EditMenuButtonsViewTemplate extends StatefulWidget {
@@ -83,6 +83,8 @@ class _EditMenuButtonsViewTemplateState
 
   final GlobalKey<FormState> buttonsFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> menuTitleFormKey = GlobalKey<FormState>();
+  final TextEditingController updateMenuButtonController =
+      TextEditingController();
   ScrollController scrollController = ScrollController();
 
   @override
@@ -180,7 +182,7 @@ class _EditMenuButtonsViewTemplateState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    state is DepartmentGetMenuButtonLoadingState
+                    state is DepartmentGetMenuButtonLoadingState || state is DepartmentUpdateMenuButtonLoadingState
                         ? AppLoader()
                         : cubit.menuButtonList.isNotEmpty
                         ? Container(
@@ -202,79 +204,71 @@ class _EditMenuButtonsViewTemplateState
                                 child: Stack(
                                   clipBehavior: Clip.none,
                                   children: [
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 20.w,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.shade400,
-                                            // Shadow color with opacity
-                                            spreadRadius: 1,
-                                            // Spread area of the shadow
-                                            blurRadius: 10,
-                                            // Blur effect
-                                            offset: Offset(
-                                              0,
-                                              3,
-                                            ), // Changes position of shadow (X, Y)
-                                          ),
-                                        ],
-                                        color:
-                                            isSelected
-                                                ? Colors.brown[800]
-                                                : Colors.grey,
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          menuButtonsList[index]!.buttonTitle!,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize:
-                                                isSelected ? 16.sp : 14.sp,
-                                            fontWeight:
-                                                isSelected
-                                                    ? FontWeight.w600
-                                                    : FontWeight.w500,
+                                    GestureDetector(
+                                      onTap: () {
+                                        updateMenuButtonController.text =
+                                            menuButtonsList[cubit
+                                                    .selectedButtonIndex]!
+                                                .buttonTitle!;
+                                        showInputDialog(
+                                          context: context,
+                                          controller:
+                                              updateMenuButtonController,
+                                          onUpdateConfirmed: (String value) {
+                                            Navigator.pop(context);
+                                            cubit.updateMenuButton(
+                                              buttonId:
+                                                  menuButtonsList[index]!.uid!,
+                                              newTitle:
+                                                  updateMenuButtonController
+                                                      .text,
+                                            );
+                                          },
+                                          onDeletePressed: () {},
+                                        );
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 20.w,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.shade400,
+                                              // Shadow color with opacity
+                                              spreadRadius: 1,
+                                              // Spread area of the shadow
+                                              blurRadius: 10,
+                                              // Blur effect
+                                              offset: Offset(
+                                                0,
+                                                3,
+                                              ), // Changes position of shadow (X, Y)
+                                            ),
+                                          ],
+                                          color:
+                                              isSelected
+                                                  ? Colors.brown[800]
+                                                  : Colors.grey,
+                                          borderRadius: BorderRadius.circular(
+                                            20,
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: GlobalData().isArabic ? -5.w : null,
-                                      right:
-                                          GlobalData().isArabic ? null : -5.w,
-                                      bottom: -10.h,
-                                      child: Row(
-                                        children: [
-                                          CustomEditButton(
-                                            onTap: () {
-                                              // cubit.removeButton(
-                                              //   screenName:
-                                              //       cubit.selectedSubScreen,
-                                              //   buttonTitle:
-                                              //   menuButtonsList[index]!,
-                                              // );
-                                            },
-                                            height:
-                                                GlobalData().isTabletLayout
-                                                    ? 28.h
-                                                    : 25.h,
-                                            width:
-                                                GlobalData().isTabletLayout
-                                                    ? 20.w
-                                                    : 35.w,
-                                            iconSize:
-                                                GlobalData().isTabletLayout
-                                                    ? 18.r
-                                                    : 20.r,
-                                            icon: Icons.cancel,
-                                            iconColor: Colors.white,
-                                            backgroundColor: Colors.red,
+                                        child: Center(
+                                          child: Text(
+                                            menuButtonsList[index]!
+                                                .buttonTitle!,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize:
+                                                  isSelected ? 16.sp : 14.sp,
+                                              fontWeight:
+                                                  isSelected
+                                                      ? FontWeight.w600
+                                                      : FontWeight.w500,
+                                            ),
                                           ),
-                                        ],
+                                        ),
                                       ),
                                     ),
                                   ],

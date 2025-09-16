@@ -207,12 +207,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "TrainerName": MessageLookupByLibrary.simpleMessage("Trainer name"),
         "Twagn": MessageLookupByLibrary.simpleMessage("Casseroles"),
         "Tyor": MessageLookupByLibrary.simpleMessage("Poultry"),
-        "TypeSubScreenTitle":
-            MessageLookupByLibrary.simpleMessage("Enter sub screen title"),
+        "TypeTitle": MessageLookupByLibrary.simpleMessage("Enter category"),
         "Undo": MessageLookupByLibrary.simpleMessage("Undo"),
         "UpdateDailyGame": MessageLookupByLibrary.simpleMessage("Update Game"),
-        "UpdateSubScreenTitle":
-            MessageLookupByLibrary.simpleMessage("Update sub screen title"),
+        "UpdateTitle": MessageLookupByLibrary.simpleMessage("Update category"),
         "UserName": MessageLookupByLibrary.simpleMessage("User Name"),
         "VerificationCodeSent":
             MessageLookupByLibrary.simpleMessage("Verification Code Sent"),
