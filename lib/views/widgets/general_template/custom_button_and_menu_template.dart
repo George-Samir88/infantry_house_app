@@ -50,7 +50,15 @@ class _CustomButtonAndMenuTemplateState
               padding: EdgeInsets.only(left: 16.0.w, right: 16.w),
               child: Row(
                 children: [
-                  state is DepartmentGetMenuTitleLoadingState
+                  cubit.subScreensList.isEmpty
+                      ? Text(
+                        S.of(context).EdaftGded,
+                        style: TextStyle(
+                          fontSize: GlobalData().isTabletLayout ? 16.sp : 20.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                      : state is DepartmentGetMenuTitleLoadingState
                       ? AppLoader()
                       : (state is DepartmentGetMenuTitleSuccessState
                           ? Text(

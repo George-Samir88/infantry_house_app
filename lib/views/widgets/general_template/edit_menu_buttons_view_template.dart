@@ -29,7 +29,11 @@ class _EditMenuButtonsViewTemplateState
     with SingleTickerProviderStateMixin {
   TextEditingController arabicTextEditingController = TextEditingController();
   TextEditingController englishTextEditingController = TextEditingController();
-  TextEditingController categoryTextEditingController = TextEditingController();
+  TextEditingController menuTitleARTextEditingController =
+      TextEditingController();
+  TextEditingController menuTitleENTextEditingController =
+      TextEditingController();
+
   int selectedIndex = 0; // Track selected button index
 
   late AnimationController _animationController;
@@ -73,7 +77,7 @@ class _EditMenuButtonsViewTemplateState
 
   @override
   void didChangeDependencies() {
-    categoryTextEditingController.text =
+    menuTitleARTextEditingController.text =
         widget.menuTitleModel.menuTitle ?? S.of(context).EdaftGded;
     super.didChangeDependencies();
   }
@@ -97,8 +101,8 @@ class _EditMenuButtonsViewTemplateState
         ),
       ),
       body: BlocConsumer<DepartmentCubit, DepartmentState>(
-        listener: (context , state ) {
-          if(state is DepartmentUpdateMenuTitleSuccessState){
+        listener: (context, state) {
+          if (state is DepartmentUpdateMenuTitleSuccessState) {
             _playAnimation();
           }
         },
@@ -120,7 +124,22 @@ class _EditMenuButtonsViewTemplateState
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: CustomTextFormField(
-                        textEditingController: categoryTextEditingController,
+                        textEditingController: menuTitleARTextEditingController,
+                        hintText: S.of(context).Ad5lEsmEltsnef,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return S.of(context).MnFdlkAd5lEsmEltsnef;
+                          }
+                          return null;
+                        },
+                        textInputType: TextInputType.text,
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                      child: CustomTextFormField(
+                        textEditingController: menuTitleENTextEditingController,
                         hintText: S.of(context).Ad5lEsmEltsnef,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -132,20 +151,23 @@ class _EditMenuButtonsViewTemplateState
                       ),
                     ),
                     SizedBox(height: 20.h),
-                    state is DepartmentUpdateMenuTitleLoadingState ? AppLoader() : CustomElevatedButton(
-                      width: MediaQuery.sizeOf(context).width * 0.4,
-                      onPressed: () {
-                        if (menuTitleFormKey.currentState!.validate()) {
-                          cubit.updateMenuTitle(
-                            menuTitle: categoryTextEditingController.text,
-                          );
-                          FocusScope.of(context).unfocus();
 
-                        }
-                      },
-                      text: S.of(context).hefz,
-                      tabletLayout: GlobalData().isTabletLayout,
-                    ),
+                    state is DepartmentUpdateMenuTitleLoadingState
+                        ? AppLoader()
+                        : CustomElevatedButton(
+                          width: MediaQuery.sizeOf(context).width * 0.4,
+                          onPressed: () {
+                            if (menuTitleFormKey.currentState!.validate()) {
+                              cubit.updateMenuTitle(
+                                menuTitle:
+                                    menuTitleARTextEditingController.text,
+                              );
+                              FocusScope.of(context).unfocus();
+                            }
+                          },
+                          text: S.of(context).hefz,
+                          tabletLayout: GlobalData().isTabletLayout,
+                        ),
                   ],
                 ),
               ),

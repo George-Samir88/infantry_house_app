@@ -370,6 +370,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .doc(selectedSubScreenID)
           .collection('sub_title_name') // 👈 عشان احنا متأكدين انه واحد بس
           .get(GetOptions(source: Source.server));
+      print(querySnapshot.docs);
       if (querySnapshot.docs.isEmpty) {
         emit(
           DepartmentGetMenuTitleFailureState(
