@@ -379,10 +379,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       final doc = querySnapshot.docs.first;
       final data = doc.data();
-      final menuTitleModel = MenuTitleModel.fromMap({
-        ...data,
-        'uid': doc.id, // نخزن document ID جوه الموديل
-      });
+      final menuTitleModel = MenuTitleModel.fromMap(data);
 
       emit(DepartmentGetMenuTitleSuccessState(menuTitleModel: menuTitleModel));
     } on FirebaseException catch (e) {

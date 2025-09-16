@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class MenuTitleModel {
   final String? menuTitle;
   final String? uid;
@@ -12,12 +14,12 @@ class MenuTitleModel {
   });
 
   /// Convert Firestore/JSON Map → Model
-  factory MenuTitleModel.fromMap(Map<String, dynamic> map) {
+  factory MenuTitleModel.fromMap(Map<String, dynamic> data) {
     return MenuTitleModel(
-      menuTitle: map['menu_title'] as String?,
-      uid: map['uid'] as String?,
-      createdAt: map['created_at'] as DateTime?,
-      updatedAt: map['updated_at'] as DateTime?,
+      menuTitle: data['menu_title'] as String?,
+      uid: data['uid'] as String?,
+      updatedAt: (data['updated_at'] as Timestamp?)?.toDate(),
+      createdAt: (data['created_at'] as Timestamp?)?.toDate(),
     );
   }
 
