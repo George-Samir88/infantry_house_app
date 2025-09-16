@@ -32,7 +32,7 @@ part 'department_state.dart';
 // 🔹 الاسم في الكود: ItemCard
 
 class DepartmentCubit extends Cubit<DepartmentState> {
-  DepartmentCubit({required this.departmentId}) : super(DepartmentInitial()){
+  DepartmentCubit({required this.departmentId}) : super(DepartmentInitial()) {
     getAllWidgetsData();
   }
 
@@ -64,11 +64,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   ///-------------Functions-------------
 
-
   Future<void> getAllWidgetsData() async {
     await getAllSubScreens();
     await getMenuTitle();
   }
+
   Future<List<String>> getDepartmentsNames() async {
     try {
       emit(DepartmentGetDepartmentsNamesLoadingState());
@@ -158,10 +158,22 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .doc(departmentId)
           .collection('super_categories')
           .add(newSubScreen.toMap());
-
       // Step 3: update uid field
       await docRef.update({'uid': docRef.id});
-
+      // Step 4: add menu title
+      final MenuTitleModel menuTitleModel = MenuTitleModel(
+        menuTitle: null,
+        uid: null,
+        createdAt: DateTime.now(),
+        updatedAt: null,
+      );
+      final menuTitleDocRef = await docRef
+          .collection('sub_title_name')
+          .add(menuTitleModel.toMap());
+      await menuTitleDocRef.update({'uid': menuTitleDocRef.id});
+      if (subScreensList.isEmpty) {
+        selectedSubScreenID = docRef.id;
+      }
       emit(DepartmentCreateSubScreensNamesSuccessState(docReference: docRef));
       await getAllSubScreens();
     } on FirebaseException catch (e) {
@@ -234,13 +246,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   void changeSelectedSubScreen({
     required String subScreenButtonId,
     required int index,
-  })async {
-
+  }) async {
     selectedSubScreenID = subScreenButtonId;
     selectedSubScreenIndex = index;
     emit(DepartmentChangeSubScreenState());
     await getMenuTitle();
-
   }
 
   ///--------------Carousel CRUD operations--------------
@@ -386,8 +396,45 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
-  void removeCarouselItem({required int index}) {
-    emit(DepartmentRemoveCarouselState());
+  Future<void> updateMenuTitle({required String? menuTitle}) async {
+    try {
+      emit(DepartmentUpdateMenuTitleLoadingState());
+
+      // ننشئ reference لوثيقة جديدة داخل sub_title_name
+      final querySnapshot =
+          await firestore
+              .collection(rootCollectionName)
+              .doc(departmentId)
+              .collection('super_categories')
+              .doc(selectedSubScreenID)
+              .collection('sub_title_name')
+              .get(); // 👈 هنسيب Firestore يختار ID
+
+      final newMenuModel = MenuTitleModel(
+        menuTitle: menuTitle,
+        uid: querySnapshot.docs.first.id,
+        createdAt: DateTime.now(),
+        updatedAt: null,
+      );
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final docRef = querySnapshot.docs.first.reference;
+
+        await docRef.update({
+          'menu_title': menuTitle,
+          'updated_at': DateTime.now().toIso8601String(),
+        });
+      }
+      emit(DepartmentUpdateMenuTitleSuccessState(model: newMenuModel));
+    } on FirebaseException catch (e) {
+      emit(
+        DepartmentUpdateMenuTitleFailureState(
+          failure: "Firestore error while creating menu_title: ${e.message}",
+        ),
+      );
+    } catch (e) {
+      emit(DepartmentUpdateMenuTitleFailureState(failure: e.toString()));
+    }
   }
 
   bool isEmptyMenuItems = true;

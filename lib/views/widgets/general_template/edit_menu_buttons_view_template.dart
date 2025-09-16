@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
+import 'package:infantry_house_app/models/menu_title_model.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 import 'package:lottie/lottie.dart';
@@ -13,9 +14,9 @@ import '../../../utils/custom_edit_button.dart';
 import '../../../utils/custom_snackBar.dart';
 
 class EditMenuButtonsViewTemplate extends StatefulWidget {
-  const EditMenuButtonsViewTemplate({super.key, required this.menuTitleId});
+  const EditMenuButtonsViewTemplate({super.key, required this.menuTitleModel});
 
-  final String menuTitleId;
+  final MenuTitleModel menuTitleModel;
 
   @override
   State<EditMenuButtonsViewTemplate> createState() =>
@@ -62,7 +63,7 @@ class _EditMenuButtonsViewTemplateState
 
   @override
   void initState() {
-    categoryTextEditingController.text = widget.menuTitleId;
+    categoryTextEditingController.text = widget.menuTitleModel.menuTitle!;
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -71,7 +72,7 @@ class _EditMenuButtonsViewTemplateState
   }
 
   final GlobalKey<FormState> buttonsFormKey = GlobalKey<FormState>();
-  final GlobalKey<FormState> categoryFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> menuTitleFormKey = GlobalKey<FormState>();
   ScrollController scrollController = ScrollController();
 
   @override
@@ -100,7 +101,7 @@ class _EditMenuButtonsViewTemplateState
             controller: scrollController,
             children: [
               Form(
-                key: categoryFormKey,
+                key: menuTitleFormKey,
                 child: Column(
                   children: [
                     SizedBox(height: 20.h),
@@ -122,11 +123,10 @@ class _EditMenuButtonsViewTemplateState
                     CustomElevatedButton(
                       width: MediaQuery.sizeOf(context).width * 0.4,
                       onPressed: () {
-                        if (categoryFormKey.currentState!.validate()) {
-                          cubit.editButtonName(
-                            newCategoryTitle:
-                                categoryTextEditingController.text,
-                          );
+                        if (menuTitleFormKey.currentState!.validate()) {
+                          if(widget.menuTitleModel.createdAt == null){
+                            cubit.updateMenuTitle(menuTitle: categoryTextEditingController.text);
+                          }
                           FocusScope.of(context).unfocus();
                           _playAnimation();
                         }

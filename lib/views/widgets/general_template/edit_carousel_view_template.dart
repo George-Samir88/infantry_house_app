@@ -113,7 +113,7 @@ class _EditCarouselViewTemplateState extends State<EditCarouselViewTemplate>
                                 child: CustomEditButton(
                                   backgroundColor: Colors.red,
                                   onTap: () {
-                                    cubit.removeCarouselItem(index: index);
+                                    // cubit.removeCarouselItem(index: index);
                                   },
                                   iconColor: Colors.white,
                                   icon: Icons.cancel,

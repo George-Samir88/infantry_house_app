@@ -1,8 +1,8 @@
 class MenuTitleModel {
   final String? menuTitle;
   final String? uid;
-  final String? createdAt;
-  final String? updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   MenuTitleModel({
     required this.menuTitle,
@@ -16,8 +16,8 @@ class MenuTitleModel {
     return MenuTitleModel(
       menuTitle: map['menu_title'] as String?,
       uid: map['uid'] as String?,
-      createdAt: map['created_at'] as String?,
-      updatedAt: map['updated_at'] as String?,
+      createdAt: map['created_at'] as DateTime?,
+      updatedAt: map['updated_at'] as DateTime?,
     );
   }
 

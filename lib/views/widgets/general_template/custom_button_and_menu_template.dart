@@ -19,10 +19,12 @@ class CustomButtonAndMenuTemplate extends StatefulWidget {
   const CustomButtonAndMenuTemplate({super.key});
 
   @override
-  State<CustomButtonAndMenuTemplate> createState() => _CustomButtonAndMenuTemplateState();
+  State<CustomButtonAndMenuTemplate> createState() =>
+      _CustomButtonAndMenuTemplateState();
 }
 
-class _CustomButtonAndMenuTemplateState extends State<CustomButtonAndMenuTemplate> {
+class _CustomButtonAndMenuTemplateState
+    extends State<CustomButtonAndMenuTemplate> {
   MenuTitleModel? menuTitleModel;
 
   @override
@@ -79,12 +81,18 @@ class _CustomButtonAndMenuTemplateState extends State<CustomButtonAndMenuTemplat
                                 (context) => BlocProvider.value(
                                   value: cubit,
                                   child: EditMenuButtonsViewTemplate(
-                                    menuTitleId: menuTitleModel!.uid!,
+                                    menuTitleModel:
+                                        menuTitleModel ??
+                                        MenuTitleModel(
+                                          menuTitle: S.of(context).EdaftGded,
+                                          uid: null,
+                                          createdAt: null,
+                                          updatedAt: null,
+                                        ),
                                   ),
                                 ),
                           ),
                         );
-
                       } else {
                         showSnackBar(
                           context: context,
