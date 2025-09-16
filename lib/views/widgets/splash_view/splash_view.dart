@@ -67,41 +67,61 @@ class _SplashViewState extends State<SplashView> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
+        BlocListener<AutoLoginCubit, AutoLoginState>(
+          listener: (context, state) {
+            if (state is AutoLoginSuccess) {
+              userIsLoggedIn = true;
+              // بعد ما يتأكد انه Logged in → يجيب الأقسام
+              // await context.read<HomeCubit>().getDepartmentsNames();
+            } else if (state is AutoLoginUserNotFound) {
+              // ❌ مش لاقي session → Login
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => LoginView()),
+              );
+            } else if (state is AutoLoginFailure) {
+              showSnackBar(context: context, message: state.message);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => LoginView()),
+              );
+            }
+          },
+        ),
         BlocListener<HomeCubit, HomeState>(
           listener: (context, state) {
             if (state is HomeGetDepartmentsSuccessState && userIsLoggedIn) {
-              // ✅ login success → Go Home
-              Future.delayed(Duration(seconds: 2), () async {
-                if (!context.mounted) return;
-                await context.read<HomeCubit>().getDepartmentsNames();
-              });
-              if (!context.mounted) return;
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (_) => HomeView()),
               );
             }
-            if (state is HomeGetDepartmentsFailureState) {
-              showSnackBar(context: context, message: state.failure);
+            if (state is HomeGetDepartmentsFailureState && userIsLoggedIn) {
+                Future.delayed(Duration(seconds: 2), () {
+                  if (!context.mounted) return;
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => HomeView()),
+                  );
+                  showSnackBar(context: context, message: state.failure);
+                });
+
+            }
+            if (state is HomeGetDepartmentsFailureState && !userIsLoggedIn) {
+                Future.delayed(Duration(seconds: 2), () {
+                  if (!context.mounted) return;
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => LoginView()),
+                  );
+                  showSnackBar(context: context, message: state.failure);
+                });
+
             }
           },
         ),
       ],
-      child: BlocConsumer<AutoLoginCubit, AutoLoginState>(
-        listener: (context, state) async {
-          if (state is AutoLoginSuccess) {
-            // ✅ login success → mark user as logged in
-            userIsLoggedIn = true;
-          } else if (state is AutoLoginUserNotFound) {
-            // ❌ no session → go Login
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => LoginView()),
-            );
-          } else if (state is AutoLoginFailure) {
-            showSnackBar(context: context, message: state.message);
-          }
-        },
+      child: BlocBuilder<AutoLoginCubit, AutoLoginState>(
         builder: (context, state) {
           return LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
@@ -207,49 +227,53 @@ class _SplashViewState extends State<SplashView> {
                                     ),
                                   ),
                                   SizedBox(height: 10.h),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 16.0.w,
-                                    ),
-                                    child:
-                                        state is AutoLoginLoading
-                                            ? Center(
-                                              child: CircularProgressIndicator(
-                                                color: const Color(0xFF6D3A2D),
-                                                strokeWidth: 3,
+                                  if (state is! AutoLoginSuccess)
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16.0.w,
+                                      ),
+                                      child:
+                                          state is AutoLoginLoading
+                                              ? Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                      color: const Color(
+                                                        0xFF6D3A2D,
+                                                      ),
+                                                      strokeWidth: 3,
+                                                    ),
+                                              )
+                                              : CustomElevatedButton(
+                                                onPressed: () {
+                                                  (userIsLoggedIn &&
+                                                          state
+                                                              is HomeGetDepartmentsSuccessState)
+                                                      ? Navigator.pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder:
+                                                              (context) =>
+                                                                  HomeView(),
+                                                        ),
+                                                      )
+                                                      : Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder:
+                                                              (context) =>
+                                                                  LoginView(),
+                                                        ),
+                                                      );
+                                                },
+                                                text: S.of(context).GetStarted,
+                                                width:
+                                                    MediaQuery.of(
+                                                      context,
+                                                    ).size.width.w,
+                                                tabletLayout:
+                                                    GlobalData().isTabletLayout,
                                               ),
-                                            )
-                                            : CustomElevatedButton(
-                                              onPressed: () {
-                                                (userIsLoggedIn &&
-                                                        state
-                                                            is HomeGetDepartmentsSuccessState)
-                                                    ? Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder:
-                                                            (context) =>
-                                                                HomeView(),
-                                                      ),
-                                                    )
-                                                    : Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder:
-                                                            (context) =>
-                                                                LoginView(),
-                                                      ),
-                                                    );
-                                              },
-                                              text: S.of(context).GetStarted,
-                                              width:
-                                                  MediaQuery.of(
-                                                    context,
-                                                  ).size.width.w,
-                                              tabletLayout:
-                                                  GlobalData().isTabletLayout,
-                                            ),
-                                  ),
+                                    ),
                                   SizedBox(height: 20.h),
                                 ],
                               ),
