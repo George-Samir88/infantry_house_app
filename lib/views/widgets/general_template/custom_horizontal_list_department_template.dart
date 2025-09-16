@@ -32,9 +32,14 @@ class _CustomHorizontalListDepartmentsTemplateState
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DepartmentCubit, DepartmentState>(
+      buildWhen: (previous, current) {
+        return current is DepartmentGetSubScreensNamesSuccessState ||
+            current is DepartmentGetSubScreensNamesLoadingState ||
+            current is DepartmentGetSubScreensNamesFailureState;
+      },
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
-        if (state is DepartmentGetSubScreensNamesSuccessState || state is DepartmentChangeSubScreenState) {
+        if (state is DepartmentGetSubScreensNamesSuccessState) {
           return Container(
             margin: EdgeInsets.only(
               left: GlobalData().isTabletLayout ? 12.w : 16.w,
@@ -92,7 +97,9 @@ class _CustomHorizontalListDepartmentsTemplateState
                                       ),
                                       child: Center(
                                         child: Text(
-                                          cubit.subScreensList[index].subScreenName,
+                                          cubit
+                                              .subScreensList[index]
+                                              .subScreenName,
                                           style: TextStyle(
                                             color: const Color(0xff5E3D2E),
                                             fontSize:
@@ -147,8 +154,7 @@ class _CustomHorizontalListDepartmentsTemplateState
               ],
             ),
           );
-        }
-        else if (state is DepartmentGetSubScreensNamesLoadingState) {
+        } else if (state is DepartmentGetSubScreensNamesLoadingState) {
           return AppLoader();
         } else if (state is DepartmentGetSubScreensNamesFailureState) {
           return Center(child: Text(state.error));

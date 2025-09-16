@@ -83,6 +83,20 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
         ),
       ),
       body: BlocConsumer<DepartmentCubit, DepartmentState>(
+        buildWhen: (previous, current) {
+          return current is DepartmentGetSubScreensNamesSuccessState ||
+              current is DepartmentGetSubScreensNamesLoadingState ||
+              current is DepartmentGetSubScreensNamesFailureState ||
+              current is DepartmentCreateSubScreensNamesSuccessState ||
+              current is DepartmentCreateSubScreensNamesLoadingState ||
+              current is DepartmentCreateSubScreensNamesFailureState ||
+              current is DepartmentUpdateSubScreensNamesSuccessState ||
+              current is DepartmentUpdateSubScreensNamesLoadingState ||
+              current is DepartmentUpdateSubScreensNamesFailureState ||
+              current is DepartmentDeleteSubScreensNamesSuccessState ||
+              current is DepartmentDeleteSubScreensNamesLoadingState ||
+              current is DepartmentDeleteSubScreensNamesFailureState;
+        },
         listener: (context, state) {
           if (state is DepartmentCreateSubScreensNamesSuccessState) {
             _playAnimation();
