@@ -73,7 +73,7 @@ class _CustomButtonAndMenuTemplateState
                   SizedBox(width: 20.w),
                   CustomEditButton(
                     onTap: () {
-                      if (cubit.selectedSubScreenID!.isNotEmpty) {
+                      if (cubit.subScreensList.isNotEmpty) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -81,14 +81,7 @@ class _CustomButtonAndMenuTemplateState
                                 (context) => BlocProvider.value(
                                   value: cubit,
                                   child: EditMenuButtonsViewTemplate(
-                                    menuTitleModel:
-                                        menuTitleModel ??
-                                        MenuTitleModel(
-                                          menuTitle: S.of(context).EdaftGded,
-                                          uid: null,
-                                          createdAt: null,
-                                          updatedAt: null,
-                                        ),
+                                    menuTitleModel: menuTitleModel!,
                                   ),
                                 ),
                           ),

@@ -176,6 +176,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       }
       emit(DepartmentCreateSubScreensNamesSuccessState(docReference: docRef));
       await getAllSubScreens();
+      await getMenuTitle();
     } on FirebaseException catch (e) {
       emit(
         DepartmentCreateSubScreensNamesFailureState(
@@ -407,22 +408,16 @@ class DepartmentCubit extends Cubit<DepartmentState> {
               .collection('sub_title_name')
               .get(); // 👈 هنسيب Firestore يختار ID
 
-      final newMenuModel = MenuTitleModel(
-        menuTitle: menuTitle,
-        uid: querySnapshot.docs.first.id,
-        createdAt: DateTime.now(),
-        updatedAt: null,
-      );
-
       if (querySnapshot.docs.isNotEmpty) {
         final docRef = querySnapshot.docs.first.reference;
 
         await docRef.update({
           'menu_title': menuTitle,
-          'updated_at': DateTime.now().toIso8601String(),
+          'updated_at': DateTime.now(),
         });
       }
-      emit(DepartmentUpdateMenuTitleSuccessState(model: newMenuModel));
+      emit(DepartmentUpdateMenuTitleSuccessState());
+      await getMenuTitle();
     } on FirebaseException catch (e) {
       emit(
         DepartmentUpdateMenuTitleFailureState(

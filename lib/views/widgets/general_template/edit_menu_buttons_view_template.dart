@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
 import 'package:infantry_house_app/models/menu_title_model.dart';
+import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 import 'package:lottie/lottie.dart';
@@ -63,12 +64,18 @@ class _EditMenuButtonsViewTemplateState
 
   @override
   void initState() {
-    categoryTextEditingController.text = widget.menuTitleModel.menuTitle!;
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
     );
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    categoryTextEditingController.text =
+        widget.menuTitleModel.menuTitle ?? S.of(context).EdaftGded;
+    super.didChangeDependencies();
   }
 
   final GlobalKey<FormState> buttonsFormKey = GlobalKey<FormState>();
@@ -89,7 +96,12 @@ class _EditMenuButtonsViewTemplateState
           title: S.of(context).t3delKwaem,
         ),
       ),
-      body: BlocBuilder<DepartmentCubit, DepartmentState>(
+      body: BlocConsumer<DepartmentCubit, DepartmentState>(
+        listener: (context , state ) {
+          if(state is DepartmentUpdateMenuTitleSuccessState){
+            _playAnimation();
+          }
+        },
         builder: (context, state) {
           var cubit = context.read<DepartmentCubit>();
           List<String?> newButtonTitlesList = [];
@@ -120,15 +132,15 @@ class _EditMenuButtonsViewTemplateState
                       ),
                     ),
                     SizedBox(height: 20.h),
-                    CustomElevatedButton(
+                    state is DepartmentUpdateMenuTitleLoadingState ? AppLoader() : CustomElevatedButton(
                       width: MediaQuery.sizeOf(context).width * 0.4,
                       onPressed: () {
                         if (menuTitleFormKey.currentState!.validate()) {
-                          if(widget.menuTitleModel.createdAt == null){
-                            cubit.updateMenuTitle(menuTitle: categoryTextEditingController.text);
-                          }
+                          cubit.updateMenuTitle(
+                            menuTitle: categoryTextEditingController.text,
+                          );
                           FocusScope.of(context).unfocus();
-                          _playAnimation();
+
                         }
                       },
                       text: S.of(context).hefz,
@@ -215,7 +227,8 @@ class _EditMenuButtonsViewTemplateState
                                         CustomEditButton(
                                           onTap: () {
                                             cubit.removeButton(
-                                              screenName: cubit.selectedSubScreen,
+                                              screenName:
+                                                  cubit.selectedSubScreen,
                                               buttonTitle:
                                                   newButtonTitlesList[index]!,
                                             );

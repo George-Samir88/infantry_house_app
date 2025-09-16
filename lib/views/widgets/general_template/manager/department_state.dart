@@ -123,15 +123,14 @@ class DepartmentGetMenuTitleFailureState extends DepartmentState {
 class DepartmentUpdateMenuTitleLoadingState extends DepartmentState {}
 
 class DepartmentUpdateMenuTitleSuccessState extends DepartmentState {
-  final MenuTitleModel model;
-  DepartmentUpdateMenuTitleSuccessState({required this.model});
+  DepartmentUpdateMenuTitleSuccessState();
 }
 
 class DepartmentUpdateMenuTitleFailureState extends DepartmentState {
   final String failure;
+
   DepartmentUpdateMenuTitleFailureState({required this.failure});
 }
-
 
 class DepartmentInitializationState extends DepartmentState {}
 
