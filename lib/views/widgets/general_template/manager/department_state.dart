@@ -108,6 +108,8 @@ class DepartmentRemoveCarouselFailureState extends DepartmentState {
 ///------------states related to MenuTitle---------
 class DepartmentGetMenuTitleLoadingState extends DepartmentState {}
 
+class DepartmentGetMenuTitleEmptyState extends DepartmentState {}
+
 class DepartmentGetMenuTitleSuccessState extends DepartmentState {
   final MenuTitleModel menuTitleModel;
 

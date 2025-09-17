@@ -19,13 +19,12 @@ class ButtonAndMenuTemplate extends StatefulWidget {
   const ButtonAndMenuTemplate({super.key});
 
   @override
-  State<ButtonAndMenuTemplate> createState() =>
-      _ButtonAndMenuTemplateState();
+  State<ButtonAndMenuTemplate> createState() => _ButtonAndMenuTemplateState();
 }
 
-class _ButtonAndMenuTemplateState
-    extends State<ButtonAndMenuTemplate> {
+class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
   MenuTitleModel? menuTitleModel;
+
   @override
   void initState() {
     super.initState();
@@ -48,13 +47,15 @@ class _ButtonAndMenuTemplateState
       },
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
+        print(cubit.selectedSubScreenID);
         return Column(
           children: [
             Padding(
               padding: EdgeInsets.only(left: 16.0.w, right: 16.w),
               child: Row(
                 children: [
-                  cubit.subScreensList.isEmpty
+                  cubit.subScreensList.isEmpty ||
+                          state is DepartmentGetMenuTitleEmptyState
                       ? Text(
                         S.of(context).EdaftGded,
                         style: TextStyle(

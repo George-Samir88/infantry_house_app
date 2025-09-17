@@ -146,13 +146,13 @@ class DepartmentCubit extends Cubit<DepartmentState> {
                       .toList();
 
               // اختار أول SubScreen لو مفيش selected
-              // if (subScreensList.isNotEmpty && selectedSubScreenID == null) {
-              //   selectedSubScreenID = subScreensList[0].uid;
-              //   changeSelectedSubScreen(
-              //     subScreenButtonId: selectedSubScreenID!,
-              //     index: 0,
-              //   );
-              // }
+              if (subScreensList.isNotEmpty && selectedSubScreenID == null) {
+                selectedSubScreenID = subScreensList[0].uid;
+                changeSelectedSubScreen(
+                  subScreenButtonId: selectedSubScreenID!,
+                  index: 0,
+                );
+              }
 
               emit(DepartmentGetSubScreensNamesSuccessState());
             } on FirebaseException catch (e) {
@@ -219,8 +219,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       emit(DepartmentCreateSubScreensNamesSuccessState(docReference: docRef));
       if (subScreensList.isNotEmpty) {
         changeSelectedSubScreen(
-          subScreenButtonId: docRef.id,
-          index: subScreensList.length - 1,
+          subScreenButtonId: subScreensList.first.uid,
+          index: 0,
         );
       }
     } on FirebaseException catch (e) {
@@ -276,6 +276,14 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       // امسح الـdoc نفسه
       await subScreenDocRef.delete();
+      if (subScreensList.isNotEmpty) {
+        changeSelectedSubScreen(
+          subScreenButtonId: subScreensList.first.uid,
+          index: 0,
+        );
+      }else{
+        selectedSubScreenID = null;
+      }
       emit(DepartmentDeleteSubScreensNamesSuccessState());
     } on FirebaseException catch (e) {
       emit(
@@ -435,17 +443,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           (snapshot) {
             try {
               if (snapshot.docs.isEmpty) {
-                emit(
-                  DepartmentGetMenuTitleFailureState(
-                    failure: "No menu_title document found",
-                  ),
-                );
+                emit(DepartmentGetMenuTitleEmptyState());
                 return;
               }
-
               final data = snapshot.docs.first.data();
               final menuTitleModel = MenuTitleModel.fromMap(data);
-
               emit(
                 DepartmentGetMenuTitleSuccessState(
                   menuTitleModel: menuTitleModel,
