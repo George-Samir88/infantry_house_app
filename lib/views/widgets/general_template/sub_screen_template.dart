@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
-import 'package:infantry_house_app/views/widgets/general_template/edit_screen_depratment_view_template.dart';
+import 'package:infantry_house_app/views/widgets/general_template/edit_sub_screen_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 
 import '../../../generated/l10n.dart';
@@ -11,21 +11,21 @@ import '../../../global_variables.dart';
 import '../../../models/sub_screen_model.dart';
 import '../../../utils/custom_edit_button.dart';
 
-class CustomHorizontalListDepartmentsTemplate extends StatefulWidget {
-  const CustomHorizontalListDepartmentsTemplate({super.key});
+class SubScreenTemplate extends StatefulWidget {
+  const SubScreenTemplate({super.key});
 
   @override
-  State<CustomHorizontalListDepartmentsTemplate> createState() =>
-      _CustomHorizontalListDepartmentsTemplateState();
+  State<SubScreenTemplate> createState() => _SubScreenTemplateState();
 }
 
-class _CustomHorizontalListDepartmentsTemplateState
-    extends State<CustomHorizontalListDepartmentsTemplate> {
+class _SubScreenTemplateState extends State<SubScreenTemplate> {
   List<SubScreenModel> subScreens = [];
 
   @override
   void initState() {
     super.initState();
+    final cubit = context.read<DepartmentCubit>();
+    cubit.listenToSubScreens();
   }
 
   @override

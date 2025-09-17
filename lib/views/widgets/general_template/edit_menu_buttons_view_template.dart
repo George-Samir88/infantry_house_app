@@ -15,18 +15,21 @@ import '../../../models/menu_button_model.dart';
 import '../../../utils/custom_dialog.dart';
 import '../../../utils/custom_snackBar.dart';
 
-class EditMenuButtonsViewTemplate extends StatefulWidget {
-  const EditMenuButtonsViewTemplate({super.key, required this.menuTitleModel});
+class EditMenuButtonsAndMenuTitleTemplate extends StatefulWidget {
+  const EditMenuButtonsAndMenuTitleTemplate({
+    super.key,
+    required this.menuTitleModel,
+  });
 
   final MenuTitleModel menuTitleModel;
 
   @override
-  State<EditMenuButtonsViewTemplate> createState() =>
-      _EditMenuButtonsViewTemplateState();
+  State<EditMenuButtonsAndMenuTitleTemplate> createState() =>
+      _EditMenuButtonsAndMenuTitleTemplateState();
 }
 
-class _EditMenuButtonsViewTemplateState
-    extends State<EditMenuButtonsViewTemplate>
+class _EditMenuButtonsAndMenuTitleTemplateState
+    extends State<EditMenuButtonsAndMenuTitleTemplate>
     with SingleTickerProviderStateMixin {
   TextEditingController arabicTextEditingController = TextEditingController();
   TextEditingController englishTextEditingController = TextEditingController();
@@ -72,6 +75,9 @@ class _EditMenuButtonsViewTemplateState
       duration: const Duration(seconds: 2),
     );
     super.initState();
+    final cubit = context.read<DepartmentCubit>();
+    cubit.listenToMenuButtons();
+    cubit.listenToMenuTitle();
   }
 
   @override

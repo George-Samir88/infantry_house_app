@@ -15,17 +15,24 @@ import '../../../utils/custom_edit_button.dart';
 import '../../../utils/custom_snackBar.dart';
 import 'custom_menu_items_horizontal_grid_view.dart';
 
-class CustomButtonAndMenuTemplate extends StatefulWidget {
-  const CustomButtonAndMenuTemplate({super.key});
+class ButtonAndMenuTemplate extends StatefulWidget {
+  const ButtonAndMenuTemplate({super.key});
 
   @override
-  State<CustomButtonAndMenuTemplate> createState() =>
-      _CustomButtonAndMenuTemplateState();
+  State<ButtonAndMenuTemplate> createState() =>
+      _ButtonAndMenuTemplateState();
 }
 
-class _CustomButtonAndMenuTemplateState
-    extends State<CustomButtonAndMenuTemplate> {
+class _ButtonAndMenuTemplateState
+    extends State<ButtonAndMenuTemplate> {
   MenuTitleModel? menuTitleModel;
+  @override
+  void initState() {
+    super.initState();
+    final cubit = context.read<DepartmentCubit>();
+    cubit.listenToMenuTitle(); // ده بيشغل أول Listener
+    cubit.listenToMenuButtons(); // ده بيشغل أول Listener
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +81,7 @@ class _CustomButtonAndMenuTemplateState
                             builder:
                                 (context) => BlocProvider.value(
                                   value: cubit,
-                                  child: EditMenuButtonsViewTemplate(
+                                  child: EditMenuButtonsAndMenuTitleTemplate(
                                     menuTitleModel: menuTitleModel!,
                                   ),
                                 ),
@@ -121,14 +128,7 @@ class _CustomButtonAndMenuTemplateState
                           child: FadeInAnimation(
                             child: GestureDetector(
                               onTap: () {
-                                cubit
-                                .changeMenuButtonIndex(index: index);
-                                // // cubit.selectedButtonIndex = index;
-                                // cubit.updateSelectedList(
-                                //   buttonTitle:
-                                //   cubit.menuButtonList[index],
-                                //   screenName: cubit.selectedSubScreen,
-                                // );
+                                cubit.changeMenuButtonIndex(index: index);
                               },
                               child: Container(
                                 margin:

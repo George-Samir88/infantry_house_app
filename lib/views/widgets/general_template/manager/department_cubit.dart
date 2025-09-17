@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infantry_house_app/models/menu_item_model.dart';
@@ -6,6 +8,7 @@ import '../../../../models/carousel_models.dart';
 import '../../../../models/menu_button_model.dart';
 import '../../../../models/menu_title_model.dart';
 import '../../../../models/sub_screen_model.dart';
+import '../../../../utils/map_firebase_error.dart';
 
 part 'department_state.dart';
 
@@ -33,9 +36,7 @@ part 'department_state.dart';
 // 🔹 الاسم في الكود: ItemCard
 
 class DepartmentCubit extends Cubit<DepartmentState> {
-  DepartmentCubit({required this.departmentId}) : super(DepartmentInitial()) {
-    getAllWidgetsData();
-  }
+  DepartmentCubit({required this.departmentId}) : super(DepartmentInitial());
 
   final String departmentId;
 
@@ -52,6 +53,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   //Carousel tracking
   int currentCarouselIndex = 0;
+  List<CarouselItemModel> carouselItemsList = [];
 
   //MenuTitle
   String menuTitle = '';
@@ -66,6 +68,12 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   //root collection name
   String rootCollectionName = "screens_ar";
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  ///------------Listeners--------------
+  StreamSubscription? _subScreensSub;
+  StreamSubscription? _menuTitleSub;
+  StreamSubscription? _menuButtonsSub;
+  StreamSubscription? _carouselSub;
 
   ///-------------Functions-------------
 
@@ -83,18 +91,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     } while (snapshot.docs.length >= batchSize);
   }
 
-  Future<void> getAllWidgetsData() async {
-    await getAllSubScreens();
-    await getMenuTitle();
-    await getMenuButtons();
-  }
-
   Future<List<String>> getDepartmentsNames() async {
     try {
       emit(DepartmentGetDepartmentsNamesLoadingState());
-      final querySnapshot = await firestore
-          .collection(rootCollectionName)
-          .get(GetOptions(source: Source.server));
+      final querySnapshot =
+          await firestore.collection(rootCollectionName).get();
 
       final screenNames =
           querySnapshot.docs
@@ -114,7 +115,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       // Firestore-specific error
       emit(
         DepartmentGetDepartmentsNamesFailureState(
-          error: "Firestore error: ${e.message}",
+          error: mapFirestoreError(e: e),
         ),
       );
       return [];
@@ -126,38 +127,62 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   ///--------------SubScreens CRUD operations--------------
-  Future<void> getAllSubScreens() async {
-    try {
-      emit(DepartmentGetSubScreensNamesLoadingState());
+  void listenToSubScreens() {
+    emit(DepartmentGetSubScreensNamesLoadingState());
+    _subScreensSub?.cancel();
 
-      final querySnapshot = await firestore
-          .collection(rootCollectionName)
-          .doc(departmentId)
-          .collection('super_categories')
-          .get(GetOptions(source: Source.server));
+    _subScreensSub = firestore
+        .collection(rootCollectionName)
+        .doc(departmentId)
+        .collection('super_categories')
+        .orderBy("created_at", descending: false)
+        .snapshots()
+        .listen(
+          (snapshot) {
+            try {
+              subScreensList =
+                  snapshot.docs
+                      .map((doc) => SubScreenModel.fromDoc(doc))
+                      .toList();
 
-      // رجع list of models
-      final subScreens =
-          querySnapshot.docs.map((doc) => SubScreenModel.fromDoc(doc)).toList();
-      if (subScreens.isNotEmpty) {
-        selectedSubScreenID = subScreens[0].uid;
-        // لو عايز تحتفظ بالـ map name → id
-        subScreenMap.clear();
-        for (var sub in subScreens) {
-          subScreenMap[sub.subScreenName] = sub.uid;
-        }
-      }
-      subScreensList = subScreens;
-      emit(DepartmentGetSubScreensNamesSuccessState());
-    } on FirebaseException catch (e) {
-      emit(
-        DepartmentGetSubScreensNamesFailureState(
-          error: "Firestore error while fetching sub screens: ${e.message}",
-        ),
-      );
-    } on Exception catch (e) {
-      emit(DepartmentGetSubScreensNamesFailureState(error: e.toString()));
-    }
+              // اختار أول SubScreen لو مفيش selected
+              // if (subScreensList.isNotEmpty && selectedSubScreenID == null) {
+              //   selectedSubScreenID = subScreensList[0].uid;
+              //   changeSelectedSubScreen(
+              //     subScreenButtonId: selectedSubScreenID!,
+              //     index: 0,
+              //   );
+              // }
+
+              emit(DepartmentGetSubScreensNamesSuccessState());
+            } on FirebaseException catch (e) {
+              emit(
+                DepartmentGetSubScreensNamesFailureState(
+                  error: mapFirestoreError(e: e),
+                ),
+              );
+            } catch (e) {
+              emit(
+                DepartmentGetSubScreensNamesFailureState(error: e.toString()),
+              );
+            }
+          },
+          onError: (error) {
+            if (error is FirebaseException) {
+              emit(
+                DepartmentGetSubScreensNamesFailureState(
+                  error: mapFirestoreError(e: error),
+                ),
+              );
+            } else {
+              emit(
+                DepartmentGetSubScreensNamesFailureState(
+                  error: error.toString(),
+                ),
+              );
+            }
+          },
+        );
   }
 
   Future<void> createSubScreen({required String superCatName}) async {
@@ -191,16 +216,17 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .collection('sub_title_name')
           .add(menuTitleModel.toMap());
       await menuTitleDocRef.update({'uid': menuTitleDocRef.id});
-      if (subScreensList.isEmpty) {
-        selectedSubScreenID = docRef.id;
-      }
       emit(DepartmentCreateSubScreensNamesSuccessState(docReference: docRef));
-      await getAllSubScreens();
-      await getMenuTitle();
+      if (subScreensList.isNotEmpty) {
+        changeSelectedSubScreen(
+          subScreenButtonId: docRef.id,
+          index: subScreensList.length - 1,
+        );
+      }
     } on FirebaseException catch (e) {
       emit(
         DepartmentCreateSubScreensNamesFailureState(
-          failure: "Firestore error while creating sub screen: ${e.message}",
+          failure: mapFirestoreError(e: e),
         ),
       );
     } on Exception catch (e) {
@@ -225,11 +251,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
             'updated_at': DateTime.now(),
           });
       emit(DepartmentUpdateSubScreensNamesSuccessState());
-      await getAllSubScreens();
     } on FirebaseException catch (e) {
       emit(
         DepartmentUpdateSubScreensNamesFailureState(
-          failure: "Firestore error while updating sub screen: ${e.message}",
+          failure: mapFirestoreError(e: e),
         ),
       );
     } on Exception catch (e) {
@@ -252,11 +277,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       // امسح الـdoc نفسه
       await subScreenDocRef.delete();
       emit(DepartmentDeleteSubScreensNamesSuccessState());
-      getAllWidgetsData();
     } on FirebaseException catch (e) {
       emit(
         DepartmentDeleteSubScreensNamesFailureState(
-          failure: "Firestore error while deleting sub screen: ${e.message}",
+          failure: mapFirestoreError(e: e),
         ),
       );
     } catch (e) {
@@ -271,11 +295,15 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   void changeSelectedSubScreen({
     required String subScreenButtonId,
     required int index,
-  }) async {
+  }) {
     selectedSubScreenID = subScreenButtonId;
     selectedSubScreenIndex = index;
     emit(DepartmentChangeSubScreenState());
-    await getMenuTitle();
+
+    // شغل الـ listeners الخاصة بالـ subScreen الجديد
+    listenToMenuTitle();
+    listenToMenuButtons();
+    listenToCarousel();
   }
 
   ///--------------Carousel CRUD operations--------------
@@ -284,38 +312,50 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     emit(DepartmentChangeCarouselIndexState());
   }
 
-  Future<List<CarouselItemModel>> getCarouselItems() async {
-    try {
-      emit(DepartmentGetCarouselLoadingState());
+  void listenToCarousel() {
+    emit(DepartmentGetCarouselLoadingState());
+    _carouselSub?.cancel();
 
-      final querySnapshot =
-          await firestore
-              .collection(rootCollectionName)
-              .doc(departmentId)
-              .collection('super_categories')
-              .doc(selectedSubScreenID)
-              .collection('carousel_items')
-              .get();
+    _carouselSub = firestore
+        .collection(rootCollectionName)
+        .doc(departmentId)
+        .collection('super_categories')
+        .doc(selectedSubScreenID)
+        .collection('carousel_items')
+        .snapshots()
+        .listen(
+          (snapshot) {
+            try {
+              carouselItemsList =
+                  snapshot.docs
+                      .map((doc) => CarouselItemModel.fromDoc(doc))
+                      .toList();
 
-      final items =
-          querySnapshot.docs
-              .map((doc) => CarouselItemModel.fromDoc(doc))
-              .toList();
-
-      emit(DepartmentGetCarouselSuccessState());
-      return items;
-    } on FirebaseException catch (e) {
-      emit(
-        DepartmentGetCarouselFailureState(
-          failure:
-              "Firestore error while fetching carousel items: ${e.message}",
-        ),
-      );
-      return [];
-    } catch (e) {
-      emit(DepartmentGetCarouselFailureState(failure: e.toString()));
-      return [];
-    }
+              emit(DepartmentGetCarouselSuccessState());
+            } on FirebaseException catch (e) {
+              emit(
+                DepartmentGetCarouselFailureState(
+                  failure: mapFirestoreError(e: e),
+                ),
+              );
+            } catch (e) {
+              emit(DepartmentGetCarouselFailureState(failure: e.toString()));
+            }
+          },
+          onError: (error) {
+            if (error is FirebaseException) {
+              emit(
+                DepartmentGetCarouselFailureState(
+                  failure: mapFirestoreError(e: error),
+                ),
+              );
+            } else {
+              emit(
+                DepartmentGetCarouselFailureState(failure: error.toString()),
+              );
+            }
+          },
+        );
   }
 
   Future<void> createCarouselItem({required String imageUrl}) async {
@@ -344,9 +384,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       emit(DepartmentCreateCarouselSuccessState());
     } on FirebaseException catch (e) {
       emit(
-        DepartmentCreateCarouselFailureState(
-          failure: "Firestore error while creating carousel item: ${e.message}",
-        ),
+        DepartmentCreateCarouselFailureState(failure: mapFirestoreError(e: e)),
       );
     } on Exception catch (e) {
       emit(DepartmentCreateCarouselFailureState(failure: e.toString()));
@@ -373,9 +411,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       emit(DepartmentRemoveCarouselSuccessState());
     } on FirebaseException catch (e) {
       emit(
-        DepartmentRemoveCarouselFailureState(
-          failure: "Firestore error while deleting carousel item: ${e.message}",
-        ),
+        DepartmentRemoveCarouselFailureState(failure: mapFirestoreError(e: e)),
       );
     } catch (e) {
       emit(DepartmentRemoveCarouselFailureState(failure: e.toString()));
@@ -383,39 +419,62 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   ///--------------MenuTitle CRUD operations--------------
-  Future<void> getMenuTitle() async {
-    try {
-      emit(DepartmentGetMenuTitleLoadingState());
 
-      final querySnapshot = await firestore
-          .collection(rootCollectionName)
-          .doc(departmentId)
-          .collection('super_categories')
-          .doc(selectedSubScreenID)
-          .collection('sub_title_name') // 👈 عشان احنا متأكدين انه واحد بس
-          .get(GetOptions(source: Source.server));
-      if (querySnapshot.docs.isEmpty) {
-        emit(
-          DepartmentGetMenuTitleFailureState(
-            failure: "No menu_title document found",
-          ),
+  void listenToMenuTitle() {
+    emit(DepartmentGetMenuTitleLoadingState());
+    _menuTitleSub?.cancel();
+
+    _menuTitleSub = firestore
+        .collection(rootCollectionName)
+        .doc(departmentId)
+        .collection('super_categories')
+        .doc(selectedSubScreenID)
+        .collection('sub_title_name')
+        .snapshots()
+        .listen(
+          (snapshot) {
+            try {
+              if (snapshot.docs.isEmpty) {
+                emit(
+                  DepartmentGetMenuTitleFailureState(
+                    failure: "No menu_title document found",
+                  ),
+                );
+                return;
+              }
+
+              final data = snapshot.docs.first.data();
+              final menuTitleModel = MenuTitleModel.fromMap(data);
+
+              emit(
+                DepartmentGetMenuTitleSuccessState(
+                  menuTitleModel: menuTitleModel,
+                ),
+              );
+            } on FirebaseException catch (e) {
+              emit(
+                DepartmentGetMenuTitleFailureState(
+                  failure: mapFirestoreError(e: e),
+                ),
+              );
+            } catch (e) {
+              emit(DepartmentGetMenuTitleFailureState(failure: e.toString()));
+            }
+          },
+          onError: (error) {
+            if (error is FirebaseException) {
+              emit(
+                DepartmentGetMenuTitleFailureState(
+                  failure: mapFirestoreError(e: error),
+                ),
+              );
+            } else {
+              emit(
+                DepartmentGetMenuTitleFailureState(failure: error.toString()),
+              );
+            }
+          },
         );
-      }
-
-      final doc = querySnapshot.docs.first;
-      final data = doc.data();
-      final menuTitleModel = MenuTitleModel.fromMap(data);
-
-      emit(DepartmentGetMenuTitleSuccessState(menuTitleModel: menuTitleModel));
-    } on FirebaseException catch (e) {
-      emit(
-        DepartmentGetMenuTitleFailureState(
-          failure: "Firestore error while fetching menu_title: ${e.message}",
-        ),
-      );
-    } catch (e) {
-      emit(DepartmentGetMenuTitleFailureState(failure: e.toString()));
-    }
   }
 
   Future<void> updateMenuTitle({required String? menuTitle}) async {
@@ -441,12 +500,9 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         });
       }
       emit(DepartmentUpdateMenuTitleSuccessState());
-      await getMenuTitle();
     } on FirebaseException catch (e) {
       emit(
-        DepartmentUpdateMenuTitleFailureState(
-          failure: "Firestore error while creating menu_title: ${e.message}",
-        ),
+        DepartmentUpdateMenuTitleFailureState(failure: mapFirestoreError(e: e)),
       );
     } catch (e) {
       emit(DepartmentUpdateMenuTitleFailureState(failure: e.toString()));
@@ -482,11 +538,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       await docRef.set(newButton.toMap());
 
       emit(DepartmentCreateMenuButtonSuccessState(menuButton: newButton));
-      await getMenuButtons();
     } on FirebaseException catch (e) {
       emit(
         DepartmentCreateMenuButtonFailureState(
-          failure: "Firestore error while creating menu button: ${e.message}",
+          failure: mapFirestoreError(e: e),
         ),
       );
     } catch (e) {
@@ -494,36 +549,50 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
-  Future<void> getMenuButtons() async {
-    try {
-      emit(DepartmentGetMenuButtonLoadingState());
+  void listenToMenuButtons() {
+    emit(DepartmentGetMenuButtonLoadingState());
+    _menuButtonsSub?.cancel();
 
-      final querySnapshot =
-          await firestore
-              .collection(rootCollectionName)
-              .doc(departmentId)
-              .collection('super_categories')
-              .doc(selectedSubScreenID)
-              .collection('Buttons')
-              .get();
+    _menuButtonsSub = firestore
+        .collection(rootCollectionName)
+        .doc(departmentId)
+        .collection('super_categories')
+        .doc(selectedSubScreenID)
+        .collection('Buttons')
+        .snapshots()
+        .listen(
+          (snapshot) {
+            try {
+              menuButtonList =
+                  snapshot.docs
+                      .map((doc) => MenuButtonModel.fromMap(doc.data()))
+                      .toList();
 
-      final buttons =
-          querySnapshot.docs.map((doc) {
-            final data = doc.data();
-            return MenuButtonModel.fromMap(data);
-          }).toList();
-
-      emit(DepartmentGetMenuButtonSuccessState());
-      menuButtonList = buttons;
-    } on FirebaseException catch (e) {
-      emit(
-        DepartmentGetMenuButtonFailureState(
-          failure: "Firestore error while fetching menu buttons: ${e.message}",
-        ),
-      );
-    } catch (e) {
-      emit(DepartmentGetMenuButtonFailureState(failure: e.toString()));
-    }
+              emit(DepartmentGetMenuButtonSuccessState());
+            } on FirebaseException catch (e) {
+              emit(
+                DepartmentGetMenuButtonFailureState(
+                  failure: mapFirestoreError(e: e),
+                ),
+              );
+            } catch (e) {
+              emit(DepartmentGetMenuButtonFailureState(failure: e.toString()));
+            }
+          },
+          onError: (error) {
+            if (error is FirebaseException) {
+              emit(
+                DepartmentGetMenuButtonFailureState(
+                  failure: mapFirestoreError(e: error),
+                ),
+              );
+            } else {
+              emit(
+                DepartmentGetMenuButtonFailureState(failure: error.toString()),
+              );
+            }
+          },
+        );
   }
 
   Future<void> updateMenuButton({
@@ -547,11 +616,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       });
 
       emit(DepartmentUpdateMenuButtonSuccessState());
-      await getMenuButtons();
     } on FirebaseException catch (e) {
       emit(
         DepartmentUpdateMenuButtonFailureState(
-          failure: "Firestore error while updating menu button: ${e.message}",
+          failure: mapFirestoreError(e: e),
         ),
       );
     } catch (e) {
@@ -574,16 +642,25 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       await docRef.delete();
 
       emit(DepartmentDeleteMenuButtonSuccessState());
-      await getMenuButtons();
     } on FirebaseException catch (e) {
       emit(
         DepartmentDeleteMenuButtonFailureState(
-          failure: "Firestore error while deleting menu button: ${e.message}",
+          failure: mapFirestoreError(e: e),
         ),
       );
     } catch (e) {
       emit(DepartmentDeleteMenuButtonFailureState(failure: e.toString()));
     }
+  }
+
+  ///--------------close the cubit--------------
+  @override
+  Future<void> close() {
+    _subScreensSub?.cancel();
+    _menuTitleSub?.cancel();
+    _menuButtonsSub?.cancel();
+    _carouselSub?.cancel();
+    return super.close();
   }
 
   bool isEmptyMenuItems = true;

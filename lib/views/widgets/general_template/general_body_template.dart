@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
-import 'package:infantry_house_app/views/widgets/general_template/custom_button_and_menu_template.dart';
+import 'package:infantry_house_app/views/widgets/general_template/button_and_menu_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_carousel_view_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 
@@ -13,9 +13,21 @@ import '../../../utils/custom_edit_button.dart';
 import '../../../utils/empty_carousel_item.dart';
 import '../../../utils/dots_indicator.dart';
 
-class GeneralBodyTemplateView extends StatelessWidget {
+class GeneralBodyTemplateView extends StatefulWidget {
   const GeneralBodyTemplateView({super.key});
 
+  @override
+  State<GeneralBodyTemplateView> createState() => _GeneralBodyTemplateViewState();
+}
+
+class _GeneralBodyTemplateViewState extends State<GeneralBodyTemplateView> {
+
+  @override
+  void initState() {
+    super.initState();
+    final cubit = context.read<DepartmentCubit>();
+    cubit.listenToCarousel(); // ده بيشغل أول Listener
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DepartmentCubit, DepartmentState>(
@@ -119,7 +131,7 @@ class GeneralBodyTemplateView extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 20.h),
-                CustomButtonAndMenuTemplate(),
+                ButtonAndMenuTemplate(),
                 SizedBox(height: 40.h),
               ],
             ),

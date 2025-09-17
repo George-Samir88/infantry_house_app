@@ -64,6 +64,8 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
       duration: const Duration(seconds: 2),
     );
     super.initState();
+    final cubit = context.read<DepartmentCubit>();
+    cubit.listenToSubScreens();
   }
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -292,7 +294,8 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                   backGroundColor: Colors.grey[300],
                                   onPressed: () async {
                                     if (formKey.currentState!.validate()) {
-                                      cubit.createSubScreen(
+                                      FocusScope.of(context).unfocus();
+                                      await cubit.createSubScreen(
                                         superCatName:
                                             GlobalData().isArabic
                                                 ? arabicTextEditingController
@@ -302,7 +305,6 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                       );
                                       arabicTextEditingController.clear();
                                       englishTextEditingController.clear();
-                                      FocusScope.of(context).unfocus();
                                     }
                                   },
                                   text: S.of(context).EdaftGded,
