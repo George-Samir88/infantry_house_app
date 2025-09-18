@@ -108,6 +108,9 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
           } else if (state is DepartmentDeleteSubScreensNamesFailureState) {
             showSnackBar(context: context, message: state.failure);
           }
+          else if (state is DepartmentUpdateSubScreensNamesFailureState) {
+            showSnackBar(context: context, message: state.failure);
+          }
         },
         builder: (context, state) {
           var cubit = context.read<DepartmentCubit>();
@@ -304,7 +307,7 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                                   .text;
                                       arabicTextEditingController.clear();
                                       englishTextEditingController.clear();
-                                      cubit.createSubScreen(
+                                      await cubit.createSubScreen(
                                         superCatName: value,
                                       );
                                     }

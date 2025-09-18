@@ -44,6 +44,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "AddedSuccessfully": MessageLookupByLibrary.simpleMessage("تمت إضافة"),
         "AddingNewDailyGame":
             MessageLookupByLibrary.simpleMessage("إضافة لعبة جديدة"),
+        "AlreadyExists": MessageLookupByLibrary.simpleMessage(
+            "⚠️ يوجد مستند بهذا المعرف بالفعل."),
         "AlreadyHaveAnAccount":
             MessageLookupByLibrary.simpleMessage("لديك حساب بالفعل؟"),
         "AnyComments": MessageLookupByLibrary.simpleMessage("أية ملاحظات"),
@@ -57,6 +59,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "DailyGames": MessageLookupByLibrary.simpleMessage("ألعاب يومية"),
         "DailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("صورة اللعبة"),
+        "DeadlineExceeded": MessageLookupByLibrary.simpleMessage(
+            "⏳ استغرق الطلب وقتًا طويلًا. حاول مرة أخرى."),
         "Delete": MessageLookupByLibrary.simpleMessage("حذف"),
         "DeletedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم الحذف بنجاح"),
@@ -86,6 +90,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل اسم المستخدم"),
         "ErrorOccurred": MessageLookupByLibrary.simpleMessage("حدث خطأ!"),
         "EsmElsanf": MessageLookupByLibrary.simpleMessage("إسم الصنف"),
+        "FailedPrecondition": MessageLookupByLibrary.simpleMessage(
+            "⚠️ العملية غير مسموحة في الوضع الحالي."),
         "FewQuantity": MessageLookupByLibrary.simpleMessage("الكمية قليلة"),
         "FieldCannotBeEmpty": MessageLookupByLibrary.simpleMessage(
             "لا يمكن أن يكون الحقل فارغًا"),
@@ -128,6 +134,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "Mo3gnat": MessageLookupByLibrary.simpleMessage("المعجنات"),
         "Mokablat": MessageLookupByLibrary.simpleMessage("المقبلات"),
         "MyCarts": MessageLookupByLibrary.simpleMessage("السلة"),
+        "NetworkError":
+            MessageLookupByLibrary.simpleMessage("⚠️ لا يوجد اتصال بالإنترنت."),
+        "NetworkRequestFailed":
+            MessageLookupByLibrary.simpleMessage("⚠️ لا يوجد اتصال بالإنترنت."),
+        "NotFound": MessageLookupByLibrary.simpleMessage(
+            "📄 المستند المطلوب غير موجود."),
         "OR": MessageLookupByLibrary.simpleMessage("أو"),
         "Other": MessageLookupByLibrary.simpleMessage("أخرى"),
         "Paradise": MessageLookupByLibrary.simpleMessage("باراديس"),
@@ -135,6 +147,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "PasswordMustBeAtLeast6CharactersLong":
             MessageLookupByLibrary.simpleMessage(
                 "يجب أن تكون كلمة المرور 6 أحرف على الأقل"),
+        "PermissionDenied": MessageLookupByLibrary.simpleMessage(
+            "❌ ليس لديك صلاحية لتنفيذ هذا الإجراء."),
         "PhoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
         "PleaseAddAMainCategoryFirst":
             MessageLookupByLibrary.simpleMessage("يجب إضافة قسم رئيسي أولاً."),
@@ -172,6 +186,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "RegisteredSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم التسجيل بنجاح"),
         "Resend": MessageLookupByLibrary.simpleMessage("إعادة الإرسال"),
+        "ResourceExhausted": MessageLookupByLibrary.simpleMessage(
+            "⚠️ تم تجاوز الحصة. عدد كبير جدًا من الطلبات."),
+        "Retry": MessageLookupByLibrary.simpleMessage("أعد المحاولة"),
         "RoknElatfal": MessageLookupByLibrary.simpleMessage("ركن الاطفال"),
         "RoknElhelw": MessageLookupByLibrary.simpleMessage("ركن الحلو"),
         "RoknElsandwichat":
@@ -183,6 +200,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ShareYourFeedback":
             MessageLookupByLibrary.simpleMessage("شارك ملاحظاتك"),
         "Shorba": MessageLookupByLibrary.simpleMessage("شوربة"),
+        "SocketException":
+            MessageLookupByLibrary.simpleMessage("⚠️ لا يوجد اتصال بالإنترنت."),
         "SoraElsnf": MessageLookupByLibrary.simpleMessage("صورة الصنف"),
         "SortElcheck": MessageLookupByLibrary.simpleMessage("صورة الشيك"),
         "Submit": MessageLookupByLibrary.simpleMessage("إرسال"),
@@ -216,13 +235,26 @@ class MessageLookup extends MessageLookupByLibrary {
         "WelcomeToInfantryHouse":
             MessageLookupByLibrary.simpleMessage("مرحبا بك في دار المشاه"),
         "YourCartIsEmpty": MessageLookupByLibrary.simpleMessage("السلة فارغة!"),
+        "aborted": MessageLookupByLibrary.simpleMessage(
+            "🚫 تم إحباط العملية. الرجاء المحاولة مرة أخرى."),
         "anshta": MessageLookupByLibrary.simpleMessage("أنشطة"),
+        "cancelled": MessageLookupByLibrary.simpleMessage("🚫 تم إلغاء الطلب."),
         "eskan": MessageLookupByLibrary.simpleMessage("إسكان"),
         "hefz": MessageLookupByLibrary.simpleMessage("حفظ"),
         "hogozat": MessageLookupByLibrary.simpleMessage("حجوزات"),
+        "internal": MessageLookupByLibrary.simpleMessage(
+            "⚠️ حدث خطأ داخلي في Firestore."),
         "laYogadE3lan": MessageLookupByLibrary.simpleMessage("لا يوجد إعلانات"),
         "m8sla": MessageLookupByLibrary.simpleMessage("مغسلة"),
         "t3delE3lan": MessageLookupByLibrary.simpleMessage("تعديل الإعلانات"),
-        "t3delKwaem": MessageLookupByLibrary.simpleMessage("تعديل القوائم")
+        "t3delKwaem": MessageLookupByLibrary.simpleMessage("تعديل القوائم"),
+        "unauthenticated": MessageLookupByLibrary.simpleMessage(
+            "🔑 يجب أن تسجل الدخول لتنفيذ هذا الإجراء."),
+        "unavailable": MessageLookupByLibrary.simpleMessage(
+            "تحقق من اتصال الإنترنت وحاول لاحقًا.⚠️"),
+        "unimplemented":
+            MessageLookupByLibrary.simpleMessage("⚠️ هذه العملية غير مدعومة."),
+        "unknown": MessageLookupByLibrary.simpleMessage(
+            "⚠️ حدث خطأ غير معروف في Firestore.")
       };
 }

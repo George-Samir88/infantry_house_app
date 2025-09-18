@@ -47,7 +47,6 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
       },
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
-        print(cubit.selectedSubScreenID);
         return Column(
           children: [
             Padding(
@@ -75,7 +74,8 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
                   SizedBox(width: 20.w),
                   CustomEditButton(
                     onTap: () {
-                      if (cubit.subScreensList.isNotEmpty) {
+                      if (cubit.subScreensList.isNotEmpty &&
+                          cubit.selectedSubScreenID != null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(

@@ -1439,6 +1439,176 @@ class S {
       args: [],
     );
   }
+
+  /// `أعد المحاولة`
+  String get Retry {
+    return Intl.message(
+      'أعد المحاولة',
+      name: 'Retry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `❌ ليس لديك صلاحية لتنفيذ هذا الإجراء.`
+  String get PermissionDenied {
+    return Intl.message(
+      '❌ ليس لديك صلاحية لتنفيذ هذا الإجراء.',
+      name: 'PermissionDenied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تحقق من اتصال الإنترنت وحاول لاحقًا.⚠️`
+  String get unavailable {
+    return Intl.message(
+      'تحقق من اتصال الإنترنت وحاول لاحقًا.⚠️',
+      name: 'unavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `📄 المستند المطلوب غير موجود.`
+  String get NotFound {
+    return Intl.message(
+      '📄 المستند المطلوب غير موجود.',
+      name: 'NotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ يوجد مستند بهذا المعرف بالفعل.`
+  String get AlreadyExists {
+    return Intl.message(
+      '⚠️ يوجد مستند بهذا المعرف بالفعل.',
+      name: 'AlreadyExists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `🚫 تم إلغاء الطلب.`
+  String get cancelled {
+    return Intl.message(
+      '🚫 تم إلغاء الطلب.',
+      name: 'cancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⏳ استغرق الطلب وقتًا طويلًا. حاول مرة أخرى.`
+  String get DeadlineExceeded {
+    return Intl.message(
+      '⏳ استغرق الطلب وقتًا طويلًا. حاول مرة أخرى.',
+      name: 'DeadlineExceeded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ تم تجاوز الحصة. عدد كبير جدًا من الطلبات.`
+  String get ResourceExhausted {
+    return Intl.message(
+      '⚠️ تم تجاوز الحصة. عدد كبير جدًا من الطلبات.',
+      name: 'ResourceExhausted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ العملية غير مسموحة في الوضع الحالي.`
+  String get FailedPrecondition {
+    return Intl.message(
+      '⚠️ العملية غير مسموحة في الوضع الحالي.',
+      name: 'FailedPrecondition',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `🚫 تم إحباط العملية. الرجاء المحاولة مرة أخرى.`
+  String get aborted {
+    return Intl.message(
+      '🚫 تم إحباط العملية. الرجاء المحاولة مرة أخرى.',
+      name: 'aborted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ حدث خطأ داخلي في Firestore.`
+  String get internal {
+    return Intl.message(
+      '⚠️ حدث خطأ داخلي في Firestore.',
+      name: 'internal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ هذه العملية غير مدعومة.`
+  String get unimplemented {
+    return Intl.message(
+      '⚠️ هذه العملية غير مدعومة.',
+      name: 'unimplemented',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `🔑 يجب أن تسجل الدخول لتنفيذ هذا الإجراء.`
+  String get unauthenticated {
+    return Intl.message(
+      '🔑 يجب أن تسجل الدخول لتنفيذ هذا الإجراء.',
+      name: 'unauthenticated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ لا يوجد اتصال بالإنترنت.`
+  String get NetworkError {
+    return Intl.message(
+      '⚠️ لا يوجد اتصال بالإنترنت.',
+      name: 'NetworkError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ لا يوجد اتصال بالإنترنت.`
+  String get NetworkRequestFailed {
+    return Intl.message(
+      '⚠️ لا يوجد اتصال بالإنترنت.',
+      name: 'NetworkRequestFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ لا يوجد اتصال بالإنترنت.`
+  String get SocketException {
+    return Intl.message(
+      '⚠️ لا يوجد اتصال بالإنترنت.',
+      name: 'SocketException',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ حدث خطأ غير معروف في Firestore.`
+  String get unknown {
+    return Intl.message(
+      '⚠️ حدث خطأ غير معروف في Firestore.',
+      name: 'unknown',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

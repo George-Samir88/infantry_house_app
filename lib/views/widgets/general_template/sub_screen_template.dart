@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
+import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_sub_screen_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 
@@ -30,7 +31,12 @@ class _SubScreenTemplateState extends State<SubScreenTemplate> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DepartmentCubit, DepartmentState>(
+    return BlocConsumer<DepartmentCubit, DepartmentState>(
+      listener: (context , state ){
+        if(state is DepartmentGetSubScreensNamesFailureState){
+         showSnackBar(context: context , message: state.error , backgroundColor: Colors.red);
+        }
+      },
       buildWhen: (previous, current) {
         return current is DepartmentGetSubScreensNamesSuccessState ||
             current is DepartmentGetSubScreensNamesLoadingState ||
@@ -156,7 +162,12 @@ class _SubScreenTemplateState extends State<SubScreenTemplate> {
         } else if (state is DepartmentGetSubScreensNamesLoadingState) {
           return AppLoader();
         } else if (state is DepartmentGetSubScreensNamesFailureState) {
-          return Center(child: Text(state.error));
+          return Center(child: Center(
+            child: Text(
+              S.of(context).ErrorOccurred,
+              style: TextStyle(color: Colors.white, fontSize: 20.sp),
+            ),
+          ));
         } else {
           return SizedBox();
         }

@@ -46,6 +46,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Added successfully"),
         "AddingNewDailyGame":
             MessageLookupByLibrary.simpleMessage("Adding new game"),
+        "AlreadyExists": MessageLookupByLibrary.simpleMessage(
+            "A document with this ID already exists."),
         "AlreadyHaveAnAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account? "),
         "AnyComments": MessageLookupByLibrary.simpleMessage("Any comments?"),
@@ -60,6 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "DailyGames": MessageLookupByLibrary.simpleMessage("Daily Games"),
         "DailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("Daily games item image"),
+        "DeadlineExceeded": MessageLookupByLibrary.simpleMessage(
+            "The request took too long. Please try again."),
         "Delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "DeletedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Deleted successfully"),
@@ -89,6 +93,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter your user name"),
         "ErrorOccurred": MessageLookupByLibrary.simpleMessage("Error occurred"),
         "EsmElsanf": MessageLookupByLibrary.simpleMessage("Item name"),
+        "FailedPrecondition": MessageLookupByLibrary.simpleMessage(
+            "The operation is not allowed in the current state."),
         "FewQuantity": MessageLookupByLibrary.simpleMessage("Few Quantity"),
         "FieldCannotBeEmpty":
             MessageLookupByLibrary.simpleMessage("Field cannot be empty"),
@@ -132,6 +138,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Mo3gnat": MessageLookupByLibrary.simpleMessage("Pastries"),
         "Mokablat": MessageLookupByLibrary.simpleMessage("Appetizers"),
         "MyCarts": MessageLookupByLibrary.simpleMessage("My Carts"),
+        "NetworkRequestFailed":
+            MessageLookupByLibrary.simpleMessage("No internet connection."),
+        "NotFound": MessageLookupByLibrary.simpleMessage(
+            "The requested document was not found."),
         "OR": MessageLookupByLibrary.simpleMessage("OR"),
         "Other": MessageLookupByLibrary.simpleMessage("Other"),
         "Paradise": MessageLookupByLibrary.simpleMessage("Paradise"),
@@ -139,6 +149,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "PasswordMustBeAtLeast6CharactersLong":
             MessageLookupByLibrary.simpleMessage(
                 "Password must be at least 6 characters long"),
+        "PermissionDenied": MessageLookupByLibrary.simpleMessage(
+            "You don’t have permission to perform this action."),
         "PhoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
         "PleaseAddAMainCategoryFirst": MessageLookupByLibrary.simpleMessage(
             "Please add a main category first"),
@@ -177,6 +189,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "RegisteredSuccessfully":
             MessageLookupByLibrary.simpleMessage("Registered Successfully"),
         "Resend": MessageLookupByLibrary.simpleMessage("Resend"),
+        "ResourceExhausted": MessageLookupByLibrary.simpleMessage(
+            "Quota exceeded. Too many requests."),
+        "Retry": MessageLookupByLibrary.simpleMessage("Retry"),
         "RoknElatfal": MessageLookupByLibrary.simpleMessage("Kids\' Section"),
         "RoknElhelw": MessageLookupByLibrary.simpleMessage("Dessert Section"),
         "RoknElsandwichat":
@@ -188,6 +203,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ShareYourFeedback":
             MessageLookupByLibrary.simpleMessage("Share Your Opinion"),
         "Shorba": MessageLookupByLibrary.simpleMessage("Soup"),
+        "SocketException":
+            MessageLookupByLibrary.simpleMessage("⚠️ No internet connection"),
         "SoraElsnf": MessageLookupByLibrary.simpleMessage("Item image"),
         "SortElcheck": MessageLookupByLibrary.simpleMessage("Check Image"),
         "Submit": MessageLookupByLibrary.simpleMessage("Submit"),
@@ -221,15 +238,27 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Welcome to Infantry House"),
         "YourCartIsEmpty":
             MessageLookupByLibrary.simpleMessage("Your cart is empty!"),
+        "aborted": MessageLookupByLibrary.simpleMessage(
+            "The operation was aborted. Please retry."),
         "anshta": MessageLookupByLibrary.simpleMessage("Activities"),
+        "cancelled":
+            MessageLookupByLibrary.simpleMessage("The request was cancelled."),
         "eskan": MessageLookupByLibrary.simpleMessage("Housing"),
         "hefz": MessageLookupByLibrary.simpleMessage("Save"),
         "hogozat": MessageLookupByLibrary.simpleMessage("Reservations"),
+        "internal": MessageLookupByLibrary.simpleMessage(
+            "An internal Firestore error occurred."),
         "laYogadE3lan":
             MessageLookupByLibrary.simpleMessage("No Advertisements Available"),
         "m8sla": MessageLookupByLibrary.simpleMessage("Washing"),
         "t3delE3lan":
             MessageLookupByLibrary.simpleMessage("Edit Advertisements"),
-        "t3delKwaem": MessageLookupByLibrary.simpleMessage("Edit Category")
+        "t3delKwaem": MessageLookupByLibrary.simpleMessage("Edit Category"),
+        "unauthenticated": MessageLookupByLibrary.simpleMessage(
+            "You must be signed in to perform this action."),
+        "unimplemented": MessageLookupByLibrary.simpleMessage(
+            "This operation is not supported."),
+        "unknown": MessageLookupByLibrary.simpleMessage(
+            "An unknown Firestore error occurred.")
       };
 }

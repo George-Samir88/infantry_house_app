@@ -42,7 +42,61 @@ class CustomElevatedButton extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: textColor ?? Colors.white,
-              fontSize: fontSize ?? (18.sp),
+              fontSize: fontSize ?? (16.sp),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomElevatedButtonWithIcon extends StatelessWidget {
+  const CustomElevatedButtonWithIcon({
+    super.key,
+    this.tabletLayout,
+    this.onPressed,
+    this.width,
+    this.backGroundColor,
+    this.textColor,
+    this.fontSize,
+    required this.label,
+    required this.icon,
+  });
+
+  final bool? tabletLayout;
+  final void Function()? onPressed;
+  final double? width;
+  final Color? backGroundColor;
+  final Color? textColor;
+  final double? fontSize;
+  final String label;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      child: ElevatedButton.icon(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backGroundColor ?? Colors.yellow[800],
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          padding: EdgeInsets.symmetric(vertical: 15.h),
+        ),
+        icon: Icon(icon, color: textColor ?? Colors.white, size: 24.r),
+        label: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: textColor ?? Colors.white,
+              fontSize: fontSize ?? (16.sp),
             ),
           ),
         ),

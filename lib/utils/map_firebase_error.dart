@@ -1,38 +1,81 @@
 // ==============================
 // Helper: Map Firestore Errors
 // ==============================
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-String mapFirestoreError({required FirebaseException e}) {
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
+import '../generated/l10n.dart';
+
+String _mapFirestoreError({required FirebaseException e}) {
   switch (e.code) {
     case "permission-denied":
-      return "You don’t have permission to perform this action.";
+      return "permission-denied";
     case "unavailable":
-      return "Firestore service is temporarily unavailable. Try again later.";
+      return "unavailable";
     case "not-found":
-      return "The requested document was not found.";
+      return "not-found";
     case "already-exists":
-      return "A document with this ID already exists.";
+      return "already-exists";
     case "cancelled":
-      return "The request was cancelled.";
+      return "cancelled";
     case "deadline-exceeded":
-      return "The request took too long. Please try again.";
+      return "deadline-exceeded";
     case "resource-exhausted":
-      return "Quota exceeded. Too many requests.";
+      return "resource-exhausted";
     case "failed-precondition":
-      return "The operation is not allowed in the current state.";
+      return "failed-precondition";
     case "aborted":
-      return "The operation was aborted. Please retry.";
+      return "aborted";
     case "internal":
-      return "An internal Firestore error occurred.";
+      return "internal";
     case "unimplemented":
-      return "This operation is not supported.";
+      return "unimplemented";
     case "unauthenticated":
-      return "You must be signed in to perform this action.";
+      return "unauthenticated";
+    case "network-error":
+      return "network-error";
+    case "network-request-failed":
+      return "network-request-failed";
+    default:
+      return "unknown";
+  }
+}
+
+// Helper method for localization
+String localizeFirestoreError({
+  required BuildContext context,
+  required String code,
+}) {
+  switch (code) {
+    case "permission-denied":
+      return S.of(context).PermissionDenied;
+    case "unavailable":
+      return S.of(context).unavailable;
+    case "not-found":
+      return S.of(context).NotFound;
+    case "already-exists":
+      return S.of(context).AlreadyExists;
+    case "cancelled":
+      return S.of(context).cancelled;
+    case "deadline-exceeded":
+      return S.of(context).DeadlineExceeded;
+    case "resource-exhausted":
+      return S.of(context).ResourceExhausted;
+    case "failed-precondition":
+      return S.of(context).FailedPrecondition;
+    case "aborted":
+      return S.of(context).aborted;
+    case "internal":
+      return S.of(context).internal;
+    case "unimplemented":
+      return S.of(context).unimplemented;
+    case "unauthenticated":
+      return S.of(context).unauthenticated;
     case "network-error":
     case "network-request-failed":
-      return "No internet connection.";
+      return S.of(context).NetworkError;
     default:
-      return e.message ?? "An unknown Firestore error occurred.";
+      return S.of(context).unknown;
   }
 }

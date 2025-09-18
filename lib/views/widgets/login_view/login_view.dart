@@ -45,10 +45,6 @@ class _LoginViewState extends State<LoginView> {
       child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) async {
           if (state is LoginSuccess) {
-            showSnackBar(
-              context: context,
-              message: S.of(context).LoggedInSuccessfully,
-            );
             if (!context.mounted) return;
             await context.read<HomeCubit>().getDepartmentsNames();
             if (!context.mounted) return;

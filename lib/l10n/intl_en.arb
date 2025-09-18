@@ -137,5 +137,23 @@
   "TypeTitle": "Enter category",
   "Cancel": "Cancel",
   "FieldCannotBeEmpty": "Field cannot be empty",
-  "ErrorOccurred": "Error occurred"
+  "ErrorOccurred": "Error occurred",
+  "Retry": "Retry",
+  "PermissionDenied": "You don’t have permission to perform this action.",
+  "Unavailable":
+  "Check your internet connection, try again later.",
+  "NotFound": "The requested document was not found.",
+  "AlreadyExists": "A document with this ID already exists.",
+  "cancelled": "The request was cancelled.",
+  "DeadlineExceeded": "The request took too long. Please try again.",
+  "ResourceExhausted": "Quota exceeded. Too many requests.",
+  "FailedPrecondition": "The operation is not allowed in the current state.",
+  "aborted": "The operation was aborted. Please retry.",
+  "internal": "An internal Firestore error occurred.",
+  "unimplemented": "This operation is not supported.",
+  "unauthenticated": "You must be signed in to perform this action.",
+  "networkError": "No internet connection.",
+  "NetworkRequestFailed": "No internet connection.",
+  "SocketException": "⚠️ No internet connection",
+  "unknown": "An unknown Firestore error occurred."
 }

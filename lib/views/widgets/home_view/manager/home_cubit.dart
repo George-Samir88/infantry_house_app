@@ -17,7 +17,6 @@ class HomeCubit extends Cubit<HomeState> {
 
   HomeCubit() : super(HomeInitial()) {
     scaffoldKey = GlobalKey<ScaffoldState>();
-    getDepartmentsNames();
   }
 
   Map<String, String> departmentsMap = {};
@@ -83,11 +82,7 @@ class HomeCubit extends Cubit<HomeState> {
       return screenNames;
     } on FirebaseException catch (e) {
       // Firestore-specific error
-      emit(
-        HomeGetDepartmentsFailureState(
-          failure: "Firestore error: ${e.message}",
-        ),
-      );
+      emit(HomeGetDepartmentsFailureState(failure: e.code));
       return [];
     } catch (e) {
       // Any other error
