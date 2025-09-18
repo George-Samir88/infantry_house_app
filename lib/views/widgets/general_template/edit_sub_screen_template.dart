@@ -105,6 +105,8 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
             _playAnimation();
           } else if (state is DepartmentCreateCarouselFailureState) {
             showSnackBar(context: context, message: state.failure);
+          } else if (state is DepartmentDeleteSubScreensNamesFailureState) {
+            showSnackBar(context: context, message: state.failure);
           }
         },
         builder: (context, state) {
@@ -295,16 +297,16 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                   onPressed: () async {
                                     if (formKey.currentState!.validate()) {
                                       FocusScope.of(context).unfocus();
-                                      await cubit.createSubScreen(
-                                        superCatName:
-                                            GlobalData().isArabic
-                                                ? arabicTextEditingController
-                                                    .text
-                                                : englishTextEditingController
-                                                    .text,
-                                      );
+                                      final value =
+                                          GlobalData().isArabic
+                                              ? arabicTextEditingController.text
+                                              : englishTextEditingController
+                                                  .text;
                                       arabicTextEditingController.clear();
                                       englishTextEditingController.clear();
+                                      cubit.createSubScreen(
+                                        superCatName: value,
+                                      );
                                     }
                                   },
                                   text: S.of(context).EdaftGded,
