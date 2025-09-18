@@ -97,25 +97,26 @@ class _SplashViewState extends State<SplashView> {
           },
         ),
         BlocListener<HomeCubit, HomeState>(
-          listener: (context, state) {
-            if (state is HomeGetDepartmentsSuccessState && userIsLoggedIn) {
+          listener: (context, homeState) {
+            if (homeState is HomeGetDepartmentsSuccessState && userIsLoggedIn) {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (_) => HomeView()),
               );
             }
-            if (state is HomeGetDepartmentsFailureState && userIsLoggedIn) {
+            if (homeState is HomeGetDepartmentsFailureState && userIsLoggedIn) {
               showSnackBar(
                 context: context,
                 message: localizeFirestoreError(
                   context: context,
-                  code: state.failure,
+                  code: homeState.failure,
                 ),
                 backgroundColor: Colors.redAccent,
                 duration: 3,
               );
             }
-            if (state is HomeGetDepartmentsFailureState && !userIsLoggedIn) {
+            if (homeState is HomeGetDepartmentsFailureState &&
+                !userIsLoggedIn) {
               Future.delayed(Duration(seconds: 2), () {
                 if (!context.mounted) return;
                 Navigator.pushReplacement(
@@ -126,8 +127,16 @@ class _SplashViewState extends State<SplashView> {
                   context: context,
                   message: localizeFirestoreError(
                     context: context,
-                    code: state.failure,
+                    code: homeState.failure,
                   ),
+                );
+              });
+            }
+            if (homeState is HomeGetDepartmentsSuccessState && userIsLoggedIn) {
+              Future.delayed(Duration(seconds: 2), () {
+                if (!context.mounted) return; // widget اتشال خلاص
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => HomeView()),
                 );
               });
             }
@@ -135,9 +144,9 @@ class _SplashViewState extends State<SplashView> {
         ),
       ],
       child: BlocBuilder<AutoLoginCubit, AutoLoginState>(
-        builder: (context, state) {
+        builder: (context, autoLoginState) {
           return BlocBuilder<HomeCubit, HomeState>(
-            builder: (context, state) {
+            builder: (context, homeState) {
               return LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
                   height = constraints.maxHeight;
@@ -248,14 +257,15 @@ class _SplashViewState extends State<SplashView> {
                                         ),
                                         child: () {
                                           // 1️⃣ Loading
-                                          if (state is AutoLoginLoading ||
-                                              state
+                                          if (autoLoginState
+                                                  is AutoLoginLoading ||
+                                              homeState
                                                   is HomeGetDepartmentsLoadingState) {
                                             return const AppLoader();
                                           }
 
                                           // 2️⃣ Failure
-                                          if (state
+                                          if (homeState
                                               is HomeGetDepartmentsFailureState) {
                                             return CustomElevatedButtonWithIcon(
                                               label: S.of(context).Retry,
@@ -276,22 +286,9 @@ class _SplashViewState extends State<SplashView> {
                                           }
 
                                           // 3️⃣ Success + Logged in → Navigate to Home
-                                          if (state
+                                          if (homeState
                                                   is HomeGetDepartmentsSuccessState &&
                                               userIsLoggedIn) {
-                                            WidgetsBinding.instance
-                                                .addPostFrameCallback((_) {
-                                                  if (!mounted) return;
-                                                  Navigator.of(
-                                                    context,
-                                                  ).pushReplacement(
-                                                    MaterialPageRoute(
-                                                      builder:
-                                                          (context) =>
-                                                              HomeView(),
-                                                    ),
-                                                  );
-                                                });
                                             return const SizedBox.shrink();
                                           }
 
@@ -299,7 +296,7 @@ class _SplashViewState extends State<SplashView> {
                                           return CustomElevatedButton(
                                             onPressed: () {
                                               (userIsLoggedIn &&
-                                                      state
+                                                      homeState
                                                           is HomeGetDepartmentsSuccessState)
                                                   ? Navigator.pushReplacement(
                                                     context,

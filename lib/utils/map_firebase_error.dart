@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../generated/l10n.dart';
 
-String _mapFirestoreError({required FirebaseException e}) {
+String mapFirestoreError({required FirebaseException e}) {
   switch (e.code) {
     case "permission-denied":
       return "permission-denied";

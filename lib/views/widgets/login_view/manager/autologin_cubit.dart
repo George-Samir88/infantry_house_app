@@ -29,14 +29,14 @@ class AutoLoginCubit extends Cubit<AutoLoginState> {
         emit(AutoLoginInitial());
         return;
       }
+
       // --------------------
-      // Try load cached UserModel
+      // Try load cached UserModel (temporary only)
       // --------------------
       final cachedJson = prefs.getString('user_cache');
       UserModel? cachedUser;
       if (cachedJson != null) {
         cachedUser = UserModel.fromMap(jsonDecode(cachedJson));
-        emit(AutoLoginSuccess(cachedUser)); // show cached immediately
       }
 
       // --------------------
@@ -47,11 +47,13 @@ class AutoLoginCubit extends Cubit<AutoLoginState> {
       if (snap.exists) {
         final freshUser = UserModel.fromMap(snap.data()!);
 
-        // Emit fresh user only if different from cached
+        // Update cache if changed
         if (cachedUser == null ||
             jsonEncode(freshUser.toMap()) != jsonEncode(cachedUser.toMap())) {
           await prefs.setString('user_cache', jsonEncode(freshUser.toMap()));
         }
+
+        // ✅ Emit fresh user (or cached if same)
         emit(AutoLoginSuccess(freshUser));
       } else {
         // UID not valid in Firestore → clear session
@@ -67,7 +69,8 @@ class AutoLoginCubit extends Cubit<AutoLoginState> {
 
       if (cachedJson != null) {
         final cachedUser = UserModel.fromMap(jsonDecode(cachedJson));
-        emit(AutoLoginSuccess(cachedUser)); // fallback to cached
+        // ✅ Emit cached only once as fallback
+        emit(AutoLoginSuccess(cachedUser));
       } else {
         emit(AutoLoginFailure("Login failed: $e"));
       }
