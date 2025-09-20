@@ -50,7 +50,7 @@ class CustomItemsInGridEditView extends StatelessWidget {
               Row(
                 children: List.generate(5, (index) {
                   return Icon(
-                    index < menuItemModel.rating
+                    index < menuItemModel.averageRating
                         ? Icons.star
                         : Icons.star_border,
                     color: Colors.yellow,

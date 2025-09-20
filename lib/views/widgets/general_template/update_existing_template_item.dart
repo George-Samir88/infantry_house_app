@@ -322,17 +322,17 @@ class _UpdateExistingItemTemplateViewState
                       Expanded(
                         child: CustomElevatedButton(
                           onPressed: () {
-                            MenuItemModel? deletedMenuItem =
-                                MenuItemModel(title: "222222222", image: "", price: "4", rating: 2);
+                            // MenuItemModel? deletedMenuItem =
+                            //     MenuItemModel(title: "222222222", image: "", price: "4", averageRating: 2);
                             Timer? deletionTimer;
                             cubit.removeItem(
                               screenName: widget.screenName,
                               buttonTitle: widget.buttonTitle,
                               indexOfItemInList: widget.listIndex,
                             );
-                            deletionTimer = Timer(Duration(seconds: 3), () {
-                              deletedMenuItem = null;
-                            });
+                            // deletionTimer = Timer(Duration(seconds: 3), () {
+                            //   deletedMenuItem = null;
+                            // });
                             Navigator.pop(context);
                             showSnackBar(
                               backgroundColor: Colors.amber,
@@ -344,13 +344,13 @@ class _UpdateExistingItemTemplateViewState
                                 textColor: Colors.brown[800],
                                 onPressed: () {
                                   deletionTimer?.cancel();
-                                  if (deletedMenuItem != null) {
-                                    cubit.addItem(
-                                      screenName: widget.screenName,
-                                      menuItemModel: deletedMenuItem!,
-                                      buttonTitle: widget.buttonTitle,
-                                    );
-                                  }
+                                  // if (deletedMenuItem != null) {
+                                  //   cubit.addItem(
+                                  //     screenName: widget.screenName,
+                                  //     menuItemModel: deletedMenuItem!,
+                                  //     buttonTitle: widget.buttonTitle,
+                                  //   );
+                                  // }
                                 },
                               ),
                               message: S.of(context).DeletedSuccessfully,

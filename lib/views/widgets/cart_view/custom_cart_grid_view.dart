@@ -106,7 +106,7 @@ class CustomCartGridView extends StatelessWidget {
                         Row(
                           children: List.generate(5, (starIndex) {
                             return Icon(
-                              starIndex < item.rating
+                              starIndex < item.averageRating
                                   ? Icons.star
                                   : Icons.star_border,
                               color: Colors.yellow,

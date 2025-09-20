@@ -32,7 +32,7 @@ class _RatingViewState extends State<RatingView>
 
   @override
   void initState() {
-    rating = widget.menuItemModel.rating;
+    rating = widget.menuItemModel.averageRating;
 
     _animationController = AnimationController(
       vsync: this,
@@ -157,7 +157,7 @@ class _RatingViewState extends State<RatingView>
                             Row(
                               children: List.generate(5, (starIndex) {
                                 return Icon(
-                                  starIndex < widget.menuItemModel.rating
+                                  starIndex < widget.menuItemModel.averageRating
                                       ? Icons.star
                                       : Icons.star_border,
                                   color: Colors.yellow,

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:infantry_house_app/models/menu_item_model.dart';
 import 'package:infantry_house_app/views/widgets/general_template/add_new_item_template_view.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
-import 'package:infantry_house_app/views/widgets/general_template/update_existing_template_item.dart';
 
 import 'package:lottie/lottie.dart';
 import '../../../generated/l10n.dart';
@@ -12,7 +10,6 @@ import '../../../global_variables.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_edit_button.dart';
-import 'custom_item_in_grid_edit_view.dart';
 
 class EditItemsTemplateView extends StatefulWidget {
   const EditItemsTemplateView({
@@ -115,44 +112,44 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
                           child: Stack(
                             clipBehavior: Clip.none,
                             children: [
-                              CustomItemsInGridEditView(
-                                menuItemModel: MenuItemModel(
-                                  title: "111111",
-                                  image: "ddd",
-                                  price: "1",
-                                  rating: 1,
-                                ),
-                                // menuItemModel: cubit.listToBeShow[index],
-                              ),
+                              // CustomItemsInGridEditView(
+                              //   menuItemModel: MenuItemModel(
+                              //     title: "111111",
+                              //     image: "ddd",
+                              //     price: "1",
+                              //     averageRating: 1,
+                              //   ),
+                              //   // menuItemModel: cubit.listToBeShow[index],
+                              // ),
                               Positioned(
                                 left: GlobalData().isArabic ? 10.w : null,
                                 right: GlobalData().isArabic ? null : 10.w,
                                 top: -15.h,
                                 child: CustomEditButton(
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder:
-                                            (context) => BlocProvider.value(
-                                              value: cubit,
-                                              child: UpdateExistingItemTemplateView(
-                                                buttonTitle: widget.buttonTitle,
-                                                // menuItemModel:
-                                                //     cubit
-                                                //         .listToBeShow[index],
-                                                listIndex: index,
-                                                screenName: widget.screenName,
-                                                menuItemModel: MenuItemModel(
-                                                  title: "5555",
-                                                  image: "55",
-                                                  price: "2",
-                                                  rating: 2,
-                                                ),
-                                              ),
-                                            ),
-                                      ),
-                                    );
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder:
+                                    //         (context) => BlocProvider.value(
+                                    //           value: cubit,
+                                    //           child: UpdateExistingItemTemplateView(
+                                    //             buttonTitle: widget.buttonTitle,
+                                    //             // menuItemModel:
+                                    //             //     cubit
+                                    //             //         .listToBeShow[index],
+                                    //             listIndex: index,
+                                    //             screenName: widget.screenName,
+                                    //             menuItemModel: MenuItemModel(
+                                    //               title: "5555",
+                                    //               image: "55",
+                                    //               price: "2",
+                                    //               averageRating: 2,
+                                    //             ),
+                                    //           ),
+                                    //         ),
+                                    //   ),
+                                    // );
                                   },
                                   icon: Icons.edit,
                                   iconColor: Colors.black,

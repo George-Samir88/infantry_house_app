@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:infantry_house_app/models/menu_item_model.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 import 'package:lottie/lottie.dart';
@@ -275,16 +274,16 @@ class _AddNewItemTemplateViewState
                       bool validateTextForm = _formKey.currentState!.validate();
                       bool validateImageForm = _validateImage(_imageFile);
                       if (validateTextForm && validateImageForm) {
-                        cubit.addItem(
-                          menuItemModel: MenuItemModel(
-                            title: titleController.text,
-                            image: _imageFile!.path,
-                            price: formatNumber(priceController.text),
-                            rating: 1.0,
-                          ),
-                          buttonTitle: widget.buttonTitle,
-                          screenName: widget.screenName,
-                        );
+                        // cubit.addItem(
+                        //   menuItemModel: MenuItemModel(
+                        //     title: titleController.text,
+                        //     image: _imageFile!.path,
+                        //     price: formatNumber(priceController.text),
+                        //     averageRating: 1.0,
+                        //   ),
+                        //   buttonTitle: widget.buttonTitle,
+                        //   screenName: widget.screenName,
+                        // );
                         FocusScope.of(context).unfocus();
                         titleController.clear();
                         priceController.clear();

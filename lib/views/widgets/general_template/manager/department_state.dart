@@ -184,6 +184,21 @@ class DepartmentDeleteMenuButtonFailureState extends DepartmentState {
   DepartmentDeleteMenuButtonFailureState({required this.failure});
 }
 
+///------------states related to MenuItems---------
+class DepartmentCreateMenuItemLoadingState extends DepartmentState {}
+
+class DepartmentCreateMenuItemSuccessState extends DepartmentState {
+  final MenuItemModel menuItem;
+
+  DepartmentCreateMenuItemSuccessState({required this.menuItem});
+}
+
+class DepartmentCreateMenuItemFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentCreateMenuItemFailureState({required this.failure});
+}
+
 class DepartmentAddNewCategoryState extends DepartmentState {}
 
 class DepartmentRemoveCategoryState extends DepartmentState {}

@@ -60,6 +60,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   //Menu Buttons
   List<MenuButtonModel> menuButtonList = [];
   int selectedButtonIndex = 0; // Track selected button index
+  String? selectedMenuButtonId;
 
   //Menu Item List
   List<MenuItemModel> menuItemsList = [];
@@ -464,7 +465,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   ///--------------MenuButtons CRUD operations--------------
-  void changeMenuButtonIndex({required int index}) {
+  void changeMenuButtonIndex({required int index, required String buttonId}) {
+    selectedMenuButtonId = buttonId;
     selectedButtonIndex = index;
     emit(DepartmentChangeMenuButtonIndexState());
   }
@@ -584,6 +586,41 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       emit(DepartmentDeleteMenuButtonFailureState(failure: e.code));
     } catch (e) {
       emit(DepartmentDeleteMenuButtonFailureState(failure: e.toString()));
+    }
+  }
+
+  ///--------------MenuItems CRUD operations--------------
+  Future<void> createMenuItem({required MenuItemModel menuItem}) async {
+    try {
+      emit(DepartmentCreateMenuItemLoadingState());
+
+      // Reference للـ collection بتاع الـ menu items
+      final collectionRef = firestore
+          .collection(rootCollectionName)
+          .doc(departmentId)
+          .collection('super_categories')
+          .doc(selectedMenuButtonId)
+          .collection('Buttons')
+          .doc(selectedMenuButtonId)
+          .collection('menu_items');
+
+      // اعمل document جديد (Firestore هيولد uid)
+      final docRef = collectionRef.doc();
+
+      // خزّن الـ menuItem مع الـ uid في الفيلد id
+      final newItem = menuItem.copyWith(
+        id: docRef.id,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      await docRef.set(newItem.toMap());
+
+      emit(DepartmentCreateMenuItemSuccessState(menuItem: newItem));
+    } on FirebaseException catch (e) {
+      emit(DepartmentCreateMenuItemFailureState(failure: e.code));
+    } catch (e) {
+      emit(DepartmentCreateMenuItemFailureState(failure: e.toString()));
     }
   }
 

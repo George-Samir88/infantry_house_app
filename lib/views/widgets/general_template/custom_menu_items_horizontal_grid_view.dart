@@ -124,7 +124,7 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                           Row(
                             children: List.generate(5, (starIndex) {
                               return Icon(
-                                starIndex < menuItemModel[gridIndex].rating
+                                starIndex < menuItemModel[gridIndex].averageRating
                                     ? Icons.star
                                     : Icons.star_border,
                                 color: Colors.yellow,

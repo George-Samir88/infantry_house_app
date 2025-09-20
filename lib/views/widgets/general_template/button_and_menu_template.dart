@@ -129,7 +129,10 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
                           child: FadeInAnimation(
                             child: GestureDetector(
                               onTap: () {
-                                cubit.changeMenuButtonIndex(index: index);
+                                cubit.changeMenuButtonIndex(
+                                  index: index,
+                                  buttonId: cubit.menuButtonList[index].uid!,
+                                );
                               },
                               child: Container(
                                 margin:

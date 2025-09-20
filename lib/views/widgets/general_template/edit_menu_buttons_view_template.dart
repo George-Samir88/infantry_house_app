@@ -212,7 +212,10 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                                   index == cubit.selectedButtonIndex;
                               return GestureDetector(
                                 onTap: () {
-                                  cubit.changeMenuButtonIndex(index: index);
+                                  cubit.changeMenuButtonIndex(
+                                    index: index,
+                                    buttonId: menuButtonsList[index]!.uid!,
+                                  );
                                   updateMenuButtonController.text =
                                       menuButtonsList[cubit
                                               .selectedButtonIndex]!
