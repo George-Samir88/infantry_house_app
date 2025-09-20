@@ -199,6 +199,40 @@ class DepartmentCreateMenuItemFailureState extends DepartmentState {
   DepartmentCreateMenuItemFailureState({required this.failure});
 }
 
+class DepartmentGetMenuItemLoadingState extends DepartmentState {}
+
+class DepartmentGetMenuItemSuccessState extends DepartmentState {
+  final List<MenuItemModel> menuItem;
+
+  DepartmentGetMenuItemSuccessState({required this.menuItem});
+}
+
+class DepartmentGetMenuItemFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentGetMenuItemFailureState({required this.failure});
+}
+
+class DepartmentUpdateMenuItemLoadingState extends DepartmentState {}
+
+class DepartmentUpdateMenuItemSuccessState extends DepartmentState {}
+
+class DepartmentUpdateMenuItemFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentUpdateMenuItemFailureState({required this.failure});
+}
+
+class DepartmentDeleteMenuItemLoadingState extends DepartmentState {}
+
+class DepartmentDeleteMenuItemSuccessState extends DepartmentState {}
+
+class DepartmentDeleteMenuItemFailureState extends DepartmentState {
+  final String failure;
+
+  DepartmentDeleteMenuItemFailureState({required this.failure});
+}
+
 class DepartmentAddNewCategoryState extends DepartmentState {}
 
 class DepartmentRemoveCategoryState extends DepartmentState {}

@@ -74,6 +74,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   StreamSubscription? _menuTitleSub;
   StreamSubscription? _menuButtonsSub;
   StreamSubscription? _carouselSub;
+  StreamSubscription? _menuItem;
 
   ///-------------Functions-------------
 
@@ -633,6 +634,107 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
+  void listenToMenuItems() {
+    emit(DepartmentGetMenuItemLoadingState());
+    _menuItem?.cancel();
+
+    _menuItem = firestore
+        .collection(rootCollectionName)
+        .doc(departmentId)
+        .collection('super_categories')
+        .doc(selectedSubScreenID)
+        .collection('Buttons')
+        .doc(selectedMenuButtonId)
+        .collection('menu_items')
+        .snapshots()
+        .listen(
+          (snapshot) {
+            try {
+              menuItemsList =
+                  snapshot.docs
+                      .map(
+                        (doc) => MenuItemModel.fromMap(doc.data(), id: doc.id),
+                      )
+                      .toList();
+
+              emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
+            } on FirebaseException catch (e) {
+              emit(DepartmentGetMenuItemFailureState(failure: e.code));
+            } catch (e) {
+              emit(DepartmentGetMenuItemFailureState(failure: e.toString()));
+            }
+          },
+          onError: (error) {
+            if (error is FirebaseException) {
+              emit(DepartmentGetMenuItemFailureState(failure: error.code));
+            } else {
+              emit(
+                DepartmentGetMenuItemFailureState(failure: error.toString()),
+              );
+            }
+          },
+        );
+  }
+
+  Future<void> updateMenuItem({
+    required String itemId,
+    String? title,
+    String? price,
+    String? image,
+  }) async {
+    try {
+      emit(DepartmentUpdateMenuItemLoadingState());
+
+      final Map<String, dynamic> updates = {
+        'updatedAt': DateTime.now().toIso8601String(),
+      };
+
+      if (title != null) updates['title'] = title;
+      if (price != null) updates['price'] = price;
+      if (image != null) updates['image'] = image;
+
+      await firestore
+          .collection(rootCollectionName)
+          .doc(departmentId)
+          .collection('super_categories')
+          .doc(selectedSubScreenID)
+          .collection('Buttons')
+          .doc(selectedMenuButtonId)
+          .collection('menu_items')
+          .doc(itemId)
+          .update(updates);
+
+      emit(DepartmentUpdateMenuItemSuccessState());
+    } on FirebaseException catch (e) {
+      emit(DepartmentUpdateMenuItemFailureState(failure: e.code));
+    } catch (e) {
+      emit(DepartmentUpdateMenuItemFailureState(failure: e.toString()));
+    }
+  }
+
+  Future<void> deleteMenuItem({required String itemId}) async {
+    try {
+      emit(DepartmentDeleteMenuItemLoadingState());
+
+      await firestore
+          .collection(rootCollectionName)
+          .doc(departmentId)
+          .collection('super_categories')
+          .doc(selectedSubScreenID)
+          .collection('Buttons')
+          .doc(selectedMenuButtonId)
+          .collection('menu_items')
+          .doc(itemId)
+          .delete();
+
+      emit(DepartmentDeleteMenuItemSuccessState());
+    } on FirebaseException catch (e) {
+      emit(DepartmentDeleteMenuItemFailureState(failure: e.code));
+    } catch (e) {
+      emit(DepartmentDeleteMenuItemFailureState(failure: e.toString()));
+    }
+  }
+
   ///--------------close the cubit--------------
   @override
   Future<void> close() {
@@ -640,6 +742,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     _menuTitleSub?.cancel();
     _menuButtonsSub?.cancel();
     _carouselSub?.cancel();
+    _menuItem?.cancel();
     return super.close();
   }
 
