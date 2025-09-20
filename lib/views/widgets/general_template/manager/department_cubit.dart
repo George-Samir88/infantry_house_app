@@ -520,7 +520,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
                   snapshot.docs
                       .map((doc) => MenuButtonModel.fromMap(doc.data()))
                       .toList();
-
+              if (menuButtonList.isEmpty) {
+                selectedMenuButtonId = null;
+                menuItemsList = [];
+              }
               emit(DepartmentGetMenuButtonSuccessState());
             } on FirebaseException catch (e) {
               emit(DepartmentGetMenuButtonFailureState(failure: e.code));
@@ -746,7 +749,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     return super.close();
   }
 
-  bool isEmptyMenuItems = true;
 
   // Screens CRUD Operations
   void addNewScreen({required String screenTitle}) {

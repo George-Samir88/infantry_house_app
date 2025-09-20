@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_empty_items_template.dart';
+import 'package:infantry_house_app/utils/map_firebase_error.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_items_template_view.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_menu_buttons_view_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
@@ -31,6 +32,7 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
     final cubit = context.read<DepartmentCubit>();
     cubit.listenToMenuTitle(); // ده بيشغل أول Listener
     cubit.listenToMenuButtons(); // ده بيشغل أول Listener
+    cubit.listenToMenuItems(); // ده بيشغل أول Listener
   }
 
   @override
@@ -40,9 +42,29 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
         if (state is DepartmentGetMenuTitleSuccessState) {
           menuTitleModel = state.menuTitleModel;
         } else if (state is DepartmentGetMenuTitleFailureState) {
-          showSnackBar(context: context, message: state.failure);
+          showSnackBar(
+            context: context,
+            message: localizeFirestoreError(
+              context: context,
+              code: state.failure,
+            ),
+          );
         } else if (state is DepartmentGetMenuButtonFailureState) {
-          showSnackBar(context: context, message: state.failure);
+          showSnackBar(
+            context: context,
+            message: localizeFirestoreError(
+              context: context,
+              code: state.failure,
+            ),
+          );
+        } else if (state is DepartmentGetMenuItemFailureState) {
+          showSnackBar(
+            context: context,
+            message: localizeFirestoreError(
+              context: context,
+              code: state.failure,
+            ),
+          );
         }
       },
       builder: (context, state) {
@@ -200,9 +222,7 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                // if(cubit.listToBeShow.isNotEmpty ||
-                //     cubit.isEmptyMenuItems == false)
-                if (true)
+                if (cubit.menuItemsList.isNotEmpty)
                   Container(
                     width: MediaQuery.of(context).size.width,
                     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -241,11 +261,12 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
                               : 320
                                   .h, // Set a reasonable max height if necessary
                     ),
-                    child: CustomMenuItemsHorizontalGridView(menuItemModel: []),
+                    child:
+                        state is DepartmentGetMenuItemLoadingState
+                            ? AppLoader()
+                            : CustomMenuItemsHorizontalGridView(),
                   ),
-                // if (cubit.listToBeShow.isEmpty ||
-                //     cubit.isEmptyMenuItems == true)
-                if (true) CustomEmptyItemsTemplate(),
+                if (cubit.menuItemsList.isEmpty) CustomEmptyItemsTemplate(),
                 if (cubit.menuButtonList.isNotEmpty)
                   Positioned(
                     left: GlobalData().isArabic ? 10.w : null,
