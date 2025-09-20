@@ -590,7 +590,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   ///--------------MenuItems CRUD operations--------------
-  Future<void> createMenuItem({required MenuItemModel menuItem}) async {
+  Future<void> createMenuItem({
+    required String title,
+    required String price,
+    required String imagePath,
+  }) async {
     try {
       emit(DepartmentCreateMenuItemLoadingState());
 
@@ -606,17 +610,22 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       // اعمل document جديد (Firestore هيولد uid)
       final docRef = collectionRef.doc();
-
-      // خزّن الـ menuItem مع الـ uid في الفيلد id
-      final newItem = menuItem.copyWith(
+      // crreate menu item model
+      final MenuItemModel menuItemModel = MenuItemModel(
         id: docRef.id,
+        title: title,
+        image: imagePath,
+        price: price,
+        averageRating: 0.0,
+        ratingCount: 0,
+        menuButtonId: selectedMenuButtonId!,
         createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
+        updatedAt: null,
       );
 
-      await docRef.set(newItem.toMap());
+      await docRef.set(menuItemModel.toMap());
 
-      emit(DepartmentCreateMenuItemSuccessState(menuItem: newItem));
+      emit(DepartmentCreateMenuItemSuccessState(menuItem: menuItemModel));
     } on FirebaseException catch (e) {
       emit(DepartmentCreateMenuItemFailureState(failure: e.code));
     } catch (e) {

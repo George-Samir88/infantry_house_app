@@ -7,7 +7,7 @@ class MenuItemModel {
   final int ratingCount;
   final String menuButtonId;
   final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   MenuItemModel({
     required this.id,
@@ -53,7 +53,7 @@ class MenuItemModel {
       'ratingCount': ratingCount,
       'menuButtonId': menuButtonId,
       'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
     };
   }
 
