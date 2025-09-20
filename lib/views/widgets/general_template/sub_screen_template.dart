@@ -32,15 +32,20 @@ class _SubScreenTemplateState extends State<SubScreenTemplate> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DepartmentCubit, DepartmentState>(
-      listener: (context , state ){
-        if(state is DepartmentGetSubScreensNamesFailureState){
-         showSnackBar(context: context , message: state.error , backgroundColor: Colors.red);
+      listener: (context, state) {
+        if (state is DepartmentGetSubScreensNamesFailureState) {
+          showSnackBar(
+            context: context,
+            message: state.error,
+            backgroundColor: Colors.red,
+          );
         }
       },
       buildWhen: (previous, current) {
         return current is DepartmentGetSubScreensNamesSuccessState ||
             current is DepartmentGetSubScreensNamesLoadingState ||
-            current is DepartmentGetSubScreensNamesFailureState;
+            current is DepartmentGetSubScreensNamesFailureState ||
+            current is DepartmentGetSubScreensNamesEmptyState;
       },
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
@@ -162,12 +167,51 @@ class _SubScreenTemplateState extends State<SubScreenTemplate> {
         } else if (state is DepartmentGetSubScreensNamesLoadingState) {
           return AppLoader();
         } else if (state is DepartmentGetSubScreensNamesFailureState) {
-          return Center(child: Center(
-            child: Text(
-              S.of(context).ErrorOccurred,
-              style: TextStyle(color: Colors.white, fontSize: 20.sp),
+          return Center(
+            child: Center(
+              child: Text(
+                S.of(context).ErrorOccurred,
+                style: TextStyle(color: Colors.white, fontSize: 20.sp),
+              ),
             ),
-          ));
+          );
+        } else if (state is DepartmentGetSubScreensNamesEmptyState) {
+          return Container(
+            margin: EdgeInsets.only(
+              left: GlobalData().isTabletLayout ? 12.w : 16.w,
+              right: GlobalData().isTabletLayout ? 12.w : 16.w,
+            ),
+            height: 40.h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Center(
+                  child: Text(
+                    S.of(context).LaYogdAksam,
+                    style: TextStyle(color: Colors.white, fontSize: 20.sp),
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                CustomEditButton(
+                  iconColor: Colors.brown[800],
+                  backgroundColor: Colors.amberAccent.shade100,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => BlocProvider.value(
+                          value: cubit,
+                          child: EditSubScreenTemplateView(),
+                        ),
+                      ),
+                    );
+                  },
+                  icon: Icons.edit,
+                ),
+              ],
+            ),
+          );
         } else {
           return SizedBox();
         }

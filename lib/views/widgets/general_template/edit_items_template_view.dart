@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/views/widgets/general_template/add_new_item_template_view.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
+import 'package:infantry_house_app/views/widgets/general_template/update_existing_template_item.dart';
 
 import 'package:lottie/lottie.dart';
 import '../../../generated/l10n.dart';
@@ -10,18 +11,10 @@ import '../../../global_variables.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_edit_button.dart';
+import 'custom_item_in_grid_edit_view.dart';
 
 class EditItemsTemplateView extends StatefulWidget {
-  const EditItemsTemplateView({
-    super.key,
-    required this.listIndex,
-    required this.buttonTitle,
-    required this.screenName,
-  });
-
-  final String screenName;
-  final int listIndex;
-  final String buttonTitle;
+  const EditItemsTemplateView({super.key});
 
   @override
   State<EditItemsTemplateView> createState() => _EditItemsTemplateViewState();
@@ -100,7 +93,7 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
                         mainAxisSpacing: 10,
                         childAspectRatio: 1, // Ensures a balanced UI
                       ),
-                      itemCount: 1,
+                      itemCount: cubit.menuItemsList.length,
                       // itemCount: cubit.listToBeShow.length,
                       itemBuilder: (context, index) {
                         return Padding(
@@ -112,44 +105,30 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
                           child: Stack(
                             clipBehavior: Clip.none,
                             children: [
-                              // CustomItemsInGridEditView(
-                              //   menuItemModel: MenuItemModel(
-                              //     title: "111111",
-                              //     image: "ddd",
-                              //     price: "1",
-                              //     averageRating: 1,
-                              //   ),
-                              //   // menuItemModel: cubit.listToBeShow[index],
-                              // ),
+                              CustomItemsInGridEditView(
+                                menuItemModel: cubit.menuItemsList[index],
+                              ),
                               Positioned(
                                 left: GlobalData().isArabic ? 10.w : null,
                                 right: GlobalData().isArabic ? null : 10.w,
                                 top: -15.h,
                                 child: CustomEditButton(
                                   onTap: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder:
-                                    //         (context) => BlocProvider.value(
-                                    //           value: cubit,
-                                    //           child: UpdateExistingItemTemplateView(
-                                    //             buttonTitle: widget.buttonTitle,
-                                    //             // menuItemModel:
-                                    //             //     cubit
-                                    //             //         .listToBeShow[index],
-                                    //             listIndex: index,
-                                    //             screenName: widget.screenName,
-                                    //             menuItemModel: MenuItemModel(
-                                    //               title: "5555",
-                                    //               image: "55",
-                                    //               price: "2",
-                                    //               averageRating: 2,
-                                    //             ),
-                                    //           ),
-                                    //         ),
-                                    //   ),
-                                    // );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => BlocProvider.value(
+                                              value: cubit,
+                                              child:
+                                                  UpdateExistingItemTemplateView(
+                                                    menuItemModel:
+                                                        cubit
+                                                            .menuItemsList[index],
+                                                  ),
+                                            ),
+                                      ),
+                                    );
                                   },
                                   icon: Icons.edit,
                                   iconColor: Colors.black,
@@ -176,11 +155,7 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
                                     builder:
                                         (context) => BlocProvider.value(
                                           value: cubit,
-                                          child: AddNewItemTemplateView(
-                                            listIndex: widget.listIndex,
-                                            buttonTitle: widget.buttonTitle,
-                                            screenName: widget.screenName,
-                                          ),
+                                          child: AddNewItemTemplateView(),
                                         ),
                                   ),
                                 );
@@ -191,7 +166,7 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
                           ),
                           SizedBox(width: 10.w),
                           if (true)
-                          // if (cubit.listToBeShow.isNotEmpty)
+                            // if (cubit.listToBeShow.isNotEmpty)
                             Expanded(
                               child: CustomElevatedButton(
                                 onPressed: () {

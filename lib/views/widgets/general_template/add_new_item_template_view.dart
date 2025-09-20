@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 import 'package:lottie/lottie.dart';
@@ -12,26 +13,17 @@ import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
+import '../../../utils/custom_snackBar.dart';
+import '../../../utils/map_firebase_error.dart';
 
 class AddNewItemTemplateView extends StatefulWidget {
-  const AddNewItemTemplateView({
-    super.key,
-    required this.listIndex,
-    required this.buttonTitle,
-    required this.screenName,
-  });
-
-  final int listIndex;
-  final String buttonTitle;
-  final String screenName;
+  const AddNewItemTemplateView({super.key});
 
   @override
-  State<AddNewItemTemplateView> createState() =>
-      _AddNewItemTemplateViewState();
+  State<AddNewItemTemplateView> createState() => _AddNewItemTemplateViewState();
 }
 
-class _AddNewItemTemplateViewState
-    extends State<AddNewItemTemplateView>
+class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   ScrollController scrollController = ScrollController();
@@ -46,23 +38,27 @@ class _AddNewItemTemplateViewState
   bool isAnimationVisible = false;
 
   void _playAnimation() {
-    _animationController.forward(from: 0); // Restart animation from beginning
     setState(() {
-      isAnimationVisible = true; // Show animation
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        scrollController.animateTo(
-          scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 500),
-          curve: Curves.easeInOutQuad,
-        );
-      });
+      isAnimationVisible = true;
     });
-    _animationController.forward().whenComplete(() {
+
+    _animationController.forward(from: 0).whenComplete(() {
       setState(() {
         isAnimationVisible = false;
       });
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOutQuad,
+        );
+      }
+    });
   }
+
 
   @override
   void initState() {
@@ -116,7 +112,28 @@ class _AddNewItemTemplateViewState
           title: S.of(context).EdaftSnf,
         ),
       ),
-      body: BlocBuilder<DepartmentCubit, DepartmentState>(
+      body: BlocConsumer<DepartmentCubit, DepartmentState>(
+        listener: (context, state) {
+          if (state is DepartmentCreateMenuItemSuccessState) {
+            _playAnimation();
+          } else if (state is DepartmentGetMenuItemFailureState) {
+            showSnackBar(
+              context: context,
+              message: localizeFirestoreError(
+                context: context,
+                code: state.failure,
+              ),
+            );
+          } else if (state is DepartmentCreateMenuItemFailureState) {
+            showSnackBar(
+              context: context,
+              message: localizeFirestoreError(
+                context: context,
+                code: state.failure,
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           var cubit = context.read<DepartmentCubit>();
           return Padding(
@@ -131,9 +148,7 @@ class _AddNewItemTemplateViewState
                   if (!GlobalData().isTabletLayout) ...[
                     Text(
                       S.of(context).EsmElsanf,
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                      ),
+                      style: TextStyle(fontSize: 20.sp),
                     ),
                     CustomTextFormField(
                       textEditingController: titleController,
@@ -149,9 +164,7 @@ class _AddNewItemTemplateViewState
                     SizedBox(height: 8.h),
                     Text(
                       S.of(context).S3rElsnf,
-                      style: TextStyle(
-                        fontSize:  20.sp,
-                      ),
+                      style: TextStyle(fontSize: 20.sp),
                     ),
                     CustomTextFormField(
                       textEditingController: priceController,
@@ -177,10 +190,7 @@ class _AddNewItemTemplateViewState
                             children: [
                               Text(
                                 S.of(context).EsmElsanf,
-                                style: TextStyle(
-                                  fontSize
-                                          : 20.sp,
-                                ),
+                                style: TextStyle(fontSize: 20.sp),
                               ),
                               CustomTextFormField(
                                 textEditingController: titleController,
@@ -203,10 +213,7 @@ class _AddNewItemTemplateViewState
                             children: [
                               Text(
                                 S.of(context).S3rElsnf,
-                                style: TextStyle(
-                                  fontSize
-                                          : 20.sp,
-                                ),
+                                style: TextStyle(fontSize: 20.sp),
                               ),
                               CustomTextFormField(
                                 textEditingController: priceController,
@@ -227,16 +234,14 @@ class _AddNewItemTemplateViewState
                     ),
                   Text(
                     S.of(context).SoraElsnf,
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                    ),
+                    style: TextStyle(fontSize: 20.sp),
                   ),
                   SizedBox(height: 8.h),
                   GestureDetector(
                     onTap: _pickImage,
                     child: Container(
                       clipBehavior: Clip.antiAliasWithSaveLayer,
-                      height:  150.h,
+                      height: 150.h,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
@@ -269,32 +274,30 @@ class _AddNewItemTemplateViewState
                       ),
                     ),
                   SizedBox(height: 25.h),
-                  CustomElevatedButton(
-                    onPressed: () {
-                      bool validateTextForm = _formKey.currentState!.validate();
-                      bool validateImageForm = _validateImage(_imageFile);
-                      if (validateTextForm && validateImageForm) {
-                        // cubit.addItem(
-                        //   menuItemModel: MenuItemModel(
-                        //     title: titleController.text,
-                        //     image: _imageFile!.path,
-                        //     price: formatNumber(priceController.text),
-                        //     averageRating: 1.0,
-                        //   ),
-                        //   buttonTitle: widget.buttonTitle,
-                        //   screenName: widget.screenName,
-                        // );
-                        FocusScope.of(context).unfocus();
-                        titleController.clear();
-                        priceController.clear();
-                        _imageFile = null;
-                        _playAnimation();
-                      }
-                    },
-                    text: S.of(context).hefz,
-                    width: MediaQuery.of(context).size.width,
-                    tabletLayout: GlobalData().isTabletLayout,
-                  ),
+                  state is DepartmentCreateMenuItemLoadingState
+                      ? AppLoader()
+                      : CustomElevatedButton(
+                        onPressed: () {
+                          bool validateTextForm =
+                              _formKey.currentState!.validate();
+                          bool validateImageForm = _validateImage(_imageFile);
+                          if (validateTextForm && validateImageForm) {
+                            cubit.createMenuItem(
+                              title: titleController.text,
+                              price: priceController.text,
+                              imagePath:
+                                  _imageFile?.path ?? "Error in adding image",
+                            );
+                            FocusScope.of(context).unfocus();
+                            titleController.clear();
+                            priceController.clear();
+                            _imageFile = null;
+                          }
+                        },
+                        text: S.of(context).hefz,
+                        width: MediaQuery.of(context).size.width,
+                        tabletLayout: GlobalData().isTabletLayout,
+                      ),
                   Visibility(
                     visible: isAnimationVisible,
                     child: Container(
@@ -303,8 +306,7 @@ class _AddNewItemTemplateViewState
                       child: Lottie.asset(
                         controller: _animationController,
                         onLoaded: (composition) {
-                          _animationController.duration =
-                              composition.duration;
+                          _animationController.duration = composition.duration;
                         },
                         backgroundLoading: true,
                         alignment: Alignment.centerLeft,

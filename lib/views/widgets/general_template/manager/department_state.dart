@@ -22,6 +22,8 @@ class DepartmentGetSubScreensNamesSuccessState extends DepartmentState {
 
 class DepartmentGetSubScreensNamesLoadingState extends DepartmentState {}
 
+class DepartmentGetSubScreensNamesEmptyState extends DepartmentState {}
+
 class DepartmentGetSubScreensNamesFailureState extends DepartmentState {
   final String error;
 
@@ -78,6 +80,8 @@ class DepartmentAddNewCarouselFailureState extends DepartmentState {
 class DepartmentGetCarouselSuccessState extends DepartmentState {}
 
 class DepartmentGetCarouselLoadingState extends DepartmentState {}
+
+class DepartmentGetCarouselEmptyState extends DepartmentState {}
 
 class DepartmentGetCarouselFailureState extends DepartmentState {
   final String failure;
@@ -156,6 +160,8 @@ class DepartmentGetMenuButtonSuccessState extends DepartmentState {}
 
 class DepartmentGetMenuButtonLoadingState extends DepartmentState {}
 
+class DepartmentGetMenuButtonEmptyState extends DepartmentState {}
+
 class DepartmentGetMenuButtonFailureState extends DepartmentState {
   final String failure;
 
@@ -200,6 +206,8 @@ class DepartmentCreateMenuItemFailureState extends DepartmentState {
 }
 
 class DepartmentGetMenuItemLoadingState extends DepartmentState {}
+
+class DepartmentGetMenuItemEmptyState extends DepartmentState {}
 
 class DepartmentGetMenuItemSuccessState extends DepartmentState {
   final List<MenuItemModel> menuItem;

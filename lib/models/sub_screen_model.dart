@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 class SubScreenModel {
   final String subScreenName;
   final DateTime createdAt;
@@ -28,7 +29,22 @@ class SubScreenModel {
       subScreenName: data['super_cat_name'] ?? '',
       createdAt: (data['created_at'] as Timestamp?)?.toDate() ?? DateTime.now(),
       uid: data['uid'] ?? doc.id, // fallback للـ docId
-      updatedAt: (data['updated_at'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      updatedAt: (data['updated_at'] as Timestamp?)?.toDate(),
+    );
+  }
+
+  /// ✅ copyWith لتحديث أي فيلد
+  SubScreenModel copyWith({
+    String? subScreenName,
+    DateTime? createdAt,
+    String? uid,
+    DateTime? updatedAt,
+  }) {
+    return SubScreenModel(
+      subScreenName: subScreenName ?? this.subScreenName,
+      createdAt: createdAt ?? this.createdAt,
+      uid: uid ?? this.uid,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }

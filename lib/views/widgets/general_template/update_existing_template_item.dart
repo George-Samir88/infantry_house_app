@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:infantry_house_app/models/menu_item_model.dart';
+import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 import 'package:lottie/lottie.dart';
@@ -15,20 +16,15 @@ import '../../../global_variables.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_snackBar.dart';
+import '../../../utils/map_firebase_error.dart';
 
 class UpdateExistingItemTemplateView extends StatefulWidget {
   const UpdateExistingItemTemplateView({
     super.key,
-    required this.buttonTitle,
     required this.menuItemModel,
-    required this.listIndex,
-    required this.screenName,
   });
 
-  final String screenName;
-  final String buttonTitle;
   final MenuItemModel menuItemModel;
-  final int listIndex;
 
   @override
   State<UpdateExistingItemTemplateView> createState() =>
@@ -173,7 +169,29 @@ class _UpdateExistingItemTemplateViewState
           title: S.of(context).EdaftSnf,
         ),
       ),
-      body: BlocBuilder<DepartmentCubit, DepartmentState>(
+      body: BlocConsumer<DepartmentCubit, DepartmentState>(
+        listener: (context, state) {
+          if(state is DepartmentUpdateMenuItemSuccessState || state is DepartmentDeleteMenuButtonSuccessState){
+            _playAnimation();
+          }
+          else if (state is DepartmentUpdateMenuItemFailureState) {
+            showSnackBar(
+              context: context,
+              message: localizeFirestoreError(
+                context: context,
+                code: state.failure,
+              ),
+            );
+          } else if (state is DepartmentGetMenuItemFailureState) {
+            showSnackBar(
+              context: context,
+              message: localizeFirestoreError(
+                context: context,
+                code: state.failure,
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           var cubit = context.read<DepartmentCubit>();
           return Padding(
@@ -317,78 +335,81 @@ class _UpdateExistingItemTemplateViewState
                       ),
                     ),
                   SizedBox(height: 25.h),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomElevatedButton(
-                          onPressed: () {
-                            // MenuItemModel? deletedMenuItem =
-                            //     MenuItemModel(title: "222222222", image: "", price: "4", averageRating: 2);
-                            Timer? deletionTimer;
-                            cubit.removeItem(
-                              screenName: widget.screenName,
-                              buttonTitle: widget.buttonTitle,
-                              indexOfItemInList: widget.listIndex,
-                            );
-                            // deletionTimer = Timer(Duration(seconds: 3), () {
-                            //   deletedMenuItem = null;
-                            // });
-                            Navigator.pop(context);
-                            showSnackBar(
-                              backgroundColor: Colors.amber,
-                              textColor: Colors.brown[800],
-                              duration: 3,
-                              context: context,
-                              snackBarAction: SnackBarAction(
-                                label: S.of(context).Undo,
-                                textColor: Colors.brown[800],
-                                onPressed: () {
-                                  deletionTimer?.cancel();
-                                  // if (deletedMenuItem != null) {
-                                  //   cubit.addItem(
-                                  //     screenName: widget.screenName,
-                                  //     menuItemModel: deletedMenuItem!,
-                                  //     buttonTitle: widget.buttonTitle,
-                                  //   );
-                                  // }
-                                },
-                              ),
-                              message: S.of(context).DeletedSuccessfully,
-                            );
-                          },
-                          text: S.of(context).Delete,
-                          width: MediaQuery.of(context).size.width,
-                          tabletLayout: GlobalData().isTabletLayout,
-                          backGroundColor: Colors.redAccent.shade200,
-                        ),
+                  state is DepartmentUpdateMenuItemLoadingState ||
+                          state is DepartmentDeleteMenuButtonLoadingState
+                      ? AppLoader()
+                      : Row(
+                        children: [
+                          Expanded(
+                            child: CustomElevatedButton(
+                              onPressed: () {
+                                // // MenuItemModel? deletedMenuItem =
+                                // //     MenuItemModel(title: "222222222", image: "", price: "4", averageRating: 2);
+                                // Timer? deletionTimer;
+                                // cubit.removeItem(
+                                //   screenName: widget.screenName,
+                                //   buttonTitle: widget.buttonTitle,
+                                //   indexOfItemInList: widget.listIndex,
+                                // );
+                                // // deletionTimer = Timer(Duration(seconds: 3), () {
+                                // //   deletedMenuItem = null;
+                                // // });
+                                Navigator.pop(context);
+                                showSnackBar(
+                                  backgroundColor: Colors.amber,
+                                  textColor: Colors.brown[800],
+                                  duration: 3,
+                                  context: context,
+                                  snackBarAction: SnackBarAction(
+                                    label: S.of(context).Undo,
+                                    textColor: Colors.brown[800],
+                                    onPressed: () {
+                                      // deletionTimer?.cancel();
+                                      // if (deletedMenuItem != null) {
+                                      //   cubit.addItem(
+                                      //     screenName: widget.screenName,
+                                      //     menuItemModel: deletedMenuItem!,
+                                      //     buttonTitle: widget.buttonTitle,
+                                      //   );
+                                      // }
+                                    },
+                                  ),
+                                  message: S.of(context).DeletedSuccessfully,
+                                );
+                              },
+                              text: S.of(context).Delete,
+                              width: MediaQuery.of(context).size.width,
+                              tabletLayout: GlobalData().isTabletLayout,
+                              backGroundColor: Colors.redAccent.shade200,
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: CustomElevatedButton(
+                              onPressed: () {
+                                bool validateTextForm =
+                                    _formKey.currentState!.validate();
+                                bool validateImageForm = _validateImage(
+                                  _imageFile,
+                                );
+                                if (validateTextForm && validateImageForm) {
+                                  cubit.updateMenuItem(
+                                    title: titleController.text,
+                                    image: _imageFile?.path,
+                                    price: formatNumber(priceController.text),
+                                    itemId: widget.menuItemModel.id,
+                                  );
+                                  FocusScope.of(context).unfocus();
+                                  _playAnimation();
+                                }
+                              },
+                              text: S.of(context).hefz,
+                              width: MediaQuery.of(context).size.width,
+                              tabletLayout: GlobalData().isTabletLayout,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 10.w),
-                      Expanded(
-                        child: CustomElevatedButton(
-                          onPressed: () {
-                            bool validateTextForm =
-                                _formKey.currentState!.validate();
-                            bool validateImageForm = _validateImage(_imageFile);
-                            if (validateTextForm && validateImageForm) {
-                              cubit.updateItem(
-                                newTitle: titleController.text,
-                                newImage: _imageFile!.path,
-                                newPrice: formatNumber(priceController.text),
-                                buttonTitle: widget.buttonTitle,
-                                listIndex: widget.listIndex,
-                                screenName: widget.screenName,
-                              );
-                              FocusScope.of(context).unfocus();
-                              _playAnimation();
-                            }
-                          },
-                          text: S.of(context).hefz,
-                          width: MediaQuery.of(context).size.width,
-                          tabletLayout: GlobalData().isTabletLayout,
-                        ),
-                      ),
-                    ],
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

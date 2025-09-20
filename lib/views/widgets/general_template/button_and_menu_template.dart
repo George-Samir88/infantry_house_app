@@ -41,7 +41,8 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
       listener: (context, state) {
         if (state is DepartmentGetMenuTitleSuccessState) {
           menuTitleModel = state.menuTitleModel;
-        } else if (state is DepartmentGetMenuTitleFailureState) {
+        }
+        else if (state is DepartmentGetMenuTitleFailureState) {
           showSnackBar(
             context: context,
             message: localizeFirestoreError(
@@ -284,15 +285,7 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
                               builder:
                                   (context) => BlocProvider.value(
                                     value: cubit,
-                                    child: EditItemsTemplateView(
-                                      // listIndex: cubit.selectedButtonIndex,
-                                      // buttonTitle:
-                                      //     newButtonTitlesList[cubit
-                                      //         .selectedButtonIndex]!,
-                                      screenName: cubit.selectedSubScreen,
-                                      listIndex: 0,
-                                      buttonTitle: '',
-                                    ),
+                                    child: EditItemsTemplateView(),
                                   ),
                             ),
                           );

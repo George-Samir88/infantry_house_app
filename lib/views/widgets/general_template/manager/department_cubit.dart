@@ -92,6 +92,13 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     } while (snapshot.docs.length >= batchSize);
   }
 
+  Future<bool> collectionExists({
+    required CollectionReference collectionRef,
+  }) async {
+    final snapshot = await collectionRef.limit(1).get();
+    return snapshot.docs.isNotEmpty;
+  }
+
   Future<List<String>> getDepartmentsNames() async {
     try {
       emit(DepartmentGetDepartmentsNamesLoadingState());
@@ -124,9 +131,19 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   ///--------------SubScreens CRUD operations--------------
-  void listenToSubScreens() {
+  Future<void> listenToSubScreens() async {
     emit(DepartmentGetSubScreensNamesLoadingState());
     _subScreensSub?.cancel();
+    subScreensList.clear();
+    final collectionPath = firestore
+        .collection(rootCollectionName)
+        .doc(departmentId)
+        .collection('super_categories');
+
+    if (!await collectionExists(collectionRef: collectionPath)) {
+      emit(DepartmentGetSubScreensNamesEmptyState());
+      return;
+    }
 
     _subScreensSub = firestore
         .collection(rootCollectionName)
@@ -143,13 +160,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
                       .toList();
               // اختار أول SubScreen لو مفيش selected
               if (subScreensList.isNotEmpty && selectedSubScreenID == null) {
-                selectedSubScreenID = subScreensList[0].uid;
                 changeSelectedSubScreen(
-                  subScreenButtonId: selectedSubScreenID!,
+                  subScreenButtonId: subScreensList.first.uid,
                   index: 0,
                 );
               }
-
               emit(DepartmentGetSubScreensNamesSuccessState());
             } on FirebaseException catch (e) {
               emit(DepartmentGetSubScreensNamesFailureState(error: e.code));
@@ -176,7 +191,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   Future<void> createSubScreen({required String superCatName}) async {
     try {
       emit(DepartmentCreateSubScreensNamesLoadingState());
-
       // Step 1: جهز الـ model
       final newSubScreen = SubScreenModel(
         subScreenName: superCatName.trim(),
@@ -186,11 +200,16 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       );
 
       // Step 2: add doc بالـ model
-      final docRef = await firestore
-          .collection(rootCollectionName)
-          .doc(departmentId)
-          .collection('super_categories')
-          .add(newSubScreen.toMap());
+      final docRef =
+          firestore
+              .collection(rootCollectionName)
+              .doc(departmentId)
+              .collection('super_categories')
+              .doc();
+      if (subScreensList.isEmpty) {
+        selectedSubScreenID = docRef.id;
+      }
+      await docRef.set(newSubScreen.toMap());
       // Step 3: update uid field
       await docRef.update({'uid': docRef.id});
       // Step 4: add menu title
@@ -205,12 +224,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .add(menuTitleModel.toMap());
       await menuTitleDocRef.update({'uid': menuTitleDocRef.id});
       emit(DepartmentCreateSubScreensNamesSuccessState(docReference: docRef));
-      if (subScreensList.isNotEmpty) {
-        changeSelectedSubScreen(
-          subScreenButtonId: subScreensList.first.uid,
-          index: 0,
-        );
-      }
     } on FirebaseException catch (e) {
       emit(DepartmentCreateSubScreensNamesFailureState(failure: e.code));
     } on Exception catch (e) {
@@ -263,6 +276,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         );
       } else {
         selectedSubScreenID = null;
+        subScreensList.clear();
       }
       emit(DepartmentDeleteSubScreensNamesSuccessState());
     } on FirebaseException catch (e) {
@@ -285,9 +299,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     emit(DepartmentChangeSubScreenState());
 
     // شغل الـ listeners الخاصة بالـ subScreen الجديد
+    listenToCarousel();
     listenToMenuTitle();
     listenToMenuButtons();
-    listenToCarousel();
+    listenToMenuItems();
   }
 
   ///--------------Carousel CRUD operations--------------
@@ -296,10 +311,20 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     emit(DepartmentChangeCarouselIndexState());
   }
 
-  void listenToCarousel() {
+  Future<void> listenToCarousel() async {
     emit(DepartmentGetCarouselLoadingState());
     _carouselSub?.cancel();
-
+    final collectionPath = firestore
+        .collection(rootCollectionName)
+        .doc(departmentId)
+        .collection('super_categories')
+        .doc(selectedSubScreenID)
+        .collection('carousel_items');
+    final exists = await collectionExists(collectionRef: collectionPath);
+    if (!exists || subScreensList.isEmpty) {
+      emit(DepartmentGetCarouselEmptyState());
+      return;
+    }
     _carouselSub = firestore
         .collection(rootCollectionName)
         .doc(departmentId)
@@ -392,9 +417,21 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   ///--------------MenuTitle CRUD operations--------------
 
-  void listenToMenuTitle() {
+  Future<void> listenToMenuTitle() async {
     emit(DepartmentGetMenuTitleLoadingState());
     _menuTitleSub?.cancel();
+    final collectionPath = firestore
+        .collection(rootCollectionName)
+        .doc(departmentId)
+        .collection('super_categories')
+        .doc(selectedSubScreenID)
+        .collection('sub_title_name');
+
+    if (!await collectionExists(collectionRef: collectionPath) ||
+        subScreensList.isEmpty) {
+      emit(DepartmentGetMenuTitleEmptyState());
+      return;
+    }
 
     _menuTitleSub = firestore
         .collection(rootCollectionName)
@@ -502,9 +539,21 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
-  void listenToMenuButtons() {
+  Future<void> listenToMenuButtons() async {
     emit(DepartmentGetMenuButtonLoadingState());
     _menuButtonsSub?.cancel();
+    final collectionPath = firestore
+        .collection(rootCollectionName)
+        .doc(departmentId)
+        .collection('super_categories')
+        .doc(selectedSubScreenID)
+        .collection('Buttons');
+
+    if (!await collectionExists(collectionRef: collectionPath) ||
+        subScreensList.isEmpty) {
+      emit(DepartmentGetMenuButtonEmptyState());
+      return;
+    }
 
     _menuButtonsSub = firestore
         .collection(rootCollectionName)
@@ -524,6 +573,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
                 selectedMenuButtonId = null;
                 menuItemsList = [];
               }
+              selectedMenuButtonId = menuButtonList.first.uid;
               emit(DepartmentGetMenuButtonSuccessState());
             } on FirebaseException catch (e) {
               emit(DepartmentGetMenuButtonFailureState(failure: e.code));
@@ -637,9 +687,24 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
-  void listenToMenuItems() {
+  Future<void> listenToMenuItems() async {
     emit(DepartmentGetMenuItemLoadingState());
     _menuItem?.cancel();
+    final collectionPath = firestore
+        .collection(rootCollectionName)
+        .doc(departmentId)
+        .collection('super_categories')
+        .doc(selectedSubScreenID)
+        .collection('Buttons')
+        .doc(selectedMenuButtonId)
+        .collection('menu_items');
+
+    if (!await collectionExists(collectionRef: collectionPath) ||
+        subScreensList.isEmpty ||
+        menuButtonList.isEmpty) {
+      emit(DepartmentGetMenuItemEmptyState());
+      return;
+    }
 
     _menuItem = firestore
         .collection(rootCollectionName)
@@ -659,7 +724,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
                         (doc) => MenuItemModel.fromMap(doc.data(), id: doc.id),
                       )
                       .toList();
-
               emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
             } on FirebaseException catch (e) {
               emit(DepartmentGetMenuItemFailureState(failure: e.code));
@@ -748,7 +812,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     _menuItem?.cancel();
     return super.close();
   }
-
 
   // Screens CRUD Operations
   void addNewScreen({required String screenTitle}) {

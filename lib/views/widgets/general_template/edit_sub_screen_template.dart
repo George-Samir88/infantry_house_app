@@ -297,7 +297,7 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                 child: CustomElevatedButton(
                                   textColor: Color(0xFF6D3A2D),
                                   backGroundColor: Colors.grey[300],
-                                  onPressed: () async {
+                                  onPressed: () {
                                     if (formKey.currentState!.validate()) {
                                       FocusScope.of(context).unfocus();
                                       final value =
@@ -307,7 +307,7 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                                   .text;
                                       arabicTextEditingController.clear();
                                       englishTextEditingController.clear();
-                                      await cubit.createSubScreen(
+                                      cubit.createSubScreen(
                                         superCatName: value,
                                       );
                                     }
