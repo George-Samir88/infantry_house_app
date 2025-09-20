@@ -290,19 +290,20 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
-  void changeSelectedSubScreen({
+  Future<void> changeSelectedSubScreen({
     required String subScreenButtonId,
     required int index,
-  }) {
+  }) async {
     selectedSubScreenID = subScreenButtonId;
     selectedSubScreenIndex = index;
     emit(DepartmentChangeSubScreenState());
-
+    menuButtonList.clear();
+    menuItemsList.clear();
     // شغل الـ listeners الخاصة بالـ subScreen الجديد
-    listenToCarousel();
-    listenToMenuTitle();
-    listenToMenuButtons();
-    listenToMenuItems();
+    await listenToCarousel();
+    await listenToMenuTitle();
+    await listenToMenuButtons();
+    await listenToMenuItems();
   }
 
   ///--------------Carousel CRUD operations--------------
@@ -507,6 +508,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     selectedMenuButtonId = buttonId;
     selectedButtonIndex = index;
     emit(DepartmentChangeMenuButtonIndexState());
+    listenToMenuItems();
   }
 
   Future<void> createMenuButton({required String buttonTitle}) async {
@@ -548,49 +550,43 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         .collection('super_categories')
         .doc(selectedSubScreenID)
         .collection('Buttons');
-
     if (!await collectionExists(collectionRef: collectionPath) ||
         subScreensList.isEmpty) {
+      menuButtonList.clear();
+      menuItemsList.clear();
       emit(DepartmentGetMenuButtonEmptyState());
       return;
     }
 
-    _menuButtonsSub = firestore
-        .collection(rootCollectionName)
-        .doc(departmentId)
-        .collection('super_categories')
-        .doc(selectedSubScreenID)
-        .collection('Buttons')
-        .snapshots()
-        .listen(
-          (snapshot) {
-            try {
-              menuButtonList =
-                  snapshot.docs
-                      .map((doc) => MenuButtonModel.fromMap(doc.data()))
-                      .toList();
-              if (menuButtonList.isEmpty) {
-                selectedMenuButtonId = null;
-                menuItemsList = [];
-              }
-              selectedMenuButtonId = menuButtonList.first.uid;
-              emit(DepartmentGetMenuButtonSuccessState());
-            } on FirebaseException catch (e) {
-              emit(DepartmentGetMenuButtonFailureState(failure: e.code));
-            } catch (e) {
-              emit(DepartmentGetMenuButtonFailureState(failure: e.toString()));
-            }
-          },
-          onError: (error) {
-            if (error is FirebaseException) {
-              emit(DepartmentGetMenuButtonFailureState(failure: error.code));
-            } else {
-              emit(
-                DepartmentGetMenuButtonFailureState(failure: error.toString()),
-              );
-            }
-          },
-        );
+    _menuButtonsSub = collectionPath.snapshots().listen(
+      (snapshot) {
+        try {
+          menuButtonList =
+              snapshot.docs
+                  .map((doc) => MenuButtonModel.fromMap(doc.data()))
+                  .toList();
+          if (menuButtonList.isEmpty) {
+            selectedMenuButtonId = null;
+            menuItemsList = [];
+            emit(DepartmentGetMenuButtonEmptyState());
+            return;
+          }
+          changeMenuButtonIndex(index: 0, buttonId: menuButtonList.first.uid!);
+          emit(DepartmentGetMenuButtonSuccessState());
+        } on FirebaseException catch (e) {
+          emit(DepartmentGetMenuButtonFailureState(failure: e.code));
+        } catch (e) {
+          emit(DepartmentGetMenuButtonFailureState(failure: e.toString()));
+        }
+      },
+      onError: (error) {
+        if (error is FirebaseException) {
+          emit(DepartmentGetMenuButtonFailureState(failure: error.code));
+        } else {
+          emit(DepartmentGetMenuButtonFailureState(failure: error.toString()));
+        }
+      },
+    );
   }
 
   Future<void> updateMenuButton({
@@ -651,22 +647,9 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }) async {
     try {
       emit(DepartmentCreateMenuItemLoadingState());
-
       // Reference للـ collection بتاع الـ menu items
-      final collectionRef = firestore
-          .collection(rootCollectionName)
-          .doc(departmentId)
-          .collection('super_categories')
-          .doc(selectedMenuButtonId)
-          .collection('Buttons')
-          .doc(selectedMenuButtonId)
-          .collection('menu_items');
-
-      // اعمل document جديد (Firestore هيولد uid)
-      final docRef = collectionRef.doc();
-      // crreate menu item model
       final MenuItemModel menuItemModel = MenuItemModel(
-        id: docRef.id,
+        id: "",
         title: title,
         image: imagePath,
         price: price,
@@ -677,7 +660,17 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         updatedAt: null,
       );
 
-      await docRef.set(menuItemModel.toMap());
+      final collectionRef = await firestore
+          .collection(rootCollectionName)
+          .doc(departmentId)
+          .collection('super_categories')
+          .doc(selectedSubScreenID)
+          .collection('Buttons')
+          .doc(selectedMenuButtonId)
+          .collection('menu_items')
+          .add(menuItemModel.toMap());
+      await collectionRef.update({"id": collectionRef.id});
+      // اعمل document جديد (Firestore هيولد uid)
 
       emit(DepartmentCreateMenuItemSuccessState(menuItem: menuItemModel));
     } on FirebaseException catch (e) {
@@ -811,85 +804,5 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     _carouselSub?.cancel();
     _menuItem?.cancel();
     return super.close();
-  }
-
-  // Screens CRUD Operations
-  void addNewScreen({required String screenTitle}) {
-    ///i have a problem here that when deleting all departments
-    ///selectedScreen variable remains the last value
-    ///which is cause to error when adding new carousel or buttons or items before reinitialize selectedScreen automatically
-
-    emit(DepartmentAddNewCategoryState());
-  }
-
-  void removeScreen({required String screenTitle}) {
-    emit(DepartmentRemoveCategoryState());
-  }
-
-  void resetScreenSelection() {
-    emit(DepartmentResetCategorySelectionState());
-  }
-
-  // Buttons CRUD Operations
-  void addNewButton({required String screenName, required String buttonTitle}) {
-    emit(DepartmentAddNewButtonState());
-  }
-
-  void removeButton({required String screenName, required String buttonTitle}) {
-    emit(DepartmentRemoveButtonState());
-  }
-
-  void editButtonName({required String newCategoryTitle}) {
-    emit(DepartmentEditButtonNameState());
-  }
-
-  void resetButtonSelection({required String screenName}) {
-    emit(DepartmentResetMenuSelection());
-  }
-
-  void updateSelectedList({
-    required String screenName,
-    required String buttonTitle,
-  }) {
-    emit(DepartmentUpdateSelectedListState());
-  }
-
-  // Items CRUD Operations
-  void addItem({
-    required String screenName,
-    required MenuItemModel menuItemModel,
-    required String buttonTitle,
-  }) {
-    emit(DepartmentAddNewItemState());
-  }
-
-  void removeItem({
-    required String screenName,
-    required String buttonTitle,
-    required int indexOfItemInList,
-  }) {
-    emit(DepartmentRemoveItemState());
-  }
-
-  void updateItem({
-    required String buttonTitle,
-    required int listIndex,
-    required String screenName,
-    String? newTitle,
-    String? newImage,
-    String? newPrice,
-  }) {
-    // final item =
-    //     newScreensMap[screenName]!.buttonsAndItemsMap[buttonTitle]![listIndex];
-    // if (newImage != null && item.image != newImage) {
-    //   item.image = newImage;
-    // }
-    // if (newTitle != null && item.title != newTitle) {
-    //   item.title = newTitle;
-    // }
-    // if (newPrice != null && item.price != newPrice) {
-    //   item.price = newPrice;
-    // }
-    emit(DepartmentUpdateItemState());
   }
 }

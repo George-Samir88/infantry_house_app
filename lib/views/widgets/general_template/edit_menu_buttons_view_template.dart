@@ -11,7 +11,6 @@ import 'package:lottie/lottie.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../utils/custom_appbar_editing_view.dart';
 import '../../../../utils/custom_elevated_button.dart';
-import '../../../models/menu_button_model.dart';
 import '../../../utils/custom_dialog.dart';
 import '../../../utils/custom_snackBar.dart';
 
@@ -78,6 +77,7 @@ class _EditMenuButtonsAndMenuTitleTemplateState
     final cubit = context.read<DepartmentCubit>();
     cubit.listenToMenuButtons();
     cubit.listenToMenuTitle();
+    cubit.listenToMenuItems();
   }
 
   @override
@@ -125,7 +125,7 @@ class _EditMenuButtonsAndMenuTitleTemplateState
         },
         builder: (context, state) {
           var cubit = context.read<DepartmentCubit>();
-          List<MenuButtonModel?> menuButtonsList = cubit.menuButtonList;
+          print(cubit.selectedMenuButtonId);
           return ListView(
             controller: scrollController,
             children: [
@@ -205,7 +205,7 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                           child: ListView.separated(
                             clipBehavior: Clip.none,
                             scrollDirection: Axis.horizontal,
-                            itemCount: menuButtonsList.length,
+                            itemCount: cubit.menuButtonList.length,
                             // Number of buttons
                             itemBuilder: (context, index) {
                               bool isSelected =
@@ -214,11 +214,11 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                                 onTap: () {
                                   cubit.changeMenuButtonIndex(
                                     index: index,
-                                    buttonId: menuButtonsList[index]!.uid!,
+                                    buttonId: cubit.menuButtonList[index].uid!,
                                   );
                                   updateMenuButtonController.text =
-                                      menuButtonsList[cubit
-                                              .selectedButtonIndex]!
+                                  cubit.menuButtonList[cubit
+                                              .selectedButtonIndex]
                                           .buttonTitle!;
                                   showInputDialog(
                                     context: context,
@@ -226,7 +226,7 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                                     onUpdateConfirmed: (String value) {
                                       Navigator.pop(context);
                                       cubit.updateMenuButton(
-                                        buttonId: menuButtonsList[index]!.uid!,
+                                        buttonId: cubit.menuButtonList[index].uid!,
                                         newTitle:
                                             updateMenuButtonController.text,
                                       );
@@ -234,7 +234,7 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                                     onDeletePressed: () {
                                       Navigator.pop(context);
                                       cubit.deleteMenuButton(
-                                        buttonId: menuButtonsList[index]!.uid!,
+                                        buttonId: cubit.menuButtonList[index].uid!,
                                       );
                                     },
                                   );
@@ -266,7 +266,7 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                                   ),
                                   child: Center(
                                     child: Text(
-                                      menuButtonsList[index]!.buttonTitle!,
+                                      cubit.menuButtonList[index].buttonTitle!,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: isSelected ? 16.sp : 14.sp,

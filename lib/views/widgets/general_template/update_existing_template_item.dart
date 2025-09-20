@@ -171,10 +171,10 @@ class _UpdateExistingItemTemplateViewState
       ),
       body: BlocConsumer<DepartmentCubit, DepartmentState>(
         listener: (context, state) {
-          if(state is DepartmentUpdateMenuItemSuccessState || state is DepartmentDeleteMenuButtonSuccessState){
+          if (state is DepartmentUpdateMenuItemSuccessState ||
+              state is DepartmentDeleteMenuButtonSuccessState) {
             _playAnimation();
-          }
-          else if (state is DepartmentUpdateMenuItemFailureState) {
+          } else if (state is DepartmentUpdateMenuItemFailureState) {
             showSnackBar(
               context: context,
               message: localizeFirestoreError(
@@ -343,18 +343,16 @@ class _UpdateExistingItemTemplateViewState
                           Expanded(
                             child: CustomElevatedButton(
                               onPressed: () {
-                                // // MenuItemModel? deletedMenuItem =
-                                // //     MenuItemModel(title: "222222222", image: "", price: "4", averageRating: 2);
-                                // Timer? deletionTimer;
-                                // cubit.removeItem(
-                                //   screenName: widget.screenName,
-                                //   buttonTitle: widget.buttonTitle,
-                                //   indexOfItemInList: widget.listIndex,
-                                // );
-                                // // deletionTimer = Timer(Duration(seconds: 3), () {
-                                // //   deletedMenuItem = null;
-                                // // });
-                                Navigator.pop(context);
+                                MenuItemModel? deletedMenuItem =
+                                    widget.menuItemModel;
+                                Timer? deletionTimer;
+                                cubit.menuItemsList.remove(deletedMenuItem);
+                                deletionTimer = Timer(Duration(seconds: 3), () {
+                                  cubit.deleteMenuItem(
+                                    itemId: widget.menuItemModel.id,
+                                  );
+                                  Navigator.pop(context);
+                                });
                                 showSnackBar(
                                   backgroundColor: Colors.amber,
                                   textColor: Colors.brown[800],
@@ -364,14 +362,8 @@ class _UpdateExistingItemTemplateViewState
                                     label: S.of(context).Undo,
                                     textColor: Colors.brown[800],
                                     onPressed: () {
-                                      // deletionTimer?.cancel();
-                                      // if (deletedMenuItem != null) {
-                                      //   cubit.addItem(
-                                      //     screenName: widget.screenName,
-                                      //     menuItemModel: deletedMenuItem!,
-                                      //     buttonTitle: widget.buttonTitle,
-                                      //   );
-                                      // }
+                                      deletionTimer?.cancel();
+                                      cubit.menuItemsList.add(deletedMenuItem);
                                     },
                                   ),
                                   message: S.of(context).DeletedSuccessfully,

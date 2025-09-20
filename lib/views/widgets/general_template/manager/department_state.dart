@@ -241,26 +241,4 @@ class DepartmentDeleteMenuItemFailureState extends DepartmentState {
   DepartmentDeleteMenuItemFailureState({required this.failure});
 }
 
-class DepartmentAddNewCategoryState extends DepartmentState {}
-
-class DepartmentRemoveCategoryState extends DepartmentState {}
-
-class DepartmentResetCategorySelectionState extends DepartmentState {}
-
 class DepartmentChangeSubScreenState extends DepartmentState {}
-
-class DepartmentAddNewButtonState extends DepartmentState {}
-
-class DepartmentRemoveButtonState extends DepartmentState {}
-
-class DepartmentEditButtonNameState extends DepartmentState {}
-
-class DepartmentResetMenuSelection extends DepartmentState {}
-
-class DepartmentUpdateSelectedListState extends DepartmentState {}
-
-class DepartmentAddNewItemState extends DepartmentState {}
-
-class DepartmentRemoveItemState extends DepartmentState {}
-
-class DepartmentUpdateItemState extends DepartmentState {}

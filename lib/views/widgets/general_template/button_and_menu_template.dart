@@ -38,11 +38,22 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DepartmentCubit, DepartmentState>(
+      buildWhen: (previous, current) {
+        return current is DepartmentGetMenuTitleSuccessState ||
+            current is DepartmentGetMenuButtonSuccessState ||
+            current is DepartmentGetMenuItemSuccessState ||
+            current is DepartmentGetMenuTitleLoadingState ||
+            current is DepartmentGetMenuButtonLoadingState ||
+            current is DepartmentGetMenuItemLoadingState ||
+            current is DepartmentGetMenuTitleFailureState ||
+            current is DepartmentGetMenuButtonFailureState ||
+            current is DepartmentGetMenuItemFailureState ||
+            current is DepartmentGetMenuItemEmptyState;
+      },
       listener: (context, state) {
         if (state is DepartmentGetMenuTitleSuccessState) {
           menuTitleModel = state.menuTitleModel;
-        }
-        else if (state is DepartmentGetMenuTitleFailureState) {
+        } else if (state is DepartmentGetMenuTitleFailureState) {
           showSnackBar(
             context: context,
             message: localizeFirestoreError(
@@ -128,9 +139,11 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
               ),
             ),
             SizedBox(height: 20.h),
-            state is DepartmentGetMenuButtonLoadingState
+            (state is DepartmentGetMenuButtonLoadingState ||
+                    state is DepartmentGetMenuTitleLoadingState)
                 ? AppLoader()
-                : cubit.menuButtonList.isNotEmpty
+                : (cubit.menuButtonList.isNotEmpty &&
+                    state is! DepartmentGetMenuButtonEmptyState)
                 ? Container(
                   margin: EdgeInsets.only(
                     left: GlobalData().isArabic ? 0 : 16.w,
@@ -267,7 +280,9 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
                             ? AppLoader()
                             : CustomMenuItemsHorizontalGridView(),
                   ),
-                if (cubit.menuItemsList.isEmpty) CustomEmptyItemsTemplate(),
+                if (cubit.menuItemsList.isEmpty ||
+                    state is DepartmentGetMenuItemEmptyState)
+                  CustomEmptyItemsTemplate(),
                 if (cubit.menuButtonList.isNotEmpty)
                   Positioned(
                     left: GlobalData().isArabic ? 10.w : null,
