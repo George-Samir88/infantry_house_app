@@ -84,10 +84,13 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     do {
       snapshot = await colRef.limit(batchSize).get();
       if (snapshot.docs.isEmpty) break;
+
       WriteBatch batch = FirebaseFirestore.instance.batch();
+
       for (var doc in snapshot.docs) {
         batch.delete(doc.reference);
       }
+
       await batch.commit();
     } while (snapshot.docs.length >= batchSize);
   }
@@ -265,7 +268,13 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .collection('super_categories')
           .doc(subScreenUID);
       await deleteCollection(subScreenDocRef.collection('sub_title_name'));
-      await deleteCollection(subScreenDocRef.collection('Buttons'));
+      final buttonsSnapshot = await subScreenDocRef.collection('Buttons').get();
+      for (var buttonDoc in buttonsSnapshot.docs) {
+        // امسح menu_items اللي تحت كل Button
+        await deleteCollection(buttonDoc.reference.collection('menu_items'));
+        // بعد ما تخلص امسح الـ Button نفسه
+        await buttonDoc.reference.delete();
+      }
 
       // امسح الـdoc نفسه
       await subScreenDocRef.delete();
@@ -628,7 +637,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .doc(selectedSubScreenID)
           .collection('Buttons')
           .doc(buttonId);
-
+      await deleteCollection(docRef.collection('menu_items'));
       await docRef.delete();
 
       emit(DepartmentDeleteMenuButtonSuccessState());
