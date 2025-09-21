@@ -143,24 +143,26 @@ class _SubScreenTemplateState extends State<SubScreenTemplate> {
                         style: TextStyle(color: Colors.white, fontSize: 20.sp),
                       ),
                     ),
-                SizedBox(width: 12.w),
-                CustomEditButton(
-                  iconColor: Colors.brown[800],
-                  backgroundColor: Colors.amberAccent.shade100,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder:
-                            (context) => BlocProvider.value(
-                              value: cubit,
-                              child: EditSubScreenTemplateView(),
-                            ),
-                      ),
-                    );
-                  },
-                  icon: Icons.edit,
-                ),
+                if (cubit.canManage) ...[
+                  SizedBox(width: 12.w),
+                  CustomEditButton(
+                    iconColor: Colors.brown[800],
+                    backgroundColor: Colors.amberAccent.shade100,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => BlocProvider.value(
+                                value: cubit,
+                                child: EditSubScreenTemplateView(),
+                              ),
+                        ),
+                      );
+                    },
+                    icon: Icons.edit,
+                  ),
+                ],
               ],
             ),
           );
@@ -191,24 +193,26 @@ class _SubScreenTemplateState extends State<SubScreenTemplate> {
                     style: TextStyle(color: Colors.white, fontSize: 20.sp),
                   ),
                 ),
-                SizedBox(width: 12.w),
-                CustomEditButton(
-                  iconColor: Colors.brown[800],
-                  backgroundColor: Colors.amberAccent.shade100,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder:
-                            (context) => BlocProvider.value(
-                          value: cubit,
-                          child: EditSubScreenTemplateView(),
+                if (cubit.canManage) ...[
+                  SizedBox(width: 12.w),
+                  CustomEditButton(
+                    iconColor: Colors.brown[800],
+                    backgroundColor: Colors.amberAccent.shade100,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => BlocProvider.value(
+                                value: cubit,
+                                child: EditSubScreenTemplateView(),
+                              ),
                         ),
-                      ),
-                    );
-                  },
-                  icon: Icons.edit,
-                ),
+                      );
+                    },
+                    icon: Icons.edit,
+                  ),
+                ],
               ],
             ),
           );

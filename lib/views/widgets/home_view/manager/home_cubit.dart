@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infantry_house_app/constants/screen_names.dart';
 import 'package:infantry_house_app/views/widgets/food_and_beverage_view/food_and_beverage_view.dart';
 import 'package:infantry_house_app/views/widgets/housing_view/housing_view.dart';
 import 'package:infantry_house_app/views/widgets/reservation_view/reservation_view.dart';
@@ -14,6 +16,7 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   late final GlobalKey<ScaffoldState> scaffoldKey;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   HomeCubit() : super(HomeInitial()) {
     scaffoldKey = GlobalKey<ScaffoldState>();
@@ -29,17 +32,19 @@ class HomeCubit extends Cubit<HomeState> {
     selectedAppBarTitle = S.of(context).KesmElA8zyaWlma4robat;
     drawerItemsAndScreensMap = {
       S.of(context).hogozat: ReservationView(
-        screenId: departmentsMap["Reservation"]!,
+        screenId: departmentsMap[DepartmentsTitles.reservation]!,
       ),
-      S.of(context).eskan: HousingView(screenId: departmentsMap["Housing"]!),
+      S.of(context).eskan: HousingView(
+        screenId: departmentsMap[DepartmentsTitles.housing]!,
+      ),
       S.of(context).KesmElA8zyaWlma4robat: FoodAndBeverageView(
-        screenId: departmentsMap["FoodAndBeverage"]!,
+        screenId: departmentsMap[DepartmentsTitles.foodAndBeverage]!,
       ),
       S.of(context).m8sla: WashingViewBody(
-        screenId: departmentsMap["Washing"]!,
+        screenId: departmentsMap[DepartmentsTitles.washing]!,
       ),
       S.of(context).anshta: ActivitiesViewBody(
-        screenId: departmentsMap["Activities"]!,
+        screenId: departmentsMap[DepartmentsTitles.activities]!,
       ),
     };
   }
@@ -59,7 +64,6 @@ class HomeCubit extends Cubit<HomeState> {
       final querySnapshot = await firestore
           .collection(rootCollectionName)
           .get(GetOptions(source: Source.server));
-
       final screenNames =
           querySnapshot.docs
               .map((doc) {
@@ -89,6 +93,34 @@ class HomeCubit extends Cubit<HomeState> {
       emit(HomeGetDepartmentsFailureState(failure: e.toString()));
       return [];
     }
+  }
+
+  String? userRole;
+  bool? isGeneralAdmin;
+  bool? isGuest;
+
+  Future<void> loadUserRole() async {
+    final uid = firebaseAuth.currentUser!.uid;
+    final userDoc =
+        await FirebaseFirestore.instance.collection("users").doc(uid).get();
+    userRole = userDoc.data()?['role'];
+    isGeneralAdmin = userRole == "GeneralAdmin";
+    isGuest = userRole == "Guest";
+    emit(HomeUserRoleLoadedState(userRole: userRole!));
+  }
+
+  bool canManageScreen({required String screenName}) {
+    return (isGeneralAdmin ?? false) ||
+        (userRole == "adminOfReservation" &&
+            screenName == DepartmentsTitles.reservation) ||
+        (userRole == "adminOfHousing" &&
+            screenName == DepartmentsTitles.housing) ||
+        (userRole == "adminOfFoodAndBeverage" &&
+            screenName == DepartmentsTitles.foodAndBeverage) ||
+        (userRole == "adminOfWashing" &&
+            screenName == DepartmentsTitles.washing) ||
+        (userRole == "adminOfActivities" &&
+            screenName == DepartmentsTitles.activities);
   }
 
   String? findDocIdByDepartmentName() {

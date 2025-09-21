@@ -35,14 +35,13 @@ part 'department_state.dart';
 // 🔹 الاسم في الكود: ItemCard
 
 class DepartmentCubit extends Cubit<DepartmentState> {
-  DepartmentCubit({required this.departmentId}) : super(DepartmentInitial());
+  DepartmentCubit({required this.canManage, required this.departmentId})
+    : super(DepartmentInitial());
 
   final String departmentId;
+  final bool canManage;
 
   ///-------------Variables-------------
-  //selected department
-  String selectedDepartment = 'FoodAndBeverage';
-
   //selected subScreen title
   String selectedSubScreen = '';
   Map<String, String> subScreenMap = {};

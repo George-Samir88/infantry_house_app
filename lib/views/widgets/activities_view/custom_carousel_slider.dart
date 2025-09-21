@@ -79,7 +79,7 @@ class CustomCarouselSlider extends StatelessWidget {
                         ),
                   ),
                 );
-              },
+              }, canManage: true,
             ),
           ),
         ],

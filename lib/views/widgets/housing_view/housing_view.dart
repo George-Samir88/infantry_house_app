@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../constants/screen_names.dart';
 import '../../../generated/l10n.dart';
 import '../general_template/general_template.dart';
 import '../general_template/manager/department_cubit.dart';
+import '../home_view/manager/home_cubit.dart';
 
 class HousingView extends StatelessWidget {
   const HousingView({super.key, required this.screenId});
@@ -13,7 +15,14 @@ class HousingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DepartmentCubit(departmentId: screenId),
+      create: (context) {
+        final screenName = DepartmentsTitles.housing;
+        final canManage = context.read<HomeCubit>().canManageScreen(
+          screenName: screenName,
+        );
+
+        return DepartmentCubit(departmentId: screenId, canManage: canManage);
+      },
       child: GeneralTemplateView(appBarTitle: S.of(context).eskan),
     );
   }

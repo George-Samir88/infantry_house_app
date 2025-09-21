@@ -162,7 +162,7 @@ class _EditCarouselViewTemplateState extends State<EditCarouselViewTemplate>
                               // );
                               _image = null;
                             }
-                          },
+                          }, canManage: cubit.canManage,
                         ),
                       ],
                     ),

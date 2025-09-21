@@ -5,6 +5,7 @@ import 'package:infantry_house_app/global_variables.dart';
 import 'package:infantry_house_app/models/menu_title_model.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
+import 'package:infantry_house_app/utils/map_firebase_error.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 import 'package:lottie/lottie.dart';
 
@@ -114,18 +115,63 @@ class _EditMenuButtonsAndMenuTitleTemplateState
               state is DepartmentDeleteMenuButtonSuccessState) {
             _playAnimation();
           } else if (state is DepartmentGetMenuTitleFailureState) {
-            showSnackBar(context: context, message: state.failure);
-          } else if (state is DepartmentUpdateMenuTitleFailureState) {
-            showSnackBar(context: context, message: state.failure);
-          } else if (state is DepartmentCreateMenuButtonFailureState) {
-            showSnackBar(context: context, message: state.failure);
-          } else if (state is DepartmentDeleteMenuButtonFailureState) {
-            showSnackBar(context: context, message: state.failure);
+            showSnackBar(
+              context: context,
+              message: localizeFirestoreError(
+                context: context,
+                code: state.failure,
+              ),
+            );
           }
+          else if (state is DepartmentUpdateMenuTitleFailureState) {
+            showSnackBar(
+              context: context,
+              message: localizeFirestoreError(
+                context: context,
+                code: state.failure,
+              ),
+            );
+          }
+          else if (state is DepartmentCreateMenuButtonFailureState) {
+            showSnackBar(
+              context: context,
+              message: localizeFirestoreError(
+                context: context,
+                code: state.failure,
+              ),
+            );
+          }
+          else if (state is DepartmentDeleteMenuButtonFailureState) {
+            showSnackBar(
+              context: context,
+              message: localizeFirestoreError(
+                context: context,
+                code: state.failure,
+              ),
+            );
+          }
+          else if (state is DepartmentUpdateMenuButtonFailureState) {
+            showSnackBar(
+              context: context,
+              message: localizeFirestoreError(
+                context: context,
+                code: state.failure,
+              ),
+            );
+          }
+          else if (state is DepartmentGetMenuButtonFailureState) {
+            showSnackBar(
+              context: context,
+              message: localizeFirestoreError(
+                context: context,
+                code: state.failure,
+              ),
+            );
+          }
+
         },
         builder: (context, state) {
           var cubit = context.read<DepartmentCubit>();
-          print(cubit.selectedMenuButtonId);
           return ListView(
             controller: scrollController,
             children: [
@@ -217,7 +263,8 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                                     buttonId: cubit.menuButtonList[index].uid!,
                                   );
                                   updateMenuButtonController.text =
-                                  cubit.menuButtonList[cubit
+                                      cubit
+                                          .menuButtonList[cubit
                                               .selectedButtonIndex]
                                           .buttonTitle!;
                                   showInputDialog(
@@ -226,7 +273,8 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                                     onUpdateConfirmed: (String value) {
                                       Navigator.pop(context);
                                       cubit.updateMenuButton(
-                                        buttonId: cubit.menuButtonList[index].uid!,
+                                        buttonId:
+                                            cubit.menuButtonList[index].uid!,
                                         newTitle:
                                             updateMenuButtonController.text,
                                       );
@@ -234,7 +282,8 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                                     onDeletePressed: () {
                                       Navigator.pop(context);
                                       cubit.deleteMenuButton(
-                                        buttonId: cubit.menuButtonList[index].uid!,
+                                        buttonId:
+                                            cubit.menuButtonList[index].uid!,
                                       );
                                     },
                                   );

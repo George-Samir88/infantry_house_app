@@ -16,3 +16,9 @@ final class HomeGetDepartmentsFailureState extends HomeState {
 
   HomeGetDepartmentsFailureState({required this.failure});
 }
+
+final class HomeUserRoleLoadedState extends HomeState {
+  final String userRole;
+
+  HomeUserRoleLoadedState({required this.userRole});
+}

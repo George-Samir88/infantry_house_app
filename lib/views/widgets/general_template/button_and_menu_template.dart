@@ -105,36 +105,38 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                  SizedBox(width: 20.w),
-                  CustomEditButton(
-                    onTap: () {
-                      if (cubit.subScreensList.isNotEmpty &&
-                          cubit.selectedSubScreenID != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) => BlocProvider.value(
-                                  value: cubit,
-                                  child: EditMenuButtonsAndMenuTitleTemplate(
-                                    menuTitleModel: menuTitleModel!,
+                  if (cubit.canManage) ...[
+                    SizedBox(width: 20.w),
+                    CustomEditButton(
+                      onTap: () {
+                        if (cubit.subScreensList.isNotEmpty &&
+                            cubit.selectedSubScreenID != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => BlocProvider.value(
+                                    value: cubit,
+                                    child: EditMenuButtonsAndMenuTitleTemplate(
+                                      menuTitleModel: menuTitleModel!,
+                                    ),
                                   ),
-                                ),
-                          ),
-                        );
-                      } else {
-                        showSnackBar(
-                          context: context,
-                          message: S.of(context).PleaseAddAMainCategoryFirst,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                        );
-                      }
-                    },
-                    icon: Icons.edit,
-                    iconColor: Colors.brown[800],
-                    backgroundColor: Colors.amberAccent.shade100,
-                  ),
+                            ),
+                          );
+                        } else {
+                          showSnackBar(
+                            context: context,
+                            message: S.of(context).PleaseAddAMainCategoryFirst,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                          );
+                        }
+                      },
+                      icon: Icons.edit,
+                      iconColor: Colors.brown[800],
+                      backgroundColor: Colors.amberAccent.shade100,
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -283,7 +285,7 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
                 if (cubit.menuItemsList.isEmpty ||
                     state is DepartmentGetMenuItemEmptyState)
                   CustomEmptyItemsTemplate(),
-                if (cubit.menuButtonList.isNotEmpty)
+                if (cubit.menuButtonList.isNotEmpty && cubit.canManage)
                   Positioned(
                     left: GlobalData().isArabic ? 10.w : null,
                     right: GlobalData().isArabic ? null : 10.w,

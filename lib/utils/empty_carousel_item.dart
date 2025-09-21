@@ -6,9 +6,15 @@ import '../generated/l10n.dart';
 import '../global_variables.dart';
 
 class EmptyCarouselContainer extends StatelessWidget {
-  const EmptyCarouselContainer({super.key, required this.onTab});
+  const EmptyCarouselContainer({
+    super.key,
+    required this.onTab,
+    required this.canManage,
+  });
 
   final void Function() onTab;
+  final bool canManage;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,13 +43,15 @@ class EmptyCarouselContainer extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10.h),
-            CustomEditButton(
-              onTap: onTab,
-              icon: Icons.add,
-              iconColor: Colors.brown[800],
-              backgroundColor: Colors.amberAccent.shade100,
-            )
+            if (canManage) ...[
+              SizedBox(height: 10.h),
+              CustomEditButton(
+                onTap: onTab,
+                icon: Icons.add,
+                iconColor: Colors.brown[800],
+                backgroundColor: Colors.amberAccent.shade100,
+              ),
+            ],
           ],
         ),
       ),

@@ -10,11 +10,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../main.dart';
+import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/map_firebase_error.dart';
 import '../home_view/home_view.dart';
 import '../home_view/manager/home_cubit.dart';
 import '../login_view/login_view.dart';
-import '../../../utils/custom_elevated_button.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -74,6 +74,8 @@ class _SplashViewState extends State<SplashView> {
             if (state is AutoLoginSuccess) {
               userIsLoggedIn = true;
               // بعد ما يتأكد انه Logged in → يجيب الأقسام
+              await context.read<HomeCubit>().loadUserRole();
+              if (!context.mounted) return;
               await context.read<HomeCubit>().getDepartmentsNames();
             } else if (state is AutoLoginUserNotFound) {
               // ❌ مش لاقي session → Login
@@ -271,6 +273,9 @@ class _SplashViewState extends State<SplashView> {
                                               label: S.of(context).Retry,
                                               icon: Icons.refresh,
                                               onPressed: () {
+                                                context
+                                                    .read<HomeCubit>()
+                                                    .loadUserRole();
                                                 context
                                                     .read<HomeCubit>()
                                                     .getDepartmentsNames();

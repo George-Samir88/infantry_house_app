@@ -46,6 +46,8 @@ class _LoginViewState extends State<LoginView> {
         listener: (context, state) async {
           if (state is LoginSuccess) {
             if (!context.mounted) return;
+            await context.read<HomeCubit>().loadUserRole();
+            if (!context.mounted) return;
             await context.read<HomeCubit>().getDepartmentsNames();
             if (!context.mounted) return;
             Navigator.pushReplacement(

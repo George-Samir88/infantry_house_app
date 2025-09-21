@@ -164,7 +164,7 @@ class _ActivityEditCarouselTemplateViewState
                           );
                           _image = null;
                         }
-                      },
+                      }, canManage: true,
                     ),
 
                   SizedBox(height: 30.h),

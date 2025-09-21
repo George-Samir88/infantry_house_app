@@ -17,24 +17,24 @@ class GeneralBodyTemplateView extends StatefulWidget {
   const GeneralBodyTemplateView({super.key});
 
   @override
-  State<GeneralBodyTemplateView> createState() => _GeneralBodyTemplateViewState();
+  State<GeneralBodyTemplateView> createState() =>
+      _GeneralBodyTemplateViewState();
 }
 
 class _GeneralBodyTemplateViewState extends State<GeneralBodyTemplateView> {
-
   @override
   void initState() {
     super.initState();
     final cubit = context.read<DepartmentCubit>();
     cubit.listenToCarousel(); // ده بيشغل أول Listener
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DepartmentCubit, DepartmentState>(
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
         List<Widget> carouselItemsList = [];
-        // cubit.newScreensMap[cubit.selectedScreen]?.carouselWidgets ?? [];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -66,28 +66,29 @@ class _GeneralBodyTemplateViewState extends State<GeneralBodyTemplateView> {
                           ),
                         ),
                       ),
-                      Positioned(
-                        left: GlobalData().isArabic ? 5.w : null,
-                        right: GlobalData().isArabic ? null : 5.w,
-                        bottom: -20.h,
-                        child: CustomEditButton(
-                          iconColor: Colors.brown[800],
-                          backgroundColor: Colors.amberAccent.shade100,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) => BlocProvider.value(
-                                      value: cubit,
-                                      child: EditCarouselViewTemplate(),
-                                    ),
-                              ),
-                            );
-                          },
-                          icon: Icons.edit,
+                      if (cubit.canManage)
+                        Positioned(
+                          left: GlobalData().isArabic ? 5.w : null,
+                          right: GlobalData().isArabic ? null : 5.w,
+                          bottom: -20.h,
+                          child: CustomEditButton(
+                            iconColor: Colors.brown[800],
+                            backgroundColor: Colors.amberAccent.shade100,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => BlocProvider.value(
+                                        value: cubit,
+                                        child: EditCarouselViewTemplate(),
+                                      ),
+                                ),
+                              );
+                            },
+                            icon: Icons.edit,
+                          ),
                         ),
-                      ),
                     ],
                     if (carouselItemsList.isEmpty)
                       Padding(
@@ -116,6 +117,7 @@ class _GeneralBodyTemplateViewState extends State<GeneralBodyTemplateView> {
                               );
                             }
                           },
+                          canManage: cubit.canManage,
                         ),
                       ),
                   ],
