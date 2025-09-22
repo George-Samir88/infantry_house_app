@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../constants/screen_names.dart';
+import '../../../generated/l10n.dart';
+import '../general_template/general_template.dart';
+import '../general_template/manager/department_cubit.dart';
+import '../home_view/manager/home_cubit.dart';
 
 class WashingViewBody extends StatelessWidget {
   const WashingViewBody({super.key, required this.screenId});
@@ -7,6 +14,17 @@ class WashingViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return BlocProvider(
+      create: (context) {
+        final screenName = DepartmentsTitles.washing;
+        final canManage = context.read<HomeCubit>().canManageScreen(
+          screenName: screenName,
+        );
+        return DepartmentCubit(departmentId: screenId, canManage: canManage);
+      },
+      child: GeneralTemplateView(
+        appBarTitle: S.of(context).m8sla,
+      ),
+    );
   }
 }

@@ -25,8 +25,7 @@ class _GeneralBodyTemplateViewState extends State<GeneralBodyTemplateView> {
   @override
   void initState() {
     super.initState();
-    final cubit = context.read<DepartmentCubit>();
-    cubit.listenToCarousel(); // ده بيشغل أول Listener
+
   }
 
   @override

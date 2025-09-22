@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infantry_house_app/models/menu_item_model.dart';
 
@@ -54,7 +55,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   List<CarouselItemModel> carouselItemsList = [];
 
   //MenuTitle
-  String menuTitle = '';
+  MenuTitleModel? selectedMenuTitle;
 
   //Menu Buttons
   List<MenuButtonModel> menuButtonList = [];
@@ -74,6 +75,12 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   StreamSubscription? _menuButtonsSub;
   StreamSubscription? _carouselSub;
   StreamSubscription? _menuItem;
+
+  ///------------Cache Maps--------------
+
+  Map<String, Map<MenuButtonModel, List<MenuItemModel>>> subScreenCache = {};
+  Map<String, List<CarouselItemModel>> carouselCache = {};
+  Map<String, MenuTitleModel?> menuTitleCache = {};
 
   ///-------------Functions-------------
 
@@ -305,13 +312,45 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     selectedSubScreenID = subScreenButtonId;
     selectedSubScreenIndex = index;
     emit(DepartmentChangeSubScreenState());
-    menuButtonList.clear();
-    menuItemsList.clear();
-    // شغل الـ listeners الخاصة بالـ subScreen الجديد
-    await listenToCarousel();
-    await listenToMenuTitle();
-    await listenToMenuButtons();
-    await listenToMenuItems();
+
+    // ✅ Menu Buttons + Items من الكاش
+    if (subScreenCache.containsKey(subScreenButtonId)) {
+      final buttonsMap = subScreenCache[subScreenButtonId]!;
+
+      menuButtonList = buttonsMap.keys.toList();
+
+      if (menuButtonList.isNotEmpty) {
+        final firstButton = menuButtonList.first;
+        selectedMenuButtonId = firstButton.uid;
+        // menuItemsList = buttonsMap[firstButton] ?? [];
+        changeMenuButtonIndex(index: 0, buttonId: selectedMenuButtonId!);
+      } else {
+        selectedMenuButtonId = null;
+        menuItemsList = [];
+      }
+
+      emit(DepartmentGetMenuButtonSuccessState());
+      emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
+    } else {
+      await listenToMenuButtons();
+    }
+    // ✅ Carousel
+    if (carouselCache.containsKey(subScreenButtonId)) {
+      carouselItemsList = carouselCache[subScreenButtonId]!;
+      emit(DepartmentGetCarouselSuccessState());
+    } else {
+      await listenToCarousel();
+    }
+
+    // ✅ Menu Title
+    if (menuTitleCache.containsKey(subScreenButtonId)) {
+      selectedMenuTitle = menuTitleCache[subScreenButtonId]!;
+      emit(
+        DepartmentGetMenuTitleSuccessState(menuTitleModel: selectedMenuTitle!),
+      );
+    } else {
+      await listenToMenuTitle();
+    }
   }
 
   ///--------------Carousel CRUD operations--------------
@@ -322,50 +361,57 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   Future<void> listenToCarousel() async {
     emit(DepartmentGetCarouselLoadingState());
-    _carouselSub?.cancel();
-    final collectionPath = firestore
-        .collection(rootCollectionName)
-        .doc(departmentId)
-        .collection('super_categories')
-        .doc(selectedSubScreenID)
-        .collection('carousel_items');
-    final exists = await collectionExists(collectionRef: collectionPath);
-    if (!exists || subScreensList.isEmpty) {
-      emit(DepartmentGetCarouselEmptyState());
-      return;
-    }
-    _carouselSub = firestore
-        .collection(rootCollectionName)
-        .doc(departmentId)
-        .collection('super_categories')
-        .doc(selectedSubScreenID)
-        .collection('carousel_items')
-        .snapshots()
-        .listen(
-          (snapshot) {
-            try {
-              carouselItemsList =
-                  snapshot.docs
-                      .map((doc) => CarouselItemModel.fromDoc(doc))
-                      .toList();
 
-              emit(DepartmentGetCarouselSuccessState());
-            } on FirebaseException catch (e) {
-              emit(DepartmentGetCarouselFailureState(failure: e.code));
-            } catch (e) {
-              emit(DepartmentGetCarouselFailureState(failure: e.toString()));
+    try {
+      await _carouselSub?.cancel();
+
+      final collectionPath = firestore
+          .collection(rootCollectionName)
+          .doc(departmentId)
+          .collection('super_categories')
+          .doc(selectedSubScreenID)
+          .collection('carousel_items');
+
+      final exists = await collectionExists(collectionRef: collectionPath);
+
+      if (!exists || subScreensList.isEmpty) {
+        carouselCache[selectedSubScreenID!] = [];
+        emit(DepartmentGetCarouselEmptyState());
+        return;
+      }
+
+      _carouselSub = collectionPath.snapshots().listen(
+        (snapshot) {
+          try {
+            carouselItemsList =
+                snapshot.docs
+                    .map((doc) => CarouselItemModel.fromDoc(doc))
+                    .toList();
+
+            if (selectedSubScreenID != null) {
+              carouselCache[selectedSubScreenID!] = carouselItemsList;
             }
-          },
-          onError: (error) {
-            if (error is FirebaseException) {
-              emit(DepartmentGetCarouselFailureState(failure: error.code));
-            } else {
-              emit(
-                DepartmentGetCarouselFailureState(failure: error.toString()),
-              );
-            }
-          },
-        );
+
+            emit(DepartmentGetCarouselSuccessState());
+          } on FirebaseException catch (e) {
+            emit(DepartmentGetCarouselFailureState(failure: e.code));
+          } catch (e) {
+            emit(DepartmentGetCarouselFailureState(failure: e.toString()));
+          }
+        },
+        onError: (error) {
+          if (error is FirebaseException) {
+            emit(DepartmentGetCarouselFailureState(failure: error.code));
+          } else {
+            emit(DepartmentGetCarouselFailureState(failure: error.toString()));
+          }
+        },
+      );
+    } on FirebaseException catch (e) {
+      emit(DepartmentGetCarouselFailureState(failure: e.code));
+    } catch (e) {
+      emit(DepartmentGetCarouselFailureState(failure: e.toString()));
+    }
   }
 
   Future<void> createCarouselItem({required String imageUrl}) async {
@@ -428,57 +474,65 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   Future<void> listenToMenuTitle() async {
     emit(DepartmentGetMenuTitleLoadingState());
-    _menuTitleSub?.cancel();
-    final collectionPath = firestore
-        .collection(rootCollectionName)
-        .doc(departmentId)
-        .collection('super_categories')
-        .doc(selectedSubScreenID)
-        .collection('sub_title_name');
 
-    if (!await collectionExists(collectionRef: collectionPath) ||
-        subScreensList.isEmpty) {
-      emit(DepartmentGetMenuTitleEmptyState());
-      return;
+    try {
+      await _menuTitleSub?.cancel();
+
+      final collectionPath = firestore
+          .collection(rootCollectionName)
+          .doc(departmentId)
+          .collection('super_categories')
+          .doc(selectedSubScreenID)
+          .collection('sub_title_name');
+
+      final exists = await collectionExists(collectionRef: collectionPath);
+
+      if (!exists || subScreensList.isEmpty) {
+        menuTitleCache[selectedSubScreenID!] = null;
+        emit(DepartmentGetMenuTitleEmptyState());
+        return;
+      }
+
+      _menuTitleSub = collectionPath.snapshots().listen(
+        (snapshot) {
+          try {
+            if (snapshot.docs.isEmpty) {
+              menuTitleCache[selectedSubScreenID!] = null;
+              emit(DepartmentGetMenuTitleEmptyState());
+              return;
+            }
+
+            final data = snapshot.docs.first.data();
+            final menuTitleModel = MenuTitleModel.fromMap(data);
+
+            if (selectedSubScreenID != null) {
+              menuTitleCache[selectedSubScreenID!] = menuTitleModel;
+            }
+
+            emit(
+              DepartmentGetMenuTitleSuccessState(
+                menuTitleModel: menuTitleModel,
+              ),
+            );
+          } on FirebaseException catch (e) {
+            emit(DepartmentGetMenuTitleFailureState(failure: e.code));
+          } catch (e) {
+            emit(DepartmentGetMenuTitleFailureState(failure: e.toString()));
+          }
+        },
+        onError: (error) {
+          if (error is FirebaseException) {
+            emit(DepartmentGetMenuTitleFailureState(failure: error.code));
+          } else {
+            emit(DepartmentGetMenuTitleFailureState(failure: error.toString()));
+          }
+        },
+      );
+    } on FirebaseException catch (e) {
+      emit(DepartmentGetMenuTitleFailureState(failure: e.code));
+    } catch (e) {
+      emit(DepartmentGetMenuTitleFailureState(failure: e.toString()));
     }
-
-    _menuTitleSub = firestore
-        .collection(rootCollectionName)
-        .doc(departmentId)
-        .collection('super_categories')
-        .doc(selectedSubScreenID)
-        .collection('sub_title_name')
-        .snapshots()
-        .listen(
-          (snapshot) {
-            try {
-              if (snapshot.docs.isEmpty) {
-                emit(DepartmentGetMenuTitleEmptyState());
-                return;
-              }
-              final data = snapshot.docs.first.data();
-              final menuTitleModel = MenuTitleModel.fromMap(data);
-              emit(
-                DepartmentGetMenuTitleSuccessState(
-                  menuTitleModel: menuTitleModel,
-                ),
-              );
-            } on FirebaseException catch (e) {
-              emit(DepartmentGetMenuTitleFailureState(failure: e.code));
-            } catch (e) {
-              emit(DepartmentGetMenuTitleFailureState(failure: e.toString()));
-            }
-          },
-          onError: (error) {
-            if (error is FirebaseException) {
-              emit(DepartmentGetMenuTitleFailureState(failure: error.code));
-            } else {
-              emit(
-                DepartmentGetMenuTitleFailureState(failure: error.toString()),
-              );
-            }
-          },
-        );
   }
 
   Future<void> updateMenuTitle({required String? menuTitle}) async {
@@ -512,11 +566,31 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   ///--------------MenuButtons CRUD operations--------------
-  void changeMenuButtonIndex({required int index, required String buttonId}) {
+
+  /// تغيير الزرار
+  Future<void> changeMenuButtonIndex({
+    required int index,
+    required String buttonId,
+  }) async {
     selectedMenuButtonId = buttonId;
     selectedButtonIndex = index;
     emit(DepartmentChangeMenuButtonIndexState());
-    listenToMenuItems();
+
+    final buttonsMap = subScreenCache[selectedSubScreenID];
+    if (buttonsMap != null) {
+      final selectedButton = buttonsMap.keys.firstWhereOrNull(
+        (b) => b.uid == buttonId,
+      );
+      if (selectedButton != null) {
+        menuItemsList = buttonsMap[selectedButton] ?? [];
+      } else {
+        menuItemsList = [];
+      }
+      menuItemsList = buttonsMap[selectedButton] ?? [];
+      emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
+    } else {
+      await listenToMenuItems();
+    }
   }
 
   Future<void> createMenuButton({required String buttonTitle}) async {
@@ -549,38 +623,75 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
+  /// جلب الـ Menu Buttons + Items
   Future<void> listenToMenuButtons() async {
     emit(DepartmentGetMenuButtonLoadingState());
     _menuButtonsSub?.cancel();
+
     final collectionPath = firestore
         .collection(rootCollectionName)
         .doc(departmentId)
         .collection('super_categories')
         .doc(selectedSubScreenID)
         .collection('Buttons');
-    if (!await collectionExists(collectionRef: collectionPath) ||
-        subScreensList.isEmpty) {
+
+    if (!await collectionExists(collectionRef: collectionPath)) {
       menuButtonList.clear();
       menuItemsList.clear();
+      subScreenCache[selectedSubScreenID!] = {};
       emit(DepartmentGetMenuButtonEmptyState());
       return;
     }
 
     _menuButtonsSub = collectionPath.snapshots().listen(
-      (snapshot) {
+      (snapshot) async {
         try {
-          menuButtonList =
+          final buttons =
               snapshot.docs
                   .map((doc) => MenuButtonModel.fromMap(doc.data()))
                   .toList();
-          if (menuButtonList.isEmpty) {
+
+          if (buttons.isEmpty) {
+            subScreenCache[selectedSubScreenID!] = {};
             selectedMenuButtonId = null;
-            menuItemsList = [];
+            menuItemsList.clear();
             emit(DepartmentGetMenuButtonEmptyState());
             return;
           }
-          changeMenuButtonIndex(index: 0, buttonId: menuButtonList.first.uid!);
+
+          // لف على الأزرار وهات الـ Items
+          Map<MenuButtonModel, List<MenuItemModel>> tempMap = {};
+          for (var button in buttons) {
+            final itemsSnapshot =
+                await firestore
+                    .collection(rootCollectionName)
+                    .doc(departmentId)
+                    .collection('super_categories')
+                    .doc(selectedSubScreenID)
+                    .collection('Buttons')
+                    .doc(button.uid!)
+                    .collection('menu_items')
+                    .get();
+
+            final menuItems =
+                itemsSnapshot.docs
+                    .map((doc) => MenuItemModel.fromMap(doc.data(), id: doc.id))
+                    .toList();
+
+            tempMap[button] = menuItems;
+          }
+
+          // ✅ خزّن في الكاش
+          subScreenCache[selectedSubScreenID!] = tempMap;
+
+          // ✅ أول زرار افتراضي
+          final firstButton = buttons.first;
+          selectedMenuButtonId = firstButton.uid!;
+          menuButtonList = buttons;
+          menuItemsList = tempMap[firstButton] ?? [];
+
           emit(DepartmentGetMenuButtonSuccessState());
+          emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
         } on FirebaseException catch (e) {
           emit(DepartmentGetMenuButtonFailureState(failure: e.code));
         } catch (e) {
@@ -688,9 +799,33 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
+  /* <<<<<<<<<<<<<<  ✨ Windsurf Command ⭐ >>>>>>>>>>>>>>>> */
+
+  /// Listen to the menu items of the selected menu button.
+  ///
+  /// If the selected menu button ID or the selected sub screen ID is null,
+  /// this function will do nothing.
+  ///
+  /// This function will first cancel any existing snapshot listeners,
+  /// then listen to the menu items of the selected menu button.
+  ///
+  /// If the menu items collection does not exist, it will emit a
+  /// [DepartmentGetMenuItemEmptyState].
+  ///
+  /// If the snapshot listener encounters an error, it will emit a
+  /// [DepartmentGetMenuItemFailureState] with the error code or message.
+  ///
+  /// If the snapshot listener is successful, it will emit a
+  /// [DepartmentGetMenuItemSuccessState] with the list of menu items.
+  ///
+  /// Finally, it will update the cache with the new list of menu items.
+  /* <<<<<<<<<<  2603508d-baeb-47b9-a615-fa1af96ebee6  >>>>>>>>>>> */
   Future<void> listenToMenuItems() async {
+    if (selectedMenuButtonId == null || selectedSubScreenID == null) return;
+
     emit(DepartmentGetMenuItemLoadingState());
     _menuItem?.cancel();
+
     final collectionPath = firestore
         .collection(rootCollectionName)
         .doc(departmentId)
@@ -700,48 +835,46 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         .doc(selectedMenuButtonId)
         .collection('menu_items');
 
-    if (!await collectionExists(collectionRef: collectionPath) ||
-        subScreensList.isEmpty ||
-        menuButtonList.isEmpty) {
+    if (!await collectionExists(collectionRef: collectionPath)) {
       emit(DepartmentGetMenuItemEmptyState());
       return;
     }
 
-    _menuItem = firestore
-        .collection(rootCollectionName)
-        .doc(departmentId)
-        .collection('super_categories')
-        .doc(selectedSubScreenID)
-        .collection('Buttons')
-        .doc(selectedMenuButtonId)
-        .collection('menu_items')
-        .snapshots()
-        .listen(
-          (snapshot) {
-            try {
-              menuItemsList =
-                  snapshot.docs
-                      .map(
-                        (doc) => MenuItemModel.fromMap(doc.data(), id: doc.id),
-                      )
-                      .toList();
-              emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
-            } on FirebaseException catch (e) {
-              emit(DepartmentGetMenuItemFailureState(failure: e.code));
-            } catch (e) {
-              emit(DepartmentGetMenuItemFailureState(failure: e.toString()));
+    _menuItem = collectionPath.snapshots().listen(
+      (snapshot) {
+        try {
+          final items =
+              snapshot.docs
+                  .map((doc) => MenuItemModel.fromMap(doc.data(), id: doc.id))
+                  .toList();
+
+          // ✅ تحديث الكاش
+          final buttonsMap = subScreenCache[selectedSubScreenID];
+          if (buttonsMap != null) {
+            final selectedButton = buttonsMap.keys.firstWhereOrNull(
+              (b) => b.uid == selectedMenuButtonId,
+            );
+            if (selectedButton != null) {
+              buttonsMap[selectedButton] = items;
             }
-          },
-          onError: (error) {
-            if (error is FirebaseException) {
-              emit(DepartmentGetMenuItemFailureState(failure: error.code));
-            } else {
-              emit(
-                DepartmentGetMenuItemFailureState(failure: error.toString()),
-              );
-            }
-          },
-        );
+          }
+
+          menuItemsList = items;
+          emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
+        } on FirebaseException catch (e) {
+          emit(DepartmentGetMenuItemFailureState(failure: e.code));
+        } catch (e) {
+          emit(DepartmentGetMenuItemFailureState(failure: e.toString()));
+        }
+      },
+      onError: (error) {
+        if (error is FirebaseException) {
+          emit(DepartmentGetMenuItemFailureState(failure: error.code));
+        } else {
+          emit(DepartmentGetMenuItemFailureState(failure: error.toString()));
+        }
+      },
+    );
   }
 
   Future<void> updateMenuItem({

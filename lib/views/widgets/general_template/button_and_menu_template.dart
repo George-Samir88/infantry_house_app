@@ -29,10 +29,6 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
   @override
   void initState() {
     super.initState();
-    final cubit = context.read<DepartmentCubit>();
-    cubit.listenToMenuTitle(); // ده بيشغل أول Listener
-    cubit.listenToMenuButtons(); // ده بيشغل أول Listener
-    cubit.listenToMenuItems(); // ده بيشغل أول Listener
   }
 
   @override

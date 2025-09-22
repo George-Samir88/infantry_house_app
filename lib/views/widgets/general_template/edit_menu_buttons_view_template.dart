@@ -75,10 +75,6 @@ class _EditMenuButtonsAndMenuTitleTemplateState
       duration: const Duration(seconds: 2),
     );
     super.initState();
-    final cubit = context.read<DepartmentCubit>();
-    cubit.listenToMenuButtons();
-    cubit.listenToMenuTitle();
-    cubit.listenToMenuItems();
   }
 
   @override
