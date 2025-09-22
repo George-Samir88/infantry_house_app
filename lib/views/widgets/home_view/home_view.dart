@@ -139,15 +139,13 @@ class HomeViewState extends State<HomeView> {
                     ),
                   ),
                 ),
-                body: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      context
-                          .read<HomeCubit>()
-                          .selectedScreen, //food and beverage view
-                    ],
-                  ),
+                body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    context
+                        .read<HomeCubit>()
+                        .selectedScreen, //food and beverage view
+                  ],
                 ),
               );
             },

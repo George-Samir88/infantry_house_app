@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/utils/custom_carousel_item.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/views/widgets/general_template/button_and_menu_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_carousel_view_template.dart';
@@ -33,109 +34,104 @@ class _GeneralBodyTemplateViewState extends State<GeneralBodyTemplateView> {
     return BlocBuilder<DepartmentCubit, DepartmentState>(
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
-        List<Widget> carouselItemsList = [];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
+            SizedBox(height: 20.h),
+            Stack(
+              clipBehavior: Clip.none,
               children: [
-                SizedBox(height: 20.h),
-                Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    if (carouselItemsList.isNotEmpty) ...[
-                      Padding(
-                        padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                        child: CarouselSlider.builder(
-                          itemCount: carouselItemsList.length,
-                          itemBuilder:
-                              (context, index, realIndex) =>
-                                  carouselItemsList[index],
-                          options: CarouselOptions(
-                            onPageChanged: (index, other) {
-                              cubit.changeCarouselIndex(index: index);
-                            },
-                            height: GlobalData().isTabletLayout ? 280.h : 180.h,
-                            clipBehavior: Clip.none,
-                            padEnds: true,
-                            enlargeCenterPage: true,
-                            viewportFraction: 1.2,
-                            enableInfiniteScroll: true,
-                            autoPlay: true,
-                          ),
-                        ),
+                if (cubit.carouselItemsList.isNotEmpty) ...[
+                  Padding(
+                    padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                    child: CarouselSlider.builder(
+                      itemCount: cubit.carouselItemsList.length,
+                      itemBuilder:
+                          (context, index, realIndex) =>
+                          CustomCarouselItem(imagePath: cubit.carouselItemsList[index].imageUrl, isPickedImage: false,),
+                      options: CarouselOptions(
+                        onPageChanged: (index, other) {
+                          cubit.changeCarouselIndex(index: index);
+                        },
+                        height: GlobalData().isTabletLayout ? 280.h : 180.h,
+                        clipBehavior: Clip.none,
+                        padEnds: true,
+                        enlargeCenterPage: true,
+                        viewportFraction: 1.2,
+                        enableInfiniteScroll: true,
+                        autoPlay: true,
                       ),
-                      if (cubit.canManage)
-                        Positioned(
-                          left: GlobalData().isArabic ? 5.w : null,
-                          right: GlobalData().isArabic ? null : 5.w,
-                          bottom: -20.h,
-                          child: CustomEditButton(
-                            iconColor: Colors.brown[800],
-                            backgroundColor: Colors.amberAccent.shade100,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder:
-                                      (context) => BlocProvider.value(
-                                        value: cubit,
-                                        child: EditCarouselViewTemplate(),
-                                      ),
-                                ),
-                              );
-                            },
-                            icon: Icons.edit,
-                          ),
-                        ),
-                    ],
-                    if (carouselItemsList.isEmpty)
-                      Padding(
-                        padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                        child: EmptyCarouselContainer(
-                          onTab: () async {
-                            // if (cubit.newScreensMap.isNotEmpty) {
-                            if (1 > 0) {
-                              // Navigzator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder:
-                              //         (context) => BlocProvider.value(
-                              //           value: cubit,
-                              //           child: EditCarouselViewTemplate(),
-                              //         ),
-                              //   ),
-                              // );
-                            } else {
-                              showSnackBar(
-                                context: context,
-                                message:
-                                    S.of(context).PleaseAddAMainCategoryFirst,
-                                backgroundColor: Colors.red,
-                                textColor: Colors.white,
-                              );
-                            }
-                          },
-                          canManage: cubit.canManage,
-                        ),
-                      ),
-                  ],
-                ),
-                SizedBox(height: 20.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    DotsIndicator(
-                      currentIndex: cubit.currentCarouselIndex,
-                      itemCount: carouselItemsList.length,
                     ),
-                  ],
-                ),
-                SizedBox(height: 20.h),
-                ButtonAndMenuTemplate(),
-                SizedBox(height: 40.h),
+                  ),
+                  if (cubit.canManage)
+                    Positioned(
+                      left: GlobalData().isArabic ? 5.w : null,
+                      right: GlobalData().isArabic ? null : 5.w,
+                      bottom: -20.h,
+                      child: CustomEditButton(
+                        iconColor: Colors.brown[800],
+                        backgroundColor: Colors.amberAccent.shade100,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => BlocProvider.value(
+                                    value: cubit,
+                                    child: EditCarouselViewTemplate(),
+                                  ),
+                            ),
+                          );
+                        },
+                        icon: Icons.edit,
+                      ),
+                    ),
+                ],
+                if (cubit.carouselItemsList.isEmpty)
+                  Padding(
+                    padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                    child: EmptyCarouselContainer(
+                      onTab: () async {
+                        // if (cubit.newScreensMap.isNotEmpty) {
+                        if (1 > 0) {
+                          // Navigzator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder:
+                          //         (context) => BlocProvider.value(
+                          //           value: cubit,
+                          //           child: EditCarouselViewTemplate(),
+                          //         ),
+                          //   ),
+                          // );
+                        } else {
+                          showSnackBar(
+                            context: context,
+                            message:
+                                S.of(context).PleaseAddAMainCategoryFirst,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                          );
+                        }
+                      },
+                      canManage: cubit.canManage,
+                    ),
+                  ),
               ],
             ),
+            SizedBox(height: 20.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DotsIndicator(
+                  currentIndex: cubit.currentCarouselIndex,
+                  itemCount: cubit.carouselItemsList.length,
+                ),
+              ],
+            ),
+            SizedBox(height: 20.h),
+            ButtonAndMenuTemplate(),
+            SizedBox(height: 40.h),
           ],
         );
       },
