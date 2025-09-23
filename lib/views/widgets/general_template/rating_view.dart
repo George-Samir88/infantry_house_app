@@ -315,7 +315,13 @@ class _RatingViewState extends State<RatingView>
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => ItemFeedBackView(),
+                                      builder:
+                                          (context) => BlocProvider.value(
+                                            value: cubit,
+                                            child: ItemFeedBackView(
+                                              itemId: widget.menuItemModel.id,
+                                            ),
+                                          ),
                                     ),
                                   );
                                 },

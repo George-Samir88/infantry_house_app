@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infantry_house_app/models/complaints_model.dart';
 
 part 'rating_state.dart';
 
@@ -55,6 +56,26 @@ class RatingCubit extends Cubit<RatingState> {
       emit(RatingSendRatingFailure(failure: e.code));
     } catch (e) {
       emit(RatingSendRatingFailure(failure: e.toString()));
+    }
+  }
+
+  Future<void> submitComplaint({
+    required String itemId,
+    required ComplaintModel complaint,
+  }) async {
+    emit(RatingComplaintsLoading());
+    try {
+      await firestore
+          .collection("menu_items_complaint")
+          .doc(itemId)
+          .collection("feedback")
+          .add(complaint.toMap());
+
+      emit(RatingComplaintsSuccess());
+    } on FirebaseException catch (e) {
+      emit(RatingComplaintsFailure(failure: e.code));
+    } catch (e) {
+      emit(RatingComplaintsFailure(failure: e.toString()));
     }
   }
 }

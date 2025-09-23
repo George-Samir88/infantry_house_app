@@ -13,3 +13,13 @@ final class RatingSendRatingFailure extends RatingState {
 
   RatingSendRatingFailure({required this.failure});
 }
+
+final class RatingComplaintsLoading extends RatingState {}
+
+final class RatingComplaintsSuccess extends RatingState {}
+
+final class RatingComplaintsFailure extends RatingState {
+  final String failure;
+
+  RatingComplaintsFailure({required this.failure});
+}
