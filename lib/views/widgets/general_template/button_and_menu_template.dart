@@ -16,19 +16,245 @@ import '../../../utils/custom_edit_button.dart';
 import '../../../utils/custom_snackBar.dart';
 import 'custom_menu_items_horizontal_grid_view.dart';
 
-class ButtonAndMenuTemplate extends StatefulWidget {
+class ButtonAndMenuTemplate extends StatelessWidget {
   const ButtonAndMenuTemplate({super.key});
 
-  @override
-  State<ButtonAndMenuTemplate> createState() => _ButtonAndMenuTemplateState();
-}
+  Widget buildMenuTitle(
+    BuildContext context,
+    DepartmentState state,
+    DepartmentCubit cubit,
+    MenuTitleModel? menuTitleModel,
+  ) {
+    final textStyle = TextStyle(
+      fontSize: GlobalData().isTabletLayout ? 16.sp : 20.sp,
+      fontWeight: FontWeight.bold,
+    );
 
-class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
-  MenuTitleModel? menuTitleModel;
+    if (cubit.subScreensList.isEmpty) {
+      // 🔹 No subScreens at all
+      return Text(S.of(context).EdaftGded, style: textStyle);
+    }
 
-  @override
-  void initState() {
-    super.initState();
+    if (state is DepartmentGetMenuTitleLoadingState) {
+      // 🔹 Loading state
+      return const AppLoader();
+    }
+
+    if (state is DepartmentGetMenuTitleFailureState) {
+      // 🔹 Error fetching menu title
+      return Text(
+        S.of(context).ErrorOccurred, // you can define this in ARB
+        style: textStyle.copyWith(color: Colors.red),
+      );
+    }
+
+    if (state is DepartmentGetMenuTitleEmptyState || menuTitleModel == null) {
+      // 🔹 No menu title found
+      return Text(S.of(context).EdaftGded, style: textStyle);
+    }
+
+    // 🔹 Success state (title available)
+    return Text(
+      menuTitleModel.menuTitle ?? S.of(context).EdaftGded,
+      style: TextStyle(
+        fontSize: GlobalData().isTabletLayout ? 16.sp : 20.sp,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  Widget buildMenuButtons(
+    BuildContext context,
+    DepartmentState state,
+    DepartmentCubit cubit,
+  ) {
+    // 🔹 Common style
+    final emptyTextStyle = TextStyle(fontSize: 20.sp);
+
+    if (state is DepartmentGetMenuButtonLoadingState ||
+        state is DepartmentGetMenuTitleLoadingState) {
+      // 🔹 Loading state
+      return const AppLoader();
+    }
+
+    if (state is DepartmentGetMenuButtonFailureState ||
+        state is DepartmentGetMenuTitleFailureState) {
+      // 🔹 Failure state
+      return Center(
+        child: Text(
+          S.of(context).ErrorOccurred, // Add this in ARB for localization
+          style: emptyTextStyle.copyWith(color: Colors.red),
+        ),
+      );
+    }
+
+    if (state is DepartmentGetMenuButtonEmptyState ||
+        cubit.menuButtonList.isEmpty) {
+      // 🔹 Empty state
+      return Center(
+        child: Text(S.of(context).LaYogdAksam, style: emptyTextStyle),
+      );
+    }
+
+    // 🔹 Success state (buttons available)
+    return Container(
+      margin: EdgeInsets.only(
+        left: GlobalData().isArabic ? 0 : 16.w,
+        right: GlobalData().isArabic ? 16.w : 0,
+      ),
+      height: 40.h,
+      child: AnimationLimiter(
+        child: ListView.separated(
+          clipBehavior: Clip.none,
+          scrollDirection: Axis.horizontal,
+          itemCount: cubit.menuButtonList.length,
+          itemBuilder: (context, index) {
+            bool isSelected = index == cubit.selectedButtonIndex;
+            return AnimationConfiguration.staggeredList(
+              position: index,
+              duration: const Duration(seconds: 1),
+              child: FadeInAnimation(
+                child: GestureDetector(
+                  onTap: () {
+                    cubit.changeMenuButtonIndex(
+                      index: index,
+                      buttonId: cubit.menuButtonList[index].uid!,
+                    );
+                  },
+                  child: Container(
+                    margin:
+                        index == cubit.menuButtonList.length - 1
+                            ? EdgeInsets.only(
+                              right: GlobalData().isArabic ? 0 : 16.w,
+                              left: GlobalData().isArabic ? 16.w : 0,
+                            )
+                            : null,
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.shade400,
+                          spreadRadius: 1,
+                          blurRadius: 10,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                      color: isSelected ? const Color(0xff6F4E37) : Colors.grey,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Center(
+                      child: Text(
+                        cubit.menuButtonList[index].buttonTitle!,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: isSelected ? 14.sp : 12.sp,
+                          fontWeight:
+                              isSelected ? FontWeight.w600 : FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+          separatorBuilder: (_, __) => SizedBox(width: 8.w),
+        ),
+      ),
+    );
+  }
+
+  Widget buildMenuItems(
+    BuildContext context,
+    DepartmentState state,
+    DepartmentCubit cubit,
+  ) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        if (state is DepartmentGetMenuItemLoadingState ||
+            state is DepartmentGetMenuButtonLoadingState)
+          // 🔹 Loading
+          Container(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.only(top: 20.h, left: 12.w, right: 12.w),
+            padding: EdgeInsets.all(20.w),
+            alignment: Alignment.center,
+            child: const AppLoader(),
+          )
+        else if (state is DepartmentGetMenuItemFailureState)
+          // 🔹 Failure
+          Container(
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.only(top: 20.h, left: 12.w, right: 12.w),
+            padding: EdgeInsets.all(20.w),
+            alignment: Alignment.center,
+            child: Text(
+              S.of(context).ErrorOccurred, // Add to ARB for localization
+              style: TextStyle(fontSize: 16.sp, color: Colors.red),
+            ),
+          )
+        else if (cubit.menuItemsList.isEmpty ||
+            state is DepartmentGetMenuItemEmptyState)
+          // 🔹 Empty
+          const CustomEmptyItemsTemplate()
+        else
+          // 🔹 Success (items available)
+          Container(
+            width: MediaQuery.of(context).size.width,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade400,
+                  spreadRadius: 5,
+                  blurRadius: 10,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: EdgeInsets.only(top: 20.h, left: 12.w, right: 12.w),
+            padding: EdgeInsets.only(
+              left: 20.w,
+              right: 24.w,
+              top: 30.h,
+              bottom: 20.h,
+            ),
+            constraints: BoxConstraints(
+              minHeight: 100.h,
+              maxHeight: GlobalData().isTabletLayout ? 400.h : 320.h,
+            ),
+            child: const CustomMenuItemsHorizontalGridView(),
+          ),
+
+        // 🔹 Edit button (only if buttons exist and user can manage)
+        if (cubit.menuButtonList.isNotEmpty && cubit.canManage)
+          Positioned(
+            left: GlobalData().isArabic ? 10.w : null,
+            right: GlobalData().isArabic ? null : 10.w,
+            bottom: -20.h,
+            child: CustomEditButton(
+              icon: Icons.edit,
+              iconColor: Colors.brown[800],
+              backgroundColor: Colors.amberAccent.shade100,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => BlocProvider.value(
+                          value: cubit,
+                          child: const EditItemsTemplateView(),
+                        ),
+                  ),
+                );
+              },
+            ),
+          ),
+      ],
+    );
   }
 
   @override
@@ -37,19 +263,18 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
       buildWhen: (previous, current) {
         return current is DepartmentGetMenuTitleSuccessState ||
             current is DepartmentGetMenuButtonSuccessState ||
-            current is DepartmentGetMenuItemSuccessState ||
             current is DepartmentGetMenuTitleLoadingState ||
             current is DepartmentGetMenuButtonLoadingState ||
-            current is DepartmentGetMenuItemLoadingState ||
             current is DepartmentGetMenuTitleFailureState ||
             current is DepartmentGetMenuButtonFailureState ||
+            current is DepartmentGetMenuTitleEmptyState ||
+            current is DepartmentGetMenuButtonEmptyState ||
+            current is DepartmentGetMenuItemLoadingState ||
             current is DepartmentGetMenuItemFailureState ||
             current is DepartmentGetMenuItemEmptyState;
       },
       listener: (context, state) {
-        if (state is DepartmentGetMenuTitleSuccessState) {
-          menuTitleModel = state.menuTitleModel;
-        } else if (state is DepartmentGetMenuTitleFailureState) {
+        if (state is DepartmentGetMenuTitleFailureState) {
           showSnackBar(
             context: context,
             message: localizeFirestoreError(
@@ -83,24 +308,12 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
               padding: EdgeInsets.only(left: 16.0.w, right: 16.w),
               child: Row(
                 children: [
-                  cubit.subScreensList.isEmpty ||
-                          state is DepartmentGetMenuTitleEmptyState
-                      ? Text(
-                        S.of(context).EdaftGded,
-                        style: TextStyle(
-                          fontSize: GlobalData().isTabletLayout ? 16.sp : 20.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                      : state is DepartmentGetMenuTitleLoadingState
-                      ? AppLoader()
-                      : Text(
-                        menuTitleModel?.menuTitle ?? S.of(context).EdaftGded,
-                        style: TextStyle(
-                          fontSize: GlobalData().isTabletLayout ? 16.sp : 20.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                  buildMenuTitle(
+                    context,
+                    state,
+                    cubit,
+                    cubit.menuTitleCache[cubit.selectedSubScreenID],
+                  ),
                   if (cubit.canManage) ...[
                     SizedBox(width: 20.w),
                     CustomEditButton(
@@ -114,7 +327,9 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
                                   (context) => BlocProvider.value(
                                     value: cubit,
                                     child: EditMenuButtonsAndMenuTitleTemplate(
-                                      menuTitleModel: menuTitleModel!,
+                                      menuTitleModel:
+                                          cubit.menuTitleCache[cubit
+                                              .selectedSubScreenID]!,
                                     ),
                                   ),
                             ),
@@ -137,177 +352,9 @@ class _ButtonAndMenuTemplateState extends State<ButtonAndMenuTemplate> {
               ),
             ),
             SizedBox(height: 20.h),
-            (state is DepartmentGetMenuButtonLoadingState ||
-                    state is DepartmentGetMenuTitleLoadingState)
-                ? AppLoader()
-                : (cubit.menuButtonList.isNotEmpty &&
-                    state is! DepartmentGetMenuButtonEmptyState)
-                ? Container(
-                  margin: EdgeInsets.only(
-                    left: GlobalData().isArabic ? 0 : 16.w,
-                    right: GlobalData().isArabic ? 16.w : 0,
-                  ),
-                  height: 40.h,
-                  // Adjust height as needed
-                  child: AnimationLimiter(
-                    child: ListView.separated(
-                      clipBehavior: Clip.none,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: cubit.menuButtonList.length,
-                      // Number of buttons
-                      itemBuilder: (context, index) {
-                        bool isSelected = index == cubit.selectedButtonIndex;
-                        return AnimationConfiguration.staggeredList(
-                          position: index,
-                          duration: Duration(seconds: 1),
-                          child: FadeInAnimation(
-                            child: GestureDetector(
-                              onTap: () {
-                                cubit.changeMenuButtonIndex(
-                                  index: index,
-                                  buttonId: cubit.menuButtonList[index].uid!,
-                                );
-                              },
-                              child: Container(
-                                margin:
-                                    index == cubit.menuButtonList.length - 1
-                                        ? EdgeInsets.only(
-                                          right:
-                                              GlobalData().isArabic ? 0 : 16.w,
-                                          left:
-                                              GlobalData().isArabic ? 16.w : 0,
-                                        )
-                                        : null,
-                                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.shade400,
-                                      // Shadow color with opacity
-                                      spreadRadius: 1,
-                                      // Spread area of the shadow
-                                      blurRadius: 10,
-                                      // Blur effect
-                                      offset: Offset(
-                                        0,
-                                        3,
-                                      ), // Changes position of shadow (X, Y)
-                                    ),
-                                  ],
-                                  color:
-                                      isSelected
-                                          ? Color(0xff6F4E37)
-                                          : Colors.grey,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    cubit.menuButtonList[index].buttonTitle!,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: isSelected ? 14.sp : 12.sp,
-                                      fontWeight:
-                                          isSelected
-                                              ? FontWeight.w600
-                                              : FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(width: 8.w);
-                      },
-                    ),
-                  ),
-                )
-                : Center(
-                  child: Text(
-                    S.of(context).LaYogdAksam,
-                    style: TextStyle(fontSize: 20.sp),
-                  ),
-                ),
+            buildMenuButtons(context, state, cubit),
             SizedBox(height: 10.h),
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                if (cubit.menuItemsList.isNotEmpty)
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    decoration: BoxDecoration(
-                      color: Colors.white, // Background color
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.shade400,
-                          // Shadow color with opacity
-                          spreadRadius: 5,
-                          // Spread area of the shadow
-                          blurRadius: 10,
-                          // Blur effect
-                          offset: Offset(
-                            0,
-                            3,
-                          ), // Changes position of shadow (X, Y)
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(
-                        10,
-                      ), // Optional: Rounds corners
-                    ),
-                    margin: EdgeInsets.only(top: 20.h, left: 12.w, right: 12.w),
-                    padding: EdgeInsets.only(
-                      left: 20.w,
-                      right: 24.w,
-                      top: 30.h,
-                      bottom: 20.h,
-                    ),
-                    constraints: BoxConstraints(
-                      minHeight: 100.h, // Set a reasonable minimum height
-                      maxHeight:
-                          GlobalData().isTabletLayout
-                              ? 400.h
-                              : 320
-                                  .h, // Set a reasonable max height if necessary
-                    ),
-                    child:
-                        state is DepartmentGetMenuItemLoadingState
-                            ? AppLoader()
-                            : CustomMenuItemsHorizontalGridView(),
-                  ),
-                if (cubit.menuItemsList.isEmpty ||
-                    state is DepartmentGetMenuItemEmptyState)
-                  CustomEmptyItemsTemplate(),
-                if (cubit.menuButtonList.isNotEmpty && cubit.canManage)
-                  Positioned(
-                    left: GlobalData().isArabic ? 10.w : null,
-                    right: GlobalData().isArabic ? null : 10.w,
-                    bottom: -20.h,
-                    child: CustomEditButton(
-                      icon: Icons.edit,
-                      iconColor: Colors.brown[800],
-                      backgroundColor: Colors.amberAccent.shade100,
-                      onTap: () {
-                        {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) => BlocProvider.value(
-                                    value: cubit,
-                                    child: EditItemsTemplateView(),
-                                  ),
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-              ],
-            ),
+            buildMenuItems(context, state, cubit),
           ],
         );
       },
