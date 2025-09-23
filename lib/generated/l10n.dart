@@ -1380,10 +1380,10 @@ class S {
     );
   }
 
-  /// `يجب إضافة قسم رئيسي أولاً.`
+  /// `يجب إختيار قسم رئيسي أولاً.`
   String get PleaseAddAMainCategoryFirst {
     return Intl.message(
-      'يجب إضافة قسم رئيسي أولاً.',
+      'يجب إختيار قسم رئيسي أولاً.',
       name: 'PleaseAddAMainCategoryFirst',
       desc: '',
       args: [],

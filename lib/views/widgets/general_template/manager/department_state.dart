@@ -56,6 +56,8 @@ class DepartmentUpdateSubScreensNamesFailureState extends DepartmentState {
 
 class DepartmentDeleteSubScreensNamesSuccessState extends DepartmentState {}
 
+class DepartmentAllSubScreensClearedState extends DepartmentState {}
+
 class DepartmentDeleteSubScreensNamesLoadingState extends DepartmentState {}
 
 class DepartmentDeleteSubScreensNamesFailureState extends DepartmentState {

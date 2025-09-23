@@ -312,14 +312,15 @@ class ButtonAndMenuTemplate extends StatelessWidget {
                     context,
                     state,
                     cubit,
-                    cubit.menuTitleCache[cubit.selectedSubScreenID],
+                    cubit.selectedMenuTitle,
                   ),
                   if (cubit.canManage) ...[
                     SizedBox(width: 20.w),
                     CustomEditButton(
                       onTap: () {
                         if (cubit.subScreensList.isNotEmpty &&
-                            cubit.selectedSubScreenID != null) {
+                            cubit.selectedSubScreenID != null &&
+                            cubit.selectedMenuTitle != null) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -327,9 +328,7 @@ class ButtonAndMenuTemplate extends StatelessWidget {
                                   (context) => BlocProvider.value(
                                     value: cubit,
                                     child: EditMenuButtonsAndMenuTitleTemplate(
-                                      menuTitleModel:
-                                          cubit.menuTitleCache[cubit
-                                              .selectedSubScreenID]!,
+                                      menuTitleModel: cubit.selectedMenuTitle!,
                                     ),
                                   ),
                             ),

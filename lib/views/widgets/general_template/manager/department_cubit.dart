@@ -47,7 +47,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   String selectedSubScreen = '';
   Map<String, String> subScreenMap = {};
   String? selectedSubScreenID;
-  int selectedSubScreenIndex = 0;
+  int? selectedSubScreenIndex = 0;
   List<SubScreenModel> subScreensList = [];
 
   //Carousel tracking
@@ -143,7 +143,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   Future<void> listenToSubScreens() async {
     emit(DepartmentGetSubScreensNamesLoadingState());
     _subScreensSub?.cancel();
-    subScreensList.clear();
     final collectionPath = firestore
         .collection(rootCollectionName)
         .doc(departmentId)
@@ -168,7 +167,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
                       .map((doc) => SubScreenModel.fromDoc(doc))
                       .toList();
               // اختار أول SubScreen لو مفيش selected
-              if (subScreensList.isNotEmpty && selectedSubScreenID == null) {
+              if (subScreensList.isNotEmpty) {
                 changeSelectedSubScreen(
                   subScreenButtonId: subScreensList.first.uid,
                   index: 0,
@@ -273,26 +272,58 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .doc(departmentId)
           .collection('super_categories')
           .doc(subScreenUID);
+
+      // 🔹 Delete menu title (sub_title_name collection)
       await deleteCollection(subScreenDocRef.collection('sub_title_name'));
+
+      // 🔹 Delete buttons and their menu items
       final buttonsSnapshot = await subScreenDocRef.collection('Buttons').get();
       for (var buttonDoc in buttonsSnapshot.docs) {
-        // امسح menu_items اللي تحت كل Button
         await deleteCollection(buttonDoc.reference.collection('menu_items'));
-        // بعد ما تخلص امسح الـ Button نفسه
         await buttonDoc.reference.delete();
       }
 
-      // امسح الـdoc نفسه
+      // 🔹 Delete carousel if exists
+      await deleteCollection(subScreenDocRef.collection('carousel_items'));
+
+      // 🔹 Finally delete the subScreen itself
       await subScreenDocRef.delete();
-      if (subScreensList.isNotEmpty) {
-        changeSelectedSubScreen(
-          subScreenButtonId: subScreensList.first.uid,
+
+      // 🔹 Remove from local cache list
+      subScreensList.removeWhere((s) => s.uid == subScreenUID);
+
+      if (subScreensList.isEmpty) {
+        // =============================
+        // CASE 1: Last subScreen deleted
+        // =============================
+        selectedSubScreenID = null;
+        selectedSubScreenIndex = null;
+
+        // Clear all cached lists
+        carouselItemsList.clear();
+        selectedMenuTitle = null;
+        menuButtonList.clear();
+        menuItemsList.clear();
+
+        emit(DepartmentAllSubScreensClearedState());
+      } else {
+        // =============================
+        // CASE 2: Deleted but not last
+        // =============================
+        // Reset caches related to the deleted one
+        carouselItemsList.clear();
+        selectedMenuTitle = null;
+        menuButtonList.clear();
+        menuItemsList.clear();
+
+        // Switch to first available subScreen
+        final firstSubScreen = subScreensList.first;
+        await changeSelectedSubScreen(
+          subScreenButtonId: firstSubScreen.uid,
           index: 0,
         );
-      } else {
-        selectedSubScreenID = null;
-        subScreensList.clear();
       }
+
       emit(DepartmentDeleteSubScreensNamesSuccessState());
     } on FirebaseException catch (e) {
       emit(DepartmentDeleteSubScreensNamesFailureState(failure: e.code));
@@ -526,6 +557,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         final menuTitleModel = MenuTitleModel.fromMap(data);
 
         if (selectedSubScreenID != null) {
+          selectedMenuTitle = menuTitleModel;
           menuTitleCache[selectedSubScreenID!] = menuTitleModel;
         }
         emit(

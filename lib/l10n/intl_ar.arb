@@ -132,7 +132,7 @@
   "UpdateDailyGame": "تعديل اللعبة",
   "Delete": "حذف",
   "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName": "القسم موجود بالفعل! لا يمكنك إضافة قسم جديد بنفس الاسم.",
-  "PleaseAddAMainCategoryFirst": "يجب إضافة قسم رئيسي أولاً.",
+  "PleaseAddAMainCategoryFirst": "يجب إختيار قسم رئيسي أولاً.",
   "UpdateTitle": "تعديل اسم التصنيف",
   "TypeTitle": "أدخل اسم التصنيف",
   "Cancel": "إلغاء",

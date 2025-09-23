@@ -151,7 +151,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "❌ ليس لديك صلاحية لتنفيذ هذا الإجراء."),
         "PhoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
         "PleaseAddAMainCategoryFirst":
-            MessageLookupByLibrary.simpleMessage("يجب إضافة قسم رئيسي أولاً."),
+            MessageLookupByLibrary.simpleMessage("يجب إختيار قسم رئيسي أولاً."),
         "PleaseAddDailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("الرجاء إضافة صورة اللعبة"),
         "PleaseEnterAValidEmail": MessageLookupByLibrary.simpleMessage(

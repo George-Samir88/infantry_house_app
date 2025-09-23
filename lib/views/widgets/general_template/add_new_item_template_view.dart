@@ -59,7 +59,6 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
     });
   }
 
-
   @override
   void initState() {
     _animationController = AnimationController(
@@ -116,9 +115,6 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
         listener: (context, state) {
           if (state is DepartmentCreateMenuItemSuccessState) {
             _playAnimation();
-            var cubit = context.read<DepartmentCubit>();
-
-            print("${cubit.subScreenCache[cubit.selectedSubScreenID]}");
           } else if (state is DepartmentCreateMenuItemFailureState) {
             showSnackBar(
               context: context,
