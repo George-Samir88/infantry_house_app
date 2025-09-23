@@ -76,8 +76,11 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder:
-                              (context) => RatingView(
+                              (context) =>
+                              RatingView(
                                 menuItemModel: cubit.menuItemsList[gridIndex],
+                                departmentId: cubit.departmentId,
+                                subScreenId: cubit.selectedSubScreenID!,
                               ),
                         ),
                       );
@@ -123,9 +126,9 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                                 children: List.generate(5, (starIndex) {
                                   return Icon(
                                     starIndex <
-                                            cubit
-                                                .menuItemsList[gridIndex]
-                                                .averageRating
+                                        cubit
+                                            .menuItemsList[gridIndex]
+                                            .averageRating
                                         ? Icons.star
                                         : Icons.star_border,
                                     color: Colors.yellow,
@@ -180,7 +183,12 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                               showSnackBar(
                                 context: context,
                                 message:
-                                    "${S.of(context).AddedSuccessfully} ${cubit.menuItemsList[gridIndex].title} ${S.of(context).ToCard}",
+                                "${S
+                                    .of(context)
+                                    .AddedSuccessfully} ${cubit
+                                    .menuItemsList[gridIndex].title} ${S
+                                    .of(context)
+                                    .ToCard}",
                               );
                             },
                             child: CircleAvatar(
