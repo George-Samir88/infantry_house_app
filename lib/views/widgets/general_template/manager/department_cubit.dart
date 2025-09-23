@@ -363,7 +363,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     emit(DepartmentGetCarouselLoadingState());
 
     try {
-      await _carouselSub?.cancel(); // not really needed anymore, but safe to keep
+      await _carouselSub
+          ?.cancel(); // not really needed anymore, but safe to keep
 
       final collectionPath = firestore
           .collection(rootCollectionName)
@@ -384,9 +385,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       final snapshot = await collectionPath.get();
 
       try {
-        carouselItemsList = snapshot.docs
-            .map((doc) => CarouselItemModel.fromDoc(doc))
-            .toList();
+        carouselItemsList =
+            snapshot.docs.map((doc) => CarouselItemModel.fromDoc(doc)).toList();
 
         if (selectedSubScreenID != null) {
           carouselCache[selectedSubScreenID!] = carouselItemsList;
@@ -410,6 +410,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   Future<void> createCarouselItem({required String imageUrl}) async {
+    if (selectedSubScreenID == null) return;
+
     try {
       emit(DepartmentCreateCarouselLoadingState());
 
@@ -432,7 +434,17 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       // Save to Firestore
       await docRef.set(newItem.toMap());
 
+      // ✅ Update local list
+      carouselItemsList.add(newItem);
+
+      // ✅ Update cache
+      if (!carouselCache.containsKey(selectedSubScreenID)) {
+        carouselCache[selectedSubScreenID!] = [];
+      }
+      carouselCache[selectedSubScreenID!]!.add(newItem);
+
       emit(DepartmentCreateCarouselSuccessState());
+      emit(DepartmentGetCarouselSuccessState()); // عشان الـ UI يتبنى على طول
     } on FirebaseException catch (e) {
       emit(DepartmentCreateCarouselFailureState(failure: e.code));
     } on Exception catch (e) {
@@ -448,6 +460,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     try {
       emit(DepartmentRemoveCarouselLoadingState());
 
+      // 🔥 Step 1: delete from Firestore
       await firestore
           .collection(rootCollectionName)
           .doc(departmentId)
@@ -457,7 +470,18 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .doc(carouselItemId)
           .delete();
 
+      // 🔥 Step 2: update local list
+      carouselItemsList.removeWhere((item) => item.uid == carouselItemId);
+
+      // 🔥 Step 3: update cache
+      if (carouselCache.containsKey(subScreenId)) {
+        carouselCache[subScreenId]!.removeWhere(
+          (item) => item.uid == carouselItemId,
+        );
+      }
+
       emit(DepartmentRemoveCarouselSuccessState());
+      emit(DepartmentGetCarouselSuccessState()); // عشان الـ UI يrefresh على طول
     } on FirebaseException catch (e) {
       emit(DepartmentRemoveCarouselFailureState(failure: e.code));
     } catch (e) {
@@ -504,11 +528,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         if (selectedSubScreenID != null) {
           menuTitleCache[selectedSubScreenID!] = menuTitleModel;
         }
-print(menuTitleModel.uid);
         emit(
-          DepartmentGetMenuTitleSuccessState(
-            menuTitleModel: menuTitleModel,
-          ),
+          DepartmentGetMenuTitleSuccessState(menuTitleModel: menuTitleModel),
         );
       } on FirebaseException catch (e) {
         emit(DepartmentGetMenuTitleFailureState(failure: e.code));
@@ -523,27 +544,45 @@ print(menuTitleModel.uid);
   }
 
   Future<void> updateMenuTitle({required String? menuTitle}) async {
+    if (menuTitle == null || menuTitle.trim().isEmpty) {
+      emit(
+        DepartmentUpdateMenuTitleFailureState(
+          failure: "Menu title cannot be empty",
+        ),
+      );
+      return;
+    }
+
     try {
       emit(DepartmentUpdateMenuTitleLoadingState());
 
-      // ننشئ reference لوثيقة جديدة داخل sub_title_name
-      final querySnapshot =
-          await firestore
-              .collection(rootCollectionName)
-              .doc(departmentId)
-              .collection('super_categories')
-              .doc(selectedSubScreenID)
-              .collection('sub_title_name')
-              .get(); // 👈 هنسيب Firestore يختار ID
+      final subTitleCollection = firestore
+          .collection(rootCollectionName)
+          .doc(departmentId)
+          .collection('super_categories')
+          .doc(selectedSubScreenID)
+          .collection('sub_title_name');
+
+      final querySnapshot = await subTitleCollection.get();
 
       if (querySnapshot.docs.isNotEmpty) {
+        // 🔥 لو فيه doc قديم -> نعمل update
         final docRef = querySnapshot.docs.first.reference;
-
         await docRef.update({
           'menu_title': menuTitle,
           'updated_at': DateTime.now(),
         });
+      } else {
+        // 🔥 لو مفيش -> نعمل create
+        await subTitleCollection.add({
+          'menu_title': menuTitle,
+          'created_at': DateTime.now(),
+        });
       }
+
+      // 🔥 تحديث الكاش والـ state المحلي
+      menuTitleCache[selectedSubScreenID!]?.menuTitle = menuTitle;
+
       emit(DepartmentUpdateMenuTitleSuccessState());
     } on FirebaseException catch (e) {
       emit(DepartmentUpdateMenuTitleFailureState(failure: e.code));
@@ -591,7 +630,7 @@ print(menuTitleModel.uid);
               .collection('super_categories')
               .doc(selectedSubScreenID)
               .collection('Buttons')
-              .doc(); // 👈 هنخلي Firestore يولد ID
+              .doc(); // Firestore يولد ID
 
       final newButton = MenuButtonModel(
         uid: docRef.id,
@@ -601,6 +640,12 @@ print(menuTitleModel.uid);
       );
 
       await docRef.set(newButton.toMap());
+
+      // ✅ تحديث الكاش
+      final subScreenId = selectedSubScreenID!;
+      subScreenCache.putIfAbsent(subScreenId, () => {});
+
+      subScreenCache[subScreenId]![newButton] = [];
 
       emit(DepartmentCreateMenuButtonSuccessState(menuButton: newButton));
     } on FirebaseException catch (e) {
@@ -636,9 +681,10 @@ print(menuTitleModel.uid);
       final snapshot = await collectionPath.get();
 
       try {
-        final buttons = snapshot.docs
-            .map((doc) => MenuButtonModel.fromMap(doc.data()))
-            .toList();
+        final buttons =
+            snapshot.docs
+                .map((doc) => MenuButtonModel.fromMap(doc.data()))
+                .toList();
 
         if (buttons.isEmpty) {
           subScreenCache[selectedSubScreenID!] = {};
@@ -651,19 +697,21 @@ print(menuTitleModel.uid);
         // لف على الأزرار وهات الـ Items
         Map<MenuButtonModel, List<MenuItemModel>> tempMap = {};
         for (var button in buttons) {
-          final itemsSnapshot = await firestore
-              .collection(rootCollectionName)
-              .doc(departmentId)
-              .collection('super_categories')
-              .doc(selectedSubScreenID)
-              .collection('Buttons')
-              .doc(button.uid!)
-              .collection('menu_items')
-              .get();
+          final itemsSnapshot =
+              await firestore
+                  .collection(rootCollectionName)
+                  .doc(departmentId)
+                  .collection('super_categories')
+                  .doc(selectedSubScreenID)
+                  .collection('Buttons')
+                  .doc(button.uid!)
+                  .collection('menu_items')
+                  .get();
 
-          final menuItems = itemsSnapshot.docs
-              .map((doc) => MenuItemModel.fromMap(doc.data(), id: doc.id))
-              .toList();
+          final menuItems =
+              itemsSnapshot.docs
+                  .map((doc) => MenuItemModel.fromMap(doc.data(), id: doc.id))
+                  .toList();
 
           tempMap[button] = menuItems;
         }
@@ -706,10 +754,38 @@ print(menuTitleModel.uid);
           .collection('Buttons')
           .doc(buttonId);
 
+      // ✅ تحديث في Firestore
       await docRef.update({
         'button_title': newTitle.trim(),
         'updated_at': DateTime.now().toIso8601String(),
       });
+
+      // ✅ تحديث الكاش
+      final buttonsMap = subScreenCache[selectedSubScreenID];
+      if (buttonsMap != null) {
+        final oldEntry = buttonsMap.keys.firstWhereOrNull(
+          (b) => b.uid == buttonId,
+        );
+
+        if (oldEntry != null) {
+          final items = buttonsMap[oldEntry] ?? [];
+
+          // زرار جديد بنفس الـ uid مع التايتل الجديد
+          final updatedButton = MenuButtonModel(
+            uid: oldEntry.uid,
+            buttonTitle: newTitle.trim(),
+            createdAt: oldEntry.createdAt,
+            updatedAt: DateTime.now().toIso8601String(),
+          );
+
+          // شيل القديم وحط الجديد
+          buttonsMap.remove(oldEntry);
+          buttonsMap[updatedButton] = items;
+
+          // لو عندك لستة buttons بتعرضها في الـ UI حدّثها برضه
+          menuButtonList = buttonsMap.keys.toList();
+        }
+      }
 
       emit(DepartmentUpdateMenuButtonSuccessState());
     } on FirebaseException catch (e) {
@@ -730,8 +806,32 @@ print(menuTitleModel.uid);
           .doc(selectedSubScreenID)
           .collection('Buttons')
           .doc(buttonId);
+
+      // ✅ احذف الـ items المرتبطة بالزرار
       await deleteCollection(docRef.collection('menu_items'));
+
+      // ✅ احذف الزرار نفسه
       await docRef.delete();
+
+      // ✅ تحديث الكاش
+      final buttonsMap = subScreenCache[selectedSubScreenID];
+      if (buttonsMap != null) {
+        final toRemove = buttonsMap.keys.firstWhere((b) => b.uid == buttonId);
+
+        buttonsMap.remove(toRemove);
+        menuButtonList = buttonsMap.keys.toList();
+
+        // لو الزرار المحذوف هو الزرار الحالي
+        if (selectedMenuButtonId == buttonId) {
+          if (menuButtonList.isNotEmpty) {
+            selectedMenuButtonId = menuButtonList.first.uid;
+            menuItemsList = buttonsMap[menuButtonList.first] ?? [];
+          } else {
+            selectedMenuButtonId = null;
+            menuItemsList.clear();
+          }
+        }
+      }
 
       emit(DepartmentDeleteMenuButtonSuccessState());
     } on FirebaseException catch (e) {
@@ -749,10 +849,11 @@ print(menuTitleModel.uid);
   }) async {
     try {
       emit(DepartmentCreateMenuItemLoadingState());
-      // Reference للـ collection بتاع الـ menu items
-      final MenuItemModel menuItemModel = MenuItemModel(
+
+      // ✅ حضر الـ model
+      final menuItemModel = MenuItemModel(
         id: "",
-        title: title,
+        title: title.trim(),
         image: imagePath,
         price: price,
         averageRating: 0.0,
@@ -762,19 +863,37 @@ print(menuTitleModel.uid);
         updatedAt: null,
       );
 
-      final collectionRef = await firestore
-          .collection(rootCollectionName)
-          .doc(departmentId)
-          .collection('super_categories')
-          .doc(selectedSubScreenID)
-          .collection('Buttons')
-          .doc(selectedMenuButtonId)
-          .collection('menu_items')
-          .add(menuItemModel.toMap());
-      await collectionRef.update({"id": collectionRef.id});
-      // اعمل document جديد (Firestore هيولد uid)
+      // ✅ Reference للـ Firestore
+      final docRef =
+          firestore
+              .collection(rootCollectionName)
+              .doc(departmentId)
+              .collection('super_categories')
+              .doc(selectedSubScreenID)
+              .collection('Buttons')
+              .doc(selectedMenuButtonId)
+              .collection('menu_items')
+              .doc(); // Firestore يولد ID
 
-      emit(DepartmentCreateMenuItemSuccessState(menuItem: menuItemModel));
+      // ✅ خزّن في Firestore
+      final newItem = menuItemModel.copyWith(id: docRef.id);
+      await docRef.set(newItem.toMap());
+
+      // ✅ حدّث الكاش
+      final buttonsMap = subScreenCache[selectedSubScreenID];
+      if (buttonsMap != null) {
+        final selectedButton = buttonsMap.keys.firstWhere(
+          (b) => b.uid == selectedMenuButtonId,
+        );
+        final currentItems = buttonsMap[selectedButton] ?? [];
+        currentItems.add(newItem);
+        buttonsMap[selectedButton] = currentItems;
+      }
+
+      // ✅ حدّث الـ list اللي UI بيستخدمها
+      // menuItemsList.add(newItem);
+
+      emit(DepartmentCreateMenuItemSuccessState(menuItem: newItem));
     } on FirebaseException catch (e) {
       emit(DepartmentCreateMenuItemFailureState(failure: e.code));
     } catch (e) {
@@ -808,15 +927,16 @@ print(menuTitleModel.uid);
       final snapshot = await collectionPath.get();
 
       try {
-        final items = snapshot.docs
-            .map((doc) => MenuItemModel.fromMap(doc.data(), id: doc.id))
-            .toList();
+        final items =
+            snapshot.docs
+                .map((doc) => MenuItemModel.fromMap(doc.data(), id: doc.id))
+                .toList();
 
         // ✅ تحديث الكاش
         final buttonsMap = subScreenCache[selectedSubScreenID];
         if (buttonsMap != null) {
           final selectedButton = buttonsMap.keys.firstWhereOrNull(
-                (b) => b.uid == selectedMenuButtonId,
+            (b) => b.uid == selectedMenuButtonId,
           );
           if (selectedButton != null) {
             buttonsMap[selectedButton] = items;
@@ -855,11 +975,12 @@ print(menuTitleModel.uid);
         'updatedAt': DateTime.now().toIso8601String(),
       };
 
-      if (title != null) updates['title'] = title;
+      if (title != null) updates['title'] = title.trim();
       if (price != null) updates['price'] = price;
       if (image != null) updates['image'] = image;
 
-      await firestore
+      // ✅ Firestore update
+      final docRef = firestore
           .collection(rootCollectionName)
           .doc(departmentId)
           .collection('super_categories')
@@ -867,8 +988,41 @@ print(menuTitleModel.uid);
           .collection('Buttons')
           .doc(selectedMenuButtonId)
           .collection('menu_items')
-          .doc(itemId)
-          .update(updates);
+          .doc(itemId);
+
+      await docRef.update(updates);
+
+      // ✅ Local update in cache
+      final buttonsMap = subScreenCache[selectedSubScreenID];
+      if (buttonsMap != null) {
+        final selectedButton = buttonsMap.keys.firstWhere(
+          (b) => b.uid == selectedMenuButtonId,
+        );
+
+        final currentItems = buttonsMap[selectedButton];
+        if (currentItems != null) {
+          final index = currentItems.indexWhere((item) => item.id == itemId);
+          if (index != -1) {
+            final oldItem = currentItems[index];
+            final updatedItem = oldItem.copyWith(
+              title: title ?? oldItem.title,
+              price: price ?? oldItem.price,
+              image: image ?? oldItem.image,
+              updatedAt: DateTime.now(),
+            );
+            currentItems[index] = updatedItem;
+            buttonsMap[selectedButton] = currentItems;
+
+            // ✅ Update the UI list too
+            final uiIndex = menuItemsList.indexWhere(
+              (item) => item.id == itemId,
+            );
+            if (uiIndex != -1) {
+              menuItemsList[uiIndex] = updatedItem;
+            }
+          }
+        }
+      }
 
       emit(DepartmentUpdateMenuItemSuccessState());
     } on FirebaseException catch (e) {
@@ -882,6 +1036,7 @@ print(menuTitleModel.uid);
     try {
       emit(DepartmentDeleteMenuItemLoadingState());
 
+      // ✅ Firestore delete
       await firestore
           .collection(rootCollectionName)
           .doc(departmentId)
@@ -892,6 +1047,23 @@ print(menuTitleModel.uid);
           .collection('menu_items')
           .doc(itemId)
           .delete();
+
+      // ✅ Local delete from cache
+      final buttonsMap = subScreenCache[selectedSubScreenID];
+      if (buttonsMap != null) {
+        final selectedButton = buttonsMap.keys.firstWhere(
+          (b) => b.uid == selectedMenuButtonId,
+        );
+
+        final currentItems = buttonsMap[selectedButton];
+        if (currentItems != null) {
+          currentItems.removeWhere((item) => item.id == itemId);
+          buttonsMap[selectedButton] = currentItems;
+
+          // ✅ Remove from UI list too
+          menuItemsList.removeWhere((item) => item.id == itemId);
+        }
+      }
 
       emit(DepartmentDeleteMenuItemSuccessState());
     } on FirebaseException catch (e) {

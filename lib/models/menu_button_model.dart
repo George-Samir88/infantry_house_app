@@ -28,4 +28,19 @@ class MenuButtonModel {
       'updated_at': updatedAt,
     };
   }
+
+  MenuButtonModel copyWith({
+    String? uid,
+    String? buttonTitle,
+    String? image,
+    String? createdAt,
+    String? updatedAt,
+  }) {
+    return MenuButtonModel(
+      uid: uid ?? this.uid,
+      buttonTitle: buttonTitle ?? this.buttonTitle,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
 }

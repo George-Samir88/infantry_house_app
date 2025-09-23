@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MenuTitleModel {
-  final String? menuTitle;
+  String? menuTitle;
   final String? uid;
   final DateTime? createdAt;
   final DateTime? updatedAt;

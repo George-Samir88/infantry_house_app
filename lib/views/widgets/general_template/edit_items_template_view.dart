@@ -165,8 +165,7 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
                             ),
                           ),
                           SizedBox(width: 10.w),
-                          if (cubit
-                          .menuItemsList.isNotEmpty)
+                          if (cubit.menuItemsList.isNotEmpty)
                             Expanded(
                               child: CustomElevatedButton(
                                 onPressed: () {

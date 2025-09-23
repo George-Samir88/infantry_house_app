@@ -116,14 +116,9 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
         listener: (context, state) {
           if (state is DepartmentCreateMenuItemSuccessState) {
             _playAnimation();
-          } else if (state is DepartmentGetMenuItemFailureState) {
-            showSnackBar(
-              context: context,
-              message: localizeFirestoreError(
-                context: context,
-                code: state.failure,
-              ),
-            );
+            var cubit = context.read<DepartmentCubit>();
+
+            print("${cubit.subScreenCache[cubit.selectedSubScreenID]}");
           } else if (state is DepartmentCreateMenuItemFailureState) {
             showSnackBar(
               context: context,
