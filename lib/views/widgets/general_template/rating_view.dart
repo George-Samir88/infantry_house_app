@@ -320,6 +320,12 @@ class _RatingViewState extends State<RatingView>
                                             value: cubit,
                                             child: ItemFeedBackView(
                                               itemId: widget.menuItemModel.id,
+                                              departmentId: widget.departmentId,
+                                              subScreenId: widget.subScreenId,
+                                              buttonId:
+                                                  widget
+                                                      .menuItemModel
+                                                      .menuButtonId,
                                             ),
                                           ),
                                     ),

@@ -62,14 +62,42 @@ class RatingCubit extends Cubit<RatingState> {
   Future<void> submitComplaint({
     required String itemId,
     required ComplaintModel complaint,
+    required String departmentId,
+    required String subScreenId,
+    required String buttonId,
   }) async {
     emit(RatingComplaintsLoading());
+
     try {
-      await firestore
-          .collection("menu_items_complaint")
-          .doc(itemId)
-          .collection("feedback")
-          .add(complaint.toMap());
+      final batch = firestore.batch();
+
+      // Reference for complaint doc (auto-ID inside feedback collection)
+      final feedbackRef =
+          firestore
+              .collection("menu_items_complaint")
+              .doc(itemId)
+              .collection("feedback")
+              .doc(); // generate new doc ID
+
+      // Reference for menu item doc
+      final menuItemRef = firestore
+          .collection("screens_ar")
+          .doc(departmentId)
+          .collection('super_categories')
+          .doc(subScreenId)
+          .collection('Buttons')
+          .doc(buttonId)
+          .collection('menu_items')
+          .doc(itemId);
+
+      // Add complaint in batch
+      batch.set(feedbackRef, complaint.toMap());
+
+      // Update hasFeedback in batch
+      batch.update(menuItemRef, {"hasFeedback": true});
+
+      // Commit atomic batch
+      await batch.commit();
 
       emit(RatingComplaintsSuccess());
     } on FirebaseException catch (e) {

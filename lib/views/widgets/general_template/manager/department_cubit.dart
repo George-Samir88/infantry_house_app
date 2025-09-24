@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infantry_house_app/models/menu_item_model.dart';
 
+import '../../../../helper_functions/collection_exists.dart';
 import '../../../../models/carousel_models.dart';
 import '../../../../models/menu_button_model.dart';
 import '../../../../models/menu_title_model.dart';
@@ -83,30 +84,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   Map<String, MenuTitleModel?> menuTitleCache = {};
 
   ///-------------Functions-------------
-
-  Future<void> deleteCollection(CollectionReference colRef) async {
-    const int batchSize = 400; // أقل من 500 عشان الأمان
-    QuerySnapshot snapshot;
-    do {
-      snapshot = await colRef.limit(batchSize).get();
-      if (snapshot.docs.isEmpty) break;
-
-      WriteBatch batch = FirebaseFirestore.instance.batch();
-
-      for (var doc in snapshot.docs) {
-        batch.delete(doc.reference);
-      }
-
-      await batch.commit();
-    } while (snapshot.docs.length >= batchSize);
-  }
-
-  Future<bool> collectionExists({
-    required CollectionReference collectionRef,
-  }) async {
-    final snapshot = await collectionRef.limit(1).get();
-    return snapshot.docs.isNotEmpty;
-  }
 
   Future<List<String>> getDepartmentsNames() async {
     try {
@@ -264,8 +241,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   Future<void> deleteSubScreen({required String subScreenUID}) async {
+    emit(DepartmentDeleteSubScreensNamesLoadingState());
+
     try {
-      emit(DepartmentDeleteSubScreensNamesLoadingState());
+      final batch = firestore.batch();
 
       final subScreenDocRef = firestore
           .collection(rootCollectionName)
@@ -274,32 +253,71 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .doc(subScreenUID);
 
       // 🔹 Delete menu title (sub_title_name collection)
-      await deleteCollection(subScreenDocRef.collection('sub_title_name'));
-
-      // 🔹 Delete buttons and their menu items
-      final buttonsSnapshot = await subScreenDocRef.collection('Buttons').get();
-      for (var buttonDoc in buttonsSnapshot.docs) {
-        await deleteCollection(buttonDoc.reference.collection('menu_items'));
-        await buttonDoc.reference.delete();
+      final titlesSnapshot =
+          await subScreenDocRef.collection('sub_title_name').get();
+      for (var titleDoc in titlesSnapshot.docs) {
+        batch.delete(titleDoc.reference);
       }
 
-      // 🔹 Delete carousel if exists
-      await deleteCollection(subScreenDocRef.collection('carousel_items'));
+      // 🔹 Delete buttons + items (+ complaints if hasFeedback)
+      final buttonsSnapshot = await subScreenDocRef.collection('Buttons').get();
+      for (var buttonDoc in buttonsSnapshot.docs) {
+        final itemsSnapshot =
+            await buttonDoc.reference.collection('menu_items').get();
 
-      // 🔹 Finally delete the subScreen itself
-      await subScreenDocRef.delete();
+        for (var itemDoc in itemsSnapshot.docs) {
+          final itemId = itemDoc.id;
+          final data = itemDoc.data();
 
-      // 🔹 Remove from local cache list
+          final hasFeedback = data['hasFeedback'] == true;
+
+          if (hasFeedback) {
+            // ✅ Delete feedback docs
+            final feedbackSnapshot =
+                await firestore
+                    .collection('menu_items_complaint')
+                    .doc(itemId)
+                    .collection('feedback')
+                    .get();
+            for (var fbDoc in feedbackSnapshot.docs) {
+              batch.delete(fbDoc.reference);
+            }
+
+            // ✅ Delete complaint parent doc
+            final complaintDocRef = firestore
+                .collection('menu_items_complaint')
+                .doc(itemId);
+            batch.delete(complaintDocRef);
+          }
+
+          // ✅ Delete menu item
+          batch.delete(itemDoc.reference);
+        }
+
+        // ✅ Delete button itself
+        batch.delete(buttonDoc.reference);
+      }
+
+      // 🔹 Delete carousel
+      final carouselSnapshot =
+          await subScreenDocRef.collection('carousel_items').get();
+      for (var carouselDoc in carouselSnapshot.docs) {
+        batch.delete(carouselDoc.reference);
+      }
+
+      // 🔹 Delete the subScreen itself
+      batch.delete(subScreenDocRef);
+
+      // ✅ Execute everything atomically
+      await batch.commit();
+
+      // 🔹 Update local cache
       subScreensList.removeWhere((s) => s.uid == subScreenUID);
 
       if (subScreensList.isEmpty) {
-        // =============================
-        // CASE 1: Last subScreen deleted
-        // =============================
         selectedSubScreenID = null;
         selectedSubScreenIndex = null;
 
-        // Clear all cached lists
         carouselItemsList.clear();
         selectedMenuTitle = null;
         menuButtonList.clear();
@@ -307,16 +325,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
         emit(DepartmentAllSubScreensClearedState());
       } else {
-        // =============================
-        // CASE 2: Deleted but not last
-        // =============================
-        // Reset caches related to the deleted one
         carouselItemsList.clear();
         selectedMenuTitle = null;
         menuButtonList.clear();
         menuItemsList.clear();
 
-        // Switch to first available subScreen
         final firstSubScreen = subScreensList.first;
         await changeSelectedSubScreen(
           subScreenButtonId: firstSubScreen.uid,
@@ -828,8 +841,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   Future<void> deleteMenuButton({required String buttonId}) async {
+    emit(DepartmentDeleteMenuButtonLoadingState());
+
     try {
-      emit(DepartmentDeleteMenuButtonLoadingState());
+      final batch = firestore.batch();
 
       final docRef = firestore
           .collection(rootCollectionName)
@@ -839,11 +854,43 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .collection('Buttons')
           .doc(buttonId);
 
-      // ✅ احذف الـ items المرتبطة بالزرار
-      await deleteCollection(docRef.collection('menu_items'));
+      // ✅ هات كل الـ items المرتبطة بالزرار
+      final itemsSnapshot = await docRef.collection('menu_items').get();
 
-      // ✅ احذف الزرار نفسه
-      await docRef.delete();
+      for (var itemDoc in itemsSnapshot.docs) {
+        final itemId = itemDoc.id;
+        final data = itemDoc.data();
+
+        final hasFeedback = data['hasFeedback'] == true;
+
+        if (hasFeedback) {
+          // ✅ امسح feedback docs
+          final feedbackSnapshot =
+              await firestore
+                  .collection('menu_items_complaint')
+                  .doc(itemId)
+                  .collection('feedback')
+                  .get();
+          for (var fbDoc in feedbackSnapshot.docs) {
+            batch.delete(fbDoc.reference);
+          }
+
+          // ✅ امسح complaint parent doc
+          final complaintDocRef = firestore
+              .collection('menu_items_complaint')
+              .doc(itemId);
+          batch.delete(complaintDocRef);
+        }
+
+        // ✅ امسح الـ item نفسه
+        batch.delete(itemDoc.reference);
+      }
+
+      // ✅ في الآخر امسح الزرار نفسه
+      batch.delete(docRef);
+
+      // ✅ نفذ الحذف كله مع بعض
+      await batch.commit();
 
       // ✅ تحديث الكاش
       final buttonsMap = subScreenCache[selectedSubScreenID];
@@ -853,7 +900,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         buttonsMap.remove(toRemove);
         menuButtonList = buttonsMap.keys.toList();
 
-        // لو الزرار المحذوف هو الزرار الحالي
         if (selectedMenuButtonId == buttonId) {
           if (menuButtonList.isNotEmpty) {
             selectedMenuButtonId = menuButtonList.first.uid;
@@ -893,6 +939,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         menuButtonId: selectedMenuButtonId!,
         createdAt: DateTime.now(),
         updatedAt: null,
+        hasFeedback: false,
       );
 
       // ✅ Reference للـ Firestore
@@ -1064,12 +1111,36 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
-  Future<void> deleteMenuItem({required String itemId}) async {
-    try {
-      emit(DepartmentDeleteMenuItemLoadingState());
+  Future<void> deleteMenuItem({
+    required String itemId,
+    required bool hasFeedback,
+  }) async {
+    emit(DepartmentDeleteMenuItemLoadingState());
 
-      // ✅ Firestore delete
-      await firestore
+    try {
+      final batch = firestore.batch();
+      // 🔹 امسح feedbacks لو موجودة
+      if (hasFeedback) {
+        final snapshot =
+            await firestore
+                .collection("menu_items_complaint")
+                .doc(itemId)
+                .collection("feedback")
+                .get();
+
+        for (var doc in snapshot.docs) {
+          batch.delete(doc.reference);
+        }
+
+        // امسح الـ parent document نفسه
+        final complaintDocRef = firestore
+            .collection("menu_items_complaint")
+            .doc(itemId);
+        batch.delete(complaintDocRef);
+      }
+
+      // 🔹 Reference للـ menu item نفسه
+      final menuItemRef = firestore
           .collection(rootCollectionName)
           .doc(departmentId)
           .collection('super_categories')
@@ -1077,10 +1148,15 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .collection('Buttons')
           .doc(selectedMenuButtonId)
           .collection('menu_items')
-          .doc(itemId)
-          .delete();
+          .doc(itemId);
 
-      // ✅ Local delete from cache
+      // Add delete of menu item
+      batch.delete(menuItemRef);
+
+      // ✅ نفذ كل الحذف atomically
+      await batch.commit();
+
+      // ✅ بعد نجاح الحذف في Firestore حدث الكاش والـ UI
       final buttonsMap = subScreenCache[selectedSubScreenID];
       if (buttonsMap != null) {
         final selectedButton = buttonsMap.keys.firstWhere(

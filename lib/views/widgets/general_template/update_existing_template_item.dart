@@ -172,7 +172,7 @@ class _UpdateExistingItemTemplateViewState
       body: BlocConsumer<DepartmentCubit, DepartmentState>(
         listener: (context, state) {
           if (state is DepartmentUpdateMenuItemSuccessState ||
-              state is DepartmentDeleteMenuButtonSuccessState) {
+              state is DepartmentDeleteMenuItemSuccessState) {
             _playAnimation();
           } else if (state is DepartmentUpdateMenuItemFailureState) {
             showSnackBar(
@@ -181,10 +181,21 @@ class _UpdateExistingItemTemplateViewState
                 context: context,
                 code: state.failure,
               ),
+              backgroundColor: Colors.red,
             );
           } else if (state is DepartmentGetMenuItemFailureState) {
             showSnackBar(
               context: context,
+              backgroundColor: Colors.red,
+              message: localizeFirestoreError(
+                context: context,
+                code: state.failure,
+              ),
+            );
+          } else if (state is DepartmentDeleteMenuItemFailureState) {
+            showSnackBar(
+              context: context,
+              backgroundColor: Colors.redAccent,
               message: localizeFirestoreError(
                 context: context,
                 code: state.failure,
@@ -350,8 +361,9 @@ class _UpdateExistingItemTemplateViewState
                                 deletionTimer = Timer(Duration(seconds: 3), () {
                                   cubit.deleteMenuItem(
                                     itemId: widget.menuItemModel.id,
+                                    hasFeedback:
+                                        widget.menuItemModel.hasFeedback,
                                   );
-                                  Navigator.pop(context);
                                 });
                                 showSnackBar(
                                   backgroundColor: Colors.amber,
@@ -392,7 +404,6 @@ class _UpdateExistingItemTemplateViewState
                                     itemId: widget.menuItemModel.id,
                                   );
                                   FocusScope.of(context).unfocus();
-                                  _playAnimation();
                                 }
                               },
                               text: S.of(context).hefz,

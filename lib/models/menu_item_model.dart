@@ -8,6 +8,7 @@ class MenuItemModel {
   final String menuButtonId;
   final DateTime createdAt;
   final DateTime? updatedAt;
+  final bool hasFeedback;
 
   MenuItemModel({
     required this.id,
@@ -19,12 +20,14 @@ class MenuItemModel {
     required this.menuButtonId,
     required this.createdAt,
     required this.updatedAt,
+    required this.hasFeedback,
   });
 
   /// Convert Firestore/JSON map to model
   factory MenuItemModel.fromMap(Map<String, dynamic> map, {String? id}) {
     return MenuItemModel(
       id: id ?? map['id'] ?? '',
+      hasFeedback: map['hasFeedback'] ?? false,
       title: map['title'] ?? '',
       image: map['image'] ?? '',
       price: map['price'] ?? '',
@@ -54,6 +57,7 @@ class MenuItemModel {
       'menuButtonId': menuButtonId,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
+      'hasFeedback': hasFeedback,
     };
   }
 
@@ -79,6 +83,7 @@ class MenuItemModel {
       menuButtonId: menuButtonId ?? this.menuButtonId,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      hasFeedback: hasFeedback,
     );
   }
 

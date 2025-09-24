@@ -20,9 +20,18 @@ import '../../../../utils/custom_elevated_button.dart';
 import '../../../../utils/custom_appbar_editing_view.dart';
 
 class ItemFeedBackView extends StatefulWidget {
-  const ItemFeedBackView({super.key, required this.itemId});
+  const ItemFeedBackView({
+    super.key,
+    required this.itemId,
+    required this.departmentId,
+    required this.subScreenId,
+    required this.buttonId,
+  });
 
   final String itemId;
+  final String departmentId;
+  final String subScreenId;
+  final String buttonId;
 
   @override
   State<ItemFeedBackView> createState() => _ItemFeedBackViewState();
@@ -338,6 +347,9 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                                 cubit.submitComplaint(
                                   itemId: widget.itemId,
                                   complaint: complaintModel,
+                                  departmentId: widget.departmentId,
+                                  subScreenId: widget.subScreenId,
+                                  buttonId: widget.buttonId,
                                 );
                                 if (!context.mounted) return;
                                 FocusScope.of(context).unfocus();
