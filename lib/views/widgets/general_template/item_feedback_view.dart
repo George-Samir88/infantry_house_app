@@ -1,6 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +12,7 @@ import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/utils/map_firebase_error.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/rating_cubit.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../global_variables.dart';
@@ -311,7 +312,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                       state is RatingComplaintsLoading
                           ? AppLoader()
                           : CustomElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               bool validateTextForm =
                                   _formKey.currentState!.validate();
                               bool validateImageForm = _validateImage(
@@ -319,9 +320,16 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                               );
                               validateChoiceChipList();
                               if (validateTextForm && validateImageForm) {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                final cachedUser = prefs.getString(
+                                  'user_cache',
+                                );
+                                final currentUser = jsonDecode(cachedUser!);
+
                                 ComplaintModel complaintModel = ComplaintModel(
-                                  userId:
-                                      FirebaseAuth.instance.currentUser!.uid,
+                                  userId: currentUser["uid"],
+                                  userName: currentUser["fullName"],
                                   complaints: selectedComplaints,
                                   createdAt: DateTime.now(),
                                   imageUrl: _imageFile?.path,
@@ -331,6 +339,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                                   itemId: widget.itemId,
                                   complaint: complaintModel,
                                 );
+                                if (!context.mounted) return;
                                 FocusScope.of(context).unfocus();
                                 selectedComplaints = [];
                                 phoneNumberController.clear();

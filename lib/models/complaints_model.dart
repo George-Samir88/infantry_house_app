@@ -6,6 +6,7 @@ class ComplaintModel {
   final String note; // optional extra text
   final String? imageUrl; // optional photo/check upload
   final DateTime createdAt; // when it was created
+  final String userName; // when it was created
 
   ComplaintModel({
     required this.userId,
@@ -13,6 +14,7 @@ class ComplaintModel {
     this.note = "",
     this.imageUrl,
     required this.createdAt,
+    required this.userName,
   });
 
   // Convert Firestore -> Model
@@ -23,6 +25,7 @@ class ComplaintModel {
       note: map['note'] ?? '',
       imageUrl: map['imageUrl'],
       createdAt: (map['createdAt'] as Timestamp).toDate(),
+      userName: map['userName'] ?? '',
     );
   }
 
@@ -30,6 +33,7 @@ class ComplaintModel {
   Map<String, dynamic> toMap() {
     return {
       'userId': userId,
+      'userName': userName,
       'complaints': complaints,
       'note': note,
       'imageUrl': imageUrl,
