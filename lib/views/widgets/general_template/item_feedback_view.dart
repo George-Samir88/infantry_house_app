@@ -146,7 +146,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
   Widget build(BuildContext context) {
     return BlocConsumer<RatingCubit, RatingState>(
       listener: (context, state) {
-        if (state is RatingComplaintsFailure) {
+        if (state is RatingSubmitComplaintsFailure) {
           showSnackBar(
             context: context,
             message: localizeFirestoreError(
@@ -156,7 +156,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
             backgroundColor: Colors.red,
           );
         }
-        if (state is RatingComplaintsSuccess) {
+        if (state is RatingSubmitComplaintsSuccess) {
           _playAnimation();
         }
       },
@@ -318,7 +318,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                       SizedBox(height: 25.h),
 
                       ///send button
-                      state is RatingComplaintsLoading
+                      state is RatingSubmitComplaintsLoading
                           ? AppLoader()
                           : CustomElevatedButton(
                             onPressed: () async {

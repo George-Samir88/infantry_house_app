@@ -14,12 +14,22 @@ final class RatingSendRatingFailure extends RatingState {
   RatingSendRatingFailure({required this.failure});
 }
 
-final class RatingComplaintsLoading extends RatingState {}
+final class RatingSubmitComplaintsLoading extends RatingState {}
 
-final class RatingComplaintsSuccess extends RatingState {}
+final class RatingSubmitComplaintsSuccess extends RatingState {}
 
-final class RatingComplaintsFailure extends RatingState {
+final class RatingSubmitComplaintsFailure extends RatingState {
   final String failure;
 
-  RatingComplaintsFailure({required this.failure});
+  RatingSubmitComplaintsFailure({required this.failure});
+}
+
+final class RatingGetComplaintsLoading extends RatingState {}
+
+final class RatingGetComplaintsSuccess extends RatingState {}
+
+final class RatingGetComplaintsFailure extends RatingState {
+  final String failure;
+
+  RatingGetComplaintsFailure({required this.failure});
 }

@@ -7,6 +7,7 @@ part 'rating_state.dart';
 class RatingCubit extends Cubit<RatingState> {
   RatingCubit() : super(RatingInitial());
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  List<ComplaintModel> complaintsList = [];
 
   Future<void> submitRating({
     required String departmentId,
@@ -66,7 +67,7 @@ class RatingCubit extends Cubit<RatingState> {
     required String subScreenId,
     required String buttonId,
   }) async {
-    emit(RatingComplaintsLoading());
+    emit(RatingSubmitComplaintsLoading());
 
     try {
       final batch = firestore.batch();
@@ -99,11 +100,49 @@ class RatingCubit extends Cubit<RatingState> {
       // Commit atomic batch
       await batch.commit();
 
-      emit(RatingComplaintsSuccess());
+      emit(RatingSubmitComplaintsSuccess());
     } on FirebaseException catch (e) {
-      emit(RatingComplaintsFailure(failure: e.code));
+      emit(RatingSubmitComplaintsFailure(failure: e.code));
     } catch (e) {
-      emit(RatingComplaintsFailure(failure: e.toString()));
+      emit(RatingSubmitComplaintsFailure(failure: e.toString()));
+    }
+  }
+
+  Future<void> getComplaints({required String itemId}) async {
+    emit(RatingGetComplaintsLoading());
+
+    try {
+      final snapshot =
+          await firestore
+              .collection("menu_items_complaint")
+              .doc(itemId)
+              .collection("feedback")
+              .get();
+
+      if (snapshot.docs.isEmpty) {
+        complaintsList.clear();
+        emit(RatingGetComplaintsSuccess());
+        return;
+      }
+
+      final complaints =
+          snapshot.docs
+              .map((doc) {
+                try {
+                  return ComplaintModel.fromMap(doc.data());
+                } catch (e) {
+                  // لو doc فيه مشكلة في parsing بيتشال
+                  return null;
+                }
+              })
+              .whereType<ComplaintModel>()
+              .toList();
+      complaintsList = complaints;
+      emit(RatingGetComplaintsSuccess());
+    } on FirebaseException catch (e) {
+      emit(RatingGetComplaintsFailure(failure: e.code));
+    } catch (e) {
+      emit(RatingGetComplaintsFailure(failure: e.toString()));
     }
   }
 }
