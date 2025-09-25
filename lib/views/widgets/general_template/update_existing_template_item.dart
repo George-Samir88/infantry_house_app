@@ -70,6 +70,7 @@ class _UpdateExistingItemTemplateViewState
   void initState() {
     titleController = TextEditingController(text: widget.menuItemModel.title);
     priceController = TextEditingController(text: widget.menuItemModel.price);
+    descriptionController = TextEditingController(text: widget.menuItemModel.description);
     _imageFile = File(widget.menuItemModel.image);
     _animationController = AnimationController(
       vsync: this,
@@ -145,6 +146,7 @@ class _UpdateExistingItemTemplateViewState
 
   TextEditingController titleController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   bool isShowValidationErrorMessages = false;
 
   bool _validateImage(File? image) {
@@ -323,6 +325,25 @@ class _UpdateExistingItemTemplateViewState
                     ),
                   SizedBox(height: 8.h),
                   Text(
+                    S.of(context).Description,
+                    style: TextStyle(
+                      fontSize:
+                      GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    textEditingController: descriptionController,
+                    textInputType: TextInputType.text,
+                    hintText: S.of(context).PleaseEnterDescription,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return S.of(context).PleaseEnterDescription;
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
                     S.of(context).SoraElsnf,
                     style: TextStyle(
                       fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
@@ -402,6 +423,7 @@ class _UpdateExistingItemTemplateViewState
                                     image: _imageFile?.path,
                                     price: formatNumber(priceController.text),
                                     itemId: widget.menuItemModel.id,
+                                    description: descriptionController.text,
                                   );
                                   FocusScope.of(context).unfocus();
                                 }

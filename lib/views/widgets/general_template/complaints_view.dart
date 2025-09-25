@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,6 +27,25 @@ class _ComplaintsViewState extends State<ComplaintsView> {
   void initState() {
     super.initState();
     context.read<RatingCubit>().getComplaints(itemId: widget.menuItemModel.id);
+  }
+
+  Completer<void> _refreshCompleter = Completer<void>();
+
+  Future<void> _handleRefresh() async {
+    // reset completer
+    if (_refreshCompleter.isCompleted) {
+      _refreshCompleter = Completer<void>();
+    }
+    // trigger your functions (don’t await if you want parallel calls)
+    context.read<RatingCubit>().getComplaints(itemId: widget.menuItemModel.id);
+    // stop refresh after 2 seconds
+    Future.delayed(const Duration(seconds: 2), () {
+      if (!_refreshCompleter.isCompleted) {
+        _refreshCompleter.complete();
+      }
+    });
+
+    return _refreshCompleter.future;
   }
 
   @override
@@ -67,14 +88,17 @@ class _ComplaintsViewState extends State<ComplaintsView> {
           ),
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.h),
-            child: ListView(
-              children: [
-                SizedBox(height: 20.h),
-                state is RatingGetComplaintsLoading
-                    ? AppLoader()
-                    : FeedbackList(complaints: cubit.complaintsList),
-                SizedBox(height: 20.h),
-              ],
+            child: RefreshIndicator(
+              onRefresh: _handleRefresh,
+              child: ListView(
+                children: [
+                  SizedBox(height: 20.h),
+                  state is RatingGetComplaintsLoading
+                      ? AppLoader()
+                      : FeedbackList(complaints: cubit.complaintsList),
+                  SizedBox(height: 20.h),
+                ],
+              ),
             ),
           ),
         );

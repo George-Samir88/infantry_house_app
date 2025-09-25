@@ -83,7 +83,6 @@ class _RatingViewState extends State<RatingView>
 
     // trigger your functions (don’t await if you want parallel calls)
     cubit.getRatings(menuItemId: widget.menuItemModel.id);
-    cubit.getComplaints(itemId: widget.menuItemModel.id);
 
     // stop refresh after 4 seconds
     Future.delayed(const Duration(seconds: 2), () {

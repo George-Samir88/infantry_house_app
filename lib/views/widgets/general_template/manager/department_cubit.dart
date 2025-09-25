@@ -254,7 +254,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       // 🔹 Delete menu title (sub_title_name collection)
       final titlesSnapshot =
-      await subScreenDocRef.collection('sub_title_name').get();
+          await subScreenDocRef.collection('sub_title_name').get();
       for (var titleDoc in titlesSnapshot.docs) {
         batch.delete(titleDoc.reference);
       }
@@ -263,7 +263,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       final buttonsSnapshot = await subScreenDocRef.collection('Buttons').get();
       for (var buttonDoc in buttonsSnapshot.docs) {
         final itemsSnapshot =
-        await buttonDoc.reference.collection('menu_items').get();
+            await buttonDoc.reference.collection('menu_items').get();
 
         for (var itemDoc in itemsSnapshot.docs) {
           final itemId = itemDoc.id;
@@ -273,28 +273,31 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
           if (hasFeedback) {
             // ✅ Delete complaints
-            final complaintsSnapshot = await firestore
-                .collection('feedback')
-                .doc(itemId)
-                .collection('menu_items_complaint')
-                .get();
+            final complaintsSnapshot =
+                await firestore
+                    .collection('feedback')
+                    .doc(itemId)
+                    .collection('menu_items_complaint')
+                    .get();
             for (var compDoc in complaintsSnapshot.docs) {
               batch.delete(compDoc.reference);
             }
 
             // ✅ Delete ratings
-            final ratingsSnapshot = await firestore
-                .collection('feedback')
-                .doc(itemId)
-                .collection('rating')
-                .get();
+            final ratingsSnapshot =
+                await firestore
+                    .collection('feedback')
+                    .doc(itemId)
+                    .collection('rating')
+                    .get();
             for (var ratingDoc in ratingsSnapshot.docs) {
               batch.delete(ratingDoc.reference);
             }
 
             // ✅ Delete feedback parent doc (menuItemId doc)
-            final feedbackParentDoc =
-            firestore.collection('feedback').doc(itemId);
+            final feedbackParentDoc = firestore
+                .collection('feedback')
+                .doc(itemId);
             batch.delete(feedbackParentDoc);
           }
 
@@ -308,7 +311,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       // 🔹 Delete carousel
       final carouselSnapshot =
-      await subScreenDocRef.collection('carousel_items').get();
+          await subScreenDocRef.collection('carousel_items').get();
       for (var carouselDoc in carouselSnapshot.docs) {
         batch.delete(carouselDoc.reference);
       }
@@ -376,10 +379,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         selectedMenuButtonId = firstButton.uid;
 
         // بدل ما نعمل set مباشر → نستعمل الـ function
-        await changeMenuButtonIndex(
-          index: 0,
-          buttonId: selectedMenuButtonId!,
-        );
+        await changeMenuButtonIndex(index: 0, buttonId: selectedMenuButtonId!);
       } else {
         selectedMenuButtonId = null;
         menuItemsList = [];
@@ -409,7 +409,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       await listenToMenuTitle();
     }
   }
-
 
   ///--------------Carousel CRUD operations--------------
   void changeCarouselIndex({required int index}) {
@@ -666,7 +665,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     if (buttonsMap != null) {
       // دور على الزرار المطلوب
       final selectedButton = buttonsMap.keys.firstWhereOrNull(
-            (b) => b.uid == buttonId,
+        (b) => b.uid == buttonId,
       );
 
       if (selectedButton != null) {
@@ -895,28 +894,31 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
         if (hasFeedback) {
           // ✅ Delete complaints
-          final complaintsSnapshot = await firestore
-              .collection('feedback')
-              .doc(itemId)
-              .collection('menu_items_complaint')
-              .get();
+          final complaintsSnapshot =
+              await firestore
+                  .collection('feedback')
+                  .doc(itemId)
+                  .collection('menu_items_complaint')
+                  .get();
           for (var compDoc in complaintsSnapshot.docs) {
             batch.delete(compDoc.reference);
           }
 
           // ✅ Delete ratings
-          final ratingsSnapshot = await firestore
-              .collection('feedback')
-              .doc(itemId)
-              .collection('rating')
-              .get();
+          final ratingsSnapshot =
+              await firestore
+                  .collection('feedback')
+                  .doc(itemId)
+                  .collection('rating')
+                  .get();
           for (var ratingDoc in ratingsSnapshot.docs) {
             batch.delete(ratingDoc.reference);
           }
 
           // ✅ Delete feedback parent doc (menuItemId)
-          final feedbackParentDoc =
-          firestore.collection('feedback').doc(itemId);
+          final feedbackParentDoc = firestore
+              .collection('feedback')
+              .doc(itemId);
           batch.delete(feedbackParentDoc);
         }
 
@@ -1086,6 +1088,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     String? title,
     String? price,
     String? image,
+    String? description,
   }) async {
     try {
       emit(DepartmentUpdateMenuItemLoadingState());
@@ -1095,6 +1098,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       };
 
       if (title != null) updates['title'] = title.trim();
+      if (description != null) updates['description'] = description;
       if (price != null) updates['price'] = price;
       if (image != null) updates['image'] = image;
 
@@ -1163,28 +1167,29 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       // 🔹 Delete feedbacks if exist
       if (hasFeedback) {
         // ✅ Delete complaints
-        final complaintsSnapshot = await firestore
-            .collection("feedback")
-            .doc(itemId)
-            .collection("menu_items_complaint")
-            .get();
+        final complaintsSnapshot =
+            await firestore
+                .collection("feedback")
+                .doc(itemId)
+                .collection("menu_items_complaint")
+                .get();
         for (var doc in complaintsSnapshot.docs) {
           batch.delete(doc.reference);
         }
 
         // ✅ Delete ratings
-        final ratingsSnapshot = await firestore
-            .collection("feedback")
-            .doc(itemId)
-            .collection("rating")
-            .get();
+        final ratingsSnapshot =
+            await firestore
+                .collection("feedback")
+                .doc(itemId)
+                .collection("rating")
+                .get();
         for (var ratingDoc in ratingsSnapshot.docs) {
           batch.delete(ratingDoc.reference);
         }
 
         // ✅ Delete parent feedback doc
-        final feedbackParentDoc =
-        firestore.collection("feedback").doc(itemId);
+        final feedbackParentDoc = firestore.collection("feedback").doc(itemId);
         batch.delete(feedbackParentDoc);
       }
 
@@ -1208,7 +1213,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       final buttonsMap = subScreenCache[selectedSubScreenID];
       if (buttonsMap != null) {
         final selectedButton = buttonsMap.keys.firstWhere(
-              (b) => b.uid == selectedMenuButtonId,
+          (b) => b.uid == selectedMenuButtonId,
         );
 
         final currentItems = buttonsMap[selectedButton];
