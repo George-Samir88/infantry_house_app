@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter item image"),
         "AddDailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("Add image of game"),
+        "AddToCart": MessageLookupByLibrary.simpleMessage("Add To Cart"),
         "AddedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Added successfully"),
         "AddingNewDailyGame":
@@ -67,16 +68,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "Delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "DeletedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Deleted successfully"),
-        "DescriptionAboutGame":
-            MessageLookupByLibrary.simpleMessage("Description About Game"),
+        "Description": MessageLookupByLibrary.simpleMessage("Description"),
         "DontHaveAnAccount":
             MessageLookupByLibrary.simpleMessage("Don\'t have an account?"),
         "EdaftGded": MessageLookupByLibrary.simpleMessage("Add New"),
         "EdaftSnf": MessageLookupByLibrary.simpleMessage("Add New Item"),
         "Eftar": MessageLookupByLibrary.simpleMessage("Breakfast"),
         "Email": MessageLookupByLibrary.simpleMessage("Email"),
-        "EnterDescriptionAboutGame":
-            MessageLookupByLibrary.simpleMessage("Add description about game"),
+        "EnterDescription":
+            MessageLookupByLibrary.simpleMessage("Add description"),
         "EnterPriceOfGame":
             MessageLookupByLibrary.simpleMessage("Enter price of game"),
         "EnterTitleOfGame":
@@ -158,8 +158,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please add image of game"),
         "PleaseEnterAValidEmail":
             MessageLookupByLibrary.simpleMessage("Please enter a valid email"),
-        "PleaseEnterDescriptionAboutGame": MessageLookupByLibrary.simpleMessage(
-            "Please add description about game"),
+        "PleaseEnterDescription":
+            MessageLookupByLibrary.simpleMessage("Please add description"),
         "PleaseEnterItBelow":
             MessageLookupByLibrary.simpleMessage("please enter it below"),
         "PleaseEnterPriceOfGame":

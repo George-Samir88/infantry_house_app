@@ -3,6 +3,7 @@ class MenuItemModel {
   final String title;
   final String image;
   final String price;
+  final String description;
   final double averageRating;
   final int ratingCount;
   final String menuButtonId;
@@ -21,12 +22,14 @@ class MenuItemModel {
     required this.createdAt,
     required this.updatedAt,
     required this.hasFeedback,
+    required this.description,
   });
 
   /// Convert Firestore/JSON map to model
   factory MenuItemModel.fromMap(Map<String, dynamic> map, {String? id}) {
     return MenuItemModel(
       id: id ?? map['id'] ?? '',
+      description: map['description'] ?? '',
       hasFeedback: map['hasFeedback'] ?? false,
       title: map['title'] ?? '',
       image: map['image'] ?? '',
@@ -52,6 +55,7 @@ class MenuItemModel {
       'title': title,
       'image': image,
       'price': price,
+      'description': description,
       'averageRating': averageRating,
       'ratingCount': ratingCount,
       'menuButtonId': menuButtonId,
@@ -72,9 +76,11 @@ class MenuItemModel {
     String? menuButtonId,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? description,
   }) {
     return MenuItemModel(
       id: id ?? this.id,
+      description: description ?? this.description,
       title: title ?? this.title,
       image: image ?? this.image,
       price: price ?? this.price,

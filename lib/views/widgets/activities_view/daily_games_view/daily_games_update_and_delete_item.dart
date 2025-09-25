@@ -194,7 +194,7 @@ class _DailyGamesUpdateAndDeleteItemViewState
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    S.of(context).DescriptionAboutGame,
+                    S.of(context).Description,
                     style: TextStyle(
                       fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
                     ),
@@ -205,11 +205,11 @@ class _DailyGamesUpdateAndDeleteItemViewState
                     textEditingController: descriptionController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return S.of(context).PleaseEnterDescriptionAboutGame;
+                        return S.of(context).PleaseEnterDescription;
                       }
                       return null;
                     },
-                    hintText: S.of(context).EnterDescriptionAboutGame,
+                    hintText: S.of(context).EnterDescription,
                     textInputType: TextInputType.text,
                   ),
                   SizedBox(height: 8.h),

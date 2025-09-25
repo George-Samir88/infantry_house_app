@@ -41,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل صورة الصنف"),
         "AddDailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("أضف صورة اللعبة"),
+        "AddToCart": MessageLookupByLibrary.simpleMessage("أضف إلى العربة"),
         "AddedSuccessfully": MessageLookupByLibrary.simpleMessage("تمت إضافة"),
         "AddingNewDailyGame":
             MessageLookupByLibrary.simpleMessage("إضافة لعبة جديدة"),
@@ -64,16 +65,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "Delete": MessageLookupByLibrary.simpleMessage("حذف"),
         "DeletedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم الحذف بنجاح"),
-        "DescriptionAboutGame":
-            MessageLookupByLibrary.simpleMessage("وصف عن اللعبة"),
+        "Description": MessageLookupByLibrary.simpleMessage("وصف"),
         "DontHaveAnAccount":
             MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
         "EdaftGded": MessageLookupByLibrary.simpleMessage("إضافة جديد"),
         "EdaftSnf": MessageLookupByLibrary.simpleMessage("إضافة صنف"),
         "Eftar": MessageLookupByLibrary.simpleMessage("إفطار"),
         "Email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
-        "EnterDescriptionAboutGame":
-            MessageLookupByLibrary.simpleMessage("أضف وصفاً عن اللعبة"),
+        "EnterDescription": MessageLookupByLibrary.simpleMessage("أضف وصفاً"),
         "EnterPriceOfGame":
             MessageLookupByLibrary.simpleMessage("أدخل سعر اللعبة"),
         "EnterTitleOfGame":
@@ -156,8 +155,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الرجاء إضافة صورة اللعبة"),
         "PleaseEnterAValidEmail": MessageLookupByLibrary.simpleMessage(
             "يرجى إدخال بريد إلكتروني صالح"),
-        "PleaseEnterDescriptionAboutGame":
-            MessageLookupByLibrary.simpleMessage("الرجاء إضافة وصف عن اللعبة"),
+        "PleaseEnterDescription":
+            MessageLookupByLibrary.simpleMessage("الرجاء إضافة وصف"),
         "PleaseEnterItBelow":
             MessageLookupByLibrary.simpleMessage("يرجى إدخاله أدناه"),
         "PleaseEnterPriceOfGame":

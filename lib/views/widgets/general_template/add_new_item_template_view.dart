@@ -87,6 +87,7 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
 
   TextEditingController titleController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   bool isShowValidationErrorMessages = false;
 
   bool _validateImage(File? image) {
@@ -224,6 +225,22 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
                       ],
                     ),
                   Text(
+                    S.of(context).Description,
+                    style: TextStyle(fontSize: 20.sp),
+                  ),
+                  CustomTextFormField(
+                    textEditingController: descriptionController,
+                    textInputType: TextInputType.text,
+                    hintText: S.of(context).EnterDescription,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return S.of(context).PleaseEnterDescription;
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
                     S.of(context).SoraElsnf,
                     style: TextStyle(fontSize: 20.sp),
                   ),
@@ -277,7 +294,7 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
                               title: titleController.text,
                               price: priceController.text,
                               imagePath:
-                                  _imageFile?.path ?? "Error in adding image",
+                                  _imageFile?.path ?? "Error in adding image", description: descriptionController.text,
                             );
                             FocusScope.of(context).unfocus();
                             titleController.clear();

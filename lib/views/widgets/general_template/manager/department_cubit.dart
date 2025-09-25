@@ -924,6 +924,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     required String title,
     required String price,
     required String imagePath,
+    required String description,
   }) async {
     try {
       emit(DepartmentCreateMenuItemLoadingState());
@@ -940,6 +941,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         createdAt: DateTime.now(),
         updatedAt: null,
         hasFeedback: false,
+        description: description,
       );
 
       // ✅ Reference للـ Firestore

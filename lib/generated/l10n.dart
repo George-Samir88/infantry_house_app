@@ -1090,6 +1090,16 @@ class S {
     );
   }
 
+  /// `أضف إلى العربة`
+  String get AddToCart {
+    return Intl.message(
+      'أضف إلى العربة',
+      name: 'AddToCart',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `الإجمالي:`
   String get Total {
     return Intl.message(
@@ -1310,31 +1320,31 @@ class S {
     );
   }
 
-  /// `وصف عن اللعبة`
-  String get DescriptionAboutGame {
+  /// `وصف`
+  String get Description {
     return Intl.message(
-      'وصف عن اللعبة',
-      name: 'DescriptionAboutGame',
+      'وصف',
+      name: 'Description',
       desc: '',
       args: [],
     );
   }
 
-  /// `أضف وصفاً عن اللعبة`
-  String get EnterDescriptionAboutGame {
+  /// `أضف وصفاً`
+  String get EnterDescription {
     return Intl.message(
-      'أضف وصفاً عن اللعبة',
-      name: 'EnterDescriptionAboutGame',
+      'أضف وصفاً',
+      name: 'EnterDescription',
       desc: '',
       args: [],
     );
   }
 
-  /// `الرجاء إضافة وصف عن اللعبة`
-  String get PleaseEnterDescriptionAboutGame {
+  /// `الرجاء إضافة وصف`
+  String get PleaseEnterDescription {
     return Intl.message(
-      'الرجاء إضافة وصف عن اللعبة',
-      name: 'PleaseEnterDescriptionAboutGame',
+      'الرجاء إضافة وصف',
+      name: 'PleaseEnterDescription',
       desc: '',
       args: [],
     );

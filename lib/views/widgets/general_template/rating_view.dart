@@ -64,37 +64,33 @@ class _RatingViewState extends State<RatingView>
     });
   }
 
-  Widget _buildCircularImage(String imagePath) {
+  Widget _buildImage(String imagePath) {
     if (imagePath.startsWith('assets/')) {
-      return CircleAvatar(
-        radius: 31.r,
-        backgroundColor: Colors.white, // Prevents image cropping
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(50.r),
-          child: Image.asset(
-            imagePath,
-            fit: BoxFit.cover,
-            width: 60.r,
-            height: 60.r,
-          ),
-        ),
+      return Image.asset(
+        imagePath,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 200.h,
       );
     } else if (File(imagePath).existsSync()) {
-      return CircleAvatar(
-        radius: 31.r,
-        backgroundColor: Colors.white, // Prevents image cropping
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(50.r),
-          child: Image.file(
-            File(imagePath),
-            fit: BoxFit.cover,
-            width: 60.r,
-            height: 60.r,
-          ),
-        ),
+      return Image.file(
+        File(imagePath),
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 200.h,
+      );
+    } else {
+      // Fallback to network image
+      return Image.network(
+        imagePath,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 200.h,
+        errorBuilder:
+            (context, error, stackTrace) =>
+                Container(color: Colors.grey[300], height: 200.h),
       );
     }
-    return Icon(Icons.broken_image, size: 40.r, color: Colors.grey);
   }
 
   @override
@@ -145,263 +141,293 @@ class _RatingViewState extends State<RatingView>
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.h),
               child: ListView(
-                  children: [
+                children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 30.h),
 
                       ///card Item section
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-                        child: Stack(
-                          clipBehavior: Clip.none,
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 12,
+                              offset: Offset(0, 5),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Container with responsive width and height
-                            Container(
-                              width: 160.w,
-                              // Set width responsively
-                              height: 140.h,
-                              // Set height responsively
-                              padding: EdgeInsets.symmetric(
-                                vertical: 16.0.h,
-                                horizontal: 12.0.w,
+                            /// Product Image (can be asset, file, or network)
+                            Padding(
+                              padding: EdgeInsets.all(16.w),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16.r),
+                                child: _buildImage(widget.menuItemModel.image),
                               ),
-                              decoration: BoxDecoration(
-                                color: Colors.brown[400],
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.shade400,
-                                    spreadRadius: 5,
-                                    blurRadius: 10,
-                                    offset: Offset(0, 3),
+                            ),
+                            SizedBox(height: 12.h),
+
+                            /// Product Title
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Text(
+                                widget.menuItemModel.title,
+                                style: TextStyle(
+                                  fontSize: 22.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.brown[800],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 8.h),
+
+                            /// Price
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Text(
+                                "\$${widget.menuItemModel.price}",
+                                style: TextStyle(
+                                  fontSize: 24.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.brown[900],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 12.h),
+
+                            /// Read-only Rating
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Row(
+                                children: [
+                                  RatingBarIndicator(
+                                    rating: widget.menuItemModel.averageRating,
+                                    itemBuilder:
+                                        (context, _) => Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                    itemCount: 5,
+                                    itemSize: 28.r,
+                                    direction: Axis.horizontal,
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  Text(
+                                    "${widget.menuItemModel.averageRating.toStringAsFixed(1)} / 5",
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      color: Colors.brown[600],
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ],
-                                borderRadius: BorderRadius.circular(16.0.r),
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.only(bottom: 8.h),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                            ),
+                            SizedBox(height: 16.h),
+
+                            /// Description
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Text(
+                                widget.menuItemModel.description,
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: Colors.brown[600],
+                                  height: 1.4,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20.h),
+
+                            /// Add to Cart Button
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 50.h,
+                                child: ElevatedButton.icon(
+                                  icon: Icon(
+                                    Icons.shopping_cart_outlined,
+                                    size: 24.r,
+                                  ),
+                                  label: Text(
+                                    S.of(context).AddToCart,
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.amber[700],
+                                    foregroundColor: Colors.brown[900],
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
+                                    elevation: 4,
+                                    shadowColor: Colors.black26,
+                                  ),
+                                  onPressed: () {
+                                    context.read<CartCubit>().addToCart(
+                                      widget.menuItemModel,
+                                    );
+                                    showSnackBar(
+                                      context: context,
+                                      message:
+                                          "${S.of(context).AddedSuccessfully} ${widget.menuItemModel.title} ${S.of(context).ToCard}",
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 16.h),
+                          ],
+                        ),
+                      ),
+
+                      ///send button
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 20.h),
+                        padding: EdgeInsets.all(16.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 8,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            /// Title
+                            Text(
+                              S.of(context).Ra2ykYhmna,
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.brown[800],
+                              ),
+                            ),
+                            SizedBox(height: 12.h),
+
+                            /// Stars Rating
+                            RatingBar.builder(
+                              initialRating: menuItemRating,
+                              minRating: 1,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemSize: 36.r,
+                              itemBuilder:
+                                  (context, _) =>
+                                      Icon(Icons.star, color: Colors.amber),
+                              onRatingUpdate: (rating) {
+                                setState(() {
+                                  menuItemRating = rating;
+                                });
+                              },
+                            ),
+                            SizedBox(height: 16.h),
+
+                            /// Buttons Row
+                            state is RatingSendRatingLoading
+                                ? AppLoader()
+                                : Row(
                                   children: [
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(
-                                        widget.menuItemModel.title,
-                                        style: TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                          color: Colors.white,
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                    Expanded(
+                                      child: CustomElevatedButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder:
+                                                  (
+                                                    context,
+                                                  ) => BlocProvider.value(
+                                                    value: cubit,
+                                                    child: ItemFeedBackView(
+                                                      itemId:
+                                                          widget
+                                                              .menuItemModel
+                                                              .id,
+                                                      departmentId:
+                                                          widget.departmentId,
+                                                      subScreenId:
+                                                          widget.subScreenId,
+                                                      buttonId:
+                                                          widget
+                                                              .menuItemModel
+                                                              .menuButtonId,
+                                                    ),
+                                                  ),
+                                            ),
+                                          );
+                                        },
+                                        text:
+                                            S
+                                                .of(context)
+                                                .ComplaintsAndSuggestions,
+                                        textColor: Colors.brown[800],
+                                        backGroundColor: Colors.grey[200],
+                                        tabletLayout:
+                                            GlobalData().isTabletLayout,
                                       ),
                                     ),
-                                    SizedBox(height: 10.h),
-                                    Row(
-                                      children: List.generate(5, (starIndex) {
-                                        return Icon(
-                                          starIndex <
-                                                  widget
-                                                      .menuItemModel
-                                                      .averageRating
-                                              ? Icons.star
-                                              : Icons.star_border,
-                                          color: Colors.yellow,
-                                          size: 12.r,
-                                        );
-                                      }),
+                                    SizedBox(width: 12.w),
+                                    Expanded(
+                                      child: CustomElevatedButton(
+                                        onPressed: () {
+                                          cubit.submitRating(
+                                            departmentId: widget.departmentId,
+                                            subScreenId: widget.subScreenId,
+                                            buttonId:
+                                                widget
+                                                    .menuItemModel
+                                                    .menuButtonId,
+                                            menuItemId: widget.menuItemModel.id,
+                                            stars: menuItemRating.toInt(),
+                                          );
+                                        },
+                                        text: S.of(context).Send,
+                                        tabletLayout:
+                                            GlobalData().isTabletLayout,
+                                      ),
                                     ),
-                                    SizedBox(height: 10.h),
                                   ],
                                 ),
-                              ),
-                            ),
-                            Positioned(
-                              top: -20,
-                              right: GlobalData().isArabic ? -10 : null,
-                              left: GlobalData().isArabic ? null : -10,
-                              child: _buildCircularImage(
-                                widget.menuItemModel.image,
-                              ),
-                            ),
-                            Positioned(
-                              bottom: -10.h,
-                              right: GlobalData().isArabic ? -8.w : null,
-                              left: GlobalData().isArabic ? null : -8.w,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 4.h,
-                                  horizontal: 8.w,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  '\$${widget.menuItemModel.price}',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: -5,
-                              left: GlobalData().isArabic ? -5 : null,
-                              right: GlobalData().isArabic ? null : -5,
-                              child: GestureDetector(
-                                onTap: () {
-                                  context.read<CartCubit>().addToCart(
-                                    widget.menuItemModel,
-                                  ); // Add to cart>
-                                  showSnackBar(
-                                    context: context,
-                                    snackBarAction: SnackBarAction(
-                                      onPressed: () {},
-                                      label: '',
-                                    ),
-                                    message:
-                                        "${S.of(context).AddedSuccessfully} ${widget.menuItemModel.title} ${S.of(context).ToCard}",
-                                  );
-                                  //  You might want to update state, show a snackbar, etc.
-                                },
-                                child: CircleAvatar(
-                                  radius: 24.r,
-                                  // Adjust the size
-                                  backgroundColor: Colors.amber,
-                                  // Use amber to match the price tag
-                                  child: Icon(
-                                    Icons.shopping_cart,
-                                    // Use the shopping cart icon
-                                    color: Colors.brown[800], // Icon color
-                                    size: 20.r, // Adjust icon size
-                                  ),
+
+                            /// Animation for successful submission
+                            SizedBox(height: 16.h),
+                            Visibility(
+                              visible: isAnimationVisible,
+                              child: SizedBox(
+                                height: 100.h,
+                                child: Lottie.asset(
+                                  'assets/animation/done_lottie.json',
+                                  controller: _animationController,
+                                  onLoaded: (composition) {
+                                    _animationController.duration =
+                                        composition.duration;
+                                  },
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 30.h),
-                      Divider(thickness: 2),
-
-                      ///rating section
-                      Text(
-                        S.of(context).RateYourExperience,
-                        style: TextStyle(fontSize: 20.sp),
-                      ),
-                      SizedBox(height: 10.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RatingBar.builder(
-                            initialRating: menuItemRating,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemPadding: EdgeInsets.symmetric(
-                              horizontal: 1.0.w,
-                            ),
-                            itemSize: 40.r,
-                            itemBuilder:
-                                (context, _) =>
-                                    Icon(Icons.star, color: Colors.amber),
-                            onRatingUpdate: (rating) {
-                              setState(() {
-                                menuItemRating = rating;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-
-                      ///send button
-                      SizedBox(height: 10.h),
-                      state is RatingSendRatingLoading
-                          ? AppLoader()
-                          : Row(
-                            children: [
-                              Expanded(
-                                child: CustomElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder:
-                                            (context) => BlocProvider.value(
-                                              value: cubit,
-                                              child: ItemFeedBackView(
-                                                itemId: widget.menuItemModel.id,
-                                                departmentId:
-                                                    widget.departmentId,
-                                                subScreenId: widget.subScreenId,
-                                                buttonId:
-                                                    widget
-                                                        .menuItemModel
-                                                        .menuButtonId,
-                                              ),
-                                            ),
-                                      ),
-                                    );
-                                  },
-                                  text: S.of(context).ComplaintsAndSuggestions,
-                                  textColor: Color(0xFF6D3A2D),
-                                  backGroundColor: Colors.grey[300],
-                                  tabletLayout: GlobalData().isTabletLayout,
-                                ),
-                              ),
-                              SizedBox(width: 10.w),
-                              Expanded(
-                                child: CustomElevatedButton(
-                                  onPressed: () {
-                                    cubit.submitRating(
-                                      departmentId: widget.departmentId,
-                                      subScreenId: widget.subScreenId,
-                                      buttonId:
-                                          widget.menuItemModel.menuButtonId,
-                                      menuItemId: widget.menuItemModel.id,
-                                      stars: menuItemRating.toInt(),
-                                    );
-                                  },
-                                  text: S.of(context).Send,
-                                  tabletLayout: GlobalData().isTabletLayout,
-                                ),
-                              ),
-                            ],
-                          ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Visibility(
-                            visible: isAnimationVisible,
-                            child: SizedBox(
-                              height: 100.h,
-                              child: Lottie.asset(
-                                controller: _animationController,
-                                onLoaded: (composition) {
-                                  _animationController.duration =
-                                      composition.duration;
-                                },
-                                backgroundLoading: true,
-                                alignment: Alignment.centerLeft,
-                                'assets/animation/done_lottie.json',
-                                // Local file
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                       SizedBox(height: 10.h),
                       state is RatingGetComplaintsLoading
                           ? AppLoader()
-                          : FeedbackList(
-                            complaints: cubit.complaintsList,
-                          ),
+                          : FeedbackList(complaints: cubit.complaintsList),
                       SizedBox(height: 20.h),
                     ],
                   ),
