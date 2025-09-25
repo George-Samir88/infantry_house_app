@@ -15,6 +15,8 @@ class RatingCubit extends Cubit<RatingState> {
     required String buttonId,
     required String menuItemId,
     required int stars,
+    required String userId,
+    required String userName,
   }) async {
     emit(RatingSendRatingLoading());
 
@@ -29,28 +31,74 @@ class RatingCubit extends Cubit<RatingState> {
           .collection("menu_items")
           .doc(menuItemId);
 
-      await firestore.runTransaction((transaction) async {
-        final snapshot = await transaction.get(menuItemRef);
+      final feedbackCollectionRef = firestore
+          .collection("feedback")
+          .doc(menuItemId)
+          .collection("rating");
 
-        if (!snapshot.exists) {
+      await firestore.runTransaction((transaction) async {
+        final menuSnapshot = await transaction.get(menuItemRef);
+
+        if (!menuSnapshot.exists) {
           emit(RatingSendRatingFailure(failure: "Menu item not found"));
           throw FirebaseException(
             plugin: "Firestore",
             message: "Menu item not found",
           );
         }
-        final data = snapshot.data() as Map<String, dynamic>;
-        final int ratingCount = (data["ratingCount"] ?? 0) as int;
-        final double averageRating = (data["averageRating"] ?? 0.0).toDouble();
-        final int newCount = ratingCount + 1;
-        double newAverage = ((averageRating * ratingCount) + stars) / newCount;
 
-        // تأكد إن المتوسط مش هيعدي 5 أو يقل عن 0
-        newAverage = newAverage.clamp(0.0, 5.0);
+        final menuData = menuSnapshot.data() as Map<String, dynamic>;
+        int ratingCount = (menuData["ratingCount"] ?? 0) as int;
+        double averageRating = (menuData["averageRating"] ?? 0.0).toDouble();
+
+        // البحث عن تقييم المستخدم الحالي
+        final userQuery =
+            await feedbackCollectionRef
+                .where("userId", isEqualTo: userId)
+                .limit(1)
+                .get();
+
+        if (userQuery.docs.isEmpty) {
+          // المستخدم لم يقيم قبل كده → إضافة تقييم جديد
+          final feedbackRef = feedbackCollectionRef.doc(); // doc جديد
+          transaction.set(feedbackRef, {
+            "stars": stars,
+            "timestamp": FieldValue.serverTimestamp(),
+            "departmentId": departmentId,
+            "subScreenId": subScreenId,
+            "buttonId": buttonId,
+            "menuItemId": menuItemId,
+            "userId": userId,
+            "username": userName,
+          });
+
+          ratingCount += 1;
+          averageRating =
+              ((averageRating * (ratingCount - 1)) + stars) / ratingCount;
+        } else {
+          // المستخدم قيم قبل كده → تحديث التقييم
+          final existingDoc = userQuery.docs.first;
+          final oldStars = (existingDoc.data()["stars"] ?? 0) as int;
+
+          transaction.update(existingDoc.reference, {
+            "stars": stars,
+            "timestamp": FieldValue.serverTimestamp(),
+          });
+
+          // تحديث المتوسط بعد تعديل التقييم القديم
+          averageRating =
+              ((averageRating * ratingCount) - oldStars + stars) / ratingCount;
+        }
+
+        // تأكد إن المتوسط بين 0 و 5
+        averageRating = averageRating.clamp(0.0, 5.0);
+
+        // تحديث بيانات العنصر
         transaction.update(menuItemRef, {
-          "ratingCount": newCount,
-          "averageRating": newAverage,
+          "ratingCount": ratingCount,
+          "averageRating": averageRating,
         });
+
         emit(RatingSendRatingSuccess());
       });
     } on FirebaseException catch (e) {
@@ -75,9 +123,9 @@ class RatingCubit extends Cubit<RatingState> {
       // Reference for complaint doc (auto-ID inside feedback collection)
       final feedbackRef =
           firestore
-              .collection("menu_items_complaint")
-              .doc(itemId)
               .collection("feedback")
+              .doc(itemId)
+              .collection("menu_items_complaint")
               .doc(); // generate new doc ID
 
       // Reference for menu item doc
@@ -114,9 +162,9 @@ class RatingCubit extends Cubit<RatingState> {
     try {
       final snapshot =
           await firestore
-              .collection("menu_items_complaint")
-              .doc(itemId)
               .collection("feedback")
+              .doc(itemId)
+              .collection("menu_items_complaint")
               .get();
 
       if (snapshot.docs.isEmpty) {

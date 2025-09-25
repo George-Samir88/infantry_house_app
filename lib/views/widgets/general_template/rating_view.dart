@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:infantry_house_app/utils/map_firebase_error.dart';
 import 'package:infantry_house_app/views/widgets/general_template/feedback_list_view.dart';
 import 'package:infantry_house_app/views/widgets/general_template/item_feedback_view.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
@@ -384,7 +386,16 @@ class _RatingViewState extends State<RatingView>
                                     SizedBox(width: 12.w),
                                     Expanded(
                                       child: CustomElevatedButton(
-                                        onPressed: () {
+                                        onPressed: () async {
+                                          final prefs =
+                                              await SharedPreferences.getInstance();
+                                          final cachedUser = prefs.getString(
+                                            'user_cache',
+                                          );
+                                          final currentUser = jsonDecode(
+                                            cachedUser!,
+                                          );
+
                                           cubit.submitRating(
                                             departmentId: widget.departmentId,
                                             subScreenId: widget.subScreenId,
@@ -394,6 +405,8 @@ class _RatingViewState extends State<RatingView>
                                                     .menuButtonId,
                                             menuItemId: widget.menuItemModel.id,
                                             stars: menuItemRating.toInt(),
+                                            userId: currentUser["uid"],
+                                            userName: currentUser["fullName"],
                                           );
                                         },
                                         text: S.of(context).Send,
