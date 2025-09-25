@@ -103,6 +103,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "FwakhElBa7r": MessageLookupByLibrary.simpleMessage("Seafood"),
         "GamePrice": MessageLookupByLibrary.simpleMessage("Game Price"),
         "GetStarted": MessageLookupByLibrary.simpleMessage("Get Started"),
+        "GoToComplaints": MessageLookupByLibrary.simpleMessage(
+            "Go to Complaints & Suggestions"),
         "GoodMorning": MessageLookupByLibrary.simpleMessage("Good Morning"),
         "Hello": MessageLookupByLibrary.simpleMessage("Hello"),
         "HighPrice": MessageLookupByLibrary.simpleMessage("High Price"),

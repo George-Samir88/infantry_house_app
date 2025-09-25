@@ -2,19 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infantry_house_app/models/complaints_model.dart';
 
+import '../../../../models/rating_model.dart';
+
 part 'rating_state.dart';
 
 class RatingCubit extends Cubit<RatingState> {
   RatingCubit() : super(RatingInitial());
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<ComplaintModel> complaintsList = [];
+  List<RatingModel> ratingsList = [];
 
   Future<void> submitRating({
     required String departmentId,
     required String subScreenId,
     required String buttonId,
     required String menuItemId,
-    required int stars,
+    required double stars,
     required String userId,
     required String userName,
   }) async {
@@ -59,38 +62,41 @@ class RatingCubit extends Cubit<RatingState> {
                 .get();
 
         if (userQuery.docs.isEmpty) {
-          // المستخدم لم يقيم قبل كده → إضافة تقييم جديد
-          final feedbackRef = feedbackCollectionRef.doc(); // doc جديد
-          transaction.set(feedbackRef, {
-            "stars": stars,
-            "timestamp": FieldValue.serverTimestamp(),
-            "departmentId": departmentId,
-            "subScreenId": subScreenId,
-            "buttonId": buttonId,
-            "menuItemId": menuItemId,
-            "userId": userId,
-            "username": userName,
-          });
+          // المستخدم لم يقيم قبل كده → إنشاء UserRating جديد
+          final feedbackRef = feedbackCollectionRef.doc();
+          final newRating = RatingModel(
+            userId: userId,
+            username: userName,
+            stars: stars,
+            timestamp: DateTime.now(),
+          );
+
+          transaction.set(feedbackRef, newRating.toMap());
 
           ratingCount += 1;
           averageRating =
               ((averageRating * (ratingCount - 1)) + stars) / ratingCount;
         } else {
-          // المستخدم قيم قبل كده → تحديث التقييم
+          // المستخدم قيم قبل كده → تحديث تقييمه باستخدام UserRating
           final existingDoc = userQuery.docs.first;
-          final oldStars = (existingDoc.data()["stars"] ?? 0) as int;
+          final oldStars = (existingDoc.data()["stars"] ?? 0);
 
-          transaction.update(existingDoc.reference, {
-            "stars": stars,
-            "timestamp": FieldValue.serverTimestamp(),
-          });
+          final updatedRating = RatingModel(
+            userId: userId,
+            username: userName,
+            stars: stars,
+            timestamp: DateTime.now(),
+          );
+
+          transaction.update(existingDoc.reference, updatedRating.toMap());
 
           // تحديث المتوسط بعد تعديل التقييم القديم
           averageRating =
-              ((averageRating * ratingCount) - oldStars + stars) / ratingCount;
+              ((averageRating * ratingCount) - oldStars + stars.toInt()) /
+              ratingCount;
         }
 
-        // تأكد إن المتوسط بين 0 و 5
+        // تأكد أن المتوسط بين 0 و 5
         averageRating = averageRating.clamp(0.0, 5.0);
 
         // تحديث بيانات العنصر
@@ -105,6 +111,31 @@ class RatingCubit extends Cubit<RatingState> {
       emit(RatingSendRatingFailure(failure: e.code));
     } catch (e) {
       emit(RatingSendRatingFailure(failure: e.toString()));
+    }
+  }
+
+  Future<void> getRatings({required String menuItemId}) async {
+    emit(RatingGetRatingLoading());
+
+    try {
+      final feedbackCollectionRef = firestore
+          .collection("feedback")
+          .doc(menuItemId)
+          .collection("rating");
+
+      final querySnapshot = await feedbackCollectionRef.get();
+
+      // تحويل المستندات إلى قائمة UserRating
+      final ratings =
+          querySnapshot.docs
+              .map((doc) => RatingModel.fromFirestore(doc))
+              .toList();
+      ratingsList = ratings;
+      emit(RatingGetRatingSuccess());
+    } on FirebaseException catch (e) {
+      emit(RatingGetRatingFailure(failure: e.code));
+    } catch (e) {
+      emit(RatingGetRatingFailure(failure: e.toString()));
     }
   }
 

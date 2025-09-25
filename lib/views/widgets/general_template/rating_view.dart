@@ -7,8 +7,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/map_firebase_error.dart';
-import 'package:infantry_house_app/views/widgets/general_template/feedback_list_view.dart';
 import 'package:infantry_house_app/views/widgets/general_template/item_feedback_view.dart';
+import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
+import 'package:infantry_house_app/views/widgets/general_template/rating_horizontal_list_view.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,6 +20,7 @@ import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_snackBar.dart';
 import '../cart_view/manager/cart_cubit/cart_cubit.dart';
+import 'complaints_view.dart';
 import 'manager/rating_cubit.dart';
 
 class RatingView extends StatefulWidget {
@@ -27,11 +29,13 @@ class RatingView extends StatefulWidget {
     required this.menuItemModel,
     required this.departmentId,
     required this.subScreenId,
+    required this.departmentCubit,
   });
 
   final MenuItemModel menuItemModel;
   final String departmentId;
   final String subScreenId;
+  final DepartmentCubit departmentCubit;
 
   @override
   State<RatingView> createState() => _RatingViewState();
@@ -100,7 +104,7 @@ class _RatingViewState extends State<RatingView>
     return BlocProvider(
       create:
           (context) =>
-              RatingCubit()..getComplaints(itemId: widget.menuItemModel.id),
+              RatingCubit()..getRatings(menuItemId: widget.menuItemModel.id),
       child: BlocConsumer<RatingCubit, RatingState>(
         listener: (context, state) {
           if (state is RatingSendRatingFailure) {
@@ -115,16 +119,6 @@ class _RatingViewState extends State<RatingView>
           }
           if (state is RatingSendRatingSuccess) {
             _playAnimation();
-          }
-          if (state is RatingGetComplaintsFailure) {
-            showSnackBar(
-              context: context,
-              message: localizeFirestoreError(
-                context: context,
-                code: state.failure,
-              ),
-              backgroundColor: Colors.redAccent,
-            );
           }
         },
         builder: (context, state) {
@@ -404,7 +398,7 @@ class _RatingViewState extends State<RatingView>
                                                     .menuItemModel
                                                     .menuButtonId,
                                             menuItemId: widget.menuItemModel.id,
-                                            stars: menuItemRating.toInt(),
+                                            stars: menuItemRating,
                                             userId: currentUser["uid"],
                                             userName: currentUser["fullName"],
                                           );
@@ -438,10 +432,46 @@ class _RatingViewState extends State<RatingView>
                         ),
                       ),
                       SizedBox(height: 10.h),
-                      state is RatingGetComplaintsLoading
-                          ? AppLoader()
-                          : FeedbackList(complaints: cubit.complaintsList),
-                      SizedBox(height: 20.h),
+                      RatingsHorizontalView(ratings: cubit.ratingsList),
+                      SizedBox(height: 10.h),
+                      if (context.read<DepartmentCubit>().canManage) ...[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Divider(endIndent: 8.w, indent: 8.w),
+                            SizedBox(height: 10.h),
+                            CustomElevatedButtonWithIcon(
+                              label: S.of(context).GoToComplaints,
+                              fontSize: 14.sp,
+                              icon: Icons.arrow_back_ios_new_outlined,
+                              backGroundColor: Colors.brown[400],
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return MultiBlocProvider(
+                                        providers: [
+                                          BlocProvider.value(
+                                            value: widget.departmentCubit,
+                                          ),
+                                          // DepartmentCubit
+                                          BlocProvider.value(value: cubit),
+                                          // RatingCubit
+                                        ],
+                                        child: ComplaintsView(
+                                          menuItemModel: widget.menuItemModel,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20.h),
+                      ],
                     ],
                   ),
                 ],

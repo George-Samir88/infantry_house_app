@@ -99,6 +99,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "FwakhElBa7r": MessageLookupByLibrary.simpleMessage("فواكه البحر"),
         "GamePrice": MessageLookupByLibrary.simpleMessage("سعر اللعبة"),
         "GetStarted": MessageLookupByLibrary.simpleMessage("ابدأ"),
+        "GoToComplaints": MessageLookupByLibrary.simpleMessage(
+            "اذهب إلى الشكاوى والاقتراحات"),
         "GoodMorning": MessageLookupByLibrary.simpleMessage("صباح الخير"),
         "Hello": MessageLookupByLibrary.simpleMessage("مرحبًا"),
         "HighPrice": MessageLookupByLibrary.simpleMessage("السعر مرتفع"),

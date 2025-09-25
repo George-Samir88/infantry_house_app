@@ -156,5 +156,6 @@
   "NetworkError": "⚠️ لا يوجد اتصال بالإنترنت.",
   "NetworkRequestFailed": "⚠️ لا يوجد اتصال بالإنترنت.",
   "SocketException": "⚠️ لا يوجد اتصال بالإنترنت.",
-  "unknown": "⚠️ حدث خطأ غير معروف في Firestore."
+  "unknown": "⚠️ حدث خطأ غير معروف في Firestore.",
+  "GoToComplaints" : "اذهب إلى الشكاوى والاقتراحات"
 }

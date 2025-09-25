@@ -156,5 +156,6 @@
   "networkError": "No internet connection.",
   "NetworkRequestFailed": "No internet connection.",
   "SocketException": "⚠️ No internet connection",
-  "unknown": "An unknown Firestore error occurred."
+  "unknown": "An unknown Firestore error occurred.",
+  "GoToComplaints" : "Go to Complaints & Suggestions"
 }

@@ -1619,6 +1619,16 @@ class S {
       args: [],
     );
   }
+
+  /// `اذهب إلى الشكاوى والاقتراحات`
+  String get GoToComplaints {
+    return Intl.message(
+      'اذهب إلى الشكاوى والاقتراحات',
+      name: 'GoToComplaints',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
