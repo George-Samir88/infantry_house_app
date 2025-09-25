@@ -233,33 +233,40 @@ class ComplaintImageViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (imageUrl.isEmpty) {
-      return const Icon(
-        Icons.image_not_supported,
-        size: 60,
-        color: Colors.grey,
+      return _fallbackIcon();
+    }
+
+    if (_isNetworkImage(imageUrl)) {
+      return Image.network(
+        imageUrl,
+        height: height,
+        width: width,
+        fit: fit,
+        errorBuilder: (context, error, stackTrace) => _fallbackIcon(),
       );
     }
 
-    return _isNetworkImage(imageUrl)
-        ? Image.network(
-      imageUrl,
-      height: height,
-      width: width,
-      fit: fit,
-      errorBuilder: (context, error, stackTrace) {
-        return const Icon(Icons.broken_image,
-            size: 60, color: Colors.red);
-      },
-    )
-        : Image.file(
-      File(imageUrl),
-      height: height,
-      width: width,
-      fit: fit,
-      errorBuilder: (context, error, stackTrace) {
-        return const Icon(Icons.broken_image,
-            size: 60, color: Colors.red);
-      },
+    final file = File(imageUrl);
+    if (file.existsSync()) {
+      return Image.file(
+        file,
+        height: height,
+        width: width,
+        fit: fit,
+        errorBuilder: (context, error, stackTrace) => _fallbackIcon(),
+      );
+    }
+
+    // If not a valid file and not a network image → fallback
+    return _fallbackIcon();
+  }
+
+  Widget _fallbackIcon() {
+    return const Icon(
+      Icons.image_not_supported,
+      size: 60,
+      color: Colors.grey,
     );
   }
 }
+

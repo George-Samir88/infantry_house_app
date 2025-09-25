@@ -72,6 +72,7 @@ class _RatingViewState extends State<RatingView>
 
   Widget _buildImage(String imagePath) {
     if (imagePath.startsWith('assets/')) {
+      // Asset image
       return Image.asset(
         imagePath,
         fit: BoxFit.cover,
@@ -79,24 +80,36 @@ class _RatingViewState extends State<RatingView>
         height: 200.h,
       );
     } else if (File(imagePath).existsSync()) {
+      // Local file image
       return Image.file(
         File(imagePath),
         fit: BoxFit.cover,
         width: double.infinity,
         height: 200.h,
       );
-    } else {
-      // Fallback to network image
+    } else if (imagePath.startsWith('http')) {
+      // Network image
       return Image.network(
         imagePath,
         fit: BoxFit.cover,
         width: double.infinity,
         height: 200.h,
-        errorBuilder:
-            (context, error, stackTrace) =>
-                Container(color: Colors.grey[300], height: 200.h),
+        errorBuilder: (context, error, stackTrace) => _fallbackWidget(),
       );
+    } else {
+      // Fallback (invalid or missing image)
+      return _fallbackWidget();
     }
+  }
+
+  Widget _fallbackWidget() {
+    return Container(
+      color: Colors.grey[300],
+      height: 200.h,
+      child: const Center(
+        child: Icon(Icons.image_not_supported, size: 40, color: Colors.black54),
+      ),
+    );
   }
 
   @override
@@ -433,7 +446,7 @@ class _RatingViewState extends State<RatingView>
                       ),
                       SizedBox(height: 10.h),
                       RatingsHorizontalView(ratings: cubit.ratingsList),
-                      SizedBox(height: 10.h),
+                      SizedBox(height: 20.h),
                       if (context.read<DepartmentCubit>().canManage) ...[
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
