@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -70,6 +71,30 @@ class _RatingViewState extends State<RatingView>
     });
   }
 
+  Completer<void> _refreshCompleter = Completer<void>();
+
+  Future<void> _handleRefresh() async {
+    // reset completer
+    if (_refreshCompleter.isCompleted) {
+      _refreshCompleter = Completer<void>();
+    }
+
+    final cubit = context.read<RatingCubit>();
+
+    // trigger your functions (don’t await if you want parallel calls)
+    cubit.getRatings(menuItemId: widget.menuItemModel.id);
+    cubit.getComplaints(itemId: widget.menuItemModel.id);
+
+    // stop refresh after 4 seconds
+    Future.delayed(const Duration(seconds: 2), () {
+      if (!_refreshCompleter.isCompleted) {
+        _refreshCompleter.complete();
+      }
+    });
+
+    return _refreshCompleter.future;
+  }
+
   Widget _buildImage(String imagePath) {
     if (imagePath.startsWith('assets/')) {
       // Asset image
@@ -114,41 +139,39 @@ class _RatingViewState extends State<RatingView>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create:
-          (context) =>
-              RatingCubit()..getRatings(menuItemId: widget.menuItemModel.id),
-      child: BlocConsumer<RatingCubit, RatingState>(
-        listener: (context, state) {
-          if (state is RatingSendRatingFailure) {
-            showSnackBar(
+    return BlocConsumer<RatingCubit, RatingState>(
+      listener: (context, state) {
+        if (state is RatingSendRatingFailure) {
+          showSnackBar(
+            context: context,
+            message: localizeFirestoreError(
               context: context,
-              message: localizeFirestoreError(
-                context: context,
-                code: state.failure,
-              ),
-              backgroundColor: Colors.red,
-            );
-          }
-          if (state is RatingSendRatingSuccess) {
-            _playAnimation();
-          }
-        },
-        builder: (context, state) {
-          var cubit = context.read<RatingCubit>();
-          return Scaffold(
-            backgroundColor: Color(0xffF5F5F5),
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(70.h),
-              child: CustomAppBarEditingView(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                title: S.of(context).Ra2ykYhmna,
-              ),
+              code: state.failure,
             ),
-            body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.h),
+            backgroundColor: Colors.red,
+          );
+        }
+        if (state is RatingSendRatingSuccess) {
+          _playAnimation();
+        }
+      },
+      builder: (context, state) {
+        var cubit = context.read<RatingCubit>();
+        return Scaffold(
+          backgroundColor: Color(0xffF5F5F5),
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(70.h),
+            child: CustomAppBarEditingView(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              title: S.of(context).Ra2ykYhmna,
+            ),
+          ),
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.h),
+            child: RefreshIndicator(
+              onRefresh: _handleRefresh,
               child: ListView(
                 children: [
                   Column(
@@ -444,8 +467,10 @@ class _RatingViewState extends State<RatingView>
                           ],
                         ),
                       ),
-                      SizedBox(height: 10.h),
-                      RatingsHorizontalView(ratings: cubit.ratingsList),
+                      if (cubit.ratingsList.isNotEmpty) ...[
+                        SizedBox(height: 10.h),
+                        RatingsHorizontalView(ratings: cubit.ratingsList),
+                      ],
                       SizedBox(height: 20.h),
                       if (context.read<DepartmentCubit>().canManage) ...[
                         Column(
@@ -490,9 +515,9 @@ class _RatingViewState extends State<RatingView>
                 ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

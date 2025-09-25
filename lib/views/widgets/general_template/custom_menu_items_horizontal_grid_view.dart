@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
+import 'package:infantry_house_app/views/widgets/general_template/manager/rating_cubit.dart';
 import 'package:infantry_house_app/views/widgets/general_template/rating_view.dart';
 
 import '../../../generated/l10n.dart';
@@ -78,11 +79,22 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                           builder:
                               (context) => BlocProvider.value(
                                 value: cubit,
-                                child: RatingView(
-                                  menuItemModel: cubit.menuItemsList[gridIndex],
-                                  departmentId: cubit.departmentId,
-                                  subScreenId: cubit.selectedSubScreenID!,
-                                  departmentCubit: cubit,
+                                child: BlocProvider(
+                                  create:
+                                      (context) =>
+                                          RatingCubit()..getRatings(
+                                            menuItemId:
+                                                cubit
+                                                    .menuItemsList[gridIndex]
+                                                    .id,
+                                          ),
+                                  child: RatingView(
+                                    menuItemModel:
+                                        cubit.menuItemsList[gridIndex],
+                                    departmentId: cubit.departmentId,
+                                    subScreenId: cubit.selectedSubScreenID!,
+                                    departmentCubit: cubit,
+                                  ),
                                 ),
                               ),
                         ),

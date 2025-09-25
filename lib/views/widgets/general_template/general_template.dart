@@ -22,7 +22,6 @@ class GeneralTemplateView extends StatefulWidget {
 
 class _GeneralTemplateViewState extends State<GeneralTemplateView> {
   Completer<void> _refreshCompleter = Completer<void>();
-  bool loading = false;
 
   Future<void> _handleRefresh() async {
     // reset completer

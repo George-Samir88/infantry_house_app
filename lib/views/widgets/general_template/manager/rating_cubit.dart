@@ -62,6 +62,7 @@ class RatingCubit extends Cubit<RatingState> {
                 .get();
 
         if (userQuery.docs.isEmpty) {
+          transaction.update(menuItemRef, {"hasFeedback": true});
           // المستخدم لم يقيم قبل كده → إنشاء UserRating جديد
           final feedbackRef = feedbackCollectionRef.doc();
           final newRating = RatingModel(
