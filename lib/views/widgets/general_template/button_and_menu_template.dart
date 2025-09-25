@@ -175,12 +175,17 @@ class ButtonAndMenuTemplate extends StatelessWidget {
         if (state is DepartmentGetMenuItemLoadingState ||
             state is DepartmentGetMenuButtonLoadingState)
           // 🔹 Loading
-          Container(
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(top: 20.h, left: 12.w, right: 12.w),
-            padding: EdgeInsets.all(20.w),
-            alignment: Alignment.center,
-            child: const AppLoader(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.only(top: 20.h, left: 12.w, right: 12.w),
+                padding: EdgeInsets.all(20.w),
+                alignment: Alignment.center,
+                child: const AppLoader(),
+              ),
+            ],
           )
         else if (state is DepartmentGetMenuItemFailureState)
           // 🔹 Failure
@@ -303,6 +308,7 @@ class ButtonAndMenuTemplate extends StatelessWidget {
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
         return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding: EdgeInsets.only(left: 16.0.w, right: 16.w),

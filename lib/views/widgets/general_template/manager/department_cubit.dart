@@ -365,7 +365,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     selectedSubScreenIndex = index;
     emit(DepartmentChangeSubScreenState());
 
-    // ✅ Menu Buttons + Items من الكاش
+    // ✅ 1) Menu Buttons + Items
     if (subScreenCache.containsKey(subScreenButtonId)) {
       final buttonsMap = subScreenCache[subScreenButtonId]!;
 
@@ -374,19 +374,24 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       if (menuButtonList.isNotEmpty) {
         final firstButton = menuButtonList.first;
         selectedMenuButtonId = firstButton.uid;
-        // menuItemsList = buttonsMap[firstButton] ?? [];
-        changeMenuButtonIndex(index: 0, buttonId: selectedMenuButtonId!);
+
+        // بدل ما نعمل set مباشر → نستعمل الـ function
+        await changeMenuButtonIndex(
+          index: 0,
+          buttonId: selectedMenuButtonId!,
+        );
       } else {
         selectedMenuButtonId = null;
         menuItemsList = [];
+        emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
       }
 
       emit(DepartmentGetMenuButtonSuccessState());
-      emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
     } else {
-      await listenToMenuButtons();
+      await listenToMenuButtons(); // هي اللي بتبني الكاش لأول مرة
     }
-    // ✅ Carousel
+
+    // ✅ 2) Carousel
     if (carouselCache.containsKey(subScreenButtonId)) {
       carouselItemsList = carouselCache[subScreenButtonId]!;
       emit(DepartmentGetCarouselSuccessState());
@@ -394,7 +399,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       await listenToCarousel();
     }
 
-    // ✅ Menu Title
+    // ✅ 3) Menu Title
     if (menuTitleCache.containsKey(subScreenButtonId)) {
       selectedMenuTitle = menuTitleCache[subScreenButtonId]!;
       emit(
@@ -404,6 +409,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       await listenToMenuTitle();
     }
   }
+
 
   ///--------------Carousel CRUD operations--------------
   void changeCarouselIndex({required int index}) {
@@ -656,18 +662,34 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     emit(DepartmentChangeMenuButtonIndexState());
 
     final buttonsMap = subScreenCache[selectedSubScreenID];
+
     if (buttonsMap != null) {
+      // دور على الزرار المطلوب
       final selectedButton = buttonsMap.keys.firstWhereOrNull(
-        (b) => b.uid == buttonId,
+            (b) => b.uid == buttonId,
       );
+
       if (selectedButton != null) {
-        menuItemsList = buttonsMap[selectedButton] ?? [];
+        final cachedItems = buttonsMap[selectedButton];
+
+        if (cachedItems != null && cachedItems.isNotEmpty) {
+          // ✅ استعمل الكاش
+          menuItemsList = cachedItems;
+          emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
+          return;
+        } else {
+          // ❌ الكاش موجود بس فاضي → هات من Firestore
+          await listenToMenuItems();
+          return;
+        }
       } else {
+        // ❌ الزرار نفسه مش موجود في الكاش
         menuItemsList = [];
+        emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
+        return;
       }
-      menuItemsList = buttonsMap[selectedButton] ?? [];
-      emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
     } else {
+      // ❌ مفيش كاش خالص للـ SubScreen
       await listenToMenuItems();
     }
   }
