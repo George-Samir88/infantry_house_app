@@ -25,6 +25,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "A3yadElmelad":
             MessageLookupByLibrary.simpleMessage("Birthdays and occasions"),
         "A8zya": MessageLookupByLibrary.simpleMessage("Foods"),
+        "ActivationLinkSent":
+            MessageLookupByLibrary.simpleMessage("ِِActivation link sent"),
+        "ActivationLinkSentToYourEmail": MessageLookupByLibrary.simpleMessage(
+            "An activation link has been sent to your email."),
         "Ad5lEsmElkaemaInArabic": MessageLookupByLibrary.simpleMessage(
             "Enter category name in arabic"),
         "Ad5lEsmElkaemaInEnglish": MessageLookupByLibrary.simpleMessage(
@@ -105,6 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "GetStarted": MessageLookupByLibrary.simpleMessage("Get Started"),
         "GoToComplaints": MessageLookupByLibrary.simpleMessage(
             "Go to Complaints & Suggestions"),
+        "GoToLogin": MessageLookupByLibrary.simpleMessage("Go to login"),
         "GoodMorning": MessageLookupByLibrary.simpleMessage("Good Morning"),
         "Hello": MessageLookupByLibrary.simpleMessage("Hello"),
         "HighPrice": MessageLookupByLibrary.simpleMessage("High Price"),
@@ -158,12 +163,13 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please select a main category first"),
         "PleaseAddDailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("Please add image of game"),
+        "PleaseCheckYourInboxAndClickTheLinkToActivateYourAccount":
+            MessageLookupByLibrary.simpleMessage(
+                "Please check your inbox and click the link to activate your account."),
         "PleaseEnterAValidEmail":
             MessageLookupByLibrary.simpleMessage("Please enter a valid email"),
         "PleaseEnterDescription":
             MessageLookupByLibrary.simpleMessage("Please add description"),
-        "PleaseEnterItBelow":
-            MessageLookupByLibrary.simpleMessage("please enter it below"),
         "PleaseEnterPriceOfGame":
             MessageLookupByLibrary.simpleMessage("Please enter price of game"),
         "PleaseEnterTitleOfGame":
@@ -190,7 +196,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
         "RegisteredSuccessfully":
             MessageLookupByLibrary.simpleMessage("Registered Successfully"),
-        "Resend": MessageLookupByLibrary.simpleMessage("Resend"),
+        "ResendActivation":
+            MessageLookupByLibrary.simpleMessage("Resend activation"),
+        "ResendCoolDown":
+            MessageLookupByLibrary.simpleMessage("Try again after"),
         "ResourceExhausted": MessageLookupByLibrary.simpleMessage(
             "Quota exceeded. Too many requests."),
         "Retry": MessageLookupByLibrary.simpleMessage("Retry"),
@@ -201,6 +210,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "RoknSalatat": MessageLookupByLibrary.simpleMessage("Salad Section"),
         "S3rElsnf": MessageLookupByLibrary.simpleMessage("Item price"),
         "Salatat8rbya": MessageLookupByLibrary.simpleMessage("Western Salads"),
+        "Seconds": MessageLookupByLibrary.simpleMessage("Seconds"),
         "Send": MessageLookupByLibrary.simpleMessage("Send"),
         "ShareYourFeedback":
             MessageLookupByLibrary.simpleMessage("Share Your Opinion"),
@@ -231,10 +241,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "UpdateDailyGame": MessageLookupByLibrary.simpleMessage("Update Game"),
         "UpdateTitle": MessageLookupByLibrary.simpleMessage("Update category"),
         "UserName": MessageLookupByLibrary.simpleMessage("User Name"),
-        "VerificationCodeSent":
-            MessageLookupByLibrary.simpleMessage("Verification Code Sent"),
-        "WeTextedYouA5DigitCodeTo": MessageLookupByLibrary.simpleMessage(
-            "We texted you a 5-digit code to"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome Back!"),
         "WelcomeToInfantryHouse":
             MessageLookupByLibrary.simpleMessage("Welcome to Infantry House"),

@@ -29,20 +29,36 @@ class LoginCubit extends Cubit<LoginState> {
 
       // 2) Fetch user data from Firestore
       final snapshot = await firestore.collection('users').doc(uid).get();
-
       if (!snapshot.exists) {
         emit(LoginFailure("User data not found in Firestore"));
         return;
       }
 
-      final user = UserModel.fromMap(snapshot.data()!);
+      // 3) Check if user is verified
+      User? currentUser = userCredential.user;
+      if (currentUser != null) {
+        await currentUser.reload(); // تحديث حالة الحساب
+        currentUser = auth.currentUser;
 
-      // 3) Emit success state with user
-      emit(LoginSuccess(user));
+        if (currentUser!.emailVerified) {
+          // ✅ مفعّل
+          await firestore.collection("users").doc(currentUser.uid).update({
+            "isVerified": true,
+          });
+          final user = UserModel.fromMap(snapshot.data()!);
 
-      // 4) Save only uid to SharedPreferences
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('uid', uid);
+          // 4) Emit success state with user
+          emit(LoginSuccess(user));
+
+          // 5) Save only uid to SharedPreferences
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('uid', uid);
+        } else {
+          // ⚠️ مش مفعّل
+          emit(LoginFailure(_mapFirebaseAuthError(null, emailVerified: false)));
+          // هنا تقدر تمنعه من الدخول وتدي Alert
+        }
+      }
     } on FirebaseAuthException catch (e) {
       emit(LoginFailure(_mapFirebaseAuthError(e)));
     } catch (e) {
@@ -53,7 +69,18 @@ class LoginCubit extends Cubit<LoginState> {
   // ==============================
   // Helper: Map Firebase Errors
   // ==============================
-  String _mapFirebaseAuthError(FirebaseAuthException e) {
+  String _mapFirebaseAuthError(
+    FirebaseAuthException? e, {
+    bool emailVerified = true,
+  }) {
+    if (!emailVerified) {
+      return "Please verify your email address before logging in.";
+    }
+
+    if (e == null) {
+      return "Authentication error occurred.";
+    }
+
     switch (e.code) {
       case "invalid-email":
         return "The email address is not valid.";

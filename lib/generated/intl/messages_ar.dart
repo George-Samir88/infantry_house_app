@@ -25,6 +25,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "A3yadElmelad":
             MessageLookupByLibrary.simpleMessage("أعياد الميلاد والمناسبات"),
         "A8zya": MessageLookupByLibrary.simpleMessage("أغذية"),
+        "ActivationLinkSent":
+            MessageLookupByLibrary.simpleMessage("تم إرسال رابط التفعيل"),
+        "ActivationLinkSentToYourEmail": MessageLookupByLibrary.simpleMessage(
+            "تم إرسال رابط التفعيل إلى بريدك الإلكتروني."),
         "Ad5lEsmElkaemaInArabic":
             MessageLookupByLibrary.simpleMessage("أدخل اسم القسم بالعربية"),
         "Ad5lEsmElkaemaInEnglish":
@@ -101,6 +105,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "GetStarted": MessageLookupByLibrary.simpleMessage("ابدأ"),
         "GoToComplaints": MessageLookupByLibrary.simpleMessage(
             "اذهب إلى الشكاوى والاقتراحات"),
+        "GoToLogin":
+            MessageLookupByLibrary.simpleMessage("اذهب إلى تسجيل الدخول"),
         "GoodMorning": MessageLookupByLibrary.simpleMessage("صباح الخير"),
         "Hello": MessageLookupByLibrary.simpleMessage("مرحبًا"),
         "HighPrice": MessageLookupByLibrary.simpleMessage("السعر مرتفع"),
@@ -155,12 +161,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("يجب إختيار قسم رئيسي أولاً."),
         "PleaseAddDailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("الرجاء إضافة صورة اللعبة"),
+        "PleaseCheckYourInboxAndClickTheLinkToActivateYourAccount":
+            MessageLookupByLibrary.simpleMessage(
+                " من فضلك تحقق من بريدك واضغط على الرابط لتفعيل حسابك."),
         "PleaseEnterAValidEmail": MessageLookupByLibrary.simpleMessage(
             "يرجى إدخال بريد إلكتروني صالح"),
         "PleaseEnterDescription":
             MessageLookupByLibrary.simpleMessage("الرجاء إضافة وصف"),
-        "PleaseEnterItBelow":
-            MessageLookupByLibrary.simpleMessage("يرجى إدخاله أدناه"),
         "PleaseEnterPriceOfGame":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال سعر اللعبة"),
         "PleaseEnterTitleOfGame":
@@ -186,7 +193,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Register": MessageLookupByLibrary.simpleMessage("سجل"),
         "RegisteredSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم التسجيل بنجاح"),
-        "Resend": MessageLookupByLibrary.simpleMessage("إعادة الإرسال"),
+        "ResendActivation":
+            MessageLookupByLibrary.simpleMessage("إعادة إرسال التفعيل"),
+        "ResendCoolDown":
+            MessageLookupByLibrary.simpleMessage("أعد المحاولة بعد"),
         "ResourceExhausted": MessageLookupByLibrary.simpleMessage(
             "⚠️ تم تجاوز الحصة. عدد كبير جدًا من الطلبات."),
         "Retry": MessageLookupByLibrary.simpleMessage("أعد المحاولة"),
@@ -197,6 +207,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "RoknSalatat": MessageLookupByLibrary.simpleMessage("ركن السلطات"),
         "S3rElsnf": MessageLookupByLibrary.simpleMessage("سعر الصنف"),
         "Salatat8rbya": MessageLookupByLibrary.simpleMessage("سلطات غربية"),
+        "Seconds": MessageLookupByLibrary.simpleMessage("ثانية"),
         "Send": MessageLookupByLibrary.simpleMessage("ارسال"),
         "ShareYourFeedback":
             MessageLookupByLibrary.simpleMessage("شارك ملاحظاتك"),
@@ -228,10 +239,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "UpdateTitle":
             MessageLookupByLibrary.simpleMessage("تعديل اسم التصنيف"),
         "UserName": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
-        "VerificationCodeSent":
-            MessageLookupByLibrary.simpleMessage("تم إرسال رمز التحقق"),
-        "WeTextedYouA5DigitCodeTo": MessageLookupByLibrary.simpleMessage(
-            "لقد أرسلنا لك رمز تحقق مكونًا من 5 أرقام إلى"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبًا بعودتك!"),
         "WelcomeToInfantryHouse":
             MessageLookupByLibrary.simpleMessage("مرحبا بك في دار المشاه"),

@@ -17,3 +17,5 @@ class RegisterFailure extends RegisterState {
 
   RegisterFailure(this.error);
 }
+
+class RegisterResendVerificationEmail extends RegisterState {}

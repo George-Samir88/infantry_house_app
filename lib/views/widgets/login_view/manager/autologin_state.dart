@@ -23,3 +23,9 @@ class AutoLoginFailure extends AutoLoginState {
 
   AutoLoginFailure(this.message);
 }
+
+class AutoLoginEmailNotVerified extends AutoLoginState {
+  final String message;
+
+  AutoLoginEmailNotVerified(this.message);
+}

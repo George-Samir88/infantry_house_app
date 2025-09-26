@@ -310,41 +310,71 @@ class S {
     );
   }
 
-  /// `تم إرسال رمز التحقق`
-  String get VerificationCodeSent {
+  /// `تم إرسال رابط التفعيل`
+  String get ActivationLinkSent {
     return Intl.message(
-      'تم إرسال رمز التحقق',
-      name: 'VerificationCodeSent',
+      'تم إرسال رابط التفعيل',
+      name: 'ActivationLinkSent',
       desc: '',
       args: [],
     );
   }
 
-  /// `لقد أرسلنا لك رمز تحقق مكونًا من 5 أرقام إلى`
-  String get WeTextedYouA5DigitCodeTo {
+  /// `تم إرسال رابط التفعيل إلى بريدك الإلكتروني.`
+  String get ActivationLinkSentToYourEmail {
     return Intl.message(
-      'لقد أرسلنا لك رمز تحقق مكونًا من 5 أرقام إلى',
-      name: 'WeTextedYouA5DigitCodeTo',
+      'تم إرسال رابط التفعيل إلى بريدك الإلكتروني.',
+      name: 'ActivationLinkSentToYourEmail',
       desc: '',
       args: [],
     );
   }
 
-  /// `يرجى إدخاله أدناه`
-  String get PleaseEnterItBelow {
+  /// ` من فضلك تحقق من بريدك واضغط على الرابط لتفعيل حسابك.`
+  String get PleaseCheckYourInboxAndClickTheLinkToActivateYourAccount {
     return Intl.message(
-      'يرجى إدخاله أدناه',
-      name: 'PleaseEnterItBelow',
+      ' من فضلك تحقق من بريدك واضغط على الرابط لتفعيل حسابك.',
+      name: 'PleaseCheckYourInboxAndClickTheLinkToActivateYourAccount',
       desc: '',
       args: [],
     );
   }
 
-  /// `إعادة الإرسال`
-  String get Resend {
+  /// `اذهب إلى تسجيل الدخول`
+  String get GoToLogin {
     return Intl.message(
-      'إعادة الإرسال',
-      name: 'Resend',
+      'اذهب إلى تسجيل الدخول',
+      name: 'GoToLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أعد المحاولة بعد`
+  String get ResendCoolDown {
+    return Intl.message(
+      'أعد المحاولة بعد',
+      name: 'ResendCoolDown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ثانية`
+  String get Seconds {
+    return Intl.message(
+      'ثانية',
+      name: 'Seconds',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إعادة إرسال التفعيل`
+  String get ResendActivation {
+    return Intl.message(
+      'إعادة إرسال التفعيل',
+      name: 'ResendActivation',
       desc: '',
       args: [],
     );

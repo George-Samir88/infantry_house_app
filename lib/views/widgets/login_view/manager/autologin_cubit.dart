@@ -13,6 +13,7 @@ class AutoLoginCubit extends Cubit<AutoLoginState> {
   AutoLoginCubit() : super(AutoLoginInitial());
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   /// Try auto login with full scenario handling
   Future<void> tryAutoLogin() async {
@@ -31,7 +32,7 @@ class AutoLoginCubit extends Cubit<AutoLoginState> {
       }
 
       // --------------------
-      // Try load cached UserModel (temporary only)
+      // Load cached UserModel (if any)
       // --------------------
       final cachedJson = prefs.getString('user_cache');
       UserModel? cachedUser;
@@ -40,12 +41,39 @@ class AutoLoginCubit extends Cubit<AutoLoginState> {
       }
 
       // --------------------
-      // Try fetch from Firestore
+      // Reload current Firebase user
+      // --------------------
+      User? currentUser = _auth.currentUser;
+      if (currentUser != null) {
+        await currentUser.reload();
+        currentUser = _auth.currentUser;
+      }
+
+      // --------------------
+      // Check Firestore user data
       // --------------------
       final snap = await _firestore.collection("users").doc(uid).get();
 
       if (snap.exists) {
         final freshUser = UserModel.fromMap(snap.data()!);
+
+        // --------------------
+        // Check email verification
+        // --------------------
+        if (currentUser != null && !currentUser.emailVerified) {
+          emit(AutoLoginEmailNotVerified("Please verify your email address."));
+          return;
+        }
+
+        // If verified but Firestore not updated → update it
+        if (currentUser != null &&
+            currentUser.emailVerified &&
+            !freshUser.isVerified) {
+          await _firestore.collection("users").doc(uid).update({
+            "isVerified": true,
+          });
+          freshUser.isVerified = true;
+        }
 
         // Update cache if changed
         if (cachedUser == null ||
@@ -53,7 +81,7 @@ class AutoLoginCubit extends Cubit<AutoLoginState> {
           await prefs.setString('user_cache', jsonEncode(freshUser.toMap()));
         }
 
-        // ✅ Emit fresh user (or cached if same)
+        // ✅ Emit fresh user
         emit(AutoLoginSuccess(freshUser));
       } else {
         // UID not valid in Firestore → clear session
@@ -85,9 +113,7 @@ class AutoLoginCubit extends Cubit<AutoLoginState> {
   }
 
   Future<void> logout() async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-
-    await auth.signOut();
+    await _auth.signOut();
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('uid');
     await prefs.remove('user_cache');

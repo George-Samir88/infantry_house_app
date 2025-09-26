@@ -8,6 +8,7 @@ class UserModel {
   final DateTime createdAt;
   final String role;
   final String? department;
+  bool isVerified;
 
   UserModel({
     required this.uid,
@@ -17,12 +18,14 @@ class UserModel {
     required this.createdAt,
     required this.role,
     required this.department,
+    required this.isVerified,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'uid': uid,
       'fullName': fullName,
+      'isVerified': isVerified,
       'email': email,
       'phone': phone,
       'createdAt': createdAt.toIso8601String(),
@@ -34,6 +37,7 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       uid: map['uid'],
+      isVerified: map['isVerified'],
       fullName: map['fullName'],
       email: map['email'],
       phone: map['phone'],
@@ -42,6 +46,7 @@ class UserModel {
       department: map['department'],
     );
   }
+
   String toJson() => json.encode(toMap());
 
   factory UserModel.fromJson(String source) =>

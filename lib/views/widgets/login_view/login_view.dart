@@ -6,7 +6,6 @@ import 'package:infantry_house_app/utils/custom_elevated_button.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/views/widgets/login_view/manager/login_cubit.dart';
-import 'package:infantry_house_app/views/widgets/register_view/manager/register_cubit.dart';
 
 import '../../../generated/l10n.dart';
 import '../home_view/home_view.dart';
@@ -141,12 +140,7 @@ class _LoginViewState extends State<LoginView> {
                                               context,
                                               MaterialPageRoute(
                                                 builder:
-                                                    (context) => BlocProvider(
-                                                      create:
-                                                          (context) =>
-                                                              RegisterCubit(),
-                                                      child: RegisterView(),
-                                                    ),
+                                                    (context) => RegisterView(),
                                               ),
                                             );
                                           },
