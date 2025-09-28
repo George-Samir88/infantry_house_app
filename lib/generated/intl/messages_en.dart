@@ -200,6 +200,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Resend activation"),
         "ResendCoolDown":
             MessageLookupByLibrary.simpleMessage("Try again after"),
+        "ResetLinkSentCheckYourEmail": MessageLookupByLibrary.simpleMessage(
+            "Password reset link sent, please check your email."),
         "ResourceExhausted": MessageLookupByLibrary.simpleMessage(
             "Quota exceeded. Too many requests."),
         "Retry": MessageLookupByLibrary.simpleMessage("Retry"),
@@ -212,6 +214,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Salatat8rbya": MessageLookupByLibrary.simpleMessage("Western Salads"),
         "Seconds": MessageLookupByLibrary.simpleMessage("Seconds"),
         "Send": MessageLookupByLibrary.simpleMessage("Send"),
+        "SendResetLink":
+            MessageLookupByLibrary.simpleMessage("Send reset link"),
         "ShareYourFeedback":
             MessageLookupByLibrary.simpleMessage("Share Your Opinion"),
         "Shorba": MessageLookupByLibrary.simpleMessage("Soup"),

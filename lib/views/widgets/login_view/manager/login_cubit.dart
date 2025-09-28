@@ -9,14 +9,14 @@ part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<void> loginUser({
     required String email,
     required String password,
   }) async {
     emit(LoginLoading());
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     try {
       // 1) Sign in with Firebase Auth
@@ -63,6 +63,23 @@ class LoginCubit extends Cubit<LoginState> {
       emit(LoginFailure(_mapFirebaseAuthError(e)));
     } catch (e) {
       emit(LoginFailure("Unexpected error: ${e.toString()}"));
+    }
+  }
+
+  // ==============================
+  // Reset Password Function
+  // ==============================
+  Future<void> resetPassword({required String email}) async {
+    emit(ResetPasswordLoading()); // نفس حالة الـ loading بتاعة اللوجين
+
+    try {
+      await auth.sendPasswordResetEmail(email: email.trim());
+
+      emit(ResetPasswordSuccess());
+    } on FirebaseAuthException catch (e) {
+      emit(ResetPasswordFailure(error: _mapFirebaseAuthError(e)));
+    } catch (e) {
+      emit(ResetPasswordFailure(error: e.toString()));
     }
   }
 

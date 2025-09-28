@@ -6,6 +6,7 @@ import 'package:infantry_house_app/utils/custom_elevated_button.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/views/widgets/login_view/manager/login_cubit.dart';
+import 'package:infantry_house_app/views/widgets/login_view/show_forget_password_dialog.dart';
 
 import '../../../generated/l10n.dart';
 import '../home_view/home_view.dart';
@@ -21,7 +22,6 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
@@ -232,13 +232,37 @@ class _LoginViewState extends State<LoginView> {
                                     GlobalData().isArabic
                                         ? Alignment.centerLeft
                                         : Alignment.centerRight,
-                                child: TextButton(
-                                  onPressed: () {},
-                                  child: Text(
-                                    S.of(context).ForgotPassword,
-                                    style: TextStyle(
-                                      color: Color(0xFF6D3A2D),
-                                      fontSize: 12.sp,
+                                child: TweenAnimationBuilder<double>(
+                                  duration: const Duration(milliseconds: 600),
+                                  tween: Tween(begin: 0.0, end: 1.0),
+                                  curve: Curves.easeOut,
+                                  builder: (context, value, child) {
+                                    return Opacity(
+                                      opacity: value,
+                                      child: Transform.translate(
+                                        offset: Offset(0, (1 - value) * 20),
+                                        // يطلع من تحت لفوق
+                                        child: child,
+                                      ),
+                                    );
+                                  },
+                                  child: TextButton(
+                                    style: ButtonStyle(
+                                      overlayColor: WidgetStateProperty.all(
+                                        const Color(
+                                          0xFF6D3A2D,
+                                        ).withValues(alpha: 0.1), // تأثير ضغط
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      showForgotPasswordDialog(context);
+                                    },
+                                    child: Text(
+                                      S.of(context).ForgotPassword,
+                                      style: TextStyle(
+                                        color: const Color(0xFF6D3A2D),
+                                        fontSize: 12.sp,
+                                      ),
                                     ),
                                   ),
                                 ),

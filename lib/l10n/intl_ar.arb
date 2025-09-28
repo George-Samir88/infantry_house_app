@@ -35,6 +35,8 @@
   "RegisteredSuccessfully": "تم التسجيل بنجاح",
   "Confirm": "تأكيد",
   "Hello": "مرحبًا",
+  "ResetLinkSentCheckYourEmail": "تم إرسال رابط إعادة تعيين كلمة المرور، يرجى التحقق من بريدك الإلكتروني.",
+  "SendResetLink": "إرسال رابط إعادة التعيين",
   "GoodMorning": "صباح الخير",
   "Menu": "قائمة الطعام",
   "Lo7om": "اللحوم",

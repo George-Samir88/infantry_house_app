@@ -17,3 +17,13 @@ class LoginFailure extends LoginState {
 
   LoginFailure(this.error);
 }
+
+class ResetPasswordLoading extends LoginState {}
+
+class ResetPasswordSuccess extends LoginState {}
+
+class ResetPasswordFailure extends LoginState {
+  final String error;
+
+  ResetPasswordFailure({required this.error});
+}

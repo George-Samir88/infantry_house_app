@@ -197,6 +197,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("إعادة إرسال التفعيل"),
         "ResendCoolDown":
             MessageLookupByLibrary.simpleMessage("أعد المحاولة بعد"),
+        "ResetLinkSentCheckYourEmail": MessageLookupByLibrary.simpleMessage(
+            "تم إرسال رابط إعادة تعيين كلمة المرور، يرجى التحقق من بريدك الإلكتروني."),
         "ResourceExhausted": MessageLookupByLibrary.simpleMessage(
             "⚠️ تم تجاوز الحصة. عدد كبير جدًا من الطلبات."),
         "Retry": MessageLookupByLibrary.simpleMessage("أعد المحاولة"),
@@ -209,6 +211,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Salatat8rbya": MessageLookupByLibrary.simpleMessage("سلطات غربية"),
         "Seconds": MessageLookupByLibrary.simpleMessage("ثانية"),
         "Send": MessageLookupByLibrary.simpleMessage("ارسال"),
+        "SendResetLink":
+            MessageLookupByLibrary.simpleMessage("إرسال رابط إعادة التعيين"),
         "ShareYourFeedback":
             MessageLookupByLibrary.simpleMessage("شارك ملاحظاتك"),
         "Shorba": MessageLookupByLibrary.simpleMessage("شوربة"),

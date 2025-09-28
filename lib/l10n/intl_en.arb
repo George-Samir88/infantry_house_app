@@ -33,6 +33,8 @@
   "ResendCoolDown": "Try again after",
   "Seconds" : "Seconds",
   "ResendActivation": "Resend activation",
+  "ResetLinkSentCheckYourEmail": "Password reset link sent, please check your email.",
+  "SendResetLink": "Send reset link",
   "RegisteredSuccessfully": "Registered Successfully",
   "Confirm": "Confirm",
   "Hello": "Hello",

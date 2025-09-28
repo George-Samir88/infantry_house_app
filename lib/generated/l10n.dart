@@ -410,6 +410,26 @@ class S {
     );
   }
 
+  /// `تم إرسال رابط إعادة تعيين كلمة المرور، يرجى التحقق من بريدك الإلكتروني.`
+  String get ResetLinkSentCheckYourEmail {
+    return Intl.message(
+      'تم إرسال رابط إعادة تعيين كلمة المرور، يرجى التحقق من بريدك الإلكتروني.',
+      name: 'ResetLinkSentCheckYourEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إرسال رابط إعادة التعيين`
+  String get SendResetLink {
+    return Intl.message(
+      'إرسال رابط إعادة التعيين',
+      name: 'SendResetLink',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `صباح الخير`
   String get GoodMorning {
     return Intl.message(
