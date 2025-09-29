@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/views/widgets/menu_view/menu_view.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
@@ -129,10 +130,26 @@ class HomeViewState extends State<HomeView> {
                             right: 10,
                             top: 10,
                           ),
-                          child: Icon(
-                            Icons.home,
-                            color: Colors.white,
-                            size: GlobalData().isTabletLayout ? 34.r : 30.r,
+                          child: GestureDetector(
+                            onTap: () {
+                              context
+                                  .read<HomeCubit>()
+                                  .scaffoldKey
+                                  .currentState!
+                                  .closeDrawer();
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MenuView(),
+                                ),
+                              );
+                            },
+                            child: Icon(
+                              Icons.home,
+                              color: Colors.white,
+                              size: GlobalData().isTabletLayout ? 34.r : 30.r,
+                            ),
                           ),
                         ),
                       ],

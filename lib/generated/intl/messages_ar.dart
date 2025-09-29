@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "A3yadElmelad":
             MessageLookupByLibrary.simpleMessage("أعياد الميلاد والمناسبات"),
         "A8zya": MessageLookupByLibrary.simpleMessage("أغذية"),
+        "AboutApp": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
         "ActivationLinkSent":
             MessageLookupByLibrary.simpleMessage("تم إرسال رابط التفعيل"),
         "ActivationLinkSentToYourEmail": MessageLookupByLibrary.simpleMessage(
@@ -57,9 +58,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "AtbakGanbya": MessageLookupByLibrary.simpleMessage("أطباق جانبية"),
         "Cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "Checkout": MessageLookupByLibrary.simpleMessage("دفع"),
+        "Complaints":
+            MessageLookupByLibrary.simpleMessage("الشكاوى والاقتراحات"),
         "ComplaintsAndSuggestions":
             MessageLookupByLibrary.simpleMessage("الشكاوي والاقتراحات"),
         "Confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
+        "ContactUs": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
         "CreateAnAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "DailyGames": MessageLookupByLibrary.simpleMessage("ألعاب يومية"),
         "DailyGamesItemImage":
@@ -95,6 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "EsmElsanf": MessageLookupByLibrary.simpleMessage("إسم الصنف"),
         "FailedPrecondition": MessageLookupByLibrary.simpleMessage(
             "⚠️ العملية غير مسموحة في الوضع الحالي."),
+        "Favorites": MessageLookupByLibrary.simpleMessage("المفضلة"),
         "FewQuantity": MessageLookupByLibrary.simpleMessage("الكمية قليلة"),
         "FieldCannotBeEmpty": MessageLookupByLibrary.simpleMessage(
             "لا يمكن أن يكون الحقل فارغًا"),
@@ -109,6 +114,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("اذهب إلى تسجيل الدخول"),
         "GoodMorning": MessageLookupByLibrary.simpleMessage("صباح الخير"),
         "Hello": MessageLookupByLibrary.simpleMessage("مرحبًا"),
+        "Help": MessageLookupByLibrary.simpleMessage("المساعدة"),
         "HighPrice": MessageLookupByLibrary.simpleMessage("السعر مرتفع"),
         "InfantryHouse": MessageLookupByLibrary.simpleMessage("دار المشاه"),
         "KaemtElm4areb":
@@ -119,10 +125,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "LaYogd3nasr": MessageLookupByLibrary.simpleMessage("لا يوجد عناصر"),
         "LaYogdAksam": MessageLookupByLibrary.simpleMessage("لا يوجد أقسام"),
         "Lo7om": MessageLookupByLibrary.simpleMessage("اللحوم"),
+        "LocationHere": MessageLookupByLibrary.simpleMessage("الموقع"),
         "LoggedInSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم تسجيل الدخول بنجاح"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "M4wyat": MessageLookupByLibrary.simpleMessage("مشويات"),
+        "MainMenu": MessageLookupByLibrary.simpleMessage("القائمة الرئيسية"),
         "Menu": MessageLookupByLibrary.simpleMessage("قائمة الطعام"),
         "MnFdlkAd5lEsmEltsnef":
             MessageLookupByLibrary.simpleMessage("من فضلك أدخل اسم التصنيف"),
@@ -213,6 +221,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send": MessageLookupByLibrary.simpleMessage("ارسال"),
         "SendResetLink":
             MessageLookupByLibrary.simpleMessage("إرسال رابط إعادة التعيين"),
+        "Settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
         "ShareYourFeedback":
             MessageLookupByLibrary.simpleMessage("شارك ملاحظاتك"),
         "Shorba": MessageLookupByLibrary.simpleMessage("شوربة"),
@@ -243,6 +252,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "UpdateTitle":
             MessageLookupByLibrary.simpleMessage("تعديل اسم التصنيف"),
         "UserName": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
+        "ViewProfile": MessageLookupByLibrary.simpleMessage("عرض الملف الشخصي"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبًا بعودتك!"),
         "WelcomeToInfantryHouse":
             MessageLookupByLibrary.simpleMessage("مرحبا بك في دار المشاه"),

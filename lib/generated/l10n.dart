@@ -1679,6 +1679,96 @@ class S {
       args: [],
     );
   }
+
+  /// `القائمة الرئيسية`
+  String get MainMenu {
+    return Intl.message(
+      'القائمة الرئيسية',
+      name: 'MainMenu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `عرض الملف الشخصي`
+  String get ViewProfile {
+    return Intl.message(
+      'عرض الملف الشخصي',
+      name: 'ViewProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `المفضلة`
+  String get Favorites {
+    return Intl.message(
+      'المفضلة',
+      name: 'Favorites',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الإعدادات`
+  String get Settings {
+    return Intl.message(
+      'الإعدادات',
+      name: 'Settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `المساعدة`
+  String get Help {
+    return Intl.message(
+      'المساعدة',
+      name: 'Help',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الشكاوى والاقتراحات`
+  String get Complaints {
+    return Intl.message(
+      'الشكاوى والاقتراحات',
+      name: 'Complaints',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `حول التطبيق`
+  String get AboutApp {
+    return Intl.message(
+      'حول التطبيق',
+      name: 'AboutApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اتصل بنا`
+  String get ContactUs {
+    return Intl.message(
+      'اتصل بنا',
+      name: 'ContactUs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الموقع`
+  String get LocationHere {
+    return Intl.message(
+      'الموقع',
+      name: 'LocationHere',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

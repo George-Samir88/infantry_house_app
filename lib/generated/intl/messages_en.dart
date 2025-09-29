@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "A3yadElmelad":
             MessageLookupByLibrary.simpleMessage("Birthdays and occasions"),
         "A8zya": MessageLookupByLibrary.simpleMessage("Foods"),
+        "AboutApp": MessageLookupByLibrary.simpleMessage("About the App"),
         "ActivationLinkSent":
             MessageLookupByLibrary.simpleMessage("ِِActivation link sent"),
         "ActivationLinkSentToYourEmail": MessageLookupByLibrary.simpleMessage(
@@ -59,9 +60,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "AtbakGanbya": MessageLookupByLibrary.simpleMessage("Side Dishes"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "Checkout": MessageLookupByLibrary.simpleMessage("Checkout"),
+        "Complaints":
+            MessageLookupByLibrary.simpleMessage("Complaints & Suggestions"),
         "ComplaintsAndSuggestions":
             MessageLookupByLibrary.simpleMessage("Complaints and Suggestions"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "ContactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
         "CreateAnAccount":
             MessageLookupByLibrary.simpleMessage("Create an account"),
         "DailyGames": MessageLookupByLibrary.simpleMessage("Daily Games"),
@@ -99,6 +103,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "EsmElsanf": MessageLookupByLibrary.simpleMessage("Item name"),
         "FailedPrecondition": MessageLookupByLibrary.simpleMessage(
             "The operation is not allowed in the current state."),
+        "Favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
         "FewQuantity": MessageLookupByLibrary.simpleMessage("Few Quantity"),
         "FieldCannotBeEmpty":
             MessageLookupByLibrary.simpleMessage("Field cannot be empty"),
@@ -112,6 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "GoToLogin": MessageLookupByLibrary.simpleMessage("Go to login"),
         "GoodMorning": MessageLookupByLibrary.simpleMessage("Good Morning"),
         "Hello": MessageLookupByLibrary.simpleMessage("Hello"),
+        "Help": MessageLookupByLibrary.simpleMessage("Help"),
         "HighPrice": MessageLookupByLibrary.simpleMessage("High Price"),
         "InfantryHouse": MessageLookupByLibrary.simpleMessage("Infantry House"),
         "KaemtElm4areb": MessageLookupByLibrary.simpleMessage("Beverage Menu"),
@@ -123,10 +129,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "LaYogdAksam":
             MessageLookupByLibrary.simpleMessage("No department available"),
         "Lo7om": MessageLookupByLibrary.simpleMessage("Meats"),
+        "LocationHere": MessageLookupByLibrary.simpleMessage("Location"),
         "LoggedInSuccessfully":
             MessageLookupByLibrary.simpleMessage("Logged in Successfully"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "M4wyat": MessageLookupByLibrary.simpleMessage("Grills"),
+        "MainMenu": MessageLookupByLibrary.simpleMessage("Main Menu"),
         "Menu": MessageLookupByLibrary.simpleMessage("Category"),
         "MnFdlkAd5lEsmEltsnef":
             MessageLookupByLibrary.simpleMessage("Please Enter Category Name"),
@@ -216,6 +224,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send": MessageLookupByLibrary.simpleMessage("Send"),
         "SendResetLink":
             MessageLookupByLibrary.simpleMessage("Send reset link"),
+        "Settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "ShareYourFeedback":
             MessageLookupByLibrary.simpleMessage("Share Your Opinion"),
         "Shorba": MessageLookupByLibrary.simpleMessage("Soup"),
@@ -245,6 +254,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "UpdateDailyGame": MessageLookupByLibrary.simpleMessage("Update Game"),
         "UpdateTitle": MessageLookupByLibrary.simpleMessage("Update category"),
         "UserName": MessageLookupByLibrary.simpleMessage("User Name"),
+        "ViewProfile": MessageLookupByLibrary.simpleMessage("View Profile"),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome Back!"),
         "WelcomeToInfantryHouse":
             MessageLookupByLibrary.simpleMessage("Welcome to Infantry House"),
