@@ -659,7 +659,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     selectedMenuButtonId = buttonId;
     selectedButtonIndex = index;
     emit(DepartmentChangeMenuButtonIndexState());
-
     final buttonsMap = subScreenCache[selectedSubScreenID];
 
     if (buttonsMap != null) {
@@ -671,7 +670,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       if (selectedButton != null) {
         final cachedItems = buttonsMap[selectedButton];
 
-        if (cachedItems != null && cachedItems.isNotEmpty) {
+        if (cachedItems != null) {
           // ✅ استعمل الكاش
           menuItemsList = cachedItems;
           emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
@@ -752,7 +751,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       }
 
       // 🔹 replace snapshots().listen with one-time get()
-      final snapshot = await collectionPath.get();
+      final snapshot =
+          await collectionPath.orderBy('created_at', descending: false).get();
 
       try {
         final buttons =

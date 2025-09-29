@@ -276,7 +276,8 @@ class ButtonAndMenuTemplate extends StatelessWidget {
             current is DepartmentGetMenuButtonEmptyState ||
             current is DepartmentGetMenuItemLoadingState ||
             current is DepartmentGetMenuItemFailureState ||
-            current is DepartmentGetMenuItemEmptyState;
+            current is DepartmentGetMenuItemEmptyState ||
+            current is DepartmentChangeMenuButtonIndexState;
       },
       listener: (context, state) {
         if (state is DepartmentGetMenuTitleFailureState) {
