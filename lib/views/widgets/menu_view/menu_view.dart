@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/generated/l10n.dart';
 
+import 'animated_grid_item.dart';
+
 class MenuView extends StatelessWidget {
   const MenuView({super.key});
 
@@ -135,41 +137,50 @@ class MenuView extends StatelessWidget {
                       childAspectRatio: 1,
                       children: [
                         FadeInUp(
-                          child: _buildGridItem(
-                            Icons.favorite,
-                            S.of(context).Favorites,
+                          child: AnimatedGridItem(
+                            onTap: () {},
+                            icon: Icons.favorite,
+                            title: S.of(context).Favorites,
                           ),
                         ),
                         FadeInUp(
                           delay: const Duration(milliseconds: 100),
-                          child: _buildGridItem(
-                            Icons.settings,
-                            S.of(context).Settings,
+                          child: AnimatedGridItem(
+                            onTap: () {},
+                            icon: Icons.settings,
+                            title: S.of(context).Settings,
                           ),
                         ),
                         FadeInUp(
                           delay: const Duration(milliseconds: 200),
-                          child: _buildGridItem(Icons.help, S.of(context).Help),
+                          child: AnimatedGridItem(
+                            onTap: () {},
+                            icon: Icons.help,
+                            title: S.of(context).Help,
+                          ),
                         ),
                         FadeInUp(
                           delay: const Duration(milliseconds: 300),
-                          child: _buildGridItem(
-                            Icons.feedback,
-                            S.of(context).Complaints,
+                          child: AnimatedGridItem(
+                            onTap: () {},
+                            icon: Icons.feedback,
+                            title: S.of(context).Complaints,
                           ),
                         ),
                         FadeInUp(
                           delay: const Duration(milliseconds: 400),
-                          child: _buildGridItem(
-                            Icons.info,
-                            S.of(context).AboutApp,
+                          child: AnimatedGridItem(
+                            onTap: () {},
+                            icon: Icons.info,
+                            title: S.of(context).AboutApp,
                           ),
                         ),
                         FadeInUp(
                           delay: const Duration(milliseconds: 500),
-                          child: _buildGridItem(
-                            Icons.contact_mail,
-                            S.of(context).ContactUs,
+                          child: AnimatedGridItem(
+                            onTap: () {},
+                            icon: Icons.contact_mail,
+                            title: S.of(context).ContactUs,
                           ),
                         ),
                       ],
@@ -177,98 +188,7 @@ class MenuView extends StatelessWidget {
                   ),
 
                   Divider(color: Colors.grey[300]),
-
-                  // 🔹 Location Container
-                  Padding(
-                    padding: EdgeInsets.all(12.w),
-                    child: Container(
-                      height: 180.h,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Colors.brown.shade100, Colors.brown.shade50],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(16.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.brown.shade200,
-                            blurRadius: 6,
-                            offset: const Offset(2, 4),
-                          ),
-                        ],
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned.fill(
-                            child: Opacity(
-                              opacity: 0.1,
-                              child: Icon(
-                                Icons.map,
-                                size: 200,
-                                color: Colors.brown[300],
-                              ),
-                            ),
-                          ),
-                          Center(
-                            child: Text(
-                              S.of(context).LocationHere,
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                color: Colors.brown[800],
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                 ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildGridItem(IconData icon, String title) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.white, Colors.brown.shade50],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16.r),
-        onTap: () {
-          // Navigate
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 40.sp, color: Colors.brown[800]),
-            SizedBox(height: 10.h),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
               ),
             ),
           ],
