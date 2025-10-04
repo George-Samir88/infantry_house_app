@@ -1760,11 +1760,241 @@ class S {
     );
   }
 
-  /// `الموقع`
-  String get LocationHere {
+  /// `عرض الملف الشخصي`
+  String get Profile {
     return Intl.message(
-      'الموقع',
-      name: 'LocationHere',
+      'عرض الملف الشخصي',
+      name: 'Profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تعديل الملف الشخصي`
+  String get EditProfile {
+    return Intl.message(
+      'تعديل الملف الشخصي',
+      name: 'EditProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تغيير كلمة المرور`
+  String get ChangePassword {
+    return Intl.message(
+      'تغيير كلمة المرور',
+      name: 'ChangePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تسجيل الخروج`
+  String get LogOut {
+    return Intl.message(
+      'تسجيل الخروج',
+      name: 'LogOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `🔑 يجب أن تسجل الدخول لتنفيذ هذا الإجراء.`
+  String get Unauthenticated {
+    return Intl.message(
+      '🔑 يجب أن تسجل الدخول لتنفيذ هذا الإجراء.',
+      name: 'Unauthenticated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `🚫 تم إلغاء الطلب.`
+  String get Cancelled {
+    return Intl.message(
+      '🚫 تم إلغاء الطلب.',
+      name: 'Cancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `🚫 تم إحباط العملية. الرجاء المحاولة مرة أخرى.`
+  String get Aborted {
+    return Intl.message(
+      '🚫 تم إحباط العملية. الرجاء المحاولة مرة أخرى.',
+      name: 'Aborted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ القيمة خارج النطاق المسموح به.`
+  String get OutOfRange {
+    return Intl.message(
+      '⚠️ القيمة خارج النطاق المسموح به.',
+      name: 'OutOfRange',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ الخدمة غير متاحة. تحقق من اتصال الإنترنت.`
+  String get Unavailable {
+    return Intl.message(
+      '⚠️ الخدمة غير متاحة. تحقق من اتصال الإنترنت.',
+      name: 'Unavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ حدث خطأ داخلي في Firestore.`
+  String get Internal {
+    return Intl.message(
+      '⚠️ حدث خطأ داخلي في Firestore.',
+      name: 'Internal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ هذه العملية غير مدعومة.`
+  String get Unimplemented {
+    return Intl.message(
+      '⚠️ هذه العملية غير مدعومة.',
+      name: 'Unimplemented',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ فقدان أو تلف غير قابل للاسترداد في البيانات.`
+  String get DataLoss {
+    return Intl.message(
+      '⚠️ فقدان أو تلف غير قابل للاسترداد في البيانات.',
+      name: 'DataLoss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ حدث خطأ غير معروف في Firestore.`
+  String get Unknown {
+    return Intl.message(
+      '⚠️ حدث خطأ غير معروف في Firestore.',
+      name: 'Unknown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `📧 البريد الإلكتروني غير صالح.`
+  String get InvalidEmail {
+    return Intl.message(
+      '📧 البريد الإلكتروني غير صالح.',
+      name: 'InvalidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `🚫 تم تعطيل حساب هذا المستخدم.`
+  String get UserDisabled {
+    return Intl.message(
+      '🚫 تم تعطيل حساب هذا المستخدم.',
+      name: 'UserDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `❌ لم يتم العثور على مستخدم بهذا البريد الإلكتروني.`
+  String get UserNotFound {
+    return Intl.message(
+      '❌ لم يتم العثور على مستخدم بهذا البريد الإلكتروني.',
+      name: 'UserNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `🔑 كلمة المرور غير صحيحة.`
+  String get WrongPassword {
+    return Intl.message(
+      '🔑 كلمة المرور غير صحيحة.',
+      name: 'WrongPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ البريد الإلكتروني مستخدم بالفعل من حساب آخر.`
+  String get EmailAlreadyInUse {
+    return Intl.message(
+      '⚠️ البريد الإلكتروني مستخدم بالفعل من حساب آخر.',
+      name: 'EmailAlreadyInUse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ هذه العملية غير مسموحة.`
+  String get OperationNotAllowed {
+    return Intl.message(
+      '⚠️ هذه العملية غير مسموحة.',
+      name: 'OperationNotAllowed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ كلمة المرور ضعيفة جدًا.`
+  String get WeakPassword {
+    return Intl.message(
+      '⚠️ كلمة المرور ضعيفة جدًا.',
+      name: 'WeakPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `🔒 يرجى تسجيل الدخول مرة أخرى قبل تنفيذ هذا الإجراء.`
+  String get RequiresRecentLogin {
+    return Intl.message(
+      '🔒 يرجى تسجيل الدخول مرة أخرى قبل تنفيذ هذا الإجراء.',
+      name: 'RequiresRecentLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ عدد كبير جدًا من الطلبات. حاول لاحقًا.`
+  String get TooManyRequests {
+    return Intl.message(
+      '⚠️ عدد كبير جدًا من الطلبات. حاول لاحقًا.',
+      name: 'TooManyRequests',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ رمز التحقق غير صالح.`
+  String get InvalidVerificationCode {
+    return Intl.message(
+      '⚠️ رمز التحقق غير صالح.',
+      name: 'InvalidVerificationCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `⚠️ معرف التحقق غير صالح.`
+  String get InvalidVerificationId {
+    return Intl.message(
+      '⚠️ معرف التحقق غير صالح.',
+      name: 'InvalidVerificationId',
       desc: '',
       args: [],
     );

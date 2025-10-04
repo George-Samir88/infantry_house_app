@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_empty_items_template.dart';
-import 'package:infantry_house_app/utils/map_firebase_error.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_items_template_view.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_menu_buttons_view_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
@@ -281,29 +280,11 @@ class ButtonAndMenuTemplate extends StatelessWidget {
       },
       listener: (context, state) {
         if (state is DepartmentGetMenuTitleFailureState) {
-          showSnackBar(
-            context: context,
-            message: localizeFirestoreError(
-              context: context,
-              code: state.failure,
-            ),
-          );
+          showSnackBar(context: context, message: state.failure);
         } else if (state is DepartmentGetMenuButtonFailureState) {
-          showSnackBar(
-            context: context,
-            message: localizeFirestoreError(
-              context: context,
-              code: state.failure,
-            ),
-          );
+          showSnackBar(context: context, message: state.failure);
         } else if (state is DepartmentGetMenuItemFailureState) {
-          showSnackBar(
-            context: context,
-            message: localizeFirestoreError(
-              context: context,
-              code: state.failure,
-            ),
-          );
+          showSnackBar(context: context, message: state.failure);
         }
       },
       builder: (context, state) {

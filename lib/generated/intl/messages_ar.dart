@@ -25,6 +25,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "A3yadElmelad":
             MessageLookupByLibrary.simpleMessage("أعياد الميلاد والمناسبات"),
         "A8zya": MessageLookupByLibrary.simpleMessage("أغذية"),
+        "Aborted": MessageLookupByLibrary.simpleMessage(
+            "🚫 تم إحباط العملية. الرجاء المحاولة مرة أخرى."),
         "AboutApp": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
         "ActivationLinkSent":
             MessageLookupByLibrary.simpleMessage("تم إرسال رابط التفعيل"),
@@ -57,6 +59,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "AnyComments": MessageLookupByLibrary.simpleMessage("أية ملاحظات"),
         "AtbakGanbya": MessageLookupByLibrary.simpleMessage("أطباق جانبية"),
         "Cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+        "Cancelled": MessageLookupByLibrary.simpleMessage("🚫 تم إلغاء الطلب."),
+        "ChangePassword":
+            MessageLookupByLibrary.simpleMessage("تغيير كلمة المرور"),
         "Checkout": MessageLookupByLibrary.simpleMessage("دفع"),
         "Complaints":
             MessageLookupByLibrary.simpleMessage("الشكاوى والاقتراحات"),
@@ -68,6 +73,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "DailyGames": MessageLookupByLibrary.simpleMessage("ألعاب يومية"),
         "DailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("صورة اللعبة"),
+        "DataLoss": MessageLookupByLibrary.simpleMessage(
+            "⚠️ فقدان أو تلف غير قابل للاسترداد في البيانات."),
         "DeadlineExceeded": MessageLookupByLibrary.simpleMessage(
             "⏳ استغرق الطلب وقتًا طويلًا. حاول مرة أخرى."),
         "Delete": MessageLookupByLibrary.simpleMessage("حذف"),
@@ -78,8 +85,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
         "EdaftGded": MessageLookupByLibrary.simpleMessage("إضافة جديد"),
         "EdaftSnf": MessageLookupByLibrary.simpleMessage("إضافة صنف"),
+        "EditProfile":
+            MessageLookupByLibrary.simpleMessage("تعديل الملف الشخصي"),
         "Eftar": MessageLookupByLibrary.simpleMessage("إفطار"),
         "Email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
+        "EmailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
+            "⚠️ البريد الإلكتروني مستخدم بالفعل من حساب آخر."),
         "EnterDescription": MessageLookupByLibrary.simpleMessage("أضف وصفاً"),
         "EnterPriceOfGame":
             MessageLookupByLibrary.simpleMessage("أدخل سعر اللعبة"),
@@ -117,6 +128,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "Help": MessageLookupByLibrary.simpleMessage("المساعدة"),
         "HighPrice": MessageLookupByLibrary.simpleMessage("السعر مرتفع"),
         "InfantryHouse": MessageLookupByLibrary.simpleMessage("دار المشاه"),
+        "Internal": MessageLookupByLibrary.simpleMessage(
+            "⚠️ حدث خطأ داخلي في Firestore."),
+        "InvalidEmail": MessageLookupByLibrary.simpleMessage(
+            "📧 البريد الإلكتروني غير صالح."),
+        "InvalidVerificationCode":
+            MessageLookupByLibrary.simpleMessage("⚠️ رمز التحقق غير صالح."),
+        "InvalidVerificationId":
+            MessageLookupByLibrary.simpleMessage("⚠️ معرف التحقق غير صالح."),
         "KaemtElm4areb":
             MessageLookupByLibrary.simpleMessage("قائمة المشروبات"),
         "Kafehat": MessageLookupByLibrary.simpleMessage("كافيهات"),
@@ -125,7 +144,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "LaYogd3nasr": MessageLookupByLibrary.simpleMessage("لا يوجد عناصر"),
         "LaYogdAksam": MessageLookupByLibrary.simpleMessage("لا يوجد أقسام"),
         "Lo7om": MessageLookupByLibrary.simpleMessage("اللحوم"),
-        "LocationHere": MessageLookupByLibrary.simpleMessage("الموقع"),
+        "LogOut": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "LoggedInSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم تسجيل الدخول بنجاح"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
@@ -156,7 +175,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "NotFound": MessageLookupByLibrary.simpleMessage(
             "📄 المستند المطلوب غير موجود."),
         "OR": MessageLookupByLibrary.simpleMessage("أو"),
+        "OperationNotAllowed":
+            MessageLookupByLibrary.simpleMessage("⚠️ هذه العملية غير مسموحة."),
         "Other": MessageLookupByLibrary.simpleMessage("أخرى"),
+        "OutOfRange": MessageLookupByLibrary.simpleMessage(
+            "⚠️ القيمة خارج النطاق المسموح به."),
         "Paradise": MessageLookupByLibrary.simpleMessage("باراديس"),
         "Password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "PasswordMustBeAtLeast6CharactersLong":
@@ -195,12 +218,15 @@ class MessageLookup extends MessageLookupByLibrary {
                 "يرجى اختيار خيار واحد على الأقل قبل الإرسال"),
         "PreparationTime":
             MessageLookupByLibrary.simpleMessage("وقت التحضير طويل"),
+        "Profile": MessageLookupByLibrary.simpleMessage("عرض الملف الشخصي"),
         "Ra2ykYhmna": MessageLookupByLibrary.simpleMessage("رأيك يهمنا"),
         "RateYourExperience":
             MessageLookupByLibrary.simpleMessage("قيم تجربتك"),
         "Register": MessageLookupByLibrary.simpleMessage("سجل"),
         "RegisteredSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم التسجيل بنجاح"),
+        "RequiresRecentLogin": MessageLookupByLibrary.simpleMessage(
+            "🔒 يرجى تسجيل الدخول مرة أخرى قبل تنفيذ هذا الإجراء."),
         "ResendActivation":
             MessageLookupByLibrary.simpleMessage("إعادة إرسال التفعيل"),
         "ResendCoolDown":
@@ -242,20 +268,38 @@ class MessageLookup extends MessageLookupByLibrary {
                 "القسم موجود بالفعل! لا يمكنك إضافة قسم جديد بنفس الاسم."),
         "TitleOfGame": MessageLookupByLibrary.simpleMessage("أسم اللعبة"),
         "ToCard": MessageLookupByLibrary.simpleMessage("إلي السلة"),
+        "TooManyRequests": MessageLookupByLibrary.simpleMessage(
+            "⚠️ عدد كبير جدًا من الطلبات. حاول لاحقًا."),
         "Total": MessageLookupByLibrary.simpleMessage("الإجمالي:"),
         "TrainerName": MessageLookupByLibrary.simpleMessage("أسم المدرب"),
         "Twagn": MessageLookupByLibrary.simpleMessage("طواجن"),
         "Tyor": MessageLookupByLibrary.simpleMessage("الطيور"),
         "TypeTitle": MessageLookupByLibrary.simpleMessage("أدخل اسم التصنيف"),
+        "Unauthenticated": MessageLookupByLibrary.simpleMessage(
+            "🔑 يجب أن تسجل الدخول لتنفيذ هذا الإجراء."),
+        "Unavailable": MessageLookupByLibrary.simpleMessage(
+            "⚠️ الخدمة غير متاحة. تحقق من اتصال الإنترنت."),
         "Undo": MessageLookupByLibrary.simpleMessage("تراجع"),
+        "Unimplemented":
+            MessageLookupByLibrary.simpleMessage("⚠️ هذه العملية غير مدعومة."),
+        "Unknown": MessageLookupByLibrary.simpleMessage(
+            "⚠️ حدث خطأ غير معروف في Firestore."),
         "UpdateDailyGame": MessageLookupByLibrary.simpleMessage("تعديل اللعبة"),
         "UpdateTitle":
             MessageLookupByLibrary.simpleMessage("تعديل اسم التصنيف"),
+        "UserDisabled": MessageLookupByLibrary.simpleMessage(
+            "🚫 تم تعطيل حساب هذا المستخدم."),
         "UserName": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
+        "UserNotFound": MessageLookupByLibrary.simpleMessage(
+            "❌ لم يتم العثور على مستخدم بهذا البريد الإلكتروني."),
         "ViewProfile": MessageLookupByLibrary.simpleMessage("عرض الملف الشخصي"),
+        "WeakPassword":
+            MessageLookupByLibrary.simpleMessage("⚠️ كلمة المرور ضعيفة جدًا."),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبًا بعودتك!"),
         "WelcomeToInfantryHouse":
             MessageLookupByLibrary.simpleMessage("مرحبا بك في دار المشاه"),
+        "WrongPassword":
+            MessageLookupByLibrary.simpleMessage("🔑 كلمة المرور غير صحيحة."),
         "YourCartIsEmpty": MessageLookupByLibrary.simpleMessage("السلة فارغة!"),
         "aborted": MessageLookupByLibrary.simpleMessage(
             "🚫 تم إحباط العملية. الرجاء المحاولة مرة أخرى."),

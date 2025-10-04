@@ -14,16 +14,21 @@ class HousingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        final screenName = DepartmentsTitles.housing;
-        final canManage = context.read<HomeCubit>().canManageScreen(
-          screenName: screenName,
-        );
+    final loc = S.of(context); // ✅ safe here
+    final screenName = DepartmentsTitles.housing;
+    final canManage = context.read<HomeCubit>().canManageScreen(
+      screenName: screenName,
+    );
 
-        return DepartmentCubit(departmentId: screenId, canManage: canManage);
-      },
-      child: GeneralTemplateView(appBarTitle: S.of(context).eskan),
+    return BlocProvider(
+      create: (_) => DepartmentCubit(
+        departmentId: screenId,
+        canManage: canManage,
+        loc: loc, // ✅ no BuildContext passed inside Cubit
+      ),
+      child: GeneralTemplateView(
+        appBarTitle: loc.eskan, // ✅ also safe
+      ),
     );
   }
 }

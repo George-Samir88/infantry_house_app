@@ -25,6 +25,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "A3yadElmelad":
             MessageLookupByLibrary.simpleMessage("Birthdays and occasions"),
         "A8zya": MessageLookupByLibrary.simpleMessage("Foods"),
+        "Aborted": MessageLookupByLibrary.simpleMessage(
+            "🚫 The operation was aborted. Please try again."),
         "AboutApp": MessageLookupByLibrary.simpleMessage("About the App"),
         "ActivationLinkSent":
             MessageLookupByLibrary.simpleMessage("ِِActivation link sent"),
@@ -59,6 +61,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "AnyComments": MessageLookupByLibrary.simpleMessage("Any comments?"),
         "AtbakGanbya": MessageLookupByLibrary.simpleMessage("Side Dishes"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "Cancelled": MessageLookupByLibrary.simpleMessage(
+            "🚫 The request was cancelled."),
+        "ChangePassword":
+            MessageLookupByLibrary.simpleMessage("Change Password"),
         "Checkout": MessageLookupByLibrary.simpleMessage("Checkout"),
         "Complaints":
             MessageLookupByLibrary.simpleMessage("Complaints & Suggestions"),
@@ -71,6 +77,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "DailyGames": MessageLookupByLibrary.simpleMessage("Daily Games"),
         "DailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("Daily games item image"),
+        "DataLoss": MessageLookupByLibrary.simpleMessage(
+            "⚠️ Unrecoverable data loss or corruption."),
         "DeadlineExceeded": MessageLookupByLibrary.simpleMessage(
             "The request took too long. Please try again."),
         "Delete": MessageLookupByLibrary.simpleMessage("Delete"),
@@ -81,8 +89,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Don\'t have an account?"),
         "EdaftGded": MessageLookupByLibrary.simpleMessage("Add New"),
         "EdaftSnf": MessageLookupByLibrary.simpleMessage("Add New Item"),
+        "EditProfile": MessageLookupByLibrary.simpleMessage("Edit Profile"),
         "Eftar": MessageLookupByLibrary.simpleMessage("Breakfast"),
         "Email": MessageLookupByLibrary.simpleMessage("Email"),
+        "EmailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
+            "⚠️ The email address is already in use by another account."),
         "EnterDescription":
             MessageLookupByLibrary.simpleMessage("Add description"),
         "EnterPriceOfGame":
@@ -120,6 +131,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "Help": MessageLookupByLibrary.simpleMessage("Help"),
         "HighPrice": MessageLookupByLibrary.simpleMessage("High Price"),
         "InfantryHouse": MessageLookupByLibrary.simpleMessage("Infantry House"),
+        "Internal": MessageLookupByLibrary.simpleMessage(
+            "⚠️ An internal error occurred in Firestore."),
+        "InvalidEmail": MessageLookupByLibrary.simpleMessage(
+            "📧 The email address is not valid."),
+        "InvalidVerificationCode": MessageLookupByLibrary.simpleMessage(
+            "⚠️ The verification code is invalid."),
+        "InvalidVerificationId": MessageLookupByLibrary.simpleMessage(
+            "⚠️ The verification ID is invalid."),
         "KaemtElm4areb": MessageLookupByLibrary.simpleMessage("Beverage Menu"),
         "Kafehat": MessageLookupByLibrary.simpleMessage("Cafes"),
         "KesmElA8zyaWlma4robat":
@@ -129,7 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "LaYogdAksam":
             MessageLookupByLibrary.simpleMessage("No department available"),
         "Lo7om": MessageLookupByLibrary.simpleMessage("Meats"),
-        "LocationHere": MessageLookupByLibrary.simpleMessage("Location"),
+        "LogOut": MessageLookupByLibrary.simpleMessage("Log Out"),
         "LoggedInSuccessfully":
             MessageLookupByLibrary.simpleMessage("Logged in Successfully"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
@@ -153,12 +172,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "Mo3gnat": MessageLookupByLibrary.simpleMessage("Pastries"),
         "Mokablat": MessageLookupByLibrary.simpleMessage("Appetizers"),
         "MyCarts": MessageLookupByLibrary.simpleMessage("My Carts"),
+        "NetworkError":
+            MessageLookupByLibrary.simpleMessage("⚠️ No internet connection."),
         "NetworkRequestFailed":
             MessageLookupByLibrary.simpleMessage("No internet connection."),
         "NotFound": MessageLookupByLibrary.simpleMessage(
             "The requested document was not found."),
         "OR": MessageLookupByLibrary.simpleMessage("OR"),
+        "OperationNotAllowed": MessageLookupByLibrary.simpleMessage(
+            "⚠️ This operation is not allowed."),
         "Other": MessageLookupByLibrary.simpleMessage("Other"),
+        "OutOfRange": MessageLookupByLibrary.simpleMessage(
+            "⚠️ The value is out of the allowed range."),
         "Paradise": MessageLookupByLibrary.simpleMessage("Paradise"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
         "PasswordMustBeAtLeast6CharactersLong":
@@ -197,6 +222,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Please select at least one option before submitting"),
         "PreparationTime":
             MessageLookupByLibrary.simpleMessage("Preparation Time"),
+        "Profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "Ra2ykYhmna":
             MessageLookupByLibrary.simpleMessage("Your opinion matters"),
         "RateYourExperience":
@@ -204,6 +230,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
         "RegisteredSuccessfully":
             MessageLookupByLibrary.simpleMessage("Registered Successfully"),
+        "RequiresRecentLogin": MessageLookupByLibrary.simpleMessage(
+            "🔒 Please log in again before performing this action."),
         "ResendActivation":
             MessageLookupByLibrary.simpleMessage("Resend activation"),
         "ResendCoolDown":
@@ -245,19 +273,37 @@ class MessageLookup extends MessageLookupByLibrary {
                 "The section already exists, you cannot add a new section with the same name"),
         "TitleOfGame": MessageLookupByLibrary.simpleMessage("Title of game"),
         "ToCard": MessageLookupByLibrary.simpleMessage("To Card"),
+        "TooManyRequests": MessageLookupByLibrary.simpleMessage(
+            "⚠️ Too many requests. Please try again later."),
         "Total": MessageLookupByLibrary.simpleMessage("Total:"),
         "TrainerName": MessageLookupByLibrary.simpleMessage("Trainer name"),
         "Twagn": MessageLookupByLibrary.simpleMessage("Casseroles"),
         "Tyor": MessageLookupByLibrary.simpleMessage("Poultry"),
         "TypeTitle": MessageLookupByLibrary.simpleMessage("Enter category"),
+        "Unauthenticated": MessageLookupByLibrary.simpleMessage(
+            "🔑 You must be logged in to perform this action."),
+        "Unavailable": MessageLookupByLibrary.simpleMessage(
+            "Check your internet connection, try again later."),
         "Undo": MessageLookupByLibrary.simpleMessage("Undo"),
+        "Unimplemented": MessageLookupByLibrary.simpleMessage(
+            "⚠️ This operation is not supported."),
+        "Unknown": MessageLookupByLibrary.simpleMessage(
+            "⚠️ An unknown Firestore error occurred."),
         "UpdateDailyGame": MessageLookupByLibrary.simpleMessage("Update Game"),
         "UpdateTitle": MessageLookupByLibrary.simpleMessage("Update category"),
+        "UserDisabled": MessageLookupByLibrary.simpleMessage(
+            "🚫 This user account has been disabled."),
         "UserName": MessageLookupByLibrary.simpleMessage("User Name"),
+        "UserNotFound": MessageLookupByLibrary.simpleMessage(
+            "❌ No user found with this email."),
         "ViewProfile": MessageLookupByLibrary.simpleMessage("View Profile"),
+        "WeakPassword": MessageLookupByLibrary.simpleMessage(
+            "⚠️ The password is too weak."),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome Back!"),
         "WelcomeToInfantryHouse":
             MessageLookupByLibrary.simpleMessage("Welcome to Infantry House"),
+        "WrongPassword":
+            MessageLookupByLibrary.simpleMessage("🔑 The password is invalid."),
         "YourCartIsEmpty":
             MessageLookupByLibrary.simpleMessage("Your cart is empty!"),
         "aborted": MessageLookupByLibrary.simpleMessage(

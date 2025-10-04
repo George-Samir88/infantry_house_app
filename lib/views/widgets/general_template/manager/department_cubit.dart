@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infantry_house_app/models/menu_item_model.dart';
+import 'package:infantry_house_app/utils/map_firebase_error.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../../helper_functions/collection_exists.dart';
 import '../../../../models/carousel_models.dart';
 import '../../../../models/menu_button_model.dart';
@@ -37,11 +39,15 @@ part 'department_state.dart';
 // 🔹 الاسم في الكود: ItemCard
 
 class DepartmentCubit extends Cubit<DepartmentState> {
-  DepartmentCubit({required this.canManage, required this.departmentId})
-    : super(DepartmentInitial());
+  DepartmentCubit({
+    required this.loc,
+    required this.canManage,
+    required this.departmentId,
+  }) : super(DepartmentInitial());
 
   final String departmentId;
   final bool canManage;
+  final S loc;
 
   ///-------------Variables-------------
   //selected subScreen title
@@ -107,7 +113,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       return screenNames;
     } on FirebaseException catch (e) {
       // Firestore-specific error
-      emit(DepartmentGetDepartmentsNamesFailureState(error: e.code));
+      emit(
+        DepartmentGetDepartmentsNamesFailureState(
+          error: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
       return [];
     } catch (e) {
       // Any other error
@@ -152,7 +162,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
               }
               emit(DepartmentGetSubScreensNamesSuccessState());
             } on FirebaseException catch (e) {
-              emit(DepartmentGetSubScreensNamesFailureState(error: e.code));
+              emit(
+                DepartmentGetSubScreensNamesFailureState(
+                  error: localizeFirestoreError(loc: loc, code: e.code),
+                ),
+              );
             } catch (e) {
               emit(
                 DepartmentGetSubScreensNamesFailureState(error: e.toString()),
@@ -210,7 +224,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       await menuTitleDocRef.update({'uid': menuTitleDocRef.id});
       emit(DepartmentCreateSubScreensNamesSuccessState(docReference: docRef));
     } on FirebaseException catch (e) {
-      emit(DepartmentCreateSubScreensNamesFailureState(failure: e.code));
+      emit(
+        DepartmentCreateSubScreensNamesFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } on Exception catch (e) {
       emit(DepartmentCreateSubScreensNamesFailureState(failure: e.toString()));
     }
@@ -234,7 +252,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           });
       emit(DepartmentUpdateSubScreensNamesSuccessState());
     } on FirebaseException catch (e) {
-      emit(DepartmentUpdateSubScreensNamesFailureState(failure: e.code));
+      emit(
+        DepartmentUpdateSubScreensNamesFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } on Exception catch (e) {
       emit(DepartmentUpdateSubScreensNamesFailureState(failure: e.toString()));
     }
@@ -350,7 +372,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       emit(DepartmentDeleteSubScreensNamesSuccessState());
     } on FirebaseException catch (e) {
-      emit(DepartmentDeleteSubScreensNamesFailureState(failure: e.code));
+      emit(
+        DepartmentDeleteSubScreensNamesFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } catch (e) {
       emit(
         DepartmentDeleteSubScreensNamesFailureState(
@@ -455,12 +481,20 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           emit(DepartmentGetCarouselSuccessState());
         }
       } on FirebaseException catch (e) {
-        emit(DepartmentGetCarouselFailureState(failure: e.code));
+        emit(
+          DepartmentGetCarouselFailureState(
+            failure: localizeFirestoreError(loc: loc, code: e.code),
+          ),
+        );
       } catch (e) {
         emit(DepartmentGetCarouselFailureState(failure: e.toString()));
       }
     } on FirebaseException catch (e) {
-      emit(DepartmentGetCarouselFailureState(failure: e.code));
+      emit(
+        DepartmentGetCarouselFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } catch (e) {
       emit(DepartmentGetCarouselFailureState(failure: e.toString()));
     }
@@ -503,7 +537,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       emit(DepartmentCreateCarouselSuccessState());
       emit(DepartmentGetCarouselSuccessState()); // عشان الـ UI يتبنى على طول
     } on FirebaseException catch (e) {
-      emit(DepartmentCreateCarouselFailureState(failure: e.code));
+      emit(
+        DepartmentCreateCarouselFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } on Exception catch (e) {
       emit(DepartmentCreateCarouselFailureState(failure: e.toString()));
     }
@@ -540,7 +578,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       emit(DepartmentRemoveCarouselSuccessState());
       emit(DepartmentGetCarouselSuccessState()); // عشان الـ UI يrefresh على طول
     } on FirebaseException catch (e) {
-      emit(DepartmentRemoveCarouselFailureState(failure: e.code));
+      emit(
+        DepartmentRemoveCarouselFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } catch (e) {
       emit(DepartmentRemoveCarouselFailureState(failure: e.toString()));
     }
@@ -590,12 +632,20 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           DepartmentGetMenuTitleSuccessState(menuTitleModel: menuTitleModel),
         );
       } on FirebaseException catch (e) {
-        emit(DepartmentGetMenuTitleFailureState(failure: e.code));
+        emit(
+          DepartmentGetMenuTitleFailureState(
+            failure: localizeFirestoreError(loc: loc, code: e.code),
+          ),
+        );
       } catch (e) {
         emit(DepartmentGetMenuTitleFailureState(failure: e.toString()));
       }
     } on FirebaseException catch (e) {
-      emit(DepartmentGetMenuTitleFailureState(failure: e.code));
+      emit(
+        DepartmentGetMenuTitleFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } catch (e) {
       emit(DepartmentGetMenuTitleFailureState(failure: e.toString()));
     }
@@ -643,7 +693,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       emit(DepartmentUpdateMenuTitleSuccessState());
     } on FirebaseException catch (e) {
-      emit(DepartmentUpdateMenuTitleFailureState(failure: e.code));
+      emit(
+        DepartmentUpdateMenuTitleFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } catch (e) {
       emit(DepartmentUpdateMenuTitleFailureState(failure: e.toString()));
     }
@@ -722,7 +776,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       emit(DepartmentCreateMenuButtonSuccessState(menuButton: newButton));
     } on FirebaseException catch (e) {
-      emit(DepartmentCreateMenuButtonFailureState(failure: e.code));
+      emit(
+        DepartmentCreateMenuButtonFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } catch (e) {
       emit(DepartmentCreateMenuButtonFailureState(failure: e.toString()));
     }
@@ -802,12 +860,20 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         emit(DepartmentGetMenuButtonSuccessState());
         emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
       } on FirebaseException catch (e) {
-        emit(DepartmentGetMenuButtonFailureState(failure: e.code));
+        emit(
+          DepartmentGetMenuButtonFailureState(
+            failure: localizeFirestoreError(loc: loc, code: e.code),
+          ),
+        );
       } catch (e) {
         emit(DepartmentGetMenuButtonFailureState(failure: e.toString()));
       }
     } on FirebaseException catch (e) {
-      emit(DepartmentGetMenuButtonFailureState(failure: e.code));
+      emit(
+        DepartmentGetMenuButtonFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } catch (e) {
       emit(DepartmentGetMenuButtonFailureState(failure: e.toString()));
     }
@@ -863,7 +929,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       emit(DepartmentUpdateMenuButtonSuccessState());
     } on FirebaseException catch (e) {
-      emit(DepartmentUpdateMenuButtonFailureState(failure: e.code));
+      emit(
+        DepartmentUpdateMenuButtonFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } catch (e) {
       emit(DepartmentUpdateMenuButtonFailureState(failure: e.toString()));
     }
@@ -953,7 +1023,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       emit(DepartmentDeleteMenuButtonSuccessState());
     } on FirebaseException catch (e) {
-      emit(DepartmentDeleteMenuButtonFailureState(failure: e.code));
+      emit(
+        DepartmentDeleteMenuButtonFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } catch (e) {
       emit(DepartmentDeleteMenuButtonFailureState(failure: e.toString()));
     }
@@ -1016,7 +1090,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       emit(DepartmentCreateMenuItemSuccessState(menuItem: newItem));
     } on FirebaseException catch (e) {
-      emit(DepartmentCreateMenuItemFailureState(failure: e.code));
+      emit(
+        DepartmentCreateMenuItemFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } catch (e) {
       emit(DepartmentCreateMenuItemFailureState(failure: e.toString()));
     }
@@ -1072,12 +1150,20 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           emit(DepartmentGetMenuItemSuccessState(menuItem: menuItemsList));
         }
       } on FirebaseException catch (e) {
-        emit(DepartmentGetMenuItemFailureState(failure: e.code));
+        emit(
+          DepartmentGetMenuItemFailureState(
+            failure: localizeFirestoreError(loc: loc, code: e.code),
+          ),
+        );
       } catch (e) {
         emit(DepartmentGetMenuItemFailureState(failure: e.toString()));
       }
     } on FirebaseException catch (e) {
-      emit(DepartmentGetMenuItemFailureState(failure: e.code));
+      emit(
+        DepartmentGetMenuItemFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } catch (e) {
       emit(DepartmentGetMenuItemFailureState(failure: e.toString()));
     }
@@ -1149,7 +1235,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       emit(DepartmentUpdateMenuItemSuccessState());
     } on FirebaseException catch (e) {
-      emit(DepartmentUpdateMenuItemFailureState(failure: e.code));
+      emit(
+        DepartmentUpdateMenuItemFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } catch (e) {
       emit(DepartmentUpdateMenuItemFailureState(failure: e.toString()));
     }
@@ -1228,7 +1318,11 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       emit(DepartmentDeleteMenuItemSuccessState());
     } on FirebaseException catch (e) {
-      emit(DepartmentDeleteMenuItemFailureState(failure: e.code));
+      emit(
+        DepartmentDeleteMenuItemFailureState(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
     } catch (e) {
       emit(DepartmentDeleteMenuItemFailureState(failure: e.toString()));
     }

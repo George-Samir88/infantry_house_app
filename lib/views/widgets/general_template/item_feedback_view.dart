@@ -9,7 +9,6 @@ import 'package:infantry_house_app/models/complaints_model.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
-import 'package:infantry_house_app/utils/map_firebase_error.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/rating_cubit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -149,10 +148,7 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
         if (state is RatingSubmitComplaintsFailure) {
           showSnackBar(
             context: context,
-            message: localizeFirestoreError(
-              context: context,
-              code: state.failure,
-            ),
+            message: state.failure,
             backgroundColor: Colors.red,
           );
         }

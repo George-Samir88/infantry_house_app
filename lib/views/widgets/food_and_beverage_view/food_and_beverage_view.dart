@@ -14,16 +14,20 @@ class FoodAndBeverageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenName = DepartmentsTitles.foodAndBeverage;
+    final canManage = context.read<HomeCubit>().canManageScreen(
+      screenName: screenName,
+    );
+    final loc = S.of(context);
+
     return BlocProvider(
-      create: (context) {
-        final screenName = DepartmentsTitles.foodAndBeverage;
-        final canManage = context.read<HomeCubit>().canManageScreen(
-          screenName: screenName,
-        );
-        return DepartmentCubit(departmentId: screenId, canManage: canManage);
-      },
+      create: (_) => DepartmentCubit(
+        departmentId: screenId,
+        canManage: canManage,
+        loc: loc,
+      ),
       child: GeneralTemplateView(
-        appBarTitle: S.of(context).KesmElA8zyaWlma4robat,
+        appBarTitle: loc.KesmElA8zyaWlma4robat,
       ),
     );
   }

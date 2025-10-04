@@ -10,7 +10,6 @@ import '../../../generated/l10n.dart';
 import '../../../utils/app_loader.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_snackBar.dart';
-import '../../../utils/map_firebase_error.dart';
 import 'feedback_list_view.dart';
 
 class ComplaintsView extends StatefulWidget {
@@ -55,20 +54,14 @@ class _ComplaintsViewState extends State<ComplaintsView> {
         if (state is RatingGetComplaintsFailure) {
           showSnackBar(
             context: context,
-            message: localizeFirestoreError(
-              context: context,
-              code: state.failure,
-            ),
+            message: state.failure,
             backgroundColor: Colors.redAccent,
           );
         }
         if (state is RatingGetRatingFailure) {
           showSnackBar(
             context: context,
-            message: localizeFirestoreError(
-              context: context,
-              code: state.failure,
-            ),
+            message: state.failure,
             backgroundColor: Colors.redAccent,
           );
         }

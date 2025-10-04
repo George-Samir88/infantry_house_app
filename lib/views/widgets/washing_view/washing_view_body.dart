@@ -14,17 +14,20 @@ class WashingViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenName = DepartmentsTitles.washing;
+    final canManage = context.read<HomeCubit>().canManageScreen(
+      screenName: screenName,
+    );
+    final loc = S.of(context);
+
     return BlocProvider(
-      create: (context) {
-        final screenName = DepartmentsTitles.washing;
-        final canManage = context.read<HomeCubit>().canManageScreen(
-          screenName: screenName,
-        );
-        return DepartmentCubit(departmentId: screenId, canManage: canManage);
-      },
-      child: GeneralTemplateView(
-        appBarTitle: S.of(context).m8sla,
-      ),
+      create:
+          (_) => DepartmentCubit(
+            departmentId: screenId,
+            canManage: canManage,
+            loc: loc,
+          ),
+      child: GeneralTemplateView(appBarTitle: loc.m8sla),
     );
   }
 }

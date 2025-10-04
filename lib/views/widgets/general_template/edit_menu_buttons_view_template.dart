@@ -5,7 +5,6 @@ import 'package:infantry_house_app/global_variables.dart';
 import 'package:infantry_house_app/models/menu_title_model.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
-import 'package:infantry_house_app/utils/map_firebase_error.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 import 'package:lottie/lottie.dart';
 
@@ -113,55 +112,37 @@ class _EditMenuButtonsAndMenuTitleTemplateState
           } else if (state is DepartmentGetMenuTitleFailureState) {
             showSnackBar(
               context: context,
-              message: localizeFirestoreError(
-                context: context,
-                code: state.failure,
-              ),
+              message:state.failure,
             );
           }
           else if (state is DepartmentUpdateMenuTitleFailureState) {
             showSnackBar(
               context: context,
-              message: localizeFirestoreError(
-                context: context,
-                code: state.failure,
-              ),
+              message: state.failure,
             );
           }
           else if (state is DepartmentCreateMenuButtonFailureState) {
             showSnackBar(
               context: context,
-              message: localizeFirestoreError(
-                context: context,
-                code: state.failure,
-              ),
+              message:state.failure,
             );
           }
           else if (state is DepartmentDeleteMenuButtonFailureState) {
             showSnackBar(
               context: context,
-              message: localizeFirestoreError(
-                context: context,
-                code: state.failure,
-              ),
+              message: state.failure,
             );
           }
           else if (state is DepartmentUpdateMenuButtonFailureState) {
             showSnackBar(
               context: context,
-              message: localizeFirestoreError(
-                context: context,
-                code: state.failure,
-              ),
+              message:state.failure,
             );
           }
           else if (state is DepartmentGetMenuButtonFailureState) {
             showSnackBar(
               context: context,
-              message: localizeFirestoreError(
-                context: context,
-                code: state.failure,
-              ),
+              message:state.failure,
             );
           }
 

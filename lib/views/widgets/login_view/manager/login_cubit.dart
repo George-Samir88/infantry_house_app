@@ -3,12 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../register_view/models/user_model.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(LoginInitial());
+  LoginCubit({required this.loc}) : super(LoginInitial());
+  final S loc;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -30,7 +32,7 @@ class LoginCubit extends Cubit<LoginState> {
       // 2) Fetch user data from Firestore
       final snapshot = await firestore.collection('users').doc(uid).get();
       if (!snapshot.exists) {
-        emit(LoginFailure("User data not found in Firestore"));
+        emit(LoginFailure(loc.NotFound));
         return;
       }
 

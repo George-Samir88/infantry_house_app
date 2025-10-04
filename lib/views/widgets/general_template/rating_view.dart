@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
-import 'package:infantry_house_app/utils/map_firebase_error.dart';
 import 'package:infantry_house_app/views/widgets/general_template/item_feedback_view.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 import 'package:infantry_house_app/views/widgets/general_template/rating_horizontal_list_view.dart';
@@ -143,10 +142,7 @@ class _RatingViewState extends State<RatingView>
         if (state is RatingSendRatingFailure) {
           showSnackBar(
             context: context,
-            message: localizeFirestoreError(
-              context: context,
-              code: state.failure,
-            ),
+            message: state.failure,
             backgroundColor: Colors.red,
           );
         }

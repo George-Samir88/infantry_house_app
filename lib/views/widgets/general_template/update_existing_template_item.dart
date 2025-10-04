@@ -16,7 +16,6 @@ import '../../../global_variables.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_snackBar.dart';
-import '../../../utils/map_firebase_error.dart';
 
 class UpdateExistingItemTemplateView extends StatefulWidget {
   const UpdateExistingItemTemplateView({
@@ -179,29 +178,20 @@ class _UpdateExistingItemTemplateViewState
           } else if (state is DepartmentUpdateMenuItemFailureState) {
             showSnackBar(
               context: context,
-              message: localizeFirestoreError(
-                context: context,
-                code: state.failure,
-              ),
+              message:state.failure,
               backgroundColor: Colors.red,
             );
           } else if (state is DepartmentGetMenuItemFailureState) {
             showSnackBar(
               context: context,
               backgroundColor: Colors.red,
-              message: localizeFirestoreError(
-                context: context,
-                code: state.failure,
-              ),
+              message: state.failure,
             );
           } else if (state is DepartmentDeleteMenuItemFailureState) {
             showSnackBar(
               context: context,
               backgroundColor: Colors.redAccent,
-              message: localizeFirestoreError(
-                context: context,
-                code: state.failure,
-              ),
+              message: state.failure,
             );
           }
         },

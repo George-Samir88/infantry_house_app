@@ -40,7 +40,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocProvider(
-      create: (context) => LoginCubit(),
+      create: (context) => LoginCubit(loc: S.of(context)),
       child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) async {
           if (state is LoginSuccess) {

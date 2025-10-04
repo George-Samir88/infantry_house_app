@@ -14,16 +14,21 @@ class ReservationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        final screenName = DepartmentsTitles.reservation;
-        final canManage = context.read<HomeCubit>().canManageScreen(
-          screenName: screenName,
-        );
+    final screenName = DepartmentsTitles.reservation;
+    final canManage = context.read<HomeCubit>().canManageScreen(
+      screenName: screenName,
+    );
+    final loc = S.of(context);
 
-        return DepartmentCubit(departmentId: screenId, canManage: canManage);
-      },
-      child: GeneralTemplateView(appBarTitle: S.of(context).hogozat),
+    return BlocProvider(
+      create: (_) => DepartmentCubit(
+        departmentId: screenId,
+        canManage: canManage,
+        loc: loc,
+      ),
+      child: GeneralTemplateView(
+        appBarTitle: loc.hogozat,
+      ),
     );
   }
 }

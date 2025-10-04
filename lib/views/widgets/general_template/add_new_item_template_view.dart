@@ -14,7 +14,6 @@ import '../../../global_variables.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_snackBar.dart';
-import '../../../utils/map_firebase_error.dart';
 
 class AddNewItemTemplateView extends StatefulWidget {
   const AddNewItemTemplateView({super.key});
@@ -117,13 +116,7 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
           if (state is DepartmentCreateMenuItemSuccessState) {
             _playAnimation();
           } else if (state is DepartmentCreateMenuItemFailureState) {
-            showSnackBar(
-              context: context,
-              message: localizeFirestoreError(
-                context: context,
-                code: state.failure,
-              ),
-            );
+            showSnackBar(context: context, message: state.failure);
           }
         },
         builder: (context, state) {
@@ -294,7 +287,8 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
                               title: titleController.text,
                               price: priceController.text,
                               imagePath:
-                                  _imageFile?.path ?? "Error in adding image", description: descriptionController.text,
+                                  _imageFile?.path ?? "Error in adding image",
+                              description: descriptionController.text,
                             );
                             FocusScope.of(context).unfocus();
                             titleController.clear();

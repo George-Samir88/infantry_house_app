@@ -11,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../generated/l10n.dart';
 import '../../../main.dart';
 import '../../../utils/custom_elevated_button.dart';
-import '../../../utils/map_firebase_error.dart';
 import '../home_view/home_view.dart';
 import '../home_view/manager/home_cubit.dart';
 import '../login_view/login_view.dart';
@@ -86,10 +85,7 @@ class _SplashViewState extends State<SplashView> {
             } else if (state is AutoLoginFailure) {
               showSnackBar(
                 context: context,
-                message: localizeFirestoreError(
-                  context: context,
-                  code: state.message,
-                ),
+                message:  state.message,
               );
               Navigator.pushReplacement(
                 context,
@@ -109,10 +105,7 @@ class _SplashViewState extends State<SplashView> {
             if (homeState is HomeGetDepartmentsFailureState && userIsLoggedIn) {
               showSnackBar(
                 context: context,
-                message: localizeFirestoreError(
-                  context: context,
-                  code: homeState.failure,
-                ),
+                message: homeState.failure,
                 backgroundColor: Colors.redAccent,
                 duration: 3,
               );
@@ -127,10 +120,7 @@ class _SplashViewState extends State<SplashView> {
                 );
                 showSnackBar(
                   context: context,
-                  message: localizeFirestoreError(
-                    context: context,
-                    code: homeState.failure,
-                  ),
+                  message:homeState.failure,
                 );
               });
             }
