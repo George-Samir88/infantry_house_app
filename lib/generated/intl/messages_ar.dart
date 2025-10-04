@@ -287,6 +287,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "UpdateDailyGame": MessageLookupByLibrary.simpleMessage("تعديل اللعبة"),
         "UpdateTitle":
             MessageLookupByLibrary.simpleMessage("تعديل اسم التصنيف"),
+        "UpdatedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("تم التعديل بنجاح"),
         "UserDisabled": MessageLookupByLibrary.simpleMessage(
             "🚫 تم تعطيل حساب هذا المستخدم."),
         "UserName": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),

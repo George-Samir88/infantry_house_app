@@ -291,6 +291,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "⚠️ An unknown Firestore error occurred."),
         "UpdateDailyGame": MessageLookupByLibrary.simpleMessage("Update Game"),
         "UpdateTitle": MessageLookupByLibrary.simpleMessage("Update category"),
+        "UpdatedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("Updated Successfully"),
         "UserDisabled": MessageLookupByLibrary.simpleMessage(
             "🚫 This user account has been disabled."),
         "UserName": MessageLookupByLibrary.simpleMessage("User Name"),

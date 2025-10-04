@@ -1,23 +1,18 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/views/widgets/menu_view/manager/user_data_cubit.dart';
+import 'package:infantry_house_app/views/widgets/profile_view/edit_user_profile_view.dart';
 
 import '../../../generated/l10n.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final String userName;
-  final String email;
-  final String phone;
-
-  const ProfileScreen({
-    super.key,
-    required this.userName,
-    required this.email,
-    required this.phone,
-  });
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var cubit = context.read<UserDataCubit>();
     return Scaffold(
       body: Stack(
         children: [
@@ -32,117 +27,140 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
 
-          CustomScrollView(
-            slivers: [
-              // 🔹 Collapsing AppBar
-              SliverAppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                expandedHeight: 200.h,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  title: FadeInDown(
-                    child: Text(
-                      S.of(context).Profile,
-                      style: TextStyle(
-                        color: Colors.brown[800],
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
+          BlocBuilder<UserDataCubit, UserDataState>(
+            builder: (context, state) {
+              return CustomScrollView(
+                slivers: [
+                  // 🔹 Collapsing AppBar
+                  SliverAppBar(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    expandedHeight: 200.h,
+                    pinned: true,
+                    leading: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.arrow_back_ios_outlined),
                     ),
-                  ),
-                  background: Hero(
-                    tag: "profileAvatar",
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: CircleAvatar(
-                        radius: 60,
-                        backgroundColor: Colors.brown[800],
+                    flexibleSpace: FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: FadeInDown(
                         child: Text(
-                          userName.isNotEmpty ? userName[0] : "?",
+                          S.of(context).Profile,
                           style: TextStyle(
-                            fontSize: 40.sp,
-                            color: Colors.white,
+                            color: Colors.brown[800],
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      background: Hero(
+                        tag: "profileAvatar",
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: CircleAvatar(
+                            radius: 60,
+                            backgroundColor: Colors.brown[800],
+                            child: Text(
+                              cubit.userModel.fullName.isNotEmpty
+                                  ? cubit.userModel.fullName[0]
+                                  : "?",
+                              style: TextStyle(
+                                fontSize: 40.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
 
-              // 🔹 Profile Details
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FadeInUp(
-                        child: _buildInfoCard(
-                          icon: Icons.person,
-                          title: S.of(context).UserName,
-                          subtitle: userName,
-                        ),
-                      ),
-                      SizedBox(height: 12.h),
-                      FadeInUp(
-                        delay: const Duration(milliseconds: 100),
-                        child: _buildInfoCard(
-                          icon: Icons.email,
-                          title: S.of(context).Email,
-                          subtitle: email,
-                        ),
-                      ),
-                      SizedBox(height: 12.h),
-                      FadeInUp(
-                        delay: const Duration(milliseconds: 200),
-                        child: _buildInfoCard(
-                          icon: Icons.phone,
-                          title: S.of(context).PhoneNumber,
-                          subtitle: phone,
-                        ),
-                      ),
-                      SizedBox(height: 20.h),
+                  // 🔹 Profile Details
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.w),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FadeInUp(
+                            child: _buildInfoCard(
+                              icon: Icons.person,
+                              title: S.of(context).UserName,
+                              subtitle: cubit.userModel.fullName,
+                            ),
+                          ),
+                          SizedBox(height: 12.h),
+                          FadeInUp(
+                            delay: const Duration(milliseconds: 100),
+                            child: _buildInfoCard(
+                              icon: Icons.email,
+                              title: S.of(context).Email,
+                              subtitle: cubit.userModel.email,
+                            ),
+                          ),
+                          SizedBox(height: 12.h),
+                          FadeInUp(
+                            delay: const Duration(milliseconds: 200),
+                            child: _buildInfoCard(
+                              icon: Icons.phone,
+                              title: S.of(context).PhoneNumber,
+                              subtitle: cubit.userModel.phone,
+                            ),
+                          ),
+                          SizedBox(height: 20.h),
 
-                      // 🔹 Animated Action Buttons
-                      FadeInUp(
-                        delay: const Duration(milliseconds: 300),
-                        child: _buildActionButton(
-                          context,
-                          icon: Icons.edit,
-                          text: S.of(context).EditProfile,
-                          onTap: () {},
-                        ),
+                          // 🔹 Animated Action Buttons
+                          FadeInUp(
+                            delay: const Duration(milliseconds: 300),
+                            child: _buildActionButton(
+                              context,
+                              icon: Icons.edit,
+                              text: S.of(context).EditProfile,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) => BlocProvider.value(
+                                          value: cubit,
+                                          child: EditProfileScreen(),
+                                        ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          FadeInUp(
+                            delay: const Duration(milliseconds: 400),
+                            child: _buildActionButton(
+                              context,
+                              icon: Icons.lock,
+                              text: S.of(context).ChangePassword,
+                              onTap: () {},
+                            ),
+                          ),
+                          FadeInUp(
+                            delay: const Duration(milliseconds: 500),
+                            child: _buildActionButton(
+                              context,
+                              icon: Icons.logout,
+                              text: S.of(context).LogOut,
+                              onTap: () {},
+                              buttonColor: Colors.red[400],
+                              textColor: Colors.white,
+                              iconColor: Colors.white,
+                            ),
+                          ),
+                        ],
                       ),
-                      FadeInUp(
-                        delay: const Duration(milliseconds: 400),
-                        child: _buildActionButton(
-                          context,
-                          icon: Icons.lock,
-                          text: S.of(context).ChangePassword,
-                          onTap: () {},
-                        ),
-                      ),
-                      FadeInUp(
-                        delay: const Duration(milliseconds: 500),
-                        child: _buildActionButton(
-                          context,
-                          icon: Icons.logout,
-                          text: S.of(context).LogOut,
-                          onTap: () {},
-                          buttonColor: Colors.red[400],
-                          textColor: Colors.white,
-                          iconColor: Colors.white,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ],
+                ],
+              );
+            },
           ),
         ],
       ),

@@ -46,19 +46,17 @@ class CustomAppBarEditingView extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            actions: [
-              Padding(
-                padding: EdgeInsets.only(left: 16.0),
-                child: IconButton(
-                  onPressed: onPressed,
-                  icon: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 26.r,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
+           leading: Padding(
+             padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+             child: IconButton(
+               onPressed: onPressed,
+               icon: Icon(
+                 Icons.arrow_back_ios_outlined,
+                 size: 24.r,
+                 color: Colors.white,
+               ),
+             ),
+           ),
           ),
         ],
       ),

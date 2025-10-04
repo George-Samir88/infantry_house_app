@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
@@ -13,6 +12,7 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLines,
     this.obscureText,
     this.suffixIcon,
+    this.enabled,
   });
 
   final TextEditingController textEditingController;
@@ -23,27 +23,24 @@ class CustomTextFormField extends StatelessWidget {
   final bool? obscureText;
   final int? maxLines;
   final Widget? suffixIcon;
+  final bool? enabled;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: textEditingController,
       obscureText: obscureText ?? false,
+      enabled: enabled ?? true,
       minLines: minLines,
-      maxLines: maxLines ,
-      style: TextStyle(fontSize:  14.sp),
+      maxLines: maxLines,
+      style: TextStyle(fontSize: 14.sp),
       keyboardType: textInputType,
       decoration: InputDecoration(
-        suffixIcon: suffixIcon ,
-        errorStyle: TextStyle(
-          fontSize:  10.sp,
-        ),
+        suffixIcon: suffixIcon,
+        errorStyle: TextStyle(fontSize: 10.sp),
         hintText: hintText,
         filled: true,
-        hintStyle: TextStyle(
-          fontSize:  14.sp,
-          color: Colors.grey,
-        ),
+        hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey),
         fillColor: Colors.grey[200],
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

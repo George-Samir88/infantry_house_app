@@ -194,5 +194,6 @@
   "RequiresRecentLogin": "🔒 Please log in again before performing this action.",
   "TooManyRequests": "⚠️ Too many requests. Please try again later.",
   "InvalidVerificationCode": "⚠️ The verification code is invalid.",
-  "InvalidVerificationId": "⚠️ The verification ID is invalid."
+  "InvalidVerificationId": "⚠️ The verification ID is invalid.",
+  "UpdatedSuccessfully" : "Updated Successfully"
 }

@@ -47,6 +47,27 @@ class UserModel {
     );
   }
 
+  UserModel copyWith({
+    String? fullName,
+    String? email,
+    String? phone,
+    bool? isVerified,
+    String? role,
+    String? department,
+  }) {
+    return UserModel(
+      uid: uid,
+      fullName: fullName ?? this.fullName,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      createdAt: createdAt,
+      role: role ?? this.role,
+      department: department ?? this.department,
+      isVerified: isVerified ?? this.isVerified,
+    );
+  }
+
+
   String toJson() => json.encode(toMap());
 
   factory UserModel.fromJson(String source) =>

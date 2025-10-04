@@ -32,7 +32,7 @@ class CustomElevatedButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          padding: EdgeInsets.symmetric(vertical: 14.h , horizontal: 8.w),
+          padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 8.w),
         ),
         child: FittedBox(
           fit: BoxFit.scaleDown,
@@ -85,7 +85,7 @@ class CustomElevatedButtonWithIcon extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          padding: EdgeInsets.symmetric(vertical: 14.h , horizontal: 12.w),
+          padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 12.w),
         ),
         icon: Icon(icon, color: textColor ?? Colors.white, size: 24.r),
         label: FittedBox(

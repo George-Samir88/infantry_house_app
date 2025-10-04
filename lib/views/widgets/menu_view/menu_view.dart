@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/generated/l10n.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_appbar_editing_view.dart';
+import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/manager/user_data_cubit.dart';
 
 import '../profile_view/profile_view.dart';
@@ -21,7 +22,7 @@ class MenuView extends StatelessWidget {
       child: Builder(
         builder: (innerContext) {
           innerContext.read<UserDataCubit>().loadUserData(loc: S.of(context));
-
+          var userDataCubit = innerContext.read<UserDataCubit>();
           return Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(60.h),
@@ -46,7 +47,14 @@ class MenuView extends StatelessWidget {
                         SizedBox(height: 10.h),
                         // 🔹 Profile Section (First Letter Only)
                         BlocConsumer<UserDataCubit, UserDataState>(
-                          listener: (context, state) {},
+                          listener: (context, state) {
+                            if (state is UserDataError) {
+                              showSnackBar(
+                                context: context,
+                                message: state.message,
+                              );
+                            }
+                          },
                           builder: (context, state) {
                             if (state is UserDataLoading) {
                               return const AppLoader();
@@ -69,7 +77,8 @@ class MenuView extends StatelessWidget {
                                 ),
                               );
                             } else if (state is UserDataLoadedSuccess) {
-                              final UserModel userModel = state.user;
+                              final UserModel userModel =
+                                  userDataCubit.userModel;
                               return ListTile(
                                 leading: CircleAvatar(
                                   radius: 25,
@@ -110,10 +119,9 @@ class MenuView extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder:
-                                          (_) => ProfileScreen(
-                                            userName: userModel.fullName,
-                                            email: userModel.email,
-                                            phone: userModel.phone,
+                                          (_) => BlocProvider.value(
+                                            value: userDataCubit,
+                                            child: ProfileScreen(),
                                           ),
                                     ),
                                   );

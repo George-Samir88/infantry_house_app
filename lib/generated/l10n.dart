@@ -1999,6 +1999,16 @@ class S {
       args: [],
     );
   }
+
+  /// `تم التعديل بنجاح`
+  String get UpdatedSuccessfully {
+    return Intl.message(
+      'تم التعديل بنجاح',
+      name: 'UpdatedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
