@@ -26,7 +26,6 @@ class _GeneralBodyTemplateViewState extends State<GeneralBodyTemplateView> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -47,8 +46,10 @@ class _GeneralBodyTemplateViewState extends State<GeneralBodyTemplateView> {
                     child: CarouselSlider.builder(
                       itemCount: cubit.carouselItemsList.length,
                       itemBuilder:
-                          (context, index, realIndex) =>
-                          CustomCarouselItem(imagePath: cubit.carouselItemsList[index].imageUrl, isPickedImage: false,),
+                          (context, index, realIndex) => CustomCarouselItem(
+                            imagePath: cubit.carouselItemsList[index].imageUrl,
+                            isPickedImage: false,
+                          ),
                       options: CarouselOptions(
                         onPageChanged: (index, other) {
                           cubit.changeCarouselIndex(index: index);
@@ -107,8 +108,7 @@ class _GeneralBodyTemplateViewState extends State<GeneralBodyTemplateView> {
                         } else {
                           showSnackBar(
                             context: context,
-                            message:
-                                S.of(context).PleaseAddAMainCategoryFirst,
+                            message: S.of(context).PleaseAddAMainCategoryFirst,
                             backgroundColor: Colors.red,
                             textColor: Colors.white,
                           );

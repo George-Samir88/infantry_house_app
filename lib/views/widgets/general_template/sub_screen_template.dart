@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_sub_screen_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
+import 'package:infantry_house_app/views/widgets/general_template/shimmer_loader.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
@@ -167,7 +167,16 @@ class _SubScreenTemplateState extends State<SubScreenTemplate> {
             ),
           );
         } else if (state is DepartmentGetSubScreensNamesLoadingState) {
-          return AppLoader();
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.w),
+            height: 40.h,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: 5,
+              itemBuilder: (_, __) => ShimmerLoader(width: 100.w, height: 40.h),
+              separatorBuilder: (_, __) => SizedBox(width: 12.w),
+            ),
+          );
         } else if (state is DepartmentGetSubScreensNamesFailureState) {
           return Center(
             child: Center(

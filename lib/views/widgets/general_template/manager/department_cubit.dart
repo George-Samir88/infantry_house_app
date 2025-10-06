@@ -136,6 +136,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         .collection('super_categories');
 
     if (!await collectionExists(collectionRef: collectionPath)) {
+      subScreensList.clear();
       emit(DepartmentGetSubScreensNamesEmptyState());
       return;
     }
@@ -393,8 +394,24 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     selectedSubScreenID = subScreenButtonId;
     selectedSubScreenIndex = index;
     emit(DepartmentChangeSubScreenState());
+    // ✅ 1) Carousel
+    if (carouselCache.containsKey(subScreenButtonId)) {
+      carouselItemsList = carouselCache[subScreenButtonId]!;
+      emit(DepartmentGetCarouselSuccessState());
+    } else {
+      await listenToCarousel();
+    }
+    // ✅ 2) Menu Title
+    if (menuTitleCache.containsKey(subScreenButtonId)) {
+      selectedMenuTitle = menuTitleCache[subScreenButtonId]!;
+      emit(
+        DepartmentGetMenuTitleSuccessState(menuTitleModel: selectedMenuTitle!),
+      );
+    } else {
+      await listenToMenuTitle();
+    }
 
-    // ✅ 1) Menu Buttons + Items
+    // ✅ 3) Menu Buttons + Items
     if (subScreenCache.containsKey(subScreenButtonId)) {
       final buttonsMap = subScreenCache[subScreenButtonId]!;
 
@@ -416,24 +433,6 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     } else {
       await listenToMenuButtons(); // هي اللي بتبني الكاش لأول مرة
     }
-
-    // ✅ 2) Carousel
-    if (carouselCache.containsKey(subScreenButtonId)) {
-      carouselItemsList = carouselCache[subScreenButtonId]!;
-      emit(DepartmentGetCarouselSuccessState());
-    } else {
-      await listenToCarousel();
-    }
-
-    // ✅ 3) Menu Title
-    if (menuTitleCache.containsKey(subScreenButtonId)) {
-      selectedMenuTitle = menuTitleCache[subScreenButtonId]!;
-      emit(
-        DepartmentGetMenuTitleSuccessState(menuTitleModel: selectedMenuTitle!),
-      );
-    } else {
-      await listenToMenuTitle();
-    }
   }
 
   ///--------------Carousel CRUD operations--------------
@@ -448,6 +447,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     try {
       await _carouselSub
           ?.cancel(); // not really needed anymore, but safe to keep
+      if (subScreensList.isEmpty) {
+        emit(DepartmentGetCarouselEmptyState());
+        return;
+      }
 
       final collectionPath = firestore
           .collection(rootCollectionName)
@@ -595,6 +598,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
     try {
       await _menuTitleSub?.cancel(); // safe to keep, even if not needed anymore
+      if (subScreensList.isEmpty) {
+        emit(DepartmentGetMenuTitleEmptyState());
+        return;
+      }
 
       final collectionPath = firestore
           .collection(rootCollectionName)
@@ -792,7 +799,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
     try {
       await _menuButtonsSub?.cancel(); // no longer needed but safe to keep
-
+      if (subScreensList.isEmpty) {
+        emit(DepartmentGetMenuButtonEmptyState());
+        return;
+      }
       final collectionPath = firestore
           .collection(rootCollectionName)
           .doc(departmentId)
@@ -800,7 +810,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .doc(selectedSubScreenID)
           .collection('Buttons');
 
-      if (!await collectionExists(collectionRef: collectionPath)) {
+      if (!await collectionExists(collectionRef: collectionPath) ||
+          subScreensList.isEmpty) {
         menuButtonList.clear();
         menuItemsList.clear();
         subScreenCache[selectedSubScreenID!] = {};
@@ -1107,7 +1118,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
     try {
       await _menuItem?.cancel(); // no longer needed but safe to keep
-
+      if (subScreensList.isEmpty || menuButtonList.isEmpty) {
+        emit(DepartmentGetMenuItemEmptyState());
+        return;
+      }
       final collectionPath = firestore
           .collection(rootCollectionName)
           .doc(departmentId)

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_empty_items_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_items_template_view.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_menu_buttons_view_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
+import 'package:infantry_house_app/views/widgets/general_template/shimmer_loader.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
@@ -14,6 +14,7 @@ import '../../../models/menu_title_model.dart';
 import '../../../utils/custom_edit_button.dart';
 import '../../../utils/custom_snackBar.dart';
 import 'custom_menu_items_horizontal_grid_view.dart';
+import 'menu_items_horizontal_grid_view_shimmer_loading.dart';
 
 class ButtonAndMenuTemplate extends StatelessWidget {
   const ButtonAndMenuTemplate({super.key});
@@ -36,7 +37,7 @@ class ButtonAndMenuTemplate extends StatelessWidget {
 
     if (state is DepartmentGetMenuTitleLoadingState) {
       // 🔹 Loading state
-      return const AppLoader();
+      return ShimmerLoader(width: 150.w, height: 30.h);
     }
 
     if (state is DepartmentGetMenuTitleFailureState) {
@@ -70,10 +71,17 @@ class ButtonAndMenuTemplate extends StatelessWidget {
     // 🔹 Common style
     final emptyTextStyle = TextStyle(fontSize: 20.sp);
 
-    if (state is DepartmentGetMenuButtonLoadingState ||
-        state is DepartmentGetMenuTitleLoadingState) {
-      // 🔹 Loading state
-      return const AppLoader();
+    if (state is DepartmentGetMenuButtonLoadingState) {
+      return Container(
+        height: 40.h,
+        margin: EdgeInsets.symmetric(horizontal: 16.w),
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: 6,
+          itemBuilder: (_, __) => ShimmerLoader(width: 80.w, height: 40.h),
+          separatorBuilder: (_, __) => SizedBox(width: 10.w),
+        ),
+      );
     }
 
     if (state is DepartmentGetMenuButtonFailureState ||
@@ -173,19 +181,7 @@ class ButtonAndMenuTemplate extends StatelessWidget {
       children: [
         if (state is DepartmentGetMenuItemLoadingState ||
             state is DepartmentGetMenuButtonLoadingState)
-          // 🔹 Loading
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(top: 20.h, left: 12.w, right: 12.w),
-                padding: EdgeInsets.all(20.w),
-                alignment: Alignment.center,
-                child: const AppLoader(),
-              ),
-            ],
-          )
+          const CustomMenuItemsHorizontalGridViewShimmer()
         else if (state is DepartmentGetMenuItemFailureState)
           // 🔹 Failure
           Container(
