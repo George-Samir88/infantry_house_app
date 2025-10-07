@@ -2009,6 +2009,26 @@ class S {
       args: [],
     );
   }
+
+  /// `حدث خطأ أثناء تحميل البيانات`
+  String get ErrorLoadingData {
+    return Intl.message(
+      'حدث خطأ أثناء تحميل البيانات',
+      name: 'ErrorLoadingData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إعادة تحميل`
+  String get Refresh {
+    return Intl.message(
+      'إعادة تحميل',
+      name: 'Refresh',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

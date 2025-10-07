@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../generated/l10n.dart';
 import '../global_variables.dart';
@@ -57,17 +58,15 @@ class CustomEmptyItemsTemplate extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/images/box.png',
+                SvgPicture.asset(
+                  'assets/images/empty-items2.svg',
                   height: GlobalData().isTabletLayout ? 80.h : 100.h,
                   width: GlobalData().isTabletLayout ? 80.h : 100.w,
                 ),
                 SizedBox(height: 10.h),
                 Text(
                   S.of(context).LaYogd3nasr,
-                  style: TextStyle(
-                    fontSize: GlobalData().isTabletLayout ? 16.sp : 20.sp,
-                  ),
+                  style: TextStyle(fontSize: 18.sp),
                 ),
                 SizedBox(height: 20.h),
                 if (isShowCustomEditButton)

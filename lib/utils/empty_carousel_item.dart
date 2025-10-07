@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:infantry_house_app/utils/custom_edit_button.dart';
 
 import '../generated/l10n.dart';
@@ -22,19 +23,18 @@ class EmptyCarouselContainer extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: GlobalData().isTabletLayout ? 280.h : 180.h,
       decoration: BoxDecoration(
-        color: Colors.grey[300], // Light grey background
+        color: Colors.grey.shade300, // Light grey background
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.not_interested_outlined,
-              size: 50.r,
-              color: Colors.black54,
+            SvgPicture.asset(
+              'assets/images/empty-items.svg',
+              height: GlobalData().isTabletLayout ? 80.h : 120.h,
+              width: GlobalData().isTabletLayout ? 80.h : 100.w,
             ),
-            SizedBox(height: 10.h),
             Text(
               S.of(context).laYogadE3lan,
               style: TextStyle(

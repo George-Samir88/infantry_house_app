@@ -106,6 +106,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أدخل رقم هاتفك"),
         "EnterYourUserName":
             MessageLookupByLibrary.simpleMessage("أدخل اسم المستخدم"),
+        "ErrorLoadingData": MessageLookupByLibrary.simpleMessage(
+            "حدث خطأ أثناء تحميل البيانات"),
         "ErrorOccurred": MessageLookupByLibrary.simpleMessage("حدث خطأ!"),
         "EsmElsanf": MessageLookupByLibrary.simpleMessage("إسم الصنف"),
         "FailedPrecondition": MessageLookupByLibrary.simpleMessage(
@@ -222,6 +224,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Ra2ykYhmna": MessageLookupByLibrary.simpleMessage("رأيك يهمنا"),
         "RateYourExperience":
             MessageLookupByLibrary.simpleMessage("قيم تجربتك"),
+        "Refresh": MessageLookupByLibrary.simpleMessage("إعادة تحميل"),
         "Register": MessageLookupByLibrary.simpleMessage("سجل"),
         "RegisteredSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم التسجيل بنجاح"),

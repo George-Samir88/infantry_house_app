@@ -45,11 +45,13 @@ class _SubScreenTemplateState extends State<SubScreenTemplate> {
         return current is DepartmentGetSubScreensNamesSuccessState ||
             current is DepartmentGetSubScreensNamesLoadingState ||
             current is DepartmentGetSubScreensNamesFailureState ||
-            current is DepartmentGetSubScreensNamesEmptyState;
+            current is DepartmentGetSubScreensNamesEmptyState ||
+            current is DepartmentChangeSubScreenState;
       },
       builder: (context, state) {
         var cubit = context.read<DepartmentCubit>();
-        if (state is DepartmentGetSubScreensNamesSuccessState) {
+        if (state is DepartmentGetSubScreensNamesSuccessState ||
+            state is DepartmentChangeSubScreenState) {
           return Container(
             margin: EdgeInsets.only(
               left: GlobalData().isTabletLayout ? 12.w : 16.w,

@@ -194,5 +194,7 @@
   "TooManyRequests": "⚠️ عدد كبير جدًا من الطلبات. حاول لاحقًا.",
   "InvalidVerificationCode": "⚠️ رمز التحقق غير صالح.",
   "InvalidVerificationId": "⚠️ معرف التحقق غير صالح.",
-  "UpdatedSuccessfully" : "تم التعديل بنجاح"
+  "UpdatedSuccessfully": "تم التعديل بنجاح",
+  "ErrorLoadingData": "حدث خطأ أثناء تحميل البيانات",
+  "Refresh": "إعادة تحميل"
 }

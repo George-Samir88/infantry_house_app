@@ -195,5 +195,7 @@
   "TooManyRequests": "⚠️ Too many requests. Please try again later.",
   "InvalidVerificationCode": "⚠️ The verification code is invalid.",
   "InvalidVerificationId": "⚠️ The verification ID is invalid.",
-  "UpdatedSuccessfully" : "Updated Successfully"
+  "UpdatedSuccessfully" : "Updated Successfully",
+  "ErrorLoadingData": "Error loading data",
+  "Refresh" : "Refresh"
 }

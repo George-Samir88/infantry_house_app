@@ -110,6 +110,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter your phone number"),
         "EnterYourUserName":
             MessageLookupByLibrary.simpleMessage("Enter your user name"),
+        "ErrorLoadingData":
+            MessageLookupByLibrary.simpleMessage("Error loading data"),
         "ErrorOccurred": MessageLookupByLibrary.simpleMessage("Error occurred"),
         "EsmElsanf": MessageLookupByLibrary.simpleMessage("Item name"),
         "FailedPrecondition": MessageLookupByLibrary.simpleMessage(
@@ -227,6 +229,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Your opinion matters"),
         "RateYourExperience":
             MessageLookupByLibrary.simpleMessage("Rate Your Experience"),
+        "Refresh": MessageLookupByLibrary.simpleMessage("Refresh"),
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
         "RegisteredSuccessfully":
             MessageLookupByLibrary.simpleMessage("Registered Successfully"),
