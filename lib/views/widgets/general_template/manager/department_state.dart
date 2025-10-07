@@ -244,3 +244,7 @@ class DepartmentDeleteMenuItemFailureState extends DepartmentState {
 }
 
 class DepartmentChangeSubScreenState extends DepartmentState {}
+
+class DepartmentLoadingAllSubScreenData extends DepartmentState {}
+
+class DepartmentChangeSubScreenLoadedState extends DepartmentState {}

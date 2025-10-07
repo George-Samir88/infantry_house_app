@@ -32,10 +32,7 @@ class _GeneralTemplateViewState extends State<GeneralTemplateView> {
     final cubit = context.read<DepartmentCubit>();
 
     // trigger your functions (don’t await if you want parallel calls)
-    cubit.listenToCarousel();
-    cubit.listenToMenuTitle();
-    cubit.listenToMenuButtons();
-
+    cubit.loadAllSubScreenData();
     // stop refresh after 4 seconds
     Future.delayed(const Duration(seconds: 3), () {
       if (!_refreshCompleter.isCompleted) {

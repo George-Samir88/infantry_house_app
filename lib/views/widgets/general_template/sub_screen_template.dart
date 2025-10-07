@@ -173,7 +173,13 @@ class _SubScreenTemplateState extends State<SubScreenTemplate> {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: 5,
-              itemBuilder: (_, __) => ShimmerLoader(width: 100.w, height: 40.h),
+              itemBuilder:
+                  (_, __) => ShimmerLoader(
+                    width: 100.w,
+                    height: 40.h,
+                    baseColor: const Color(0xffEDE4D6),
+                    highlightColor: const Color(0xffFAF7F0),
+                  ),
               separatorBuilder: (_, __) => SizedBox(width: 12.w),
             ),
           );

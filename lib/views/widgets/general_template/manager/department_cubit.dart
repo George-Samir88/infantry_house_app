@@ -394,6 +394,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     selectedSubScreenID = subScreenButtonId;
     selectedSubScreenIndex = index;
     emit(DepartmentChangeSubScreenState());
+    emit(DepartmentLoadingAllSubScreenData());
     // ✅ 1) Carousel
     if (carouselCache.containsKey(subScreenButtonId)) {
       carouselItemsList = carouselCache[subScreenButtonId]!;
@@ -433,6 +434,15 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     } else {
       await listenToMenuButtons(); // هي اللي بتبني الكاش لأول مرة
     }
+    emit(DepartmentChangeSubScreenLoadedState());
+  }
+
+  Future<void> loadAllSubScreenData() async {
+    emit(DepartmentLoadingAllSubScreenData());
+    await listenToCarousel();
+    await listenToMenuTitle();
+    await listenToMenuButtons();
+    emit(DepartmentChangeSubScreenLoadedState());
   }
 
   ///--------------Carousel CRUD operations--------------

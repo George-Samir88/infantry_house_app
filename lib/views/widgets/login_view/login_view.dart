@@ -39,318 +39,333 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return BlocProvider(
-      create: (context) => LoginCubit(loc: S.of(context)),
-      child: BlocConsumer<LoginCubit, LoginState>(
-        listener: (context, state) async {
-          if (state is LoginSuccess) {
-            if (!context.mounted) return;
-            await context.read<HomeCubit>().loadUserRole();
-            if (!context.mounted) return;
-            await context.read<HomeCubit>().getDepartmentsNames();
-            if (!context.mounted) return;
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => HomeView()),
-            );
-          } else if (state is LoginFailure) {
-            showSnackBar(
-              context: context,
-              message: state.error,
-              backgroundColor: Colors.red,
-            );
-          }
-        },
-        builder: (context, state) {
-          return SafeArea(
-            child: Scaffold(
-              backgroundColor: const Color(0xFF6D3A2D),
-              // Coffee brown background
-              body: CustomScrollView(
-                slivers: [
-                  // Fixed top section
-                  SliverToBoxAdapter(
-                    child: Container(
-                      width: double.infinity,
-                      height: size.height * 0.22,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF6D3A2D),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(40),
-                          bottomRight: Radius.circular(40),
-                        ),
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          height: 150.h,
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Scrollable form section
-                  SliverFillRemaining(
-                    hasScrollBody: true,
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20.w,
-                        vertical: 30.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40.r),
-                          topRight: Radius.circular(40.r),
-                        ),
-                      ),
-                      child: SingleChildScrollView(
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Welcome back text
-                              Center(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      S.of(context).WelcomeBack,
-                                      style: TextStyle(
-                                        fontSize: 28.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF6D3A2D),
-                                      ),
-                                    ),
-                                    SizedBox(height: 5.h),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "${S.of(context).DontHaveAnAccount} ",
-                                          style: TextStyle(
-                                            fontSize: 14.sp,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder:
-                                                    (context) => RegisterView(),
-                                              ),
-                                            );
-                                          },
-                                          child: Text(
-                                            S.of(context).Register,
-                                            style: TextStyle(
-                                              color: Color(0xFF6D3A2D),
-                                              fontSize: 14.sp,
-
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 20.h),
-                              // Email field
-                              Text(
-                                S.of(context).Email,
-                                style: TextStyle(fontSize: 20.sp),
-                              ),
-                              SizedBox(height: 8.h),
-                              CustomTextFormField(
-                                textEditingController: _emailController,
-                                textInputType: TextInputType.emailAddress,
-                                hintText: S.of(context).EnterYourEmail,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return S.of(context).PleaseEnterYourEmail;
-                                  }
-                                  // Regex for email validation
-                                  final emailRegex = RegExp(
-                                    r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
-                                  );
-                                  if (!emailRegex.hasMatch(value)) {
-                                    return S.of(context).PleaseEnterAValidEmail;
-                                  }
-                                  return null;
-                                },
-                              ),
-                              SizedBox(height: 20.h),
-                              // Password field
-                              Text(
-                                S.of(context).Password,
-                                style: TextStyle(fontSize: 20.sp),
-                              ),
-                              SizedBox(height: 8.h),
-                              CustomTextFormField(
-                                maxLines: 1,
-                                textEditingController: _passwordController,
-                                obscureText: !_isPasswordVisible,
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    size: 20.r,
-                                    _isPasswordVisible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _isPasswordVisible = !_isPasswordVisible;
-                                    });
-                                  },
-                                ),
-                                hintText: S.of(context).EnterYourPassword,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return S
-                                        .of(context)
-                                        .PleaseEnterYourPassword;
-                                  }
-                                  if (value.length < 6) {
-                                    return S
-                                        .of(context)
-                                        .PasswordMustBeAtLeast6CharactersLong;
-                                  }
-                                  return null;
-                                },
-                                textInputType: TextInputType.text,
-                              ),
-                              SizedBox(height: 10.h),
-
-                              // Forgot password
-                              Align(
-                                alignment:
-                                    GlobalData().isArabic
-                                        ? Alignment.centerLeft
-                                        : Alignment.centerRight,
-                                child: TweenAnimationBuilder<double>(
-                                  duration: const Duration(milliseconds: 600),
-                                  tween: Tween(begin: 0.0, end: 1.0),
-                                  curve: Curves.easeOut,
-                                  builder: (context, value, child) {
-                                    return Opacity(
-                                      opacity: value,
-                                      child: Transform.translate(
-                                        offset: Offset(0, (1 - value) * 20),
-                                        // يطلع من تحت لفوق
-                                        child: child,
-                                      ),
-                                    );
-                                  },
-                                  child: TextButton(
-                                    style: ButtonStyle(
-                                      overlayColor: WidgetStateProperty.all(
-                                        const Color(
-                                          0xFF6D3A2D,
-                                        ).withValues(alpha: 0.1), // تأثير ضغط
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      showForgotPasswordDialog(context);
-                                    },
-                                    child: Text(
-                                      S.of(context).ForgotPassword,
-                                      style: TextStyle(
-                                        color: const Color(0xFF6D3A2D),
-                                        fontSize: 12.sp,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10.h),
-
-                              // Login button
-                              state is LoginLoading
-                                  ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: const Color(0xFF6D3A2D),
-                                      strokeWidth: 3,
-                                    ),
-                                  )
-                                  : CustomElevatedButton(
-                                    onPressed: () => login(context: context),
-                                    text: S.of(context).Login,
-                                    width: MediaQuery.of(context).size.width,
-                                  ),
-                              SizedBox(height: 20.h),
-
-                              // OR section
-                              Center(
-                                child: Text(
-                                  S.of(context).OR,
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 16.sp,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10.h),
-
-                              // Social login buttons
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ElevatedButton.icon(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.email,
-                                      color: Colors.red,
-                                      size: 18.r,
-                                    ),
-                                    label: Text(
-                                      'Gmail',
-                                      style: TextStyle(fontSize: 12.sp),
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      side: const BorderSide(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  ElevatedButton.icon(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.facebook,
-                                      color: Colors.blue,
-                                      size: 18.r,
-                                    ),
-                                    label: Text(
-                                      'Facebook',
-                                      style: TextStyle(fontSize: 12.sp),
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      side: const BorderSide(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+    return Builder(
+      builder: (context) {
+        final loc = S.of(context);
+        return BlocProvider(
+          create: (context) => LoginCubit(loc: loc),
+          child: BlocConsumer<LoginCubit, LoginState>(
+            listener: (context, state) async {
+              if (state is LoginSuccess) {
+                if (!context.mounted) return;
+                await context.read<HomeCubit>().loadUserRole();
+                if (!context.mounted) return;
+                await context.read<HomeCubit>().getDepartmentsNames();
+                if (!context.mounted) return;
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeView()),
+                );
+              } else if (state is LoginFailure) {
+                showSnackBar(
+                  context: context,
+                  message: state.error,
+                  backgroundColor: Colors.red,
+                );
+              }
+            },
+            builder: (context, state) {
+              return SafeArea(
+                child: Scaffold(
+                  backgroundColor: const Color(0xFF6D3A2D),
+                  // Coffee brown background
+                  body: CustomScrollView(
+                    slivers: [
+                      // Fixed top section
+                      SliverToBoxAdapter(
+                        child: Container(
+                          width: double.infinity,
+                          height: size.height * 0.22,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF6D3A2D),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(40),
+                              bottomRight: Radius.circular(40),
+                            ),
+                          ),
+                          child: Center(
+                            child: Image.asset(
+                              'assets/images/logo.png',
+                              height: 150.h,
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      // Scrollable form section
+                      SliverFillRemaining(
+                        hasScrollBody: true,
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                            vertical: 30.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(40.r),
+                              topRight: Radius.circular(40.r),
+                            ),
+                          ),
+                          child: SingleChildScrollView(
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Welcome back text
+                                  Center(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          S.of(context).WelcomeBack,
+                                          style: TextStyle(
+                                            fontSize: 28.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF6D3A2D),
+                                          ),
+                                        ),
+                                        SizedBox(height: 5.h),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "${S.of(context).DontHaveAnAccount} ",
+                                              style: TextStyle(
+                                                fontSize: 14.sp,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder:
+                                                        (context) =>
+                                                            RegisterView(),
+                                                  ),
+                                                );
+                                              },
+                                              child: Text(
+                                                S.of(context).Register,
+                                                style: TextStyle(
+                                                  color: Color(0xFF6D3A2D),
+                                                  fontSize: 14.sp,
+
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 20.h),
+                                  // Email field
+                                  Text(
+                                    S.of(context).Email,
+                                    style: TextStyle(fontSize: 20.sp),
+                                  ),
+                                  SizedBox(height: 8.h),
+                                  CustomTextFormField(
+                                    textEditingController: _emailController,
+                                    textInputType: TextInputType.emailAddress,
+                                    hintText: S.of(context).EnterYourEmail,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return S
+                                            .of(context)
+                                            .PleaseEnterYourEmail;
+                                      }
+                                      // Regex for email validation
+                                      final emailRegex = RegExp(
+                                        r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                      );
+                                      if (!emailRegex.hasMatch(value)) {
+                                        return S
+                                            .of(context)
+                                            .PleaseEnterAValidEmail;
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  SizedBox(height: 20.h),
+                                  // Password field
+                                  Text(
+                                    S.of(context).Password,
+                                    style: TextStyle(fontSize: 20.sp),
+                                  ),
+                                  SizedBox(height: 8.h),
+                                  CustomTextFormField(
+                                    maxLines: 1,
+                                    textEditingController: _passwordController,
+                                    obscureText: !_isPasswordVisible,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        size: 20.r,
+                                        _isPasswordVisible
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _isPasswordVisible =
+                                              !_isPasswordVisible;
+                                        });
+                                      },
+                                    ),
+                                    hintText: S.of(context).EnterYourPassword,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return S
+                                            .of(context)
+                                            .PleaseEnterYourPassword;
+                                      }
+                                      if (value.length < 6) {
+                                        return S
+                                            .of(context)
+                                            .PasswordMustBeAtLeast6CharactersLong;
+                                      }
+                                      return null;
+                                    },
+                                    textInputType: TextInputType.text,
+                                  ),
+                                  SizedBox(height: 10.h),
+
+                                  // Forgot password
+                                  Align(
+                                    alignment:
+                                        GlobalData().isArabic
+                                            ? Alignment.centerLeft
+                                            : Alignment.centerRight,
+                                    child: TweenAnimationBuilder<double>(
+                                      duration: const Duration(
+                                        milliseconds: 600,
+                                      ),
+                                      tween: Tween(begin: 0.0, end: 1.0),
+                                      curve: Curves.easeOut,
+                                      builder: (context, value, child) {
+                                        return Opacity(
+                                          opacity: value,
+                                          child: Transform.translate(
+                                            offset: Offset(0, (1 - value) * 20),
+                                            // يطلع من تحت لفوق
+                                            child: child,
+                                          ),
+                                        );
+                                      },
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                          overlayColor: WidgetStateProperty.all(
+                                            const Color(0xFF6D3A2D).withValues(
+                                              alpha: 0.1,
+                                            ), // تأثير ضغط
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          showForgotPasswordDialog(context);
+                                        },
+                                        child: Text(
+                                          S.of(context).ForgotPassword,
+                                          style: TextStyle(
+                                            color: const Color(0xFF6D3A2D),
+                                            fontSize: 12.sp,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.h),
+
+                                  // Login button
+                                  state is LoginLoading
+                                      ? Center(
+                                        child: CircularProgressIndicator(
+                                          color: const Color(0xFF6D3A2D),
+                                          strokeWidth: 3,
+                                        ),
+                                      )
+                                      : CustomElevatedButton(
+                                        onPressed:
+                                            () => login(context: context),
+                                        text: S.of(context).Login,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                      ),
+                                  SizedBox(height: 20.h),
+
+                                  // OR section
+                                  Center(
+                                    child: Text(
+                                      S.of(context).OR,
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.h),
+
+                                  // Social login buttons
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton.icon(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.email,
+                                          color: Colors.red,
+                                          size: 18.r,
+                                        ),
+                                        label: Text(
+                                          'Gmail',
+                                          style: TextStyle(fontSize: 12.sp),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.white,
+                                          side: const BorderSide(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 10.w),
+                                      ElevatedButton.icon(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.facebook,
+                                          color: Colors.blue,
+                                          size: 18.r,
+                                        ),
+                                        label: Text(
+                                          'Facebook',
+                                          style: TextStyle(fontSize: 12.sp),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.white,
+                                          side: const BorderSide(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
