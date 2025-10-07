@@ -73,6 +73,7 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                 child: ScaleAnimation(
                   child: GestureDetector(
                     onTap: () {
+                      final loc = S.of(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -81,13 +82,11 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                                 value: cubit,
                                 child: BlocProvider(
                                   create:
-                                      (context) =>
-                                          RatingCubit()..getRatings(
-                                            menuItemId:
-                                                cubit
-                                                    .menuItemsList[gridIndex]
-                                                    .id,
-                                          ),
+                                      (context) => RatingCubit(loc: loc)
+                                        ..getRatings(
+                                          menuItemId:
+                                              cubit.menuItemsList[gridIndex].id,
+                                        ),
                                   child: RatingView(
                                     menuItemModel:
                                         cubit.menuItemsList[gridIndex],

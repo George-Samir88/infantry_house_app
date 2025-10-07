@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infantry_house_app/models/complaints_model.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../../models/rating_model.dart';
 
 part 'rating_state.dart';
 
 class RatingCubit extends Cubit<RatingState> {
-  RatingCubit() : super(RatingInitial());
+  RatingCubit({required this.loc}) : super(RatingInitial());
+  final S loc;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<ComplaintModel> complaintsList = [];
   List<RatingModel> ratingsList = [];
@@ -22,6 +25,7 @@ class RatingCubit extends Cubit<RatingState> {
     required String userName,
   }) async {
     emit(RatingSendRatingLoading());
+    if (!await _hasInternetConnection()) return;
 
     try {
       final menuItemRef = firestore
@@ -117,6 +121,7 @@ class RatingCubit extends Cubit<RatingState> {
 
   Future<void> getRatings({required String menuItemId}) async {
     emit(RatingGetRatingLoading());
+    if (!await _hasInternetConnection()) return;
 
     try {
       final feedbackCollectionRef = firestore
@@ -148,6 +153,7 @@ class RatingCubit extends Cubit<RatingState> {
     required String buttonId,
   }) async {
     emit(RatingSubmitComplaintsLoading());
+    if (!await _hasInternetConnection()) return;
 
     try {
       final batch = firestore.batch();
@@ -190,6 +196,7 @@ class RatingCubit extends Cubit<RatingState> {
 
   Future<void> getComplaints({required String itemId}) async {
     emit(RatingGetComplaintsLoading());
+    if (!await _hasInternetConnection()) return;
 
     try {
       final snapshot =
@@ -224,5 +231,21 @@ class RatingCubit extends Cubit<RatingState> {
     } catch (e) {
       emit(RatingGetComplaintsFailure(failure: e.toString()));
     }
+  }
+
+  ///---------------- Helper Functions ----------------
+
+  Future<bool> _hasInternetConnection() async {
+    final List<ConnectivityResult> connectivityResult =
+        await Connectivity().checkConnectivity();
+
+    // ✅ Check if ANY active connection exists
+    final hasConnection = !connectivityResult.contains(ConnectivityResult.none);
+
+    if (!hasConnection) {
+      emit(RatingNoInternetConnectionState(message: loc.unavailable));
+    }
+
+    return hasConnection;
   }
 }

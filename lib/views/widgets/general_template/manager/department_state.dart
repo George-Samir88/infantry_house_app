@@ -248,3 +248,15 @@ class DepartmentChangeSubScreenState extends DepartmentState {}
 class DepartmentLoadingAllSubScreenData extends DepartmentState {}
 
 class DepartmentChangeSubScreenLoadedState extends DepartmentState {}
+
+class DepartmentNoInternetConnectionState extends DepartmentState {
+  final String message;
+
+  DepartmentNoInternetConnectionState({required this.message});
+}
+
+class DepartmentErrorState extends DepartmentState {
+  final String error;
+
+  DepartmentErrorState({required this.error});
+}

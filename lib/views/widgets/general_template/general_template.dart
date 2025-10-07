@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/utils/custom_error_template.dart';
+import 'package:infantry_house_app/utils/no_internet_connection_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/sub_screen_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/general_body_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
@@ -80,6 +81,14 @@ class _GeneralTemplateViewState extends State<GeneralTemplateView> {
                                   .read<DepartmentCubit>()
                                   .listenToSubScreens,
                           isShowCustomEditButton: true,
+                        )
+                        : state is DepartmentNoInternetConnectionState
+                        ? NoInternetConnectionWidget(
+                          onRetry: () {
+                            context
+                                .read<DepartmentCubit>()
+                                .listenToSubScreens();
+                          },
                         )
                         : RefreshIndicator(
                           onRefresh: _handleRefresh,

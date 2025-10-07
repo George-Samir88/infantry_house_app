@@ -117,6 +117,12 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
             _playAnimation();
           } else if (state is DepartmentCreateMenuItemFailureState) {
             showSnackBar(context: context, message: state.failure);
+          } else if (state is DepartmentNoInternetConnectionState) {
+            showSnackBar(
+              context: context,
+              message: state.message,
+              backgroundColor: Colors.yellow[800],
+            );
           }
         },
         builder: (context, state) {
@@ -293,6 +299,7 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
                             FocusScope.of(context).unfocus();
                             titleController.clear();
                             priceController.clear();
+                            descriptionController.clear();
                             _imageFile = null;
                           }
                         },

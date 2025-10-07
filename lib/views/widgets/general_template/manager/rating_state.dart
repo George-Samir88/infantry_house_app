@@ -43,3 +43,9 @@ final class RatingGetComplaintsFailure extends RatingState {
 
   RatingGetComplaintsFailure({required this.failure});
 }
+
+final class RatingNoInternetConnectionState extends RatingState {
+  final String message;
+
+  RatingNoInternetConnectionState({required this.message});
+}

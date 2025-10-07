@@ -21,7 +21,7 @@ class EmptyCarouselContainer extends StatelessWidget {
     return Container(
       // margin: EdgeInsets.symmetric(horizontal: 10.w),
       width: MediaQuery.of(context).size.width,
-      height: GlobalData().isTabletLayout ? 280.h : 180.h,
+      height: GlobalData().isTabletLayout ? 280.h : 200.h,
       decoration: BoxDecoration(
         color: Colors.grey.shade300, // Light grey background
         borderRadius: BorderRadius.circular(12.r),
@@ -44,7 +44,7 @@ class EmptyCarouselContainer extends StatelessWidget {
               ),
             ),
             if (canManage) ...[
-              SizedBox(height: 10.h),
+              SizedBox(height: 5.h),
               CustomEditButton(
                 onTap: onTab,
                 icon: Icons.add,

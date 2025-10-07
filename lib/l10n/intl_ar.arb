@@ -196,5 +196,7 @@
   "InvalidVerificationId": "⚠️ معرف التحقق غير صالح.",
   "UpdatedSuccessfully": "تم التعديل بنجاح",
   "ErrorLoadingData": "حدث خطأ أثناء تحميل البيانات",
-  "Refresh": "إعادة تحميل"
+  "Refresh": "إعادة تحميل",
+  "NoInternetConnection": "لا يوجد اتصال بالإنترنت",
+  "PleaseCheckYourConnectionAndTryAgain": "يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى."
 }

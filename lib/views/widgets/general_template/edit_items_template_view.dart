@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/utils/no_internet_connection_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/add_new_item_template_view.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 import 'package:infantry_house_app/views/widgets/general_template/update_existing_template_item.dart';
@@ -78,136 +79,150 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
               title: S.of(context).T3delElasnaf,
             ),
           ),
-          body: LayoutBuilder(
-            builder: (context, constraints) {
-              int crossAxisCount = (constraints.maxWidth ~/ 280).clamp(2, 4);
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-                child: CustomScrollView(
-                  controller: scrollController,
-                  slivers: [
-                    SliverToBoxAdapter(child: SizedBox(height: 30.h)),
-                    SliverGrid.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: crossAxisCount,
-                        mainAxisSpacing: 10,
-                        childAspectRatio: 1, // Ensures a balanced UI
-                      ),
-                      itemCount: cubit.menuItemsList.length,
-                      // itemCount: cubit.listToBeShow.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            bottom: 30.h,
-                            left: 10.w,
-                            right: 10.w,
-                          ),
-                          child: Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              CustomItemsInGridEditView(
-                                menuItemModel: cubit.menuItemsList[index],
-                              ),
-                              Positioned(
-                                left: GlobalData().isArabic ? 10.w : null,
-                                right: GlobalData().isArabic ? null : 10.w,
-                                top: -15.h,
-                                child: CustomEditButton(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder:
-                                            (context) => BlocProvider.value(
-                                              value: cubit,
-                                              child:
-                                                  UpdateExistingItemTemplateView(
-                                                    menuItemModel:
-                                                        cubit
-                                                            .menuItemsList[index],
-                                                  ),
-                                            ),
+          body:
+              state is NoInternetConnectionWidget
+                  ? NoInternetConnectionWidget(onRetry: cubit.listenToMenuItems)
+                  : LayoutBuilder(
+                    builder: (context, constraints) {
+                      int crossAxisCount = (constraints.maxWidth ~/ 280).clamp(
+                        2,
+                        4,
+                      );
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                        child: CustomScrollView(
+                          controller: scrollController,
+                          slivers: [
+                            SliverToBoxAdapter(child: SizedBox(height: 30.h)),
+                            SliverGrid.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: crossAxisCount,
+                                    mainAxisSpacing: 10,
+                                    childAspectRatio:
+                                        1, // Ensures a balanced UI
+                                  ),
+                              itemCount: cubit.menuItemsList.length,
+                              // itemCount: cubit.listToBeShow.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                    bottom: 30.h,
+                                    left: 10.w,
+                                    right: 10.w,
+                                  ),
+                                  child: Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      CustomItemsInGridEditView(
+                                        menuItemModel:
+                                            cubit.menuItemsList[index],
                                       ),
-                                    );
-                                  },
-                                  icon: Icons.edit,
-                                  iconColor: Colors.black,
-                                  backgroundColor: Colors.grey.shade200,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                    SliverToBoxAdapter(child: SizedBox(height: 10.h)),
-                    SliverToBoxAdapter(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CustomElevatedButton(
-                              textColor: Color(0xFF6D3A2D),
-                              backGroundColor: Colors.grey[300],
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) => BlocProvider.value(
-                                          value: cubit,
-                                          child: AddNewItemTemplateView(),
+                                      Positioned(
+                                        left:
+                                            GlobalData().isArabic ? 10.w : null,
+                                        right:
+                                            GlobalData().isArabic ? null : 10.w,
+                                        top: -15.h,
+                                        child: CustomEditButton(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (
+                                                      context,
+                                                    ) => BlocProvider.value(
+                                                      value: cubit,
+                                                      child: UpdateExistingItemTemplateView(
+                                                        menuItemModel:
+                                                            cubit
+                                                                .menuItemsList[index],
+                                                      ),
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                          icon: Icons.edit,
+                                          iconColor: Colors.black,
+                                          backgroundColor: Colors.grey.shade200,
                                         ),
+                                      ),
+                                    ],
                                   ),
                                 );
                               },
-                              text: S.of(context).EdaftGded,
-                              tabletLayout: GlobalData().isTabletLayout,
                             ),
-                          ),
-                          SizedBox(width: 10.w),
-                          if (cubit.menuItemsList.isNotEmpty)
-                            Expanded(
-                              child: CustomElevatedButton(
-                                onPressed: () {
-                                  _playAnimation();
-                                },
-                                text: S.of(context).hefz,
-                                tabletLayout: GlobalData().isTabletLayout,
+                            SliverToBoxAdapter(child: SizedBox(height: 10.h)),
+                            SliverToBoxAdapter(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: CustomElevatedButton(
+                                      textColor: Color(0xFF6D3A2D),
+                                      backGroundColor: Colors.grey[300],
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder:
+                                                (context) => BlocProvider.value(
+                                                  value: cubit,
+                                                  child:
+                                                      AddNewItemTemplateView(),
+                                                ),
+                                          ),
+                                        );
+                                      },
+                                      text: S.of(context).EdaftGded,
+                                      tabletLayout: GlobalData().isTabletLayout,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10.w),
+                                  if (cubit.menuItemsList.isNotEmpty)
+                                    Expanded(
+                                      child: CustomElevatedButton(
+                                        onPressed: () {
+                                          _playAnimation();
+                                        },
+                                        text: S.of(context).hefz,
+                                        tabletLayout:
+                                            GlobalData().isTabletLayout,
+                                      ),
+                                    ),
+                                ],
                               ),
                             ),
-                        ],
-                      ),
-                    ),
-                    SliverToBoxAdapter(child: SizedBox(height: 10.h)),
-                    SliverToBoxAdapter(
-                      child: Visibility(
-                        visible: isAnimationVisible,
-                        child: Container(
-                          // Use relative units like 10.w or any desired fixed size
-                          height: 100.h,
-                          // Same for height
-                          alignment: Alignment.center,
-                          child: Lottie.asset(
-                            controller: _animationController,
-                            onLoaded: (composition) {
-                              _animationController.duration =
-                                  composition.duration;
-                            },
-                            backgroundLoading: true,
-                            alignment: Alignment.centerLeft,
-                            'assets/animation/done_lottie.json',
-                            // Local file
-                            fit: BoxFit.cover,
-                          ),
+                            SliverToBoxAdapter(child: SizedBox(height: 10.h)),
+                            SliverToBoxAdapter(
+                              child: Visibility(
+                                visible: isAnimationVisible,
+                                child: Container(
+                                  // Use relative units like 10.w or any desired fixed size
+                                  height: 100.h,
+                                  // Same for height
+                                  alignment: Alignment.center,
+                                  child: Lottie.asset(
+                                    controller: _animationController,
+                                    onLoaded: (composition) {
+                                      _animationController.duration =
+                                          composition.duration;
+                                    },
+                                    backgroundLoading: true,
+                                    alignment: Alignment.centerLeft,
+                                    'assets/animation/done_lottie.json',
+                                    // Local file
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+                          ],
                         ),
-                      ),
-                    ),
-                    SliverToBoxAdapter(child: SizedBox(height: 20.h)),
-                  ],
-                ),
-              );
-            },
-          ),
+                      );
+                    },
+                  ),
         );
       },
     );

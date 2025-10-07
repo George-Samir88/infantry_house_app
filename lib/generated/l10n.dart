@@ -2029,6 +2029,26 @@ class S {
       args: [],
     );
   }
+
+  /// `لا يوجد اتصال بالإنترنت`
+  String get NoInternetConnection {
+    return Intl.message(
+      'لا يوجد اتصال بالإنترنت',
+      name: 'NoInternetConnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.`
+  String get PleaseCheckYourConnectionAndTryAgain {
+    return Intl.message(
+      'يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.',
+      name: 'PleaseCheckYourConnectionAndTryAgain',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

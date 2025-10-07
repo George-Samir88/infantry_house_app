@@ -197,5 +197,8 @@
   "InvalidVerificationId": "⚠️ The verification ID is invalid.",
   "UpdatedSuccessfully" : "Updated Successfully",
   "ErrorLoadingData": "Error loading data",
-  "Refresh" : "Refresh"
+  "Refresh" : "Refresh",
+  "NoInternetConnection": "No Internet Connection",
+  "PleaseCheckYourConnectionAndTryAgain": "Please check your internet connection and try again."
+
 }

@@ -39,6 +39,12 @@ class _SubScreenTemplateState extends State<SubScreenTemplate> {
             message: state.error,
             backgroundColor: Colors.red,
           );
+        } else if (state is DepartmentNoInternetConnectionState) {
+          showSnackBar(
+            context: context,
+            message: state.message,
+            backgroundColor: Colors.yellow[800],
+          );
         }
       },
       buildWhen: (previous, current) {

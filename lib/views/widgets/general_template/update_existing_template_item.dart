@@ -69,7 +69,9 @@ class _UpdateExistingItemTemplateViewState
   void initState() {
     titleController = TextEditingController(text: widget.menuItemModel.title);
     priceController = TextEditingController(text: widget.menuItemModel.price);
-    descriptionController = TextEditingController(text: widget.menuItemModel.description);
+    descriptionController = TextEditingController(
+      text: widget.menuItemModel.description,
+    );
     _imageFile = File(widget.menuItemModel.image);
     _animationController = AnimationController(
       vsync: this,
@@ -178,7 +180,7 @@ class _UpdateExistingItemTemplateViewState
           } else if (state is DepartmentUpdateMenuItemFailureState) {
             showSnackBar(
               context: context,
-              message:state.failure,
+              message: state.failure,
               backgroundColor: Colors.red,
             );
           } else if (state is DepartmentGetMenuItemFailureState) {
@@ -192,6 +194,12 @@ class _UpdateExistingItemTemplateViewState
               context: context,
               backgroundColor: Colors.redAccent,
               message: state.failure,
+            );
+          } else if (state is DepartmentNoInternetConnectionState) {
+            showSnackBar(
+              context: context,
+              message: state.message,
+              backgroundColor: Colors.yellow[800],
             );
           }
         },
@@ -317,8 +325,7 @@ class _UpdateExistingItemTemplateViewState
                   Text(
                     S.of(context).Description,
                     style: TextStyle(
-                      fontSize:
-                      GlobalData().isTabletLayout ? 10.sp : 20.sp,
+                      fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
                     ),
                   ),
                   CustomTextFormField(

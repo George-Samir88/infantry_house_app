@@ -174,6 +174,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("⚠️ لا يوجد اتصال بالإنترنت."),
         "NetworkRequestFailed":
             MessageLookupByLibrary.simpleMessage("⚠️ لا يوجد اتصال بالإنترنت."),
+        "NoInternetConnection":
+            MessageLookupByLibrary.simpleMessage("لا يوجد اتصال بالإنترنت"),
         "NotFound": MessageLookupByLibrary.simpleMessage(
             "📄 المستند المطلوب غير موجود."),
         "OR": MessageLookupByLibrary.simpleMessage("أو"),
@@ -194,6 +196,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("يجب إختيار قسم رئيسي أولاً."),
         "PleaseAddDailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("الرجاء إضافة صورة اللعبة"),
+        "PleaseCheckYourConnectionAndTryAgain":
+            MessageLookupByLibrary.simpleMessage(
+                "يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى."),
         "PleaseCheckYourInboxAndClickTheLinkToActivateYourAccount":
             MessageLookupByLibrary.simpleMessage(
                 " من فضلك تحقق من بريدك واضغط على الرابط لتفعيل حسابك."),

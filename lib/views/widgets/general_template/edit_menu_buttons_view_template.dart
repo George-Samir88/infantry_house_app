@@ -110,42 +110,24 @@ class _EditMenuButtonsAndMenuTitleTemplateState
               state is DepartmentDeleteMenuButtonSuccessState) {
             _playAnimation();
           } else if (state is DepartmentGetMenuTitleFailureState) {
+            showSnackBar(context: context, message: state.failure);
+          } else if (state is DepartmentUpdateMenuTitleFailureState) {
+            showSnackBar(context: context, message: state.failure);
+          } else if (state is DepartmentCreateMenuButtonFailureState) {
+            showSnackBar(context: context, message: state.failure);
+          } else if (state is DepartmentDeleteMenuButtonFailureState) {
+            showSnackBar(context: context, message: state.failure);
+          } else if (state is DepartmentUpdateMenuButtonFailureState) {
+            showSnackBar(context: context, message: state.failure);
+          } else if (state is DepartmentGetMenuButtonFailureState) {
+            showSnackBar(context: context, message: state.failure);
+          } else if (state is DepartmentNoInternetConnectionState) {
             showSnackBar(
               context: context,
-              message:state.failure,
+              message: state.message,
+              backgroundColor: Colors.yellow[800],
             );
           }
-          else if (state is DepartmentUpdateMenuTitleFailureState) {
-            showSnackBar(
-              context: context,
-              message: state.failure,
-            );
-          }
-          else if (state is DepartmentCreateMenuButtonFailureState) {
-            showSnackBar(
-              context: context,
-              message:state.failure,
-            );
-          }
-          else if (state is DepartmentDeleteMenuButtonFailureState) {
-            showSnackBar(
-              context: context,
-              message: state.failure,
-            );
-          }
-          else if (state is DepartmentUpdateMenuButtonFailureState) {
-            showSnackBar(
-              context: context,
-              message:state.failure,
-            );
-          }
-          else if (state is DepartmentGetMenuButtonFailureState) {
-            showSnackBar(
-              context: context,
-              message:state.failure,
-            );
-          }
-
         },
         builder: (context, state) {
           var cubit = context.read<DepartmentCubit>();

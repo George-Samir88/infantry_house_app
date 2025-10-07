@@ -178,6 +178,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("⚠️ No internet connection."),
         "NetworkRequestFailed":
             MessageLookupByLibrary.simpleMessage("No internet connection."),
+        "NoInternetConnection":
+            MessageLookupByLibrary.simpleMessage("No Internet Connection"),
         "NotFound": MessageLookupByLibrary.simpleMessage(
             "The requested document was not found."),
         "OR": MessageLookupByLibrary.simpleMessage("OR"),
@@ -198,6 +200,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please select a main category first"),
         "PleaseAddDailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("Please add image of game"),
+        "PleaseCheckYourConnectionAndTryAgain":
+            MessageLookupByLibrary.simpleMessage(
+                "Please check your internet connection and try again."),
         "PleaseCheckYourInboxAndClickTheLinkToActivateYourAccount":
             MessageLookupByLibrary.simpleMessage(
                 "Please check your inbox and click the link to activate your account."),
