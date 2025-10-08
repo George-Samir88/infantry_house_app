@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
 import 'package:infantry_house_app/models/menu_title_model.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
+import 'package:infantry_house_app/utils/custom_error_template.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
 import 'package:lottie/lottie.dart';
@@ -13,6 +14,7 @@ import '../../../../utils/custom_appbar_editing_view.dart';
 import '../../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_dialog.dart';
 import '../../../utils/custom_snackBar.dart';
+import '../../../utils/no_internet_connection_template.dart';
 
 class EditMenuButtonsAndMenuTitleTemplate extends StatefulWidget {
   const EditMenuButtonsAndMenuTitleTemplate({
@@ -131,6 +133,27 @@ class _EditMenuButtonsAndMenuTitleTemplateState
         },
         builder: (context, state) {
           var cubit = context.read<DepartmentCubit>();
+          if (state is DepartmentNoInternetConnectionState) {
+            return NoInternetConnectionWidget(
+              onRetry: () async {
+                if (await cubit.hasInternetConnection()) {
+                  cubit.listenToMenuTitle();
+                  cubit.listenToMenuButtons();
+                }
+              },
+            );
+          } else if (state is DepartmentGetMenuTitleFailureState ||
+              state is DepartmentGetMenuButtonFailureState) {
+            return CustomErrorTemplate(
+              onRetry: () async {
+                if (await cubit.hasInternetConnection()) {
+                  cubit.listenToMenuTitle();
+                  cubit.listenToMenuButtons();
+                }
+              },
+              isShowCustomEditButton: true,
+            );
+          }
           return ListView(
             controller: scrollController,
             children: [
@@ -174,13 +197,16 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                         ? AppLoader()
                         : CustomElevatedButton(
                           width: MediaQuery.sizeOf(context).width * 0.4,
-                          onPressed: () {
-                            if (menuTitleFormKey.currentState!.validate()) {
-                              cubit.updateMenuTitle(
-                                menuTitle:
-                                    menuTitleARTextEditingController.text,
-                              );
-                              FocusScope.of(context).unfocus();
+                          onPressed: () async {
+                            if (await cubit.hasInternetConnection()) {
+                              if (menuTitleFormKey.currentState!.validate()) {
+                                cubit.updateMenuTitle(
+                                  menuTitle:
+                                      menuTitleARTextEditingController.text,
+                                );
+                                if (!context.mounted) return;
+                                FocusScope.of(context).unfocus();
+                              }
                             }
                           },
                           text: S.of(context).hefz,
@@ -216,36 +242,40 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                               bool isSelected =
                                   index == cubit.selectedButtonIndex;
                               return GestureDetector(
-                                onTap: () {
-                                  cubit.changeMenuButtonIndex(
-                                    index: index,
-                                    buttonId: cubit.menuButtonList[index].uid!,
-                                  );
-                                  updateMenuButtonController.text =
-                                      cubit
-                                          .menuButtonList[cubit
-                                              .selectedButtonIndex]
-                                          .buttonTitle!;
-                                  showInputDialog(
-                                    context: context,
-                                    controller: updateMenuButtonController,
-                                    onUpdateConfirmed: (String value) {
-                                      Navigator.pop(context);
-                                      cubit.updateMenuButton(
-                                        buttonId:
-                                            cubit.menuButtonList[index].uid!,
-                                        newTitle:
-                                            updateMenuButtonController.text,
-                                      );
-                                    },
-                                    onDeletePressed: () {
-                                      Navigator.pop(context);
-                                      cubit.deleteMenuButton(
-                                        buttonId:
-                                            cubit.menuButtonList[index].uid!,
-                                      );
-                                    },
-                                  );
+                                onTap: () async {
+                                  if (await cubit.hasInternetConnection()) {
+                                    cubit.changeMenuButtonIndex(
+                                      index: index,
+                                      buttonId:
+                                          cubit.menuButtonList[index].uid!,
+                                    );
+                                    updateMenuButtonController.text =
+                                        cubit
+                                            .menuButtonList[cubit
+                                                .selectedButtonIndex]
+                                            .buttonTitle!;
+                                    if (!context.mounted) return;
+                                    showInputDialog(
+                                      context: context,
+                                      controller: updateMenuButtonController,
+                                      onUpdateConfirmed: (String value) {
+                                        Navigator.pop(context);
+                                        cubit.updateMenuButton(
+                                          buttonId:
+                                              cubit.menuButtonList[index].uid!,
+                                          newTitle:
+                                              updateMenuButtonController.text,
+                                        );
+                                      },
+                                      onDeletePressed: () {
+                                        Navigator.pop(context);
+                                        cubit.deleteMenuButton(
+                                          buttonId:
+                                              cubit.menuButtonList[index].uid!,
+                                        );
+                                      },
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   padding: EdgeInsets.symmetric(
@@ -359,19 +389,22 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                                   textColor: Color(0xFF6D3A2D),
                                   backGroundColor: Colors.grey[300],
                                   onPressed: () async {
-                                    if (buttonsFormKey.currentState!
-                                        .validate()) {
-                                      cubit.createMenuButton(
-                                        buttonTitle:
-                                            GlobalData().isArabic
-                                                ? arabicTextEditingController
-                                                    .text
-                                                : englishTextEditingController
-                                                    .text,
-                                      );
-                                      arabicTextEditingController.clear();
-                                      englishTextEditingController.clear();
-                                      FocusScope.of(context).unfocus();
+                                    if (await cubit.hasInternetConnection()) {
+                                      if (buttonsFormKey.currentState!
+                                          .validate()) {
+                                        cubit.createMenuButton(
+                                          buttonTitle:
+                                              GlobalData().isArabic
+                                                  ? arabicTextEditingController
+                                                      .text
+                                                  : englishTextEditingController
+                                                      .text,
+                                        );
+                                        arabicTextEditingController.clear();
+                                        englishTextEditingController.clear();
+                                        if (!context.mounted) return;
+                                        FocusScope.of(context).unfocus();
+                                      }
                                     }
                                   },
                                   text: S.of(context).EdaftGded,

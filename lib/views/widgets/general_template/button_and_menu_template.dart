@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:infantry_house_app/utils/custom_empty_items_template.dart';
+import 'package:infantry_house_app/utils/custom_error_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_items_template_view.dart';
 import 'package:infantry_house_app/views/widgets/general_template/edit_menu_buttons_view_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
@@ -184,22 +185,22 @@ class ButtonAndMenuTemplate extends StatelessWidget {
           const CustomMenuItemsHorizontalGridViewShimmer()
         else if (state is DepartmentGetMenuItemFailureState)
           // 🔹 Failure
-          Container(
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(top: 20.h, left: 12.w, right: 12.w),
-            padding: EdgeInsets.all(20.w),
-            alignment: Alignment.center,
-            child: Text(
-              S.of(context).ErrorOccurred, // Add to ARB for localization
-              style: TextStyle(fontSize: 16.sp, color: Colors.red),
-            ),
+          CustomErrorTemplate(
+            onRetry: () async {
+              if (await cubit.hasInternetConnection()) {
+                cubit.listenToMenuItems();
+              }
+            },
+            isShowCustomEditButton: true,
           )
         else if (cubit.menuItemsList.isEmpty ||
             state is DepartmentGetMenuItemEmptyState)
           // 🔹 Empty
           CustomEmptyItemsTemplate(
-            onRetry: () {
-              cubit.listenToMenuItems();
+            onRetry: () async {
+              if (await cubit.hasInternetConnection()) {
+                cubit.listenToMenuItems();
+              }
             },
             isShowCustomEditButton: true,
           )
@@ -277,6 +278,7 @@ class ButtonAndMenuTemplate extends StatelessWidget {
             current is DepartmentGetMenuItemLoadingState ||
             current is DepartmentGetMenuItemFailureState ||
             current is DepartmentGetMenuItemEmptyState ||
+            current is DepartmentGetMenuItemSuccessState ||
             current is DepartmentChangeMenuButtonIndexState;
       },
       listener: (context, state) {
