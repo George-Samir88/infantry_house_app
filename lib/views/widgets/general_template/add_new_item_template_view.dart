@@ -116,7 +116,11 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
           if (state is DepartmentCreateMenuItemSuccessState) {
             _playAnimation();
           } else if (state is DepartmentCreateMenuItemFailureState) {
-            showSnackBar(context: context, message: state.failure);
+            showSnackBar(
+              context: context,
+              message: state.failure,
+              backgroundColor: Colors.redAccent,
+            );
           } else if (state is DepartmentNoInternetConnectionState) {
             showSnackBar(
               context: context,
@@ -284,23 +288,25 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
                   state is DepartmentCreateMenuItemLoadingState
                       ? AppLoader()
                       : CustomElevatedButton(
-                        onPressed: () {
-                          bool validateTextForm =
-                              _formKey.currentState!.validate();
-                          bool validateImageForm = _validateImage(_imageFile);
-                          if (validateTextForm && validateImageForm) {
-                            cubit.createMenuItem(
-                              title: titleController.text,
-                              price: priceController.text,
-                              imagePath:
-                                  _imageFile?.path ?? "Error in adding image",
-                              description: descriptionController.text,
-                            );
-                            FocusScope.of(context).unfocus();
-                            titleController.clear();
-                            priceController.clear();
-                            descriptionController.clear();
-                            _imageFile = null;
+                        onPressed: () async {
+                          if (await cubit.hasInternetConnection()) {
+                            bool validateTextForm =
+                                _formKey.currentState!.validate();
+                            bool validateImageForm = _validateImage(_imageFile);
+                            if (validateTextForm && validateImageForm) {
+                              cubit.createMenuItem(
+                                title: titleController.text,
+                                price: priceController.text,
+                                imagePath:
+                                    _imageFile?.path ?? "Error in adding image",
+                                description: descriptionController.text,
+                              );
+                              FocusScope.of(context).unfocus();
+                              titleController.clear();
+                              priceController.clear();
+                              descriptionController.clear();
+                              _imageFile = null;
+                            }
                           }
                         },
                         text: S.of(context).hefz,

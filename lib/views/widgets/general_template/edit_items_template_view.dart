@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/utils/custom_error_template.dart';
 import 'package:infantry_house_app/utils/no_internet_connection_template.dart';
 import 'package:infantry_house_app/views/widgets/general_template/add_new_item_template_view.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
@@ -81,7 +82,21 @@ class _EditItemsTemplateViewState extends State<EditItemsTemplateView>
           ),
           body:
               state is NoInternetConnectionWidget
-                  ? NoInternetConnectionWidget(onRetry: cubit.listenToMenuItems)
+                  ? NoInternetConnectionWidget(
+                    onRetry: () async {
+                      if (await cubit.hasInternetConnection()) {
+                        cubit.listenToMenuItems();
+                      }
+                    },
+                  )
+                  : state is DepartmentGetMenuItemFailureState
+                  ? CustomErrorTemplate(
+                    onRetry: () async {
+                      if (await cubit.hasInternetConnection()) {
+                        cubit.listenToMenuItems();
+                      }
+                    },
+                  )
                   : LayoutBuilder(
                     builder: (context, constraints) {
                       int crossAxisCount = (constraints.maxWidth ~/ 280).clamp(
