@@ -154,7 +154,7 @@ class DailyGamesViewBodyInCaseOfNotEmpty extends StatelessWidget {
                                   child: CustomEmptyItemsTemplate(
                                     iconOfCustomEditButton: Icons.add,
                                     isShowCustomEditButton: true,
-                                    onTapCustomEditIcon: () {
+                                    onRetry: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

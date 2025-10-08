@@ -197,7 +197,12 @@ class ButtonAndMenuTemplate extends StatelessWidget {
         else if (cubit.menuItemsList.isEmpty ||
             state is DepartmentGetMenuItemEmptyState)
           // 🔹 Empty
-          const CustomEmptyItemsTemplate()
+          CustomEmptyItemsTemplate(
+            onRetry: () {
+              cubit.listenToMenuItems();
+            },
+            isShowCustomEditButton: true,
+          )
         else
           // 🔹 Success (items available)
           Container(

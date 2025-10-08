@@ -38,6 +38,8 @@ final class RatingGetComplaintsLoading extends RatingState {}
 
 final class RatingGetComplaintsSuccess extends RatingState {}
 
+final class RatingGetComplaintsEmpty extends RatingState {}
+
 final class RatingGetComplaintsFailure extends RatingState {
   final String failure;
 

@@ -25,7 +25,7 @@ class RatingCubit extends Cubit<RatingState> {
     required String userName,
   }) async {
     emit(RatingSendRatingLoading());
-    if (!await _hasInternetConnection()) return;
+    if (!await hasInternetConnection()) return;
 
     try {
       final menuItemRef = firestore
@@ -121,7 +121,7 @@ class RatingCubit extends Cubit<RatingState> {
 
   Future<void> getRatings({required String menuItemId}) async {
     emit(RatingGetRatingLoading());
-    if (!await _hasInternetConnection()) return;
+    if (!await hasInternetConnection()) return;
 
     try {
       final feedbackCollectionRef = firestore
@@ -153,7 +153,7 @@ class RatingCubit extends Cubit<RatingState> {
     required String buttonId,
   }) async {
     emit(RatingSubmitComplaintsLoading());
-    if (!await _hasInternetConnection()) return;
+    if (!await hasInternetConnection()) return;
 
     try {
       final batch = firestore.batch();
@@ -196,7 +196,7 @@ class RatingCubit extends Cubit<RatingState> {
 
   Future<void> getComplaints({required String itemId}) async {
     emit(RatingGetComplaintsLoading());
-    if (!await _hasInternetConnection()) return;
+    if (!await hasInternetConnection()) return;
 
     try {
       final snapshot =
@@ -208,7 +208,7 @@ class RatingCubit extends Cubit<RatingState> {
 
       if (snapshot.docs.isEmpty) {
         complaintsList.clear();
-        emit(RatingGetComplaintsSuccess());
+        emit(RatingGetComplaintsEmpty());
         return;
       }
 
@@ -235,7 +235,7 @@ class RatingCubit extends Cubit<RatingState> {
 
   ///---------------- Helper Functions ----------------
 
-  Future<bool> _hasInternetConnection() async {
+  Future<bool> hasInternetConnection() async {
     final List<ConnectivityResult> connectivityResult =
         await Connectivity().checkConnectivity();
 
