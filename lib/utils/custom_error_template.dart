@@ -29,8 +29,8 @@ class CustomErrorTemplate extends StatelessWidget {
           // 🔴 Error Illustration
           SvgPicture.asset(
             'assets/images/error-message.svg',
-            height: 120.h,
-            width: 120.w,
+            height: 150.h,
+            width: 150.w,
           ),
           SizedBox(height: 12.h),
 

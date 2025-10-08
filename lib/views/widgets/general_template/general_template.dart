@@ -76,18 +76,29 @@ class _GeneralTemplateViewState extends State<GeneralTemplateView> {
                 child:
                     state is DepartmentGetSubScreensNamesFailureState
                         ? CustomErrorTemplate(
-                          onRetry:
+                          onRetry: () async {
+                            if (await context
+                                .read<DepartmentCubit>()
+                                .hasInternetConnection()) {
+                              if (!context.mounted) return;
                               context
                                   .read<DepartmentCubit>()
-                                  .listenToSubScreens,
+                                  .listenToSubScreens();
+                            }
+                          },
                           isShowCustomEditButton: true,
                         )
                         : state is DepartmentNoInternetConnectionState
                         ? NoInternetConnectionWidget(
-                          onRetry: () {
-                            context
+                          onRetry: () async {
+                            if (await context
                                 .read<DepartmentCubit>()
-                                .listenToSubScreens();
+                                .hasInternetConnection()) {
+                              if (!context.mounted) return;
+                              context
+                                  .read<DepartmentCubit>()
+                                  .listenToSubScreens();
+                            }
                           },
                         )
                         : RefreshIndicator(

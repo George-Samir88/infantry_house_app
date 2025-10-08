@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_dialog.dart';
+import 'package:infantry_house_app/utils/custom_error_template.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:infantry_house_app/views/widgets/general_template/manager/department_cubit.dart';
@@ -123,7 +124,22 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
           var cubit = context.read<DepartmentCubit>();
           return state is DepartmentNoInternetConnectionState
               ? NoInternetConnectionWidget(
-                onRetry: () => cubit.listenToSubScreens(),
+                onRetry: () async {
+                  if (await cubit.hasInternetConnection()) {
+                    if (!context.mounted) return;
+                    cubit.listenToSubScreens();
+                  }
+                },
+              )
+              : state is DepartmentGetSubScreensNamesFailureState
+              ? CustomErrorTemplate(
+                isShowCustomEditButton: true,
+                onRetry: () async {
+                  if (await cubit.hasInternetConnection()) {
+                    if (!context.mounted) return;
+                    cubit.listenToSubScreens();
+                  }
+                },
               )
               : ListView(
                 controller: scrollController,
@@ -155,43 +171,46 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                       clipBehavior: Clip.none,
                                       children: [
                                         GestureDetector(
-                                          onTap: () {
-                                            updatedSubScreenController.text =
-                                                cubit
-                                                    .subScreensList[index]
-                                                    .subScreenName;
-                                            showInputDialog(
-                                              context: context,
-                                              controller:
-                                                  updatedSubScreenController,
-                                              onUpdateConfirmed: (value) {
-                                                if (updatedSubScreenController
-                                                    .text
-                                                    .isNotEmpty) {
-                                                  Navigator.of(context).pop();
-                                                  String value =
-                                                      updatedSubScreenController
-                                                          .text
-                                                          .trim();
-                                                  cubit.updateSubScreen(
-                                                    newSuperCatName: value,
-                                                    subScreenUID:
-                                                        cubit
-                                                            .subScreensList[index]
-                                                            .uid,
-                                                  );
-                                                }
-                                              },
-                                              onDeletePressed: () {
-                                                Navigator.pop(context);
-                                                cubit.deleteSubScreen(
-                                                  subScreenUID:
+                                          onTap: () async {
+                                            if(await  cubit.hasInternetConnection()){
+                                              updatedSubScreenController.text =
+                                                  cubit
+                                                      .subScreensList[index]
+                                                      .subScreenName;
+                                              if(!context.mounted) return;
+                                              showInputDialog(
+                                                context: context,
+                                                controller:
+                                                updatedSubScreenController,
+                                                onUpdateConfirmed: (value) {
+                                                  if (updatedSubScreenController
+                                                      .text
+                                                      .isNotEmpty) {
+                                                    Navigator.of(context).pop();
+                                                    String value =
+                                                    updatedSubScreenController
+                                                        .text
+                                                        .trim();
+                                                    cubit.updateSubScreen(
+                                                      newSuperCatName: value,
+                                                      subScreenUID:
                                                       cubit
                                                           .subScreensList[index]
                                                           .uid,
-                                                );
-                                              },
-                                            );
+                                                    );
+                                                  }
+                                                },
+                                                onDeletePressed: () {
+                                                  Navigator.pop(context);
+                                                  cubit.deleteSubScreen(
+                                                    subScreenUID:
+                                                    cubit
+                                                        .subScreensList[index]
+                                                        .uid,
+                                                  );
+                                                },
+                                              );
+                                            }
                                           },
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
