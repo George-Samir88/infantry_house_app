@@ -106,9 +106,11 @@ class _ComplaintsViewState extends State<ComplaintsView> {
                               ? CustomEmptyWidgetTemplate(
                                 isShowCustomEditButton: true,
                                 onRetry: () async {
-                                  await cubit.getComplaints(
-                                    itemId: widget.menuItemModel.id,
-                                  );
+                                  if (await cubit.hasInternetConnection()) {
+                                    await cubit.getComplaints(
+                                      itemId: widget.menuItemModel.id,
+                                    );
+                                  }
                                 },
                               )
                               : ListView(

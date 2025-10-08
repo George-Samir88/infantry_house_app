@@ -95,7 +95,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   Future<List<String>> getDepartmentsNames() async {
     try {
       emit(DepartmentGetDepartmentsNamesLoadingState());
-      if (!await _hasInternetConnection()) return [];
+      if (!await hasInternetConnection()) return [];
 
       final querySnapshot =
           await firestore.collection(rootCollectionName).get();
@@ -132,7 +132,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   ///--------------SubScreens CRUD operations--------------
   Future<void> listenToSubScreens() async {
     emit(DepartmentGetSubScreensNamesLoadingState());
-    if (!await _hasInternetConnection()) return;
+    if (!await hasInternetConnection()) return;
 
     _subScreensSub?.cancel();
     final collectionPath = firestore
@@ -196,7 +196,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   Future<void> createSubScreen({required String superCatName}) async {
     try {
       emit(DepartmentCreateSubScreensNamesLoadingState());
-      if (!await _hasInternetConnection()) return;
+      if (!await hasInternetConnection()) return;
       // Step 1: جهز الـ model
       final newSubScreen = SubScreenModel(
         subScreenName: superCatName.trim(),
@@ -247,7 +247,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }) async {
     try {
       emit(DepartmentUpdateSubScreensNamesLoadingState());
-      if (!await _hasInternetConnection()) return;
+      if (!await hasInternetConnection()) return;
       await firestore
           .collection(rootCollectionName)
           .doc(departmentId)
@@ -271,7 +271,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   Future<void> deleteSubScreen({required String subScreenUID}) async {
     emit(DepartmentDeleteSubScreensNamesLoadingState());
-    if (!await _hasInternetConnection()) return;
+    if (!await hasInternetConnection()) return;
 
     try {
       final batch = firestore.batch();
@@ -446,7 +446,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   Future<void> loadAllSubScreenData() async {
     emit(DepartmentLoadingAllSubScreenData());
-    if (!await _hasInternetConnection()) return;
+    if (!await hasInternetConnection()) return;
     await listenToCarousel();
     await listenToMenuTitle();
     await listenToMenuButtons();
@@ -461,7 +461,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   Future<void> listenToCarousel() async {
     emit(DepartmentGetCarouselLoadingState());
-    if (!await _hasInternetConnection()) return;
+    if (!await hasInternetConnection()) return;
     try {
       await _carouselSub
           ?.cancel(); // not really needed anymore, but safe to keep
@@ -526,7 +526,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
     try {
       emit(DepartmentCreateCarouselLoadingState());
-      if (!await _hasInternetConnection()) return;
+      if (!await hasInternetConnection()) return;
 
       // Create a new document reference
       final docRef =
@@ -576,7 +576,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }) async {
     try {
       emit(DepartmentRemoveCarouselLoadingState());
-      if (!await _hasInternetConnection()) return;
+      if (!await hasInternetConnection()) return;
 
       // 🔥 Step 1: delete from Firestore
       await firestore
@@ -615,7 +615,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   Future<void> listenToMenuTitle() async {
     emit(DepartmentGetMenuTitleLoadingState());
-    if (!await _hasInternetConnection()) return;
+    if (!await hasInternetConnection()) return;
 
     try {
       await _menuTitleSub?.cancel(); // safe to keep, even if not needed anymore
@@ -691,7 +691,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
     try {
       emit(DepartmentUpdateMenuTitleLoadingState());
-      if (!await _hasInternetConnection()) return;
+      if (!await hasInternetConnection()) return;
 
       final subTitleCollection = firestore
           .collection(rootCollectionName)
@@ -778,7 +778,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   Future<void> createMenuButton({required String buttonTitle}) async {
     try {
       emit(DepartmentCreateMenuButtonLoadingState());
-      if (!await _hasInternetConnection()) return;
+      if (!await hasInternetConnection()) return;
 
       final docRef =
           firestore
@@ -819,7 +819,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   /// جلب الـ Menu Buttons + Items
   Future<void> listenToMenuButtons() async {
     emit(DepartmentGetMenuButtonLoadingState());
-    if (!await _hasInternetConnection()) return;
+    if (!await hasInternetConnection()) return;
 
     try {
       await _menuButtonsSub?.cancel(); // no longer needed but safe to keep
@@ -920,7 +920,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }) async {
     try {
       emit(DepartmentUpdateMenuButtonLoadingState());
-      if (!await _hasInternetConnection()) return;
+      if (!await hasInternetConnection()) return;
       final docRef = firestore
           .collection(rootCollectionName)
           .doc(departmentId)
@@ -976,7 +976,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   Future<void> deleteMenuButton({required String buttonId}) async {
     emit(DepartmentDeleteMenuButtonLoadingState());
-    if (!await _hasInternetConnection()) return;
+    if (!await hasInternetConnection()) return;
 
     try {
       final batch = firestore.batch();
@@ -1078,7 +1078,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }) async {
     try {
       emit(DepartmentCreateMenuItemLoadingState());
-      if (!await _hasInternetConnection()) return;
+      if (!await hasInternetConnection()) return;
       // ✅ حضر الـ model
       final menuItemModel = MenuItemModel(
         id: "",
@@ -1140,7 +1140,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     if (selectedMenuButtonId == null || selectedSubScreenID == null) return;
 
     emit(DepartmentGetMenuItemLoadingState());
-    if (!await _hasInternetConnection()) return;
+    if (!await hasInternetConnection()) return;
 
     try {
       await _menuItem?.cancel(); // no longer needed but safe to keep
@@ -1218,7 +1218,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }) async {
     try {
       emit(DepartmentUpdateMenuItemLoadingState());
-      if (!await _hasInternetConnection()) return;
+      if (!await hasInternetConnection()) return;
 
       final Map<String, dynamic> updates = {
         'updatedAt': DateTime.now().toIso8601String(),
@@ -1291,7 +1291,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     required bool hasFeedback,
   }) async {
     emit(DepartmentDeleteMenuItemLoadingState());
-    if (!await _hasInternetConnection()) return;
+    if (!await hasInternetConnection()) return;
 
     try {
       final batch = firestore.batch();
@@ -1383,7 +1383,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   ///---------------- Helper Functions ----------------
 
-  Future<bool> _hasInternetConnection() async {
+  Future<bool> hasInternetConnection() async {
     final List<ConnectivityResult> connectivityResult =
         await Connectivity().checkConnectivity();
 

@@ -155,6 +155,13 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
         if (state is RatingSubmitComplaintsSuccess) {
           _playAnimation();
         }
+        if (state is RatingNoInternetConnectionState) {
+          showSnackBar(
+            context: context,
+            message: state.message,
+            backgroundColor: Colors.yellow[800],
+          );
+        }
       },
       builder: (context, state) {
         var cubit = context.read<RatingCubit>();
@@ -318,41 +325,44 @@ class _ItemFeedBackViewState extends State<ItemFeedBackView>
                           ? AppLoader()
                           : CustomElevatedButton(
                             onPressed: () async {
-                              bool validateTextForm =
-                                  _formKey.currentState!.validate();
-                              bool validateImageForm = _validateImage(
-                                _imageFile,
-                              );
-                              validateChoiceChipList();
-                              if (validateTextForm && validateImageForm) {
-                                final prefs =
-                                    await SharedPreferences.getInstance();
-                                final cachedUser = prefs.getString(
-                                  'user_cache',
+                              if (await cubit.hasInternetConnection()) {
+                                bool validateTextForm =
+                                    _formKey.currentState!.validate();
+                                bool validateImageForm = _validateImage(
+                                  _imageFile,
                                 );
-                                final currentUser = jsonDecode(cachedUser!);
+                                validateChoiceChipList();
+                                if (validateTextForm && validateImageForm) {
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  final cachedUser = prefs.getString(
+                                    'user_cache',
+                                  );
+                                  final currentUser = jsonDecode(cachedUser!);
 
-                                ComplaintModel complaintModel = ComplaintModel(
-                                  userId: currentUser["uid"],
-                                  userName: currentUser["fullName"],
-                                  complaints: selectedComplaints,
-                                  createdAt: DateTime.now(),
-                                  imageUrl: _imageFile?.path,
-                                  note: complaintController.text,
-                                );
-                                cubit.submitComplaint(
-                                  itemId: widget.itemId,
-                                  complaint: complaintModel,
-                                  departmentId: widget.departmentId,
-                                  subScreenId: widget.subScreenId,
-                                  buttonId: widget.buttonId,
-                                );
-                                if (!context.mounted) return;
-                                FocusScope.of(context).unfocus();
-                                selectedComplaints = [];
-                                phoneNumberController.clear();
-                                _imageFile = null;
-                                complaintController.clear();
+                                  ComplaintModel complaintModel =
+                                      ComplaintModel(
+                                        userId: currentUser["uid"],
+                                        userName: currentUser["fullName"],
+                                        complaints: selectedComplaints,
+                                        createdAt: DateTime.now(),
+                                        imageUrl: _imageFile?.path,
+                                        note: complaintController.text,
+                                      );
+                                  cubit.submitComplaint(
+                                    itemId: widget.itemId,
+                                    complaint: complaintModel,
+                                    departmentId: widget.departmentId,
+                                    subScreenId: widget.subScreenId,
+                                    buttonId: widget.buttonId,
+                                  );
+                                  if (!context.mounted) return;
+                                  FocusScope.of(context).unfocus();
+                                  selectedComplaints = [];
+                                  phoneNumberController.clear();
+                                  _imageFile = null;
+                                  complaintController.clear();
+                                }
                               }
                             },
                             text: S.of(context).Submit,

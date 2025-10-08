@@ -371,33 +371,41 @@ class _UpdateExistingItemTemplateViewState
                         children: [
                           Expanded(
                             child: CustomElevatedButton(
-                              onPressed: () {
-                                MenuItemModel? deletedMenuItem =
-                                    widget.menuItemModel;
-                                Timer? deletionTimer;
-                                cubit.menuItemsList.remove(deletedMenuItem);
-                                deletionTimer = Timer(Duration(seconds: 3), () {
-                                  cubit.deleteMenuItem(
-                                    itemId: widget.menuItemModel.id,
-                                    hasFeedback:
-                                        widget.menuItemModel.hasFeedback,
-                                  );
-                                });
-                                showSnackBar(
-                                  backgroundColor: Colors.amber,
-                                  textColor: Colors.brown[800],
-                                  duration: 3,
-                                  context: context,
-                                  snackBarAction: SnackBarAction(
-                                    label: S.of(context).Undo,
-                                    textColor: Colors.brown[800],
-                                    onPressed: () {
-                                      deletionTimer?.cancel();
-                                      cubit.menuItemsList.add(deletedMenuItem);
+                              onPressed: () async {
+                                if (await cubit.hasInternetConnection()) {
+                                  MenuItemModel? deletedMenuItem =
+                                      widget.menuItemModel;
+                                  Timer? deletionTimer;
+                                  cubit.menuItemsList.remove(deletedMenuItem);
+                                  deletionTimer = Timer(
+                                    Duration(seconds: 3),
+                                    () {
+                                      cubit.deleteMenuItem(
+                                        itemId: widget.menuItemModel.id,
+                                        hasFeedback:
+                                            widget.menuItemModel.hasFeedback,
+                                      );
                                     },
-                                  ),
-                                  message: S.of(context).DeletedSuccessfully,
-                                );
+                                  );
+                                  if (!context.mounted) return;
+                                  showSnackBar(
+                                    backgroundColor: Colors.amber,
+                                    textColor: Colors.brown[800],
+                                    duration: 3,
+                                    context: context,
+                                    snackBarAction: SnackBarAction(
+                                      label: S.of(context).Undo,
+                                      textColor: Colors.brown[800],
+                                      onPressed: () {
+                                        deletionTimer?.cancel();
+                                        cubit.menuItemsList.add(
+                                          deletedMenuItem,
+                                        );
+                                      },
+                                    ),
+                                    message: S.of(context).DeletedSuccessfully,
+                                  );
+                                }
                               },
                               text: S.of(context).Delete,
                               width: MediaQuery.of(context).size.width,
@@ -408,21 +416,24 @@ class _UpdateExistingItemTemplateViewState
                           SizedBox(width: 10.w),
                           Expanded(
                             child: CustomElevatedButton(
-                              onPressed: () {
-                                bool validateTextForm =
-                                    _formKey.currentState!.validate();
-                                bool validateImageForm = _validateImage(
-                                  _imageFile,
-                                );
-                                if (validateTextForm && validateImageForm) {
-                                  cubit.updateMenuItem(
-                                    title: titleController.text,
-                                    image: _imageFile?.path,
-                                    price: formatNumber(priceController.text),
-                                    itemId: widget.menuItemModel.id,
-                                    description: descriptionController.text,
+                              onPressed: () async {
+                                if (await cubit.hasInternetConnection()) {
+                                  bool validateTextForm =
+                                      _formKey.currentState!.validate();
+                                  bool validateImageForm = _validateImage(
+                                    _imageFile,
                                   );
-                                  FocusScope.of(context).unfocus();
+                                  if (validateTextForm && validateImageForm) {
+                                    cubit.updateMenuItem(
+                                      title: titleController.text,
+                                      image: _imageFile?.path,
+                                      price: formatNumber(priceController.text),
+                                      itemId: widget.menuItemModel.id,
+                                      description: descriptionController.text,
+                                    );
+                                    if (!context.mounted) return;
+                                    FocusScope.of(context).unfocus();
+                                  }
                                 }
                               },
                               text: S.of(context).hefz,
