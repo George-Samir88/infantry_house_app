@@ -366,10 +366,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
         emit(DepartmentAllSubScreensClearedState());
       } else {
-        carouselItemsList.clear();
+        carouselItemsList.clear;
         selectedMenuTitle = null;
-        menuButtonList.clear();
-        menuItemsList.clear();
+        menuButtonList = [];
+        menuItemsList = [];
 
         final firstSubScreen = subScreensList.first;
         await changeSelectedSubScreen(
@@ -398,6 +398,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     required String subScreenButtonId,
     required int index,
   }) async {
+    if (selectedSubScreen == subScreenButtonId) return;
     selectedSubScreenID = subScreenButtonId;
     selectedSubScreenIndex = index;
     emit(DepartmentChangeSubScreenState());
@@ -836,8 +837,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       if (!await collectionExists(collectionRef: collectionPath) ||
           subScreensList.isEmpty) {
-        menuButtonList.clear();
-        menuItemsList.clear();
+        menuButtonList = [];
+        menuItemsList = [];
         subScreenCache[selectedSubScreenID!] = {};
         emit(DepartmentGetMenuButtonEmptyState());
         return;
@@ -856,7 +857,7 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         if (buttons.isEmpty) {
           subScreenCache[selectedSubScreenID!] = {};
           selectedMenuButtonId = null;
-          menuItemsList.clear();
+          menuItemsList = [];
           emit(DepartmentGetMenuButtonEmptyState());
           return;
         }

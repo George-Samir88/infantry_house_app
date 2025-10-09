@@ -202,7 +202,6 @@ class ButtonAndMenuTemplate extends StatelessWidget {
                 cubit.listenToMenuItems();
               }
             },
-            isShowCustomEditButton: true,
           )
         else
           // 🔹 Success (items available)

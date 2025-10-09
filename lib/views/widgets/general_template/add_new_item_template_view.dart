@@ -301,6 +301,7 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
                                     _imageFile?.path ?? "Error in adding image",
                                 description: descriptionController.text,
                               );
+                              if (!context.mounted) return;
                               FocusScope.of(context).unfocus();
                               titleController.clear();
                               priceController.clear();
