@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/generated/l10n.dart';
-import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_appbar_editing_view.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/manager/user_data_cubit.dart';
+import 'package:infantry_house_app/views/widgets/menu_view/user_tile_shimmer.dart';
 
 import '../profile_view/profile_view.dart';
 import '../register_view/models/user_model.dart';
@@ -17,11 +17,14 @@ class MenuView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = S.of(context);
     return BlocProvider(
-      create: (context) => UserDataCubit(),
+      create: (context) {
+        return UserDataCubit(loc: loc);
+      },
       child: Builder(
         builder: (innerContext) {
-          innerContext.read<UserDataCubit>().loadUserData(loc: S.of(context));
+          innerContext.read<UserDataCubit>().loadUserData();
           var userDataCubit = innerContext.read<UserDataCubit>();
           return Scaffold(
             appBar: PreferredSize(
@@ -52,12 +55,19 @@ class MenuView extends StatelessWidget {
                               showSnackBar(
                                 context: context,
                                 message: state.message,
+                                backgroundColor: Colors.redAccent,
+                              );
+                            } else if (state is NoInternetConnectionState) {
+                              showSnackBar(
+                                context: context,
+                                message: state.message,
+                                backgroundColor: Colors.yellow[800],
                               );
                             }
                           },
                           builder: (context, state) {
                             if (state is UserDataLoading) {
-                              return const AppLoader();
+                              return const UserTileShimmer();
                             } else if (state is UserDataError) {
                               return ListTile(
                                 leading: CircleAvatar(

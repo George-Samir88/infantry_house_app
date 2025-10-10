@@ -23,3 +23,19 @@ class UserDataUpdatedSuccess extends UserDataState {
 
   UserDataUpdatedSuccess({required this.updatedUser});
 }
+
+class UserDataLogoutLoading extends UserDataState {}
+
+class UserDataLogoutSuccess extends UserDataState {}
+
+class UserDataLogoutFailure extends UserDataState {
+  final String failure;
+
+  UserDataLogoutFailure({required this.failure});
+}
+
+class NoInternetConnectionState extends UserDataState {
+  final String message;
+
+  NoInternetConnectionState({required this.message});
+}

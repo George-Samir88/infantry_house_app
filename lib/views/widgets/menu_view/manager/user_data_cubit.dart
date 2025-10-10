@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,8 @@ import '../../register_view/models/user_model.dart';
 part 'user_data_state.dart';
 
 class UserDataCubit extends Cubit<UserDataState> {
-  UserDataCubit() : super(UserDataInitial());
+  UserDataCubit({required this.loc}) : super(UserDataInitial());
+  final S loc;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -21,8 +23,9 @@ class UserDataCubit extends Cubit<UserDataState> {
   late UserModel userModel;
 
   /// Load user data: cache first → then Firestore
-  Future<void> loadUserData({required S loc}) async {
+  Future<void> loadUserData() async {
     emit(UserDataLoading());
+    if (!await hasInternetConnection()) return;
 
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -104,7 +107,7 @@ class UserDataCubit extends Cubit<UserDataState> {
 
       // 🔹 Emit updated state
       emit(UserDataUpdatedSuccess(updatedUser: updatedUser));
-      loadUserData(loc: loc);
+      loadUserData();
     } on FirebaseAuthException catch (e) {
       emit(UserDataError(localizeAuthError(loc: loc, code: e.code)));
     } on FirebaseException catch (e) {
@@ -112,5 +115,59 @@ class UserDataCubit extends Cubit<UserDataState> {
     } catch (e) {
       emit(UserDataError("${loc.Unknown}: $e"));
     }
+  }
+
+  Future<void> logout() async {
+    emit(UserDataLogoutLoading());
+
+    try {
+      // ========== 1️⃣ Sign out from Firebase ==========
+      await _auth.signOut();
+
+      // ========== 2️⃣ Clear all locally cached data ==========
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.clear(); // removes all cached keys like uid, user_cache, etc.
+
+      // ========== 3️⃣ Clear Firestore cache (optional but good practice) ==========
+      try {
+        await _firestore.terminate();
+        await _firestore.clearPersistence();
+      } catch (_) {
+        // ignore Firestore cache clearing errors (not critical)
+      }
+
+      // ========== 4️⃣ Emit success / initial state ==========
+      emit(UserDataLogoutSuccess());
+    } on FirebaseAuthException catch (e) {
+      emit(
+        UserDataLogoutFailure(
+          failure: localizeAuthError(loc: loc, code: e.code),
+        ),
+      );
+    } on FirebaseException catch (e) {
+      // 🔥 Handle Firestore or Firebase Core errors
+      emit(
+        UserDataLogoutFailure(
+          failure: localizeFirestoreError(loc: loc, code: e.code),
+        ),
+      );
+    } catch (e) {
+      // 🔥 General errors (SharedPreferences, etc.)
+      emit(UserDataLogoutFailure(failure: "${loc.Unknown}: ${e.toString()}"));
+    }
+  }
+
+  Future<bool> hasInternetConnection() async {
+    final List<ConnectivityResult> connectivityResult =
+        await Connectivity().checkConnectivity();
+
+    // ✅ Check if ANY active connection exists
+    final hasConnection = !connectivityResult.contains(ConnectivityResult.none);
+
+    if (!hasConnection) {
+      emit(NoInternetConnectionState(message: loc.unavailable));
+    }
+
+    return hasConnection;
   }
 }

@@ -48,18 +48,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.dispose();
   }
 
-  void _onSave({required BuildContext context}) {
-    if (_formKey.currentState?.validate() ?? false) {
-      FocusScope.of(context).unfocus();
-      final state = context.read<UserDataCubit>().state;
-      if (state is UserDataLoadedSuccess) {
-        context.read<UserDataCubit>().updateUserData(
-          currentUser: state.user,
-          fullName: _nameController.text.trim(),
-          email: _emailController.text.trim(),
-          phone: _phoneController.text.trim(),
-          context: context,
-        );
+  Future<void> _onSave({required BuildContext context}) async {
+    var cubit = context.read<UserDataCubit>();
+    if (await cubit.hasInternetConnection()) {
+      if (_formKey.currentState?.validate() ?? false) {
+        if (!context.mounted) return;
+        FocusScope.of(context).unfocus();
+        final state = context.read<UserDataCubit>().state;
+        if (state is UserDataLoadedSuccess) {
+          context.read<UserDataCubit>().updateUserData(
+            currentUser: state.user,
+            fullName: _nameController.text.trim(),
+            email: _emailController.text.trim(),
+            phone: _phoneController.text.trim(),
+            context: context,
+          );
+        }
       }
     }
   }
@@ -79,10 +83,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       body: BlocConsumer<UserDataCubit, UserDataState>(
         listener: (context, state) {
           if (state is UserDataError) {
-            showSnackBar(context: context, message: state.message);
+            showSnackBar(
+              context: context,
+              message: state.message,
+              backgroundColor: Colors.redAccent,
+            );
           }
           if (state is UserDataLoadedSuccess) {
-            showSnackBar(context: context, message: loc.UpdatedSuccessfully);
+            showSnackBar(
+              context: context,
+              message: loc.UpdatedSuccessfully,
+              backgroundColor: Colors.green,
+            );
+          } else if (state is NoInternetConnectionState) {
+            showSnackBar(
+              context: context,
+              message: state.message,
+              backgroundColor: Colors.yellow[800],
+            );
           }
         },
         builder: (context, state) {

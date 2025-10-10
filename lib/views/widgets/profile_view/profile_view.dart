@@ -2,10 +2,13 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:infantry_house_app/utils/app_loader.dart';
+import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/manager/user_data_cubit.dart';
 import 'package:infantry_house_app/views/widgets/profile_view/edit_user_profile_view.dart';
 
 import '../../../generated/l10n.dart';
+import '../splash_view/splash_view.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -27,7 +30,28 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
 
-          BlocBuilder<UserDataCubit, UserDataState>(
+          BlocConsumer<UserDataCubit, UserDataState>(
+            listener: (context, state) {
+              if (state is UserDataLogoutFailure) {
+                showSnackBar(
+                  context: context,
+                  message: state.failure,
+                  backgroundColor: Colors.redAccent,
+                );
+              } else if (state is NoInternetConnectionState) {
+                showSnackBar(
+                  context: context,
+                  message: state.message,
+                  backgroundColor: Colors.yellow[800],
+                );
+              } else if (state is UserDataLogoutSuccess) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SplashView()),
+                  (route) => false,
+                );
+              }
+            },
             builder: (context, state) {
               return CustomScrollView(
                 slivers: [
@@ -142,18 +166,27 @@ class ProfileScreen extends StatelessWidget {
                               onTap: () {},
                             ),
                           ),
-                          FadeInUp(
-                            delay: const Duration(milliseconds: 500),
-                            child: _buildActionButton(
-                              context,
-                              icon: Icons.logout,
-                              text: S.of(context).LogOut,
-                              onTap: () {},
-                              buttonColor: Colors.red[400],
-                              textColor: Colors.white,
-                              iconColor: Colors.white,
-                            ),
-                          ),
+                          state is UserDataLogoutLoading
+                              ? Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: AppLoader(),
+                              )
+                              : FadeInUp(
+                                delay: const Duration(milliseconds: 500),
+                                child: _buildActionButton(
+                                  context,
+                                  icon: Icons.logout,
+                                  text: S.of(context).LogOut,
+                                  onTap: () async {
+                                    if (await cubit.hasInternetConnection()) {
+                                      await cubit.logout();
+                                    }
+                                  },
+                                  buttonColor: Colors.red[400],
+                                  textColor: Colors.white,
+                                  iconColor: Colors.white,
+                                ),
+                              ),
                         ],
                       ),
                     ),
