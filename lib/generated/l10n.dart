@@ -2049,6 +2049,96 @@ class S {
       args: [],
     );
   }
+
+  /// `تم تحديث كلمة المرور بنجاح`
+  String get PasswordUpdatedSuccessfully {
+    return Intl.message(
+      'تم تحديث كلمة المرور بنجاح',
+      name: 'PasswordUpdatedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كلمة المرور القديمة`
+  String get OldPassword {
+    return Intl.message(
+      'كلمة المرور القديمة',
+      name: 'OldPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كلمة المرور الجديدة`
+  String get NewPassword {
+    return Intl.message(
+      'كلمة المرور الجديدة',
+      name: 'NewPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تأكيد كلمة المرور`
+  String get ConfirmPassword {
+    return Intl.message(
+      'تأكيد كلمة المرور',
+      name: 'ConfirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كلمتا المرور غير متطابقتين`
+  String get PasswordsDoNotMatch {
+    return Intl.message(
+      'كلمتا المرور غير متطابقتين',
+      name: 'PasswordsDoNotMatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تحديث كلمة المرور`
+  String get UpdatePassword {
+    return Intl.message(
+      'تحديث كلمة المرور',
+      name: 'UpdatePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `هذا الحقل مطلوب`
+  String get ThisFieldIsRequired {
+    return Intl.message(
+      'هذا الحقل مطلوب',
+      name: 'ThisFieldIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `بيانات الاعتماد المقدمة لا تطابق المستخدم الحالي`
+  String get UserMismatch {
+    return Intl.message(
+      'بيانات الاعتماد المقدمة لا تطابق المستخدم الحالي',
+      name: 'UserMismatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `بيانات تسجيل الدخول غير صحيحة`
+  String get InvalidCredential {
+    return Intl.message(
+      'بيانات تسجيل الدخول غير صحيحة',
+      name: 'InvalidCredential',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

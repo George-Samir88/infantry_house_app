@@ -34,6 +34,22 @@ class UserDataLogoutFailure extends UserDataState {
   UserDataLogoutFailure({required this.failure});
 }
 
+class ChangePasswordLoading extends UserDataState {}
+
+class ChangePasswordSuccess extends UserDataState {
+  final String message;
+
+  ChangePasswordSuccess(this.message);
+}
+
+class ChangePasswordError extends UserDataState {
+  final String error;
+
+  ChangePasswordError(this.error);
+}
+
+class ChangePasswordVisibilityChanged extends UserDataState {}
+
 class NoInternetConnectionState extends UserDataState {
   final String message;
 

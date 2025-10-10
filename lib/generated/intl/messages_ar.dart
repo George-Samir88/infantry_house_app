@@ -68,6 +68,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ComplaintsAndSuggestions":
             MessageLookupByLibrary.simpleMessage("الشكاوي والاقتراحات"),
         "Confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
+        "ConfirmPassword":
+            MessageLookupByLibrary.simpleMessage("تأكيد كلمة المرور"),
         "ContactUs": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
         "CreateAnAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "DailyGames": MessageLookupByLibrary.simpleMessage("ألعاب يومية"),
@@ -132,6 +134,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "InfantryHouse": MessageLookupByLibrary.simpleMessage("دار المشاه"),
         "Internal": MessageLookupByLibrary.simpleMessage(
             "⚠️ حدث خطأ داخلي في Firestore."),
+        "InvalidCredential": MessageLookupByLibrary.simpleMessage(
+            "بيانات تسجيل الدخول غير صحيحة"),
         "InvalidEmail": MessageLookupByLibrary.simpleMessage(
             "📧 البريد الإلكتروني غير صالح."),
         "InvalidVerificationCode":
@@ -174,11 +178,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("⚠️ لا يوجد اتصال بالإنترنت."),
         "NetworkRequestFailed":
             MessageLookupByLibrary.simpleMessage("⚠️ لا يوجد اتصال بالإنترنت."),
+        "NewPassword":
+            MessageLookupByLibrary.simpleMessage("كلمة المرور الجديدة"),
         "NoInternetConnection":
             MessageLookupByLibrary.simpleMessage("لا يوجد اتصال بالإنترنت"),
         "NotFound": MessageLookupByLibrary.simpleMessage(
             "📄 المستند المطلوب غير موجود."),
         "OR": MessageLookupByLibrary.simpleMessage("أو"),
+        "OldPassword":
+            MessageLookupByLibrary.simpleMessage("كلمة المرور القديمة"),
         "OperationNotAllowed":
             MessageLookupByLibrary.simpleMessage("⚠️ هذه العملية غير مسموحة."),
         "Other": MessageLookupByLibrary.simpleMessage("أخرى"),
@@ -189,6 +197,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "PasswordMustBeAtLeast6CharactersLong":
             MessageLookupByLibrary.simpleMessage(
                 "يجب أن تكون كلمة المرور 6 أحرف على الأقل"),
+        "PasswordUpdatedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("تم تحديث كلمة المرور بنجاح"),
+        "PasswordsDoNotMatch":
+            MessageLookupByLibrary.simpleMessage("كلمتا المرور غير متطابقتين"),
         "PermissionDenied": MessageLookupByLibrary.simpleMessage(
             "❌ ليس لديك صلاحية لتنفيذ هذا الإجراء."),
         "PhoneNumber": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
@@ -274,6 +286,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName":
             MessageLookupByLibrary.simpleMessage(
                 "القسم موجود بالفعل! لا يمكنك إضافة قسم جديد بنفس الاسم."),
+        "ThisFieldIsRequired":
+            MessageLookupByLibrary.simpleMessage("هذا الحقل مطلوب"),
         "TitleOfGame": MessageLookupByLibrary.simpleMessage("أسم اللعبة"),
         "ToCard": MessageLookupByLibrary.simpleMessage("إلي السلة"),
         "TooManyRequests": MessageLookupByLibrary.simpleMessage(
@@ -293,12 +307,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "Unknown": MessageLookupByLibrary.simpleMessage(
             "⚠️ حدث خطأ غير معروف في Firestore."),
         "UpdateDailyGame": MessageLookupByLibrary.simpleMessage("تعديل اللعبة"),
+        "UpdatePassword":
+            MessageLookupByLibrary.simpleMessage("تحديث كلمة المرور"),
         "UpdateTitle":
             MessageLookupByLibrary.simpleMessage("تعديل اسم التصنيف"),
         "UpdatedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم التعديل بنجاح"),
         "UserDisabled": MessageLookupByLibrary.simpleMessage(
             "🚫 تم تعطيل حساب هذا المستخدم."),
+        "UserMismatch": MessageLookupByLibrary.simpleMessage(
+            "بيانات الاعتماد المقدمة لا تطابق المستخدم الحالي"),
         "UserName": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "UserNotFound": MessageLookupByLibrary.simpleMessage(
             "❌ لم يتم العثور على مستخدم بهذا البريد الإلكتروني."),

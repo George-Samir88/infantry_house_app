@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/manager/user_data_cubit.dart';
+import 'package:infantry_house_app/views/widgets/profile_view/change_password_view.dart';
 import 'package:infantry_house_app/views/widgets/profile_view/edit_user_profile_view.dart';
 
 import '../../../generated/l10n.dart';
@@ -163,7 +164,18 @@ class ProfileScreen extends StatelessWidget {
                               context,
                               icon: Icons.lock,
                               text: S.of(context).ChangePassword,
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) => BlocProvider.value(
+                                          value: cubit,
+                                          child: ChangePasswordView(),
+                                        ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                           state is UserDataLogoutLoading

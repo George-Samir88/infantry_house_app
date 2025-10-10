@@ -71,6 +71,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ComplaintsAndSuggestions":
             MessageLookupByLibrary.simpleMessage("Complaints and Suggestions"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "ConfirmPassword":
+            MessageLookupByLibrary.simpleMessage("Confirm Password"),
         "ContactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
         "CreateAnAccount":
             MessageLookupByLibrary.simpleMessage("Create an account"),
@@ -135,6 +137,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "InfantryHouse": MessageLookupByLibrary.simpleMessage("Infantry House"),
         "Internal": MessageLookupByLibrary.simpleMessage(
             "⚠️ An internal error occurred in Firestore."),
+        "InvalidCredential": MessageLookupByLibrary.simpleMessage(
+            "The provided authentication credentials are invalid"),
         "InvalidEmail": MessageLookupByLibrary.simpleMessage(
             "📧 The email address is not valid."),
         "InvalidVerificationCode": MessageLookupByLibrary.simpleMessage(
@@ -178,11 +182,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("⚠️ No internet connection."),
         "NetworkRequestFailed":
             MessageLookupByLibrary.simpleMessage("No internet connection."),
+        "NewPassword": MessageLookupByLibrary.simpleMessage("New Password"),
         "NoInternetConnection":
             MessageLookupByLibrary.simpleMessage("No Internet Connection"),
         "NotFound": MessageLookupByLibrary.simpleMessage(
             "The requested document was not found."),
         "OR": MessageLookupByLibrary.simpleMessage("OR"),
+        "OldPassword": MessageLookupByLibrary.simpleMessage("Old Password"),
         "OperationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "⚠️ This operation is not allowed."),
         "Other": MessageLookupByLibrary.simpleMessage("Other"),
@@ -193,6 +199,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "PasswordMustBeAtLeast6CharactersLong":
             MessageLookupByLibrary.simpleMessage(
                 "Password must be at least 6 characters long"),
+        "PasswordUpdatedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Password updated successfully"),
+        "PasswordsDoNotMatch":
+            MessageLookupByLibrary.simpleMessage("Passwords do not match"),
         "PermissionDenied": MessageLookupByLibrary.simpleMessage(
             "You don’t have permission to perform this action."),
         "PhoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
@@ -279,6 +289,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName":
             MessageLookupByLibrary.simpleMessage(
                 "The section already exists, you cannot add a new section with the same name"),
+        "ThisFieldIsRequired":
+            MessageLookupByLibrary.simpleMessage("This field is required"),
         "TitleOfGame": MessageLookupByLibrary.simpleMessage("Title of game"),
         "ToCard": MessageLookupByLibrary.simpleMessage("To Card"),
         "TooManyRequests": MessageLookupByLibrary.simpleMessage(
@@ -298,11 +310,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "Unknown": MessageLookupByLibrary.simpleMessage(
             "⚠️ An unknown Firestore error occurred."),
         "UpdateDailyGame": MessageLookupByLibrary.simpleMessage("Update Game"),
+        "UpdatePassword":
+            MessageLookupByLibrary.simpleMessage("Update Password"),
         "UpdateTitle": MessageLookupByLibrary.simpleMessage("Update category"),
         "UpdatedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Updated Successfully"),
         "UserDisabled": MessageLookupByLibrary.simpleMessage(
             "🚫 This user account has been disabled."),
+        "UserMismatch": MessageLookupByLibrary.simpleMessage(
+            "The provided credentials do not match the current user"),
         "UserName": MessageLookupByLibrary.simpleMessage("User Name"),
         "UserNotFound": MessageLookupByLibrary.simpleMessage(
             "❌ No user found with this email."),

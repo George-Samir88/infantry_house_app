@@ -198,5 +198,14 @@
   "ErrorLoadingData": "حدث خطأ أثناء تحميل البيانات",
   "Refresh": "إعادة تحميل",
   "NoInternetConnection": "لا يوجد اتصال بالإنترنت",
-  "PleaseCheckYourConnectionAndTryAgain": "يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى."
+  "PleaseCheckYourConnectionAndTryAgain": "يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.",
+  "PasswordUpdatedSuccessfully": "تم تحديث كلمة المرور بنجاح",
+  "OldPassword": "كلمة المرور القديمة",
+  "NewPassword": "كلمة المرور الجديدة",
+  "ConfirmPassword": "تأكيد كلمة المرور",
+  "PasswordsDoNotMatch": "كلمتا المرور غير متطابقتين",
+  "UpdatePassword": "تحديث كلمة المرور",
+  "ThisFieldIsRequired": "هذا الحقل مطلوب",
+  "UserMismatch": "بيانات الاعتماد المقدمة لا تطابق المستخدم الحالي",
+  "InvalidCredential": "بيانات تسجيل الدخول غير صحيحة"
 }

@@ -195,10 +195,18 @@
   "TooManyRequests": "⚠️ Too many requests. Please try again later.",
   "InvalidVerificationCode": "⚠️ The verification code is invalid.",
   "InvalidVerificationId": "⚠️ The verification ID is invalid.",
-  "UpdatedSuccessfully" : "Updated Successfully",
+  "UpdatedSuccessfully": "Updated Successfully",
   "ErrorLoadingData": "Error loading data",
-  "Refresh" : "Refresh",
+  "Refresh": "Refresh",
   "NoInternetConnection": "No Internet Connection",
-  "PleaseCheckYourConnectionAndTryAgain": "Please check your internet connection and try again."
-
+  "PleaseCheckYourConnectionAndTryAgain": "Please check your internet connection and try again.",
+  "PasswordUpdatedSuccessfully": "Password updated successfully",
+  "OldPassword": "Old Password",
+  "NewPassword": "New Password",
+  "ConfirmPassword": "Confirm Password",
+  "PasswordsDoNotMatch": "Passwords do not match",
+  "UpdatePassword": "Update Password",
+  "ThisFieldIsRequired": "This field is required",
+  "UserMismatch": "The provided credentials do not match the current user",
+  "InvalidCredential": "The provided authentication credentials are invalid"
 }

@@ -16,6 +16,10 @@ class UserDataCubit extends Cubit<UserDataState> {
   UserDataCubit({required this.loc}) : super(UserDataInitial());
   final S loc;
 
+  bool oldPasswordVisible = false;
+  bool newPasswordVisible = false;
+  bool confirmPasswordVisible = false;
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -169,5 +173,57 @@ class UserDataCubit extends Cubit<UserDataState> {
     }
 
     return hasConnection;
+  }
+
+  void toggleOldPasswordVisibility() {
+    oldPasswordVisible = !oldPasswordVisible;
+    emit(ChangePasswordVisibilityChanged());
+  }
+
+  void toggleNewPasswordVisibility() {
+    newPasswordVisible = !newPasswordVisible;
+    emit(ChangePasswordVisibilityChanged());
+  }
+
+  void toggleConfirmPasswordVisibility() {
+    confirmPasswordVisible = !confirmPasswordVisible;
+    emit(ChangePasswordVisibilityChanged());
+  }
+
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    emit(ChangePasswordLoading());
+
+    try {
+      // ✅ 1. Check internet connection
+      if (!await hasInternetConnection()) return;
+
+      final user = _auth.currentUser;
+      if (user == null || user.email == null) {
+        emit(ChangePasswordError(loc.unauthenticated));
+        return;
+      }
+
+      // ✅ 2. Reauthenticate the user
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: oldPassword,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+
+      // ✅ 3. Update password
+      await user.updatePassword(newPassword);
+
+      emit(ChangePasswordSuccess(loc.PasswordUpdatedSuccessfully));
+    } on FirebaseAuthException catch (e) {
+      emit(ChangePasswordError(localizeAuthError(loc: loc, code: e.code)));
+    } on FirebaseException catch (e) {
+      emit(ChangePasswordError(localizeFirestoreError(loc: loc, code: e.code)));
+    } catch (e) {
+      emit(ChangePasswordError("${loc.Unknown}: ${e.toString()}"));
+    }
   }
 }

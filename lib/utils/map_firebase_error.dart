@@ -121,6 +121,11 @@ String localizeAuthError({required S loc, required String code}) {
       return loc.InvalidVerificationCode;
     case "invalid-verification-id":
       return loc.InvalidVerificationId;
+    case "user-mismatch":
+      return loc.UserMismatch;
+    case "invalid-credential":
+      return loc.InvalidCredential;
+
     default:
       return "${loc.Unknown} ${code.toString()} ";
   }
