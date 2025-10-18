@@ -72,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Checkout": MessageLookupByLibrary.simpleMessage("Checkout"),
         "ChooseLanguage":
             MessageLookupByLibrary.simpleMessage("Choose Language"),
+        "Close": MessageLookupByLibrary.simpleMessage("Close"),
         "Complaints":
             MessageLookupByLibrary.simpleMessage("Complaints & Suggestions"),
         "ComplaintsAndSuggestions":
@@ -83,6 +84,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Confirm Logout"),
         "ConfirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
+        "ContactSupport":
+            MessageLookupByLibrary.simpleMessage("Contact Support"),
+        "ContactSupportMessage": MessageLookupByLibrary.simpleMessage(
+            "You can reach our support team at:\n\n📧 gs976327@gamil.com\n📞 01091843803"),
         "ContactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
         "CreateAnAccount":
             MessageLookupByLibrary.simpleMessage("Create an account"),
@@ -127,6 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Error loading data"),
         "ErrorOccurred": MessageLookupByLibrary.simpleMessage("Error occurred"),
         "EsmElsanf": MessageLookupByLibrary.simpleMessage("Item name"),
+        "FAQs": MessageLookupByLibrary.simpleMessage("FAQs"),
         "FailedPrecondition": MessageLookupByLibrary.simpleMessage(
             "The operation is not allowed in the current state."),
         "Favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
@@ -145,6 +151,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hello": MessageLookupByLibrary.simpleMessage("Hello"),
         "Help": MessageLookupByLibrary.simpleMessage("Help"),
         "HighPrice": MessageLookupByLibrary.simpleMessage("High Price"),
+        "HowCanIContactSupportA": MessageLookupByLibrary.simpleMessage(
+            "You can reach us via the \'Contact Support\' button below or email us at gs976327@gamil.com."),
+        "HowCanIContactSupportQ":
+            MessageLookupByLibrary.simpleMessage("How can I contact support?"),
+        "HowCanIResetPasswordA": MessageLookupByLibrary.simpleMessage(
+            "Go to Settings → Change Password. You can reset it using your registered email."),
+        "HowCanIResetPasswordQ": MessageLookupByLibrary.simpleMessage(
+            "How can I reset my password?"),
+        "HowToChangeLanguageA": MessageLookupByLibrary.simpleMessage(
+            "Go to Settings → Language, then choose your preferred language."),
+        "HowToChangeLanguageQ": MessageLookupByLibrary.simpleMessage(
+            "How do I change the app language?"),
+        "HowToEditUserInfoA": MessageLookupByLibrary.simpleMessage(
+            "Go to Settings → Edit Profile. From there, you can update your name or phone number and save your changes."),
+        "HowToEditUserInfoQ": MessageLookupByLibrary.simpleMessage(
+            "How can I change my name or phone number?"),
         "InfantryHouse": MessageLookupByLibrary.simpleMessage("Infantry House"),
         "Internal": MessageLookupByLibrary.simpleMessage(
             "⚠️ An internal error occurred in Firestore."),

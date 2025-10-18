@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/generated/l10n.dart';
 import 'package:infantry_house_app/utils/custom_appbar_editing_view.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
+import 'package:infantry_house_app/views/widgets/help_view/help_view.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/manager/user_data_cubit.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/user_tile_shimmer.dart';
 import 'package:infantry_house_app/views/widgets/setting_view/setting_view.dart';
@@ -164,13 +165,6 @@ class MenuView extends StatelessWidget {
                             childAspectRatio: 1,
                             children: [
                               FadeInUp(
-                                child: AnimatedGridItem(
-                                  onTap: () {},
-                                  icon: Icons.favorite,
-                                  title: S.of(context).Favorites,
-                                ),
-                              ),
-                              FadeInUp(
                                 delay: const Duration(milliseconds: 100),
                                 child: AnimatedGridItem(
                                   onTap: () {
@@ -192,7 +186,14 @@ class MenuView extends StatelessWidget {
                               FadeInUp(
                                 delay: const Duration(milliseconds: 200),
                                 child: AnimatedGridItem(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HelpView(),
+                                      ),
+                                    );
+                                  },
                                   icon: Icons.help,
                                   title: S.of(context).Help,
                                 ),

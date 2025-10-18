@@ -68,6 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تغيير كلمة المرور"),
         "Checkout": MessageLookupByLibrary.simpleMessage("دفع"),
         "ChooseLanguage": MessageLookupByLibrary.simpleMessage("اختر اللغة"),
+        "Close": MessageLookupByLibrary.simpleMessage("إغلاق"),
         "Complaints":
             MessageLookupByLibrary.simpleMessage("الشكاوى والاقتراحات"),
         "ComplaintsAndSuggestions":
@@ -79,6 +80,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تأكيد تسجيل الخروج"),
         "ConfirmPassword":
             MessageLookupByLibrary.simpleMessage("تأكيد كلمة المرور"),
+        "ContactSupport":
+            MessageLookupByLibrary.simpleMessage("تواصل مع الدعم"),
+        "ContactSupportMessage": MessageLookupByLibrary.simpleMessage(
+            "يمكنك التواصل مع فريق الدعم لدينا على:\n\n📧 gs976327@gmail.com\n📞 01091843803"),
         "ContactUs": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
         "CreateAnAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "DailyGames": MessageLookupByLibrary.simpleMessage("ألعاب يومية"),
@@ -122,6 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "حدث خطأ أثناء تحميل البيانات"),
         "ErrorOccurred": MessageLookupByLibrary.simpleMessage("حدث خطأ!"),
         "EsmElsanf": MessageLookupByLibrary.simpleMessage("إسم الصنف"),
+        "FAQs": MessageLookupByLibrary.simpleMessage("الأسئلة الشائعة"),
         "FailedPrecondition": MessageLookupByLibrary.simpleMessage(
             "⚠️ العملية غير مسموحة في الوضع الحالي."),
         "Favorites": MessageLookupByLibrary.simpleMessage("المفضلة"),
@@ -141,6 +147,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hello": MessageLookupByLibrary.simpleMessage("مرحبًا"),
         "Help": MessageLookupByLibrary.simpleMessage("المساعدة"),
         "HighPrice": MessageLookupByLibrary.simpleMessage("السعر مرتفع"),
+        "HowCanIContactSupportA": MessageLookupByLibrary.simpleMessage(
+            "يمكنك التواصل معنا من خلال زر \'تواصل مع الدعم\' أدناه أو عبر البريد الإلكتروني gs976327@gamil.com."),
+        "HowCanIContactSupportQ": MessageLookupByLibrary.simpleMessage(
+            "كيف يمكنني التواصل مع الدعم؟"),
+        "HowCanIResetPasswordA": MessageLookupByLibrary.simpleMessage(
+            "اذهب إلى الإعدادات → تغيير كلمة المرور. يمكنك إعادة تعيينها باستخدام البريد الإلكتروني."),
+        "HowCanIResetPasswordQ": MessageLookupByLibrary.simpleMessage(
+            "كيف يمكنني إعادة تعيين كلمة المرور؟"),
+        "HowToChangeLanguageA": MessageLookupByLibrary.simpleMessage(
+            "اذهب إلى الإعدادات → اللغة، ثم اختر اللغة المفضلة لديك."),
+        "HowToChangeLanguageQ":
+            MessageLookupByLibrary.simpleMessage("كيف أغير لغة التطبيق؟"),
+        "HowToEditUserInfoA": MessageLookupByLibrary.simpleMessage(
+            "اذهب إلى الإعدادات → تعديل الملف الشخصي. من هناك يمكنك تحديث اسمك أو رقم الهاتف ثم حفظ التغييرات."),
+        "HowToEditUserInfoQ": MessageLookupByLibrary.simpleMessage(
+            "كيف أغير اسمي أو رقم الهاتف؟"),
         "InfantryHouse": MessageLookupByLibrary.simpleMessage("دار المشاه"),
         "Internal": MessageLookupByLibrary.simpleMessage(
             "⚠️ حدث خطأ داخلي في Firestore."),

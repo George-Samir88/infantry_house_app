@@ -222,5 +222,17 @@
   "ChooseLanguage": "Choose Language",
   "AboutThisAppTitle": "About This App",
   "AboutThisAppDescription": "Infantry House App v1.0.0\n\nDeveloped by George Samir ❤\uFE0F using Flutter.\n© 2025 Infantry House.",
-  "Ok": "OK"
+  "Ok": "OK",
+  "FAQs": "FAQs",
+  "ContactSupport": "Contact Support",
+  "HowCanIResetPasswordQ": "How can I reset my password?",
+  "HowCanIResetPasswordA": "Go to Settings → Change Password. You can reset it using your registered email.",
+  "HowCanIContactSupportQ": "How can I contact support?",
+  "HowCanIContactSupportA": "You can reach us via the 'Contact Support' button below or email us at gs976327@gamil.com.",
+  "HowToChangeLanguageQ": "How do I change the app language?",
+  "HowToChangeLanguageA": "Go to Settings → Language, then choose your preferred language.",
+  "ContactSupportMessage": "You can reach our support team at:\n\n📧 gs976327@gamil.com\n📞 01091843803",
+  "Close": "Close",
+  "HowToEditUserInfoQ": "How can I change my name or phone number?",
+  "HowToEditUserInfoA": "Go to Settings → Edit Profile. From there, you can update your name or phone number and save your changes."
 }

@@ -2279,6 +2279,126 @@ class S {
       args: [],
     );
   }
+
+  /// `الأسئلة الشائعة`
+  String get FAQs {
+    return Intl.message(
+      'الأسئلة الشائعة',
+      name: 'FAQs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تواصل مع الدعم`
+  String get ContactSupport {
+    return Intl.message(
+      'تواصل مع الدعم',
+      name: 'ContactSupport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كيف يمكنني إعادة تعيين كلمة المرور؟`
+  String get HowCanIResetPasswordQ {
+    return Intl.message(
+      'كيف يمكنني إعادة تعيين كلمة المرور؟',
+      name: 'HowCanIResetPasswordQ',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اذهب إلى الإعدادات → تغيير كلمة المرور. يمكنك إعادة تعيينها باستخدام البريد الإلكتروني.`
+  String get HowCanIResetPasswordA {
+    return Intl.message(
+      'اذهب إلى الإعدادات → تغيير كلمة المرور. يمكنك إعادة تعيينها باستخدام البريد الإلكتروني.',
+      name: 'HowCanIResetPasswordA',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كيف يمكنني التواصل مع الدعم؟`
+  String get HowCanIContactSupportQ {
+    return Intl.message(
+      'كيف يمكنني التواصل مع الدعم؟',
+      name: 'HowCanIContactSupportQ',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `يمكنك التواصل معنا من خلال زر 'تواصل مع الدعم' أدناه أو عبر البريد الإلكتروني gs976327@gamil.com.`
+  String get HowCanIContactSupportA {
+    return Intl.message(
+      'يمكنك التواصل معنا من خلال زر \'تواصل مع الدعم\' أدناه أو عبر البريد الإلكتروني gs976327@gamil.com.',
+      name: 'HowCanIContactSupportA',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كيف أغير لغة التطبيق؟`
+  String get HowToChangeLanguageQ {
+    return Intl.message(
+      'كيف أغير لغة التطبيق؟',
+      name: 'HowToChangeLanguageQ',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اذهب إلى الإعدادات → اللغة، ثم اختر اللغة المفضلة لديك.`
+  String get HowToChangeLanguageA {
+    return Intl.message(
+      'اذهب إلى الإعدادات → اللغة، ثم اختر اللغة المفضلة لديك.',
+      name: 'HowToChangeLanguageA',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `يمكنك التواصل مع فريق الدعم لدينا على:\n\n📧 gs976327@gmail.com\n📞 01091843803`
+  String get ContactSupportMessage {
+    return Intl.message(
+      'يمكنك التواصل مع فريق الدعم لدينا على:\n\n📧 gs976327@gmail.com\n📞 01091843803',
+      name: 'ContactSupportMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إغلاق`
+  String get Close {
+    return Intl.message(
+      'إغلاق',
+      name: 'Close',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `كيف أغير اسمي أو رقم الهاتف؟`
+  String get HowToEditUserInfoQ {
+    return Intl.message(
+      'كيف أغير اسمي أو رقم الهاتف؟',
+      name: 'HowToEditUserInfoQ',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اذهب إلى الإعدادات → تعديل الملف الشخصي. من هناك يمكنك تحديث اسمك أو رقم الهاتف ثم حفظ التغييرات.`
+  String get HowToEditUserInfoA {
+    return Intl.message(
+      'اذهب إلى الإعدادات → تعديل الملف الشخصي. من هناك يمكنك تحديث اسمك أو رقم الهاتف ثم حفظ التغييرات.',
+      name: 'HowToEditUserInfoA',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
