@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("لديك حساب بالفعل؟"),
         "AnyComments": MessageLookupByLibrary.simpleMessage("أية ملاحظات"),
         "AtbakGanbya": MessageLookupByLibrary.simpleMessage("أطباق جانبية"),
+        "CallUs": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
         "Cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "Cancelled": MessageLookupByLibrary.simpleMessage("🚫 تم إلغاء الطلب."),
         "ChangePassword":
@@ -130,6 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ErrorOccurred": MessageLookupByLibrary.simpleMessage("حدث خطأ!"),
         "EsmElsanf": MessageLookupByLibrary.simpleMessage("إسم الصنف"),
         "FAQs": MessageLookupByLibrary.simpleMessage("الأسئلة الشائعة"),
+        "Facebook": MessageLookupByLibrary.simpleMessage("فيسبوك"),
         "FailedPrecondition": MessageLookupByLibrary.simpleMessage(
             "⚠️ العملية غير مسموحة في الوضع الحالي."),
         "Favorites": MessageLookupByLibrary.simpleMessage("المفضلة"),
@@ -370,11 +372,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "UserNotFound": MessageLookupByLibrary.simpleMessage(
             "❌ لم يتم العثور على مستخدم بهذا البريد الإلكتروني."),
         "ViewProfile": MessageLookupByLibrary.simpleMessage("عرض الملف الشخصي"),
+        "VisitUs": MessageLookupByLibrary.simpleMessage("زورنا"),
         "WeakPassword":
             MessageLookupByLibrary.simpleMessage("⚠️ كلمة المرور ضعيفة جدًا."),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("مرحبًا بعودتك!"),
         "WelcomeToInfantryHouse":
             MessageLookupByLibrary.simpleMessage("مرحبا بك في دار المشاه"),
+        "WhatsApp": MessageLookupByLibrary.simpleMessage("واتساب"),
         "WrongPassword":
             MessageLookupByLibrary.simpleMessage("🔑 كلمة المرور غير صحيحة."),
         "YourCartIsEmpty": MessageLookupByLibrary.simpleMessage("السلة فارغة!"),
@@ -382,12 +386,17 @@ class MessageLookup extends MessageLookupByLibrary {
             "🚫 تم إحباط العملية. الرجاء المحاولة مرة أخرى."),
         "anshta": MessageLookupByLibrary.simpleMessage("أنشطة"),
         "cancelled": MessageLookupByLibrary.simpleMessage("🚫 تم إلغاء الطلب."),
+        "cannotLaunchUrl":
+            MessageLookupByLibrary.simpleMessage("لا يمكن فتح هذا الرابط"),
         "eskan": MessageLookupByLibrary.simpleMessage("إسكان"),
         "hefz": MessageLookupByLibrary.simpleMessage("حفظ"),
         "hogozat": MessageLookupByLibrary.simpleMessage("حجوزات"),
+        "instagram": MessageLookupByLibrary.simpleMessage("انستجرام"),
         "internal": MessageLookupByLibrary.simpleMessage(
             "⚠️ حدث خطأ داخلي في Firestore."),
         "laYogadE3lan": MessageLookupByLibrary.simpleMessage("لا يوجد إعلانات"),
+        "locationSubtitle": MessageLookupByLibrary.simpleMessage(
+            "38H3+M6H، جسر إسماعيل، الفنجري، بجوار منشية البكري، مصر الجديدة، القاهرة"),
         "m8sla": MessageLookupByLibrary.simpleMessage("مغسلة"),
         "t3delE3lan": MessageLookupByLibrary.simpleMessage("تعديل الإعلانات"),
         "t3delKwaem": MessageLookupByLibrary.simpleMessage("تعديل القوائم"),

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../generated/l10n.dart';
 
-void showAboutDialogAlert(BuildContext context) {
+void showAboutAppDialogAlert(BuildContext context) {
   showDialog(
     context: context,
     builder:

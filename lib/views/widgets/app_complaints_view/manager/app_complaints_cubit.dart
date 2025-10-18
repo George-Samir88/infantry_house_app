@@ -83,6 +83,10 @@ class AppComplaintsCubit extends Cubit<AppComplaintsState> {
           snapshot.docs.map((doc) {
             return AppComplaintsModel.fromDoc(doc.data(), doc.id);
           }).toList();
+      if (complaintsList.isEmpty) {
+        emit(ComplaintsGetEmpty());
+        return;
+      }
 
       emit(ComplaintsGetSuccess());
     } on FirebaseException catch (e) {

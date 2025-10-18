@@ -131,7 +131,7 @@ class SettingsView extends StatelessWidget {
                           icon: Icons.info_outline,
                           title: loc.AboutApp,
                           onTap: () {
-                            showAboutDialogAlert(context);
+                            showAboutAppDialogAlert(context);
                           },
                         ),
                         userState is UserDataLogoutLoading

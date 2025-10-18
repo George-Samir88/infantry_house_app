@@ -2439,6 +2439,76 @@ class S {
       args: [],
     );
   }
+
+  /// `فيسبوك`
+  String get Facebook {
+    return Intl.message(
+      'فيسبوك',
+      name: 'Facebook',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `واتساب`
+  String get WhatsApp {
+    return Intl.message(
+      'واتساب',
+      name: 'WhatsApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اتصل بنا`
+  String get CallUs {
+    return Intl.message(
+      'اتصل بنا',
+      name: 'CallUs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `زورنا`
+  String get VisitUs {
+    return Intl.message(
+      'زورنا',
+      name: 'VisitUs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لا يمكن فتح هذا الرابط`
+  String get cannotLaunchUrl {
+    return Intl.message(
+      'لا يمكن فتح هذا الرابط',
+      name: 'cannotLaunchUrl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `38H3+M6H، جسر إسماعيل، الفنجري، بجوار منشية البكري، مصر الجديدة، القاهرة`
+  String get locationSubtitle {
+    return Intl.message(
+      '38H3+M6H، جسر إسماعيل، الفنجري، بجوار منشية البكري، مصر الجديدة، القاهرة',
+      name: 'locationSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `انستجرام`
+  String get instagram {
+    return Intl.message(
+      'انستجرام',
+      name: 'instagram',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

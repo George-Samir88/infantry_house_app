@@ -238,5 +238,13 @@
   "ComplaintsDescription": "Share your feedback to help us improve our services.",
   "Name": "Name",
   "Message": "Message",
-  "ThankYou": "Thank you for your feedback!"
+  "ThankYou": "Thank you for your feedback!",
+  "Facebook": "Facebook",
+  "WhatsApp": "WhatsApp",
+  "CallUs": "Call Us",
+  "VisitUs": "Visit Us",
+  "cannotLaunchUrl": "Cannot launch this URL",
+  "locationSubtitle": "38H3+M6H, Ismail Bridge, Al Fangary, Beside Mansheyat Al Bakri, Heliopolis, Cairo",
+  "instagram": "Instagram"
+
 }

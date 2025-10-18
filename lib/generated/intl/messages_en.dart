@@ -64,6 +64,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Already have an account? "),
         "AnyComments": MessageLookupByLibrary.simpleMessage("Any comments?"),
         "AtbakGanbya": MessageLookupByLibrary.simpleMessage("Side Dishes"),
+        "CallUs": MessageLookupByLibrary.simpleMessage("Call Us"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "Cancelled": MessageLookupByLibrary.simpleMessage(
             "🚫 The request was cancelled."),
@@ -135,6 +136,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ErrorOccurred": MessageLookupByLibrary.simpleMessage("Error occurred"),
         "EsmElsanf": MessageLookupByLibrary.simpleMessage("Item name"),
         "FAQs": MessageLookupByLibrary.simpleMessage("FAQs"),
+        "Facebook": MessageLookupByLibrary.simpleMessage("Facebook"),
         "FailedPrecondition": MessageLookupByLibrary.simpleMessage(
             "The operation is not allowed in the current state."),
         "Favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
@@ -374,11 +376,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "UserNotFound": MessageLookupByLibrary.simpleMessage(
             "❌ No user found with this email."),
         "ViewProfile": MessageLookupByLibrary.simpleMessage("View Profile"),
+        "VisitUs": MessageLookupByLibrary.simpleMessage("Visit Us"),
         "WeakPassword": MessageLookupByLibrary.simpleMessage(
             "⚠️ The password is too weak."),
         "WelcomeBack": MessageLookupByLibrary.simpleMessage("Welcome Back!"),
         "WelcomeToInfantryHouse":
             MessageLookupByLibrary.simpleMessage("Welcome to Infantry House"),
+        "WhatsApp": MessageLookupByLibrary.simpleMessage("WhatsApp"),
         "WrongPassword":
             MessageLookupByLibrary.simpleMessage("🔑 The password is invalid."),
         "YourCartIsEmpty":
@@ -388,13 +392,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "anshta": MessageLookupByLibrary.simpleMessage("Activities"),
         "cancelled":
             MessageLookupByLibrary.simpleMessage("The request was cancelled."),
+        "cannotLaunchUrl":
+            MessageLookupByLibrary.simpleMessage("Cannot launch this URL"),
         "eskan": MessageLookupByLibrary.simpleMessage("Housing"),
         "hefz": MessageLookupByLibrary.simpleMessage("Save"),
         "hogozat": MessageLookupByLibrary.simpleMessage("Reservations"),
+        "instagram": MessageLookupByLibrary.simpleMessage("Instagram"),
         "internal": MessageLookupByLibrary.simpleMessage(
             "An internal Firestore error occurred."),
         "laYogadE3lan":
             MessageLookupByLibrary.simpleMessage("No Advertisements Available"),
+        "locationSubtitle": MessageLookupByLibrary.simpleMessage(
+            "38H3+M6H, Ismail Bridge, Al Fangary, Beside Mansheyat Al Bakri, Heliopolis, Cairo"),
         "m8sla": MessageLookupByLibrary.simpleMessage("Washing"),
         "t3delE3lan":
             MessageLookupByLibrary.simpleMessage("Edit Advertisements"),
