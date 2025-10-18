@@ -1800,6 +1800,36 @@ class S {
     );
   }
 
+  /// `تأكيد تسجيل الخروج`
+  String get ConfirmLogoutTitle {
+    return Intl.message(
+      'تأكيد تسجيل الخروج',
+      name: 'ConfirmLogoutTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `هل أنت متأكد أنك تريد تسجيل الخروج؟`
+  String get ConfirmLogoutMessage {
+    return Intl.message(
+      'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+      name: 'ConfirmLogoutMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تم تسجيل الخروج بنجاح`
+  String get LogoutSuccess {
+    return Intl.message(
+      'تم تسجيل الخروج بنجاح',
+      name: 'LogoutSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `🔑 يجب أن تسجل الدخول لتنفيذ هذا الإجراء.`
   String get Unauthenticated {
     return Intl.message(
@@ -2135,6 +2165,86 @@ class S {
     return Intl.message(
       'بيانات تسجيل الدخول غير صحيحة',
       name: 'InvalidCredential',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اللغة`
+  String get Language {
+    return Intl.message(
+      'اللغة',
+      name: 'Language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الإشعارات`
+  String get Notifications {
+    return Intl.message(
+      'الإشعارات',
+      name: 'Notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الوضع المظلم`
+  String get DarkMode {
+    return Intl.message(
+      'الوضع المظلم',
+      name: 'DarkMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اضغط لتعديل ملفك الشخصي مباشرة`
+  String get TapToEditProfileInline {
+    return Intl.message(
+      'اضغط لتعديل ملفك الشخصي مباشرة',
+      name: 'TapToEditProfileInline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إعادة التشغيل مطلوبة`
+  String get RestartRequiredTitle {
+    return Intl.message(
+      'إعادة التشغيل مطلوبة',
+      name: 'RestartRequiredTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تغيير اللغة سيتطلب إعادة تشغيل التطبيق.\nهل ترغب في إعادة التشغيل الآن؟`
+  String get RestartRequiredMessage {
+    return Intl.message(
+      'تغيير اللغة سيتطلب إعادة تشغيل التطبيق.\nهل ترغب في إعادة التشغيل الآن؟',
+      name: 'RestartRequiredMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إعادة التشغيل`
+  String get Restart {
+    return Intl.message(
+      'إعادة التشغيل',
+      name: 'Restart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `اختر اللغة`
+  String get ChooseLanguage {
+    return Intl.message(
+      'اختر اللغة',
+      name: 'ChooseLanguage',
       desc: '',
       args: [],
     );

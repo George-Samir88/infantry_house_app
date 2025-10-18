@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
+import 'package:infantry_house_app/utils/show_logout_alert_dialog.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/manager/user_data_cubit.dart';
 import 'package:infantry_house_app/views/widgets/profile_view/change_password_view.dart';
 import 'package:infantry_house_app/views/widgets/profile_view/edit_user_profile_view.dart';
@@ -190,9 +191,15 @@ class ProfileScreen extends StatelessWidget {
                                   icon: Icons.logout,
                                   text: S.of(context).LogOut,
                                   onTap: () async {
-                                    if (await cubit.hasInternetConnection()) {
-                                      await cubit.logout();
-                                    }
+                                    showLogoutDialog(
+                                      context: context,
+                                      onLogoutPressed: () async {
+                                        if (await cubit
+                                            .hasInternetConnection()) {
+                                          await cubit.logout();
+                                        }
+                                      },
+                                    );
                                   },
                                   buttonColor: Colors.red[400],
                                   textColor: Colors.white,

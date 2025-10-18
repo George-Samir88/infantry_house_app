@@ -7,6 +7,7 @@ import 'package:infantry_house_app/utils/custom_appbar_editing_view.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/manager/user_data_cubit.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/user_tile_shimmer.dart';
+import 'package:infantry_house_app/views/widgets/setting_view/setting_view.dart';
 
 import '../profile_view/profile_view.dart';
 import '../register_view/models/user_model.dart';
@@ -50,6 +51,13 @@ class MenuView extends StatelessWidget {
                         SizedBox(height: 10.h),
                         // 🔹 Profile Section (First Letter Only)
                         BlocConsumer<UserDataCubit, UserDataState>(
+                          buildWhen: (previous, current) {
+                            return current is UserDataError ||
+                                current is UserDataLoadedSuccess ||
+                                current is UserDataUpdatedSuccess ||
+                                current is UserDataLoading ||
+                                current is NoInternetConnectionState;
+                          },
                           listener: (context, state) {
                             if (state is UserDataError) {
                               showSnackBar(
@@ -165,7 +173,18 @@ class MenuView extends StatelessWidget {
                               FadeInUp(
                                 delay: const Duration(milliseconds: 100),
                                 child: AnimatedGridItem(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => BlocProvider.value(
+                                              value: userDataCubit,
+                                              child: const SettingsView(),
+                                            ),
+                                      ),
+                                    );
+                                  },
                                   icon: Icons.settings,
                                   title: S.of(context).Settings,
                                 ),

@@ -175,6 +175,9 @@
   "EditProfile": "Edit Profile",
   "ChangePassword": "Change Password",
   "LogOut": "Log Out",
+  "ConfirmLogoutTitle": "Confirm Logout",
+  "ConfirmLogoutMessage": "Are you sure you want to log out?",
+  "LogoutSuccess": "Logged out successfully",
   "OutOfRange": "⚠️ The value is out of the allowed range.",
   "Unauthenticated": "🔑 You must be logged in to perform this action.",
   "Cancelled": "🚫 The request was cancelled.",
@@ -208,5 +211,13 @@
   "UpdatePassword": "Update Password",
   "ThisFieldIsRequired": "This field is required",
   "UserMismatch": "The provided credentials do not match the current user",
-  "InvalidCredential": "The provided authentication credentials are invalid"
+  "InvalidCredential": "The provided authentication credentials are invalid",
+  "Language": "Language",
+  "Notifications": "Notifications",
+  "DarkMode": "Dark Mode",
+  "TapToEditProfileInline": "Tap to edit your profile inline",
+  "RestartRequiredTitle": "Restart Required",
+  "RestartRequiredMessage": "Changing the language will require restarting the app.\nDo you want to restart now?",
+  "Restart": "Restart",
+  "ChooseLanguage": "Choose Language"
 }

@@ -71,7 +71,7 @@ class _InfantryHouseAppState extends State<InfantryHouseApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AutoLoginCubit>(
-          create: (BuildContext context) => AutoLoginCubit()..tryAutoLogin(),
+          create: (BuildContext context) => AutoLoginCubit(),
         ),
         BlocProvider<HomeCubit>(create: (BuildContext context) => HomeCubit()),
         BlocProvider<CartCubit>(create: (BuildContext context) => CartCubit()),

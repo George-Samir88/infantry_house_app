@@ -63,11 +63,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "ChangePassword":
             MessageLookupByLibrary.simpleMessage("تغيير كلمة المرور"),
         "Checkout": MessageLookupByLibrary.simpleMessage("دفع"),
+        "ChooseLanguage": MessageLookupByLibrary.simpleMessage("اختر اللغة"),
         "Complaints":
             MessageLookupByLibrary.simpleMessage("الشكاوى والاقتراحات"),
         "ComplaintsAndSuggestions":
             MessageLookupByLibrary.simpleMessage("الشكاوي والاقتراحات"),
         "Confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
+        "ConfirmLogoutMessage": MessageLookupByLibrary.simpleMessage(
+            "هل أنت متأكد أنك تريد تسجيل الخروج؟"),
+        "ConfirmLogoutTitle":
+            MessageLookupByLibrary.simpleMessage("تأكيد تسجيل الخروج"),
         "ConfirmPassword":
             MessageLookupByLibrary.simpleMessage("تأكيد كلمة المرور"),
         "ContactUs": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
@@ -75,6 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "DailyGames": MessageLookupByLibrary.simpleMessage("ألعاب يومية"),
         "DailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("صورة اللعبة"),
+        "DarkMode": MessageLookupByLibrary.simpleMessage("الوضع المظلم"),
         "DataLoss": MessageLookupByLibrary.simpleMessage(
             "⚠️ فقدان أو تلف غير قابل للاسترداد في البيانات."),
         "DeadlineExceeded": MessageLookupByLibrary.simpleMessage(
@@ -149,11 +155,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الأغذیة والمشروبات"),
         "LaYogd3nasr": MessageLookupByLibrary.simpleMessage("لا يوجد عناصر"),
         "LaYogdAksam": MessageLookupByLibrary.simpleMessage("لا يوجد أقسام"),
+        "Language": MessageLookupByLibrary.simpleMessage("اللغة"),
         "Lo7om": MessageLookupByLibrary.simpleMessage("اللحوم"),
         "LogOut": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "LoggedInSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم تسجيل الدخول بنجاح"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+        "LogoutSuccess":
+            MessageLookupByLibrary.simpleMessage("تم تسجيل الخروج بنجاح"),
         "M4wyat": MessageLookupByLibrary.simpleMessage("مشويات"),
         "MainMenu": MessageLookupByLibrary.simpleMessage("القائمة الرئيسية"),
         "Menu": MessageLookupByLibrary.simpleMessage("قائمة الطعام"),
@@ -184,6 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("لا يوجد اتصال بالإنترنت"),
         "NotFound": MessageLookupByLibrary.simpleMessage(
             "📄 المستند المطلوب غير موجود."),
+        "Notifications": MessageLookupByLibrary.simpleMessage("الإشعارات"),
         "OR": MessageLookupByLibrary.simpleMessage("أو"),
         "OldPassword":
             MessageLookupByLibrary.simpleMessage("كلمة المرور القديمة"),
@@ -255,6 +265,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "تم إرسال رابط إعادة تعيين كلمة المرور، يرجى التحقق من بريدك الإلكتروني."),
         "ResourceExhausted": MessageLookupByLibrary.simpleMessage(
             "⚠️ تم تجاوز الحصة. عدد كبير جدًا من الطلبات."),
+        "Restart": MessageLookupByLibrary.simpleMessage("إعادة التشغيل"),
+        "RestartRequiredMessage": MessageLookupByLibrary.simpleMessage(
+            "تغيير اللغة سيتطلب إعادة تشغيل التطبيق.\nهل ترغب في إعادة التشغيل الآن؟"),
+        "RestartRequiredTitle":
+            MessageLookupByLibrary.simpleMessage("إعادة التشغيل مطلوبة"),
         "Retry": MessageLookupByLibrary.simpleMessage("أعد المحاولة"),
         "RoknElatfal": MessageLookupByLibrary.simpleMessage("ركن الاطفال"),
         "RoknElhelw": MessageLookupByLibrary.simpleMessage("ركن الحلو"),
@@ -282,6 +297,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "T3delElasnaf": MessageLookupByLibrary.simpleMessage("تعديل الاصناف"),
         "TalabatEdafyaLLftar":
             MessageLookupByLibrary.simpleMessage("طلبات إضافية للإفطار"),
+        "TapToEditProfileInline": MessageLookupByLibrary.simpleMessage(
+            "اضغط لتعديل ملفك الشخصي مباشرة"),
         "Taste": MessageLookupByLibrary.simpleMessage("المذاق غير مرضٍ"),
         "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName":
             MessageLookupByLibrary.simpleMessage(

@@ -66,11 +66,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "ChangePassword":
             MessageLookupByLibrary.simpleMessage("Change Password"),
         "Checkout": MessageLookupByLibrary.simpleMessage("Checkout"),
+        "ChooseLanguage":
+            MessageLookupByLibrary.simpleMessage("Choose Language"),
         "Complaints":
             MessageLookupByLibrary.simpleMessage("Complaints & Suggestions"),
         "ComplaintsAndSuggestions":
             MessageLookupByLibrary.simpleMessage("Complaints and Suggestions"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "ConfirmLogoutMessage": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to log out?"),
+        "ConfirmLogoutTitle":
+            MessageLookupByLibrary.simpleMessage("Confirm Logout"),
         "ConfirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
         "ContactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
@@ -79,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "DailyGames": MessageLookupByLibrary.simpleMessage("Daily Games"),
         "DailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("Daily games item image"),
+        "DarkMode": MessageLookupByLibrary.simpleMessage("Dark Mode"),
         "DataLoss": MessageLookupByLibrary.simpleMessage(
             "⚠️ Unrecoverable data loss or corruption."),
         "DeadlineExceeded": MessageLookupByLibrary.simpleMessage(
@@ -153,11 +160,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No Items Available"),
         "LaYogdAksam":
             MessageLookupByLibrary.simpleMessage("No department available"),
+        "Language": MessageLookupByLibrary.simpleMessage("Language"),
         "Lo7om": MessageLookupByLibrary.simpleMessage("Meats"),
         "LogOut": MessageLookupByLibrary.simpleMessage("Log Out"),
         "LoggedInSuccessfully":
             MessageLookupByLibrary.simpleMessage("Logged in Successfully"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
+        "LogoutSuccess":
+            MessageLookupByLibrary.simpleMessage("Logged out successfully"),
         "M4wyat": MessageLookupByLibrary.simpleMessage("Grills"),
         "MainMenu": MessageLookupByLibrary.simpleMessage("Main Menu"),
         "Menu": MessageLookupByLibrary.simpleMessage("Category"),
@@ -187,6 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No Internet Connection"),
         "NotFound": MessageLookupByLibrary.simpleMessage(
             "The requested document was not found."),
+        "Notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "OR": MessageLookupByLibrary.simpleMessage("OR"),
         "OldPassword": MessageLookupByLibrary.simpleMessage("Old Password"),
         "OperationNotAllowed": MessageLookupByLibrary.simpleMessage(
@@ -258,6 +269,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "Password reset link sent, please check your email."),
         "ResourceExhausted": MessageLookupByLibrary.simpleMessage(
             "Quota exceeded. Too many requests."),
+        "Restart": MessageLookupByLibrary.simpleMessage("Restart"),
+        "RestartRequiredMessage": MessageLookupByLibrary.simpleMessage(
+            "Changing the language will require restarting the app.\nDo you want to restart now?"),
+        "RestartRequiredTitle":
+            MessageLookupByLibrary.simpleMessage("Restart Required"),
         "Retry": MessageLookupByLibrary.simpleMessage("Retry"),
         "RoknElatfal": MessageLookupByLibrary.simpleMessage("Kids\' Section"),
         "RoknElhelw": MessageLookupByLibrary.simpleMessage("Dessert Section"),
@@ -285,6 +301,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "T3delElasnaf": MessageLookupByLibrary.simpleMessage("Edit Items"),
         "TalabatEdafyaLLftar": MessageLookupByLibrary.simpleMessage(
             "Additional Breakfast Requests"),
+        "TapToEditProfileInline": MessageLookupByLibrary.simpleMessage(
+            "Tap to edit your profile inline"),
         "Taste": MessageLookupByLibrary.simpleMessage("Taste"),
         "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName":
             MessageLookupByLibrary.simpleMessage(

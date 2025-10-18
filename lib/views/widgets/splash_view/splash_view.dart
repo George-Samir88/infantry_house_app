@@ -31,6 +31,10 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     _loadSavedLanguage();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Re-run any logic after the splash rebuilds
+      await context.read<AutoLoginCubit>().tryAutoLogin();
+    });
   }
 
   late double width;
@@ -83,10 +87,7 @@ class _SplashViewState extends State<SplashView> {
                 MaterialPageRoute(builder: (_) => LoginView()),
               );
             } else if (state is AutoLoginFailure) {
-              showSnackBar(
-                context: context,
-                message:  state.message,
-              );
+              showSnackBar(context: context, message: state.message);
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (_) => LoginView()),
@@ -118,10 +119,7 @@ class _SplashViewState extends State<SplashView> {
                   context,
                   MaterialPageRoute(builder: (_) => LoginView()),
                 );
-                showSnackBar(
-                  context: context,
-                  message:homeState.failure,
-                );
+                showSnackBar(context: context, message: homeState.failure);
               });
             }
             if (homeState is HomeGetDepartmentsSuccessState && userIsLoggedIn) {
