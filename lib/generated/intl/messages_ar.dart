@@ -73,6 +73,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الشكاوى والاقتراحات"),
         "ComplaintsAndSuggestions":
             MessageLookupByLibrary.simpleMessage("الشكاوي والاقتراحات"),
+        "ComplaintsDescription": MessageLookupByLibrary.simpleMessage(
+            "شاركنا ملاحظاتك لمساعدتنا على تحسين خدماتنا."),
         "Confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
         "ConfirmLogoutMessage": MessageLookupByLibrary.simpleMessage(
             "هل أنت متأكد أنك تريد تسجيل الخروج؟"),
@@ -192,6 +194,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "M4wyat": MessageLookupByLibrary.simpleMessage("مشويات"),
         "MainMenu": MessageLookupByLibrary.simpleMessage("القائمة الرئيسية"),
         "Menu": MessageLookupByLibrary.simpleMessage("قائمة الطعام"),
+        "Message": MessageLookupByLibrary.simpleMessage("الرسالة"),
         "MnFdlkAd5lEsmEltsnef":
             MessageLookupByLibrary.simpleMessage("من فضلك أدخل اسم التصنيف"),
         "MnFdlkD5l3nwanElmenuInArabic": MessageLookupByLibrary.simpleMessage(
@@ -209,6 +212,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Mo3gnat": MessageLookupByLibrary.simpleMessage("المعجنات"),
         "Mokablat": MessageLookupByLibrary.simpleMessage("المقبلات"),
         "MyCarts": MessageLookupByLibrary.simpleMessage("السلة"),
+        "Name": MessageLookupByLibrary.simpleMessage("الاسم"),
         "NetworkError":
             MessageLookupByLibrary.simpleMessage("⚠️ لا يوجد اتصال بالإنترنت."),
         "NetworkRequestFailed":
@@ -327,6 +331,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "TapToEditProfileInline": MessageLookupByLibrary.simpleMessage(
             "اضغط لتعديل ملفك الشخصي مباشرة"),
         "Taste": MessageLookupByLibrary.simpleMessage("المذاق غير مرضٍ"),
+        "ThankYou": MessageLookupByLibrary.simpleMessage("شكرًا لملاحظاتك!"),
         "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName":
             MessageLookupByLibrary.simpleMessage(
                 "القسم موجود بالفعل! لا يمكنك إضافة قسم جديد بنفس الاسم."),

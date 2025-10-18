@@ -10,6 +10,7 @@ import 'package:infantry_house_app/views/widgets/menu_view/manager/user_data_cub
 import 'package:infantry_house_app/views/widgets/menu_view/user_tile_shimmer.dart';
 import 'package:infantry_house_app/views/widgets/setting_view/setting_view.dart';
 
+import '../app_complaints_view/app_complaints_view.dart';
 import '../profile_view/profile_view.dart';
 import '../register_view/models/user_model.dart';
 import 'animated_grid_item.dart';
@@ -201,7 +202,15 @@ class MenuView extends StatelessWidget {
                               FadeInUp(
                                 delay: const Duration(milliseconds: 300),
                                 child: AnimatedGridItem(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (_) => const AppComplaintsView(),
+                                      ),
+                                    );
+                                  },
                                   icon: Icons.feedback,
                                   title: S.of(context).Complaints,
                                 ),

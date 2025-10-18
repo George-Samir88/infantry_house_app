@@ -200,7 +200,6 @@ class _DailyGamesUpdateAndDeleteItemViewState
                     ),
                   ),
                   CustomTextFormField(
-                    minLines: 1,
                     maxLines: 5,
                     textEditingController: descriptionController,
                     validator: (value) {

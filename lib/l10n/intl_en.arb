@@ -234,5 +234,9 @@
   "ContactSupportMessage": "You can reach our support team at:\n\n📧 gs976327@gamil.com\n📞 01091843803",
   "Close": "Close",
   "HowToEditUserInfoQ": "How can I change my name or phone number?",
-  "HowToEditUserInfoA": "Go to Settings → Edit Profile. From there, you can update your name or phone number and save your changes."
+  "HowToEditUserInfoA": "Go to Settings → Edit Profile. From there, you can update your name or phone number and save your changes.",
+  "ComplaintsDescription": "Share your feedback to help us improve our services.",
+  "Name": "Name",
+  "Message": "Message",
+  "ThankYou": "Thank you for your feedback!"
 }

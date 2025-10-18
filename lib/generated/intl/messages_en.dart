@@ -77,6 +77,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Complaints & Suggestions"),
         "ComplaintsAndSuggestions":
             MessageLookupByLibrary.simpleMessage("Complaints and Suggestions"),
+        "ComplaintsDescription": MessageLookupByLibrary.simpleMessage(
+            "Share your feedback to help us improve our services."),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "ConfirmLogoutMessage": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to log out?"),
@@ -197,6 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "M4wyat": MessageLookupByLibrary.simpleMessage("Grills"),
         "MainMenu": MessageLookupByLibrary.simpleMessage("Main Menu"),
         "Menu": MessageLookupByLibrary.simpleMessage("Category"),
+        "Message": MessageLookupByLibrary.simpleMessage("Message"),
         "MnFdlkAd5lEsmEltsnef":
             MessageLookupByLibrary.simpleMessage("Please Enter Category Name"),
         "MnFdlkD5l3nwanElmenuInArabic": MessageLookupByLibrary.simpleMessage(
@@ -214,6 +217,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Mo3gnat": MessageLookupByLibrary.simpleMessage("Pastries"),
         "Mokablat": MessageLookupByLibrary.simpleMessage("Appetizers"),
         "MyCarts": MessageLookupByLibrary.simpleMessage("My Carts"),
+        "Name": MessageLookupByLibrary.simpleMessage("Name"),
         "NetworkError":
             MessageLookupByLibrary.simpleMessage("⚠️ No internet connection."),
         "NetworkRequestFailed":
@@ -331,6 +335,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "TapToEditProfileInline": MessageLookupByLibrary.simpleMessage(
             "Tap to edit your profile inline"),
         "Taste": MessageLookupByLibrary.simpleMessage("Taste"),
+        "ThankYou": MessageLookupByLibrary.simpleMessage(
+            "Thank you for your feedback!"),
         "TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName":
             MessageLookupByLibrary.simpleMessage(
                 "The section already exists, you cannot add a new section with the same name"),

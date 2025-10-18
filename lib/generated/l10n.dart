@@ -2399,6 +2399,46 @@ class S {
       args: [],
     );
   }
+
+  /// `شاركنا ملاحظاتك لمساعدتنا على تحسين خدماتنا.`
+  String get ComplaintsDescription {
+    return Intl.message(
+      'شاركنا ملاحظاتك لمساعدتنا على تحسين خدماتنا.',
+      name: 'ComplaintsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الاسم`
+  String get Name {
+    return Intl.message(
+      'الاسم',
+      name: 'Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الرسالة`
+  String get Message {
+    return Intl.message(
+      'الرسالة',
+      name: 'Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `شكرًا لملاحظاتك!`
+  String get ThankYou {
+    return Intl.message(
+      'شكرًا لملاحظاتك!',
+      name: 'ThankYou',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
