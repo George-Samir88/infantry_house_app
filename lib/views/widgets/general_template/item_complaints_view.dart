@@ -15,16 +15,16 @@ import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_snackBar.dart';
 import 'feedback_list_view.dart';
 
-class ComplaintsView extends StatefulWidget {
-  const ComplaintsView({super.key, required this.menuItemModel});
+class ItemComplaintsView extends StatefulWidget {
+  const ItemComplaintsView({super.key, required this.menuItemModel});
 
   final MenuItemModel menuItemModel;
 
   @override
-  State<ComplaintsView> createState() => _ComplaintsViewState();
+  State<ItemComplaintsView> createState() => _ItemComplaintsViewState();
 }
 
-class _ComplaintsViewState extends State<ComplaintsView> {
+class _ItemComplaintsViewState extends State<ItemComplaintsView> {
   @override
   void initState() {
     super.initState();

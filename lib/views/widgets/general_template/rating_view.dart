@@ -21,7 +21,7 @@ import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_snackBar.dart';
 import '../cart_view/manager/cart_cubit/cart_cubit.dart';
-import 'complaints_view.dart';
+import 'item_complaints_view.dart';
 import 'manager/rating_cubit.dart';
 
 class RatingView extends StatefulWidget {
@@ -548,7 +548,7 @@ class _RatingViewState extends State<RatingView>
                                                   ),
                                                   // RatingCubit
                                                 ],
-                                                child: ComplaintsView(
+                                                child: ItemComplaintsView(
                                                   menuItemModel:
                                                       widget.menuItemModel,
                                                 ),

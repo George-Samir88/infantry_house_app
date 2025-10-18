@@ -5,18 +5,35 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/generated/l10n.dart';
 import 'package:infantry_house_app/utils/custom_appbar_editing_view.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
+import 'package:infantry_house_app/views/widgets/app_complaints_view/app_complaints_dashboard_view.dart';
 import 'package:infantry_house_app/views/widgets/help_view/help_view.dart';
+import 'package:infantry_house_app/views/widgets/home_view/manager/home_cubit.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/manager/user_data_cubit.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/user_tile_shimmer.dart';
 import 'package:infantry_house_app/views/widgets/setting_view/setting_view.dart';
 
-import '../app_complaints_view/app_complaints_view.dart';
+import '../app_complaints_view/submit_app_complaints_view.dart';
+import '../app_complaints_view/manager/app_complaints_cubit.dart';
 import '../profile_view/profile_view.dart';
 import '../register_view/models/user_model.dart';
 import 'animated_grid_item.dart';
 
-class MenuView extends StatelessWidget {
+class MenuView extends StatefulWidget {
   const MenuView({super.key});
+
+  @override
+  State<MenuView> createState() => _MenuViewState();
+}
+
+class _MenuViewState extends State<MenuView> {
+  bool generalAdmin = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final homeCubit = context.read<HomeCubit>();
+    generalAdmin = homeCubit.isGeneralAdmin ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -203,13 +220,39 @@ class MenuView extends StatelessWidget {
                                 delay: const Duration(milliseconds: 300),
                                 child: AnimatedGridItem(
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder:
-                                            (_) => const AppComplaintsView(),
-                                      ),
-                                    );
+                                    if (generalAdmin) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder:
+                                              (_) => BlocProvider(
+                                                create:
+                                                    (context) =>
+                                                        AppComplaintsCubit(
+                                                          loc: loc,
+                                                        ),
+                                                child:
+                                                    const AppComplaintsDashboardView(),
+                                              ),
+                                        ),
+                                      );
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder:
+                                              (_) => BlocProvider(
+                                                create:
+                                                    (context) =>
+                                                        AppComplaintsCubit(
+                                                          loc: loc,
+                                                        ),
+                                                child:
+                                                    const AppComplaintsView(),
+                                              ),
+                                        ),
+                                      );
+                                    }
                                   },
                                   icon: Icons.feedback,
                                   title: S.of(context).Complaints,
