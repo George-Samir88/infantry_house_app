@@ -2249,6 +2249,36 @@ class S {
       args: [],
     );
   }
+
+  /// `حول هذا التطبيق`
+  String get AboutThisAppTitle {
+    return Intl.message(
+      'حول هذا التطبيق',
+      name: 'AboutThisAppTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تطبيق إنفانتري هاوس v1.0.0\n\nتم تطويره بواسطة جورج سمير ❤️ باستخدام فلاتر.\n© ٢٠٢٥ إنفانتري هاوس.`
+  String get AboutThisAppDescription {
+    return Intl.message(
+      'تطبيق إنفانتري هاوس v1.0.0\n\nتم تطويره بواسطة جورج سمير ❤️ باستخدام فلاتر.\n© ٢٠٢٥ إنفانتري هاوس.',
+      name: 'AboutThisAppDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `حسناً`
+  String get Ok {
+    return Intl.message(
+      'حسناً',
+      name: 'Ok',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

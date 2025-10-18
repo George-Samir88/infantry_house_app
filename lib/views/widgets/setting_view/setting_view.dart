@@ -6,6 +6,7 @@ import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_appbar_editing_view.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/manager/user_data_cubit.dart';
+import 'package:infantry_house_app/views/widgets/setting_view/show_about_dialog.dart';
 import '../../../utils/show_logout_alert_dialog.dart';
 import '../profile_view/edit_user_profile_view.dart';
 import '../splash_view/splash_view.dart';
@@ -130,7 +131,7 @@ class SettingsView extends StatelessWidget {
                           icon: Icons.info_outline,
                           title: loc.AboutApp,
                           onTap: () {
-                            _showAboutDialog(context);
+                            showAboutDialogAlert(context);
                           },
                         ),
                         userState is UserDataLogoutLoading
@@ -271,33 +272,6 @@ class SettingsView extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  // 🧾 About App Dialog
-  void _showAboutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder:
-          (_) => AlertDialog(
-            title: Text(
-              "About This App",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.brown[700],
-              ),
-            ),
-            content: Text(
-              "Infantry House App v1.0.0\n\nDeveloped with ❤️ using Flutter.\n© 2025 Infantry House.",
-              style: TextStyle(fontSize: 14.sp),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text("OK", style: TextStyle(color: Colors.brown[700])),
-              ),
-            ],
-          ),
     );
   }
 }

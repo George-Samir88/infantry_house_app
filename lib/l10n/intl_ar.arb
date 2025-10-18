@@ -218,5 +218,8 @@
   "RestartRequiredTitle": "إعادة التشغيل مطلوبة",
   "RestartRequiredMessage": "تغيير اللغة سيتطلب إعادة تشغيل التطبيق.\nهل ترغب في إعادة التشغيل الآن؟",
   "Restart": "إعادة التشغيل",
-  "ChooseLanguage": "اختر اللغة"
+  "ChooseLanguage": "اختر اللغة",
+  "AboutThisAppTitle": "حول هذا التطبيق",
+  "AboutThisAppDescription": "تطبيق إنفانتري هاوس v1.0.0\n\nتم تطويره بواسطة جورج سمير ❤\uFE0F باستخدام فلاتر.\n© ٢٠٢٥ إنفانتري هاوس.",
+  "Ok": "حسناً"
 }

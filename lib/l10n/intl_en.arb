@@ -219,5 +219,8 @@
   "RestartRequiredTitle": "Restart Required",
   "RestartRequiredMessage": "Changing the language will require restarting the app.\nDo you want to restart now?",
   "Restart": "Restart",
-  "ChooseLanguage": "Choose Language"
+  "ChooseLanguage": "Choose Language",
+  "AboutThisAppTitle": "About This App",
+  "AboutThisAppDescription": "Infantry House App v1.0.0\n\nDeveloped by George Samir ❤\uFE0F using Flutter.\n© 2025 Infantry House.",
+  "Ok": "OK"
 }

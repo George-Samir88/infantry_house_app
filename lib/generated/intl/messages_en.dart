@@ -28,6 +28,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Aborted": MessageLookupByLibrary.simpleMessage(
             "🚫 The operation was aborted. Please try again."),
         "AboutApp": MessageLookupByLibrary.simpleMessage("About the App"),
+        "AboutThisAppDescription": MessageLookupByLibrary.simpleMessage(
+            "Infantry House App v1.0.0\n\nDeveloped by George Samir ❤️ using Flutter.\n© 2025 Infantry House."),
+        "AboutThisAppTitle":
+            MessageLookupByLibrary.simpleMessage("About This App"),
         "ActivationLinkSent":
             MessageLookupByLibrary.simpleMessage("ِِActivation link sent"),
         "ActivationLinkSentToYourEmail": MessageLookupByLibrary.simpleMessage(
@@ -199,6 +203,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "The requested document was not found."),
         "Notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "OR": MessageLookupByLibrary.simpleMessage("OR"),
+        "Ok": MessageLookupByLibrary.simpleMessage("OK"),
         "OldPassword": MessageLookupByLibrary.simpleMessage("Old Password"),
         "OperationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "⚠️ This operation is not allowed."),

@@ -28,6 +28,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Aborted": MessageLookupByLibrary.simpleMessage(
             "🚫 تم إحباط العملية. الرجاء المحاولة مرة أخرى."),
         "AboutApp": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
+        "AboutThisAppDescription": MessageLookupByLibrary.simpleMessage(
+            "تطبيق إنفانتري هاوس v1.0.0\n\nتم تطويره بواسطة جورج سمير ❤️ باستخدام فلاتر.\n© ٢٠٢٥ إنفانتري هاوس."),
+        "AboutThisAppTitle":
+            MessageLookupByLibrary.simpleMessage("حول هذا التطبيق"),
         "ActivationLinkSent":
             MessageLookupByLibrary.simpleMessage("تم إرسال رابط التفعيل"),
         "ActivationLinkSentToYourEmail": MessageLookupByLibrary.simpleMessage(
@@ -195,6 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "📄 المستند المطلوب غير موجود."),
         "Notifications": MessageLookupByLibrary.simpleMessage("الإشعارات"),
         "OR": MessageLookupByLibrary.simpleMessage("أو"),
+        "Ok": MessageLookupByLibrary.simpleMessage("حسناً"),
         "OldPassword":
             MessageLookupByLibrary.simpleMessage("كلمة المرور القديمة"),
         "OperationNotAllowed":

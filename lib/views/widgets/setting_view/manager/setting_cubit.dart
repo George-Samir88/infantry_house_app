@@ -27,18 +27,18 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   // 🌗 Toggle Dark Mode
   Future<void> toggleDarkMode() async {
-    final newValue = !darkMode;
+    darkMode = !darkMode;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('darkMode', newValue);
+    await prefs.setBool('darkMode', darkMode);
 
     emit(SettingToggleModeState());
   }
 
   // 🔔 Toggle Notifications
   Future<void> toggleNotifications() async {
-    final newValue = !notificationsEnabled;
+    notificationsEnabled = !notificationsEnabled;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('notificationsEnabled', newValue);
+    await prefs.setBool('notificationsEnabled', notificationsEnabled);
 
     emit(SettingToggleNotificationState());
   }
