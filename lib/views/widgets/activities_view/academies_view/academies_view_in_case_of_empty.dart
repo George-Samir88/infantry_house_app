@@ -4,13 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../utils/custom_edit_button.dart';
-import 'daily_games_edit_screen_department_view.dart';
-import 'manager/daily_games_cubit.dart';
+import 'academies_edit_screen_department_view.dart';
+import 'manager/academies_cubit.dart';
 
-class DailyGamesViewInCaseOfEmpty extends StatelessWidget {
-  const DailyGamesViewInCaseOfEmpty({super.key, required this.cubit});
+class AcademiesViewInCaseOfEmpty extends StatelessWidget {
+  const AcademiesViewInCaseOfEmpty({super.key, required this.cubit});
 
-  final DailyGamesCubit cubit;
+  final AcademiesCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class DailyGamesViewInCaseOfEmpty extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           opacity: 0.2,
-          image: AssetImage("assets/images/daily_activity_background.jpg"),
+          image: AssetImage("assets/images/academies_background.jpg"),
           fit: BoxFit.cover, // Cover the entire screen
         ),
       ),
@@ -40,7 +40,7 @@ class DailyGamesViewInCaseOfEmpty extends StatelessWidget {
                   builder:
                       (context) => BlocProvider.value(
                         value: cubit,
-                        child: DailyGamesEditScreenDepartmentView(),
+                        child: AcademiesEditScreenDepartmentView(),
                       ),
                 ),
               );

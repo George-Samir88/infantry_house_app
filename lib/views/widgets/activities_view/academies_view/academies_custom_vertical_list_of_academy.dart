@@ -7,13 +7,13 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:infantry_house_app/global_variables.dart';
 
 import '../../../../utils/custom_edit_button.dart';
-import 'daily_games_add_new_item_view.dart';
-import 'manager/daily_games_cubit.dart';
+import 'academies_add_new_item_view.dart';
+import 'manager/academies_cubit.dart';
 
-class CustomVerticalListOfDailyActivity extends StatelessWidget {
-  const CustomVerticalListOfDailyActivity({super.key, required this.cubit});
+class CustomVerticalListOfAcademies extends StatelessWidget {
+  const CustomVerticalListOfAcademies({super.key, required this.cubit});
 
-  final DailyGamesCubit cubit;
+  final AcademiesCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +152,7 @@ class CustomVerticalListOfDailyActivity extends StatelessWidget {
                       builder:
                           (context) => BlocProvider.value(
                             value: cubit,
-                            child: DailyGamesAddNewItemView(),
+                            child: AcademiesAddNewItemView(),
                           ),
                     ),
                   );

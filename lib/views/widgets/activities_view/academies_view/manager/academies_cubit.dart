@@ -1,42 +1,42 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../../../../models/daily_activity_item_model.dart';
+import '../../../../../models/academies_item_model.dart';
 
-part 'daily_games_state.dart';
+part 'academies_state.dart';
 
-class DailyGamesCubit extends Cubit<DailyGamesState> {
-  late List<DailyActivityItemModel> dailyActivities1;
-  late List<DailyActivityItemModel> dailyActivities2;
+class AcademiesCubit extends Cubit<AcademiesState> {
+  late List<AcademiesItemModel> dailyActivities1;
+  late List<AcademiesItemModel> dailyActivities2;
   late List<String> dailyGamesCategories;
-  late Map<String, List<DailyActivityItemModel>>
+  late Map<String, List<AcademiesItemModel>>
   mapBetweenCategoriesAndActivities = {};
   String selectedCategory = "ألعاب رياضية1";
 
-  DailyGamesCubit() : super(DailyGamesInitial()) {
+  AcademiesCubit() : super(DailyGamesInitial()) {
     dailyActivities1 = [
-      DailyActivityItemModel(
+      AcademiesItemModel(
         trainerName: "إبراهيم",
         activityImage: "assets/images/pilates.jfif",
         price: "18",
         title: "جلسة بيلاتس",
         description: "تمارين بيلاتس لتقوية العضلات وتحسين التوازن.",
       ),
-      DailyActivityItemModel(
+      AcademiesItemModel(
         trainerName: "يوسف",
         activityImage: "assets/images/boxing.jfif",
         price: "30",
         title: "تدريب الملاكمة",
         description: "تعلم تقنيات الملاكمة وزد من قوتك ولياقتك البدنية.",
       ),
-      DailyActivityItemModel(
+      AcademiesItemModel(
         trainerName: "حسين",
         activityImage: "assets/images/padel.jfif",
         price: "90",
         title: "البادل",
         description: "تعلم أساسيات لعبة البادل واستمتع بتجربة رياضية ممتعة.",
       ),
-      DailyActivityItemModel(
+      AcademiesItemModel(
         trainerName: "محمد",
         activityImage: "assets/images/cardio.png",
         price: "15",
@@ -45,21 +45,21 @@ class DailyGamesCubit extends Cubit<DailyGamesState> {
       ),
     ];
     dailyActivities2 = [
-      DailyActivityItemModel(
+      AcademiesItemModel(
         trainerName: "علي",
         activityImage: "assets/images/yoga.jfif",
         price: "20",
         title: "يوغا الصباح",
         description: "ابدأ يومك بجلسة يوغا منعشة تساعد على الاسترخاء.",
       ),
-      DailyActivityItemModel(
+      AcademiesItemModel(
         trainerName: "محمد",
         activityImage: "assets/images/cardio.png",
         price: "15",
         title: "تمارين الكارديو",
         description: "تمارين كارديو مكثفة لتعزيز اللياقة وصحة القلب.",
       ),
-      DailyActivityItemModel(
+      AcademiesItemModel(
         trainerName: "خالد",
         activityImage: "assets/images/swimming.jfif",
         price: "25",
@@ -139,12 +139,12 @@ class DailyGamesCubit extends Cubit<DailyGamesState> {
   }
 
   ///-------- Activity CRUD Operations --------
-  void addNewItem({required DailyActivityItemModel newActivity}) {
+  void addNewItem({required AcademiesItemModel newActivity}) {
     mapBetweenCategoriesAndActivities[selectedCategory]!.add(newActivity);
     emit(DailyGamesAddNewItemState());
   }
 
-  void removeExistingItem({required DailyActivityItemModel activity}) {
+  void removeExistingItem({required AcademiesItemModel activity}) {
     if (mapBetweenCategoriesAndActivities[selectedCategory]!.isNotEmpty) {
       mapBetweenCategoriesAndActivities[selectedCategory]!.remove(activity);
       currentSelectedItemIndex = 0;

@@ -3,24 +3,24 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:infantry_house_app/models/daily_activity_item_model.dart';
+import 'package:infantry_house_app/models/academies_item_model.dart';
 
 import '../../../../generated/l10n.dart';
-import 'manager/daily_games_cubit.dart';
+import 'manager/academies_cubit.dart';
 
-class CustomDescriptionOfActivityItem extends StatelessWidget {
-  const CustomDescriptionOfActivityItem({
+class CustomDescriptionOfAcademyItem extends StatelessWidget {
+  const CustomDescriptionOfAcademyItem({
     super.key,
-    required this.dailyActivityItemModel,
+    required this.academiesItemModel,
   });
 
-  final DailyActivityItemModel dailyActivityItemModel;
+  final AcademiesItemModel academiesItemModel;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DailyGamesCubit, DailyGamesState>(
+    return BlocBuilder<AcademiesCubit, AcademiesState>(
       builder: (context, state) {
-        var cubit = context.read<DailyGamesCubit>();
+        var cubit = context.read<AcademiesCubit>();
         return SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -31,18 +31,18 @@ class CustomDescriptionOfActivityItem extends StatelessWidget {
                 duration: Duration(seconds: 1),
                 curve: Curves.easeInOut,
                 child: _buildCircularImage(
-                  dailyActivityItemModel.activityImage,
+                  academiesItemModel.activityImage,
                 ),
               ),
               SizedBox(height: 10.h),
               Text(
-                dailyActivityItemModel.title,
+                academiesItemModel.title,
                 textAlign: TextAlign.start,
                 style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10.h),
               Text(
-                "${S.of(context).TrainerName}: ${dailyActivityItemModel.trainerName}",
+                "${S.of(context).TrainerName}: ${academiesItemModel.trainerName}",
                 style: TextStyle(fontSize: 14.sp),
               ),
               SizedBox(height: 10.h),
@@ -53,13 +53,13 @@ class CustomDescriptionOfActivityItem extends StatelessWidget {
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
                 child: Text(
-                  "\$${dailyActivityItemModel.price}.00",
+                  "\$${academiesItemModel.price}.00",
                   style: TextStyle(color: Colors.brown[800], fontSize: 14.sp),
                 ),
               ),
               SizedBox(height: 10.h),
               Text(
-                dailyActivityItemModel.description,
+                academiesItemModel.description,
                 textAlign: TextAlign.start,
                 style: TextStyle(fontSize: 14.sp),
               ),

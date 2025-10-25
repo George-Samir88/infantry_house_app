@@ -5,17 +5,17 @@ import 'package:infantry_house_app/global_variables.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../utils/custom_appbar_editing_view.dart';
-import 'daily_games_view_body_in_case_of_not_empty.dart';
-import 'daily_games_view_in_case_of_empty.dart';
-import 'manager/daily_games_cubit.dart';
+import 'academies_view_body_in_case_of_not_empty.dart';
+import 'academies_view_in_case_of_empty.dart';
+import 'manager/academies_cubit.dart';
 
-class DailyGamesView extends StatelessWidget {
-  const DailyGamesView({super.key});
+class AcademiesView extends StatelessWidget {
+  const AcademiesView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DailyGamesCubit()..initialRotation(),
+      create: (context) => AcademiesCubit()..initialRotation(),
       child: Scaffold(
         backgroundColor: Color(0xffF5F5F5),
         appBar: PreferredSize(
@@ -24,12 +24,12 @@ class DailyGamesView extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            title: S.of(context).DailyGames,
+            title: S.of(context).Academies,
           ),
         ),
-        body: BlocBuilder<DailyGamesCubit, DailyGamesState>(
+        body: BlocBuilder<AcademiesCubit, AcademiesState>(
           builder: (context, state) {
-            var cubit = context.read<DailyGamesCubit>();
+            var cubit = context.read<AcademiesCubit>();
             return Padding(
               padding: EdgeInsets.only(
                 right: GlobalData().isArabic ? 0 : 16.w,
@@ -38,8 +38,8 @@ class DailyGamesView extends StatelessWidget {
               ),
               child:
                   cubit.mapBetweenCategoriesAndActivities.isNotEmpty
-                      ? DailyGamesViewBodyInCaseOfNotEmpty(cubit: cubit)
-                      : DailyGamesViewInCaseOfEmpty(cubit: cubit),
+                      ? AcademiesViewBodyInCaseOfNotEmpty(cubit: cubit)
+                      : AcademiesViewInCaseOfEmpty(cubit: cubit),
             );
           },
         ),

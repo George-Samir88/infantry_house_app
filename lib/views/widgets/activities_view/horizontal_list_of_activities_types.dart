@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:infantry_house_app/views/widgets/activities_view/subscription_view/subscriptions_view_body.dart';
 
+import 'academies_view/academies_view.dart';
 import 'custom_activity_card_item.dart';
-import 'daily_games_view/daily_games_view.dart';
 
 class HorizontalListOfActivitiesTypes extends StatelessWidget {
   const HorizontalListOfActivitiesTypes({
@@ -43,7 +43,7 @@ class HorizontalListOfActivitiesTypes extends StatelessWidget {
                             : Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DailyGamesView(),
+                                builder: (context) => AcademiesView(),
                               ),
                             );
                       },

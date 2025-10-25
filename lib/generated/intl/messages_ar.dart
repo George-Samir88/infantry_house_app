@@ -32,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "تطبيق إنفانتري هاوس v1.0.0\n\nتم تطويره بواسطة جورج سمير ❤️ باستخدام فلاتر.\n© ٢٠٢٥ إنفانتري هاوس."),
         "AboutThisAppTitle":
             MessageLookupByLibrary.simpleMessage("حول هذا التطبيق"),
+        "Academies": MessageLookupByLibrary.simpleMessage("الأكاديميات"),
         "ActivationLinkSent":
             MessageLookupByLibrary.simpleMessage("تم إرسال رابط التفعيل"),
         "ActivationLinkSentToYourEmail": MessageLookupByLibrary.simpleMessage(
@@ -89,7 +90,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "يمكنك التواصل مع فريق الدعم لدينا على:\n\n📧 gs976327@gmail.com\n📞 01091843803"),
         "ContactUs": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
         "CreateAnAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
-        "DailyGames": MessageLookupByLibrary.simpleMessage("ألعاب يومية"),
         "DailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("صورة اللعبة"),
         "DarkMode": MessageLookupByLibrary.simpleMessage("الوضع المظلم"),

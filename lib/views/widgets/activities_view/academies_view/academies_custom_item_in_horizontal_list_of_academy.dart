@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomItemInHorizontalListOfDailyActivity extends StatelessWidget {
-  const CustomItemInHorizontalListOfDailyActivity({
+class CustomItemInHorizontalListOfAcademies extends StatelessWidget {
+  const CustomItemInHorizontalListOfAcademies({
     super.key,
     required this.categoryTitle,
     required this.isSelected,

@@ -26,7 +26,7 @@ class _ActivitiesViewBodyState extends State<ActivitiesViewBody> {
 
   @override
   void didChangeDependencies() {
-    activityTitle = [S.of(context).Subscriptions, S.of(context).DailyGames];
+    activityTitle = [S.of(context).Subscriptions, S.of(context).Academies];
     activityImages = [
       "assets/images/time-management.png",
       "assets/images/exercise.png",

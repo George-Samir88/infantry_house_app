@@ -1230,11 +1230,11 @@ class S {
     );
   }
 
-  /// `ألعاب يومية`
-  String get DailyGames {
+  /// `الأكاديميات`
+  String get Academies {
     return Intl.message(
-      'ألعاب يومية',
-      name: 'DailyGames',
+      'الأكاديميات',
+      name: 'Academies',
       desc: '',
       args: [],
     );

@@ -1,11 +1,11 @@
-class DailyActivityItemModel {
+class AcademiesItemModel {
   final String title;
   final String description;
   final String trainerName;
   final String activityImage;
   final String price;
 
-  DailyActivityItemModel({
+  AcademiesItemModel({
     required this.trainerName,
     required this.activityImage,
     required this.price,
@@ -13,14 +13,14 @@ class DailyActivityItemModel {
     required this.description,
   });
 
-  DailyActivityItemModel copyWith({
+  AcademiesItemModel copyWith({
     String? title,
     String? description,
     String? trainerName,
     String? activityImage,
     String? price,
   }) {
-    return DailyActivityItemModel(
+    return AcademiesItemModel(
       title: title ?? this.title,
       description: description ?? this.description,
       trainerName: trainerName ?? this.trainerName,

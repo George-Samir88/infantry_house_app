@@ -11,18 +11,18 @@ import '../../../../../utils/custom_elevated_button.dart';
 import '../../../../../utils/custom_appbar_editing_view.dart';
 import '../../../../utils/custom_edit_button.dart';
 import '../../../../utils/custom_snackBar.dart';
-import 'manager/daily_games_cubit.dart';
+import 'manager/academies_cubit.dart';
 
-class DailyGamesEditScreenDepartmentView extends StatefulWidget {
-  const DailyGamesEditScreenDepartmentView({super.key});
+class AcademiesEditScreenDepartmentView extends StatefulWidget {
+  const AcademiesEditScreenDepartmentView({super.key});
 
   @override
-  State<DailyGamesEditScreenDepartmentView> createState() =>
-      _DailyGamesEditScreenDepartmentViewState();
+  State<AcademiesEditScreenDepartmentView> createState() =>
+      _AcademiesEditScreenDepartmentViewState();
 }
 
-class _DailyGamesEditScreenDepartmentViewState
-    extends State<DailyGamesEditScreenDepartmentView>
+class _AcademiesEditScreenDepartmentViewState
+    extends State<AcademiesEditScreenDepartmentView>
     with SingleTickerProviderStateMixin {
   TextEditingController arabicTextEditingController = TextEditingController();
   TextEditingController englishTextEditingController = TextEditingController();
@@ -83,9 +83,9 @@ class _DailyGamesEditScreenDepartmentViewState
           title: S.of(context).T3delElaksam,
         ),
       ),
-      body: BlocBuilder<DailyGamesCubit, DailyGamesState>(
+      body: BlocBuilder<AcademiesCubit, AcademiesState>(
         builder: (context, state) {
-          var cubit = context.read<DailyGamesCubit>();
+          var cubit = context.read<AcademiesCubit>();
           List<String?> newButtonTitlesList = [];
           newButtonTitlesList =
               cubit.mapBetweenCategoriesAndActivities.keys.toList();

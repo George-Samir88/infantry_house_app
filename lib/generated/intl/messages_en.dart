@@ -32,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Infantry House App v1.0.0\n\nDeveloped by George Samir ❤️ using Flutter.\n© 2025 Infantry House."),
         "AboutThisAppTitle":
             MessageLookupByLibrary.simpleMessage("About This App"),
+        "Academies": MessageLookupByLibrary.simpleMessage("Academies"),
         "ActivationLinkSent":
             MessageLookupByLibrary.simpleMessage("ِِActivation link sent"),
         "ActivationLinkSentToYourEmail": MessageLookupByLibrary.simpleMessage(
@@ -94,7 +95,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "ContactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
         "CreateAnAccount":
             MessageLookupByLibrary.simpleMessage("Create an account"),
-        "DailyGames": MessageLookupByLibrary.simpleMessage("Daily Games"),
         "DailyGamesItemImage":
             MessageLookupByLibrary.simpleMessage("Daily games item image"),
         "DarkMode": MessageLookupByLibrary.simpleMessage("Dark Mode"),

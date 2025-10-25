@@ -5,18 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../global_variables.dart';
 import '../../../../utils/custom_edit_button.dart';
 import '../../../../utils/custom_empty_items_template.dart';
-import 'daily_games_add_new_item_view.dart';
-import 'daily_games_custom_description_of_activity_item.dart';
-import 'daily_games_custom_vertical_list_of_daily_activity.dart';
-import 'daily_games_edit_screen_department_view.dart';
-import 'daily_games_horizontal_list_of_department.dart';
-import 'daily_games_update_and_delete_item.dart';
-import 'manager/daily_games_cubit.dart';
+import 'academies_add_new_item_view.dart';
+import 'academies_custom_description_of_activity_item.dart';
+import 'academies_custom_vertical_list_of_academy.dart';
+import 'academies_edit_screen_department_view.dart';
+import 'academies_horizontal_list_of_department.dart';
+import 'academies_update_and_delete_item.dart';
+import 'manager/academies_cubit.dart';
 
-class DailyGamesViewBodyInCaseOfNotEmpty extends StatelessWidget {
-  const DailyGamesViewBodyInCaseOfNotEmpty({super.key, required this.cubit});
+class AcademiesViewBodyInCaseOfNotEmpty extends StatelessWidget {
+  const AcademiesViewBodyInCaseOfNotEmpty({super.key, required this.cubit});
 
-  final DailyGamesCubit cubit;
+  final AcademiesCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class DailyGamesViewBodyInCaseOfNotEmpty extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: DailyGamesHorizontalListOfDepartment(cubit: cubit),
+                child: AcademiesHorizontalListOfDepartment(cubit: cubit),
               ),
               SizedBox(width: 10.w),
               CustomEditButton(
@@ -46,7 +46,7 @@ class DailyGamesViewBodyInCaseOfNotEmpty extends StatelessWidget {
                       builder:
                           (context) => BlocProvider.value(
                             value: cubit,
-                            child: DailyGamesEditScreenDepartmentView(),
+                            child: AcademiesEditScreenDepartmentView(),
                           ),
                     ),
                   );
@@ -65,7 +65,7 @@ class DailyGamesViewBodyInCaseOfNotEmpty extends StatelessWidget {
                     image: DecorationImage(
                       opacity: 0.2,
                       image: AssetImage(
-                        "assets/images/daily_activity_background.jpg",
+                        "assets/images/academies_background.jpg",
                       ),
                       fit: BoxFit.cover, // Cover the entire screen
                     ),
@@ -86,7 +86,7 @@ class DailyGamesViewBodyInCaseOfNotEmpty extends StatelessWidget {
                                 false) ...[
                               Expanded(
                                 flex: 1,
-                                child: CustomVerticalListOfDailyActivity(
+                                child: CustomVerticalListOfAcademies(
                                   cubit: cubit,
                                 ),
                               ),
@@ -96,8 +96,8 @@ class DailyGamesViewBodyInCaseOfNotEmpty extends StatelessWidget {
                                 child: Stack(
                                   clipBehavior: Clip.none,
                                   children: [
-                                    CustomDescriptionOfActivityItem(
-                                      dailyActivityItemModel:
+                                    CustomDescriptionOfAcademyItem(
+                                      academiesItemModel:
                                           cubit
                                               .mapBetweenCategoriesAndActivities
                                               .values
@@ -123,8 +123,8 @@ class DailyGamesViewBodyInCaseOfNotEmpty extends StatelessWidget {
                                                     context,
                                                   ) => BlocProvider.value(
                                                     value: cubit,
-                                                    child: DailyGamesUpdateAndDeleteItemView(
-                                                      dailyActivityItemModel:
+                                                    child: AcademiesUpdateAndDeleteItemView(
+                                                      academiesItemModel:
                                                           cubit
                                                               .mapBetweenCategoriesAndActivities
                                                               .values
@@ -162,7 +162,7 @@ class DailyGamesViewBodyInCaseOfNotEmpty extends StatelessWidget {
                                               (context) => BlocProvider.value(
                                                 value: cubit,
                                                 child:
-                                                    DailyGamesAddNewItemView(),
+                                                    AcademiesAddNewItemView(),
                                               ),
                                         ),
                                       );

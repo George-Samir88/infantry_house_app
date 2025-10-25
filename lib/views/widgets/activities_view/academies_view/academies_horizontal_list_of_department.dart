@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import 'daily_games_custom_item_in_horizontal_list_of_daily_activity.dart';
-import 'manager/daily_games_cubit.dart';
+import 'academies_custom_item_in_horizontal_list_of_academy.dart';
+import 'manager/academies_cubit.dart';
 
-class DailyGamesHorizontalListOfDepartment extends StatelessWidget {
-  const DailyGamesHorizontalListOfDepartment({super.key, required this.cubit});
+class AcademiesHorizontalListOfDepartment extends StatelessWidget {
+  const AcademiesHorizontalListOfDepartment({super.key, required this.cubit});
 
-  final DailyGamesCubit cubit;
+  final AcademiesCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class DailyGamesHorizontalListOfDepartment extends StatelessWidget {
                   onTap: () {
                     cubit.changeCategoryIndex(index: index);
                   },
-                  child: CustomItemInHorizontalListOfDailyActivity(
+                  child: CustomItemInHorizontalListOfAcademies(
                     categoryTitle:
                         cubit.mapBetweenCategoriesAndActivities.keys
                             .toList()[index],
