@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:infantry_house_app/models/carousel_models.dart';
 import 'package:infantry_house_app/utils/custom_elevated_button.dart';
+import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../global_variables.dart';
@@ -87,10 +90,35 @@ class _ActivityEditCarouselTemplateViewState
           title: S.of(context).t3delE3lan,
         ),
       ),
-      body: BlocBuilder<ActivityCubit, ActivityState>(
+      body: BlocConsumer<ActivityCubit, ActivityState>(
+        listener: (context, state) {
+          if (state is ActivityCreateCarouselFailureState) {
+            showSnackBar(
+              context: context,
+              message: state.failure,
+              backgroundColor: Colors.redAccent,
+            );
+          } else if (state is ActivityDeleteFailureCarouselState) {
+            showSnackBar(
+              context: context,
+              message: state.failure,
+              backgroundColor: Colors.redAccent,
+            );
+          } else if (state is ActivityNoInternetConnectionState) {
+            showSnackBar(
+              context: context,
+              message: state.message,
+              backgroundColor: Colors.yellow[800],
+            );
+          } else if (state is ActivityCreateCarouselSuccessState ||
+              state is ActivityDeleteSuccessCarouselState) {
+            _playAnimation();
+          }
+        },
         builder: (context, state) {
-          var cubit = context.read<ActivityCubit>();
-          List<Widget> carouselItems = cubit.carouselItems;
+          var activityCubit = context.read<ActivityCubit>();
+          List<CarouselItemModel> carouselItems =
+              activityCubit.carouselItemList;
           return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.0.w),
@@ -99,115 +127,139 @@ class _ActivityEditCarouselTemplateViewState
                 children: [
                   SizedBox(height: 20.h),
                   if (carouselItems.isNotEmpty) ...[
-                    CarouselSlider.builder(
-                      itemCount: carouselItems.length,
-                      itemBuilder:
-                          (context, index, realIndex) => Stack(
-                            clipBehavior: Clip.none,
-                            fit: StackFit.passthrough,
-                            children: [
-                              carouselItems[index],
-                              Positioned(
-                                left: GlobalData().isArabic ? -5.w : null,
-                                right: GlobalData().isArabic ? null : -5.w,
-                                bottom: -20.h,
-                                child: Row(
-                                  children: [
-                                    CustomEditButton(
-                                      backgroundColor: Colors.red,
-                                      onTap: () {
-                                        cubit.removeCarouselItem(index: index);
-                                      },
-                                      iconColor: Colors.white,
-                                      icon: Icons.cancel,
-                                    ),
-                                  ],
-                                ),
+                    state is ActivityDeleteLoadingCarouselState ||
+                            state is ActivityCreateCarouselLoadingState
+                        ? Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.grey.shade300,
+                            highlightColor: Colors.grey.shade100,
+                            child: Container(
+                              height:
+                                  GlobalData().isTabletLayout ? 280.h : 180.h,
+                              decoration: BoxDecoration(
+                                color: const Color(0xffFAF7F0),
+                                borderRadius: BorderRadius.circular(16.r),
                               ),
-                            ],
+                            ),
                           ),
-                      options: CarouselOptions(
-                        onPageChanged: (index, other) {
-                          cubit.changeCarouselIndex(index: index);
-                        },
-                        height: GlobalData().isTabletLayout ? 280.h : 180.h,
-                        clipBehavior: Clip.none,
-                        padEnds: true,
-                        enlargeCenterPage: true,
-                        viewportFraction: 1.2,
-                        enableInfiniteScroll: true,
-                        autoPlay: false,
-                      ),
-                    ),
+                        )
+                        : CarouselSlider.builder(
+                          itemCount: carouselItems.length,
+                          itemBuilder:
+                              (context, index, realIndex) => Stack(
+                                clipBehavior: Clip.none,
+                                fit: StackFit.passthrough,
+                                children: [
+                                  CustomCarouselItem(
+                                    imagePath: carouselItems[index].imageUrl,
+                                    isPickedImage: true,
+                                  ),
+                                  Positioned(
+                                    left: GlobalData().isArabic ? -5.w : null,
+                                    right: GlobalData().isArabic ? null : -5.w,
+                                    bottom: -20.h,
+                                    child: Row(
+                                      children: [
+                                        CustomEditButton(
+                                          backgroundColor: Colors.red,
+                                          onTap: () async {
+                                            if (await activityCubit
+                                                .hasInternetConnection()) {
+                                              activityCubit.deleteCarouselItem(
+                                                carouselItemId:
+                                                    carouselItems[index].uid,
+                                              );
+                                            }
+                                          },
+                                          iconColor: Colors.white,
+                                          icon: Icons.cancel,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                          options: CarouselOptions(
+                            onPageChanged: (index, other) {
+                              activityCubit.changeCarouselIndex(index: index);
+                            },
+                            height: GlobalData().isTabletLayout ? 280.h : 180.h,
+                            clipBehavior: Clip.none,
+                            padEnds: true,
+                            enlargeCenterPage: true,
+                            viewportFraction: 1.2,
+                            enableInfiniteScroll: true,
+                            autoPlay: false,
+                          ),
+                        ),
                     SizedBox(height: 20.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         DotsIndicator(
-                          currentIndex: cubit.currentCarouselIndex,
+                          currentIndex: activityCubit.currentCarouselIndex,
                           itemCount: carouselItems.length,
                         ),
                       ],
                     ),
                   ],
-                  if (carouselItems.isEmpty)
+                  if (carouselItems.isEmpty ||
+                      state is ActivityGetCarouselEmptyState)
                     EmptyCarouselContainer(
                       onTab: () async {
                         await _pickImage();
                         setState(() {});
                         if (_image != null) {
-                          cubit.addCarouselItem(
-                            customCarouselItem: CustomCarouselItem(
-                              imagePath: _image!.path,
-                              isPickedImage: true,
-                            ),
+                          activityCubit.createCarouselItem(
+                            imageUrl: _image!.path,
                           );
                           _image = null;
                         }
-                      }, canManage: true,
+                      },
+                      canManage: activityCubit.canManage,
                     ),
 
                   SizedBox(height: 30.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.0.w),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: CustomElevatedButton(
-                            textColor: Color(0xFF6D3A2D),
-                            backGroundColor: Colors.grey[300],
-                            onPressed: () async {
-                              setState(() {});
-                              await _pickImage();
-                              setState(() {});
-                              if (_image != null) {
-                                cubit.addCarouselItem(
-                                  customCarouselItem: CustomCarouselItem(
-                                    imagePath: _image!.path,
-                                    isPickedImage: true,
-                                  ),
-                                );
-                                _image = null;
-                              }
-                            },
-                            text: S.of(context).EdaftGded,
-                            tabletLayout: GlobalData().isTabletLayout,
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        if (carouselItems.isNotEmpty)
+                  if (activityCubit.canManage)
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0.w),
+                      child: Row(
+                        children: [
                           Expanded(
                             child: CustomElevatedButton(
-                              onPressed: () {
-                                _playAnimation();
+                              textColor: Color(0xFF6D3A2D),
+                              backGroundColor: Colors.grey[300],
+                              onPressed: () async {
+                                if (await activityCubit
+                                    .hasInternetConnection()) {
+                                  setState(() {});
+                                  await _pickImage();
+                                  setState(() {});
+                                  if (_image != null) {
+                                    activityCubit.createCarouselItem(
+                                      imageUrl: _image!.path,
+                                    );
+                                    _image = null;
+                                  }
+                                }
                               },
-                              text: S.of(context).hefz,
+                              text: S.of(context).EdaftGded,
                               tabletLayout: GlobalData().isTabletLayout,
                             ),
                           ),
-                      ],
+                          SizedBox(width: 10.w),
+                          if (carouselItems.isNotEmpty)
+                            Expanded(
+                              child: CustomElevatedButton(
+                                onPressed: () {},
+                                text: S.of(context).hefz,
+                                tabletLayout: GlobalData().isTabletLayout,
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
                   SizedBox(height: 10.h),
                   Visibility(
                     visible: isAnimationVisible,
