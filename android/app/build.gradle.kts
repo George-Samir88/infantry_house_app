@@ -25,38 +25,37 @@ android {
     ndkVersion = "28.0.13004108"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        // Java 8+ support and desugaring
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled = true // ✅ correct Kotlin DSL syntax and location
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.infantry_house_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        multiDexEnabled = true
     }
-
-//    signingConfigs {
-//        create("Debug") {
-//        }
-//    }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
         }
     }
 }
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // CONVERSION FIX: Switched to Kotlin DSL function call with parentheses and double quotes.
+    // FIX: This library provides the desugared Java 8+ APIs at runtime for older Android versions.
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }
