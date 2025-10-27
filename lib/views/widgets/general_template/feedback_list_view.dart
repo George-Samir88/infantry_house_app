@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:animations/animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../models/complaints_model.dart';
+
+import 'models/complaints_model.dart';
 
 class FeedbackList extends StatefulWidget {
   final List<ComplaintModel> complaints;

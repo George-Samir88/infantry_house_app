@@ -9,7 +9,7 @@ import 'package:infantry_house_app/views/widgets/general_template/shimmer_loader
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
-import '../../../models/sub_screen_model.dart';
+import 'models/sub_screen_model.dart';
 import '../../../utils/custom_edit_button.dart';
 
 class SubScreenTemplate extends StatefulWidget {

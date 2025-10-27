@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../../../../models/academies_item_model.dart';
+import '../models/academies_item_model.dart';
 
 part 'academies_state.dart';
 

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:infantry_house_app/models/academies_item_model.dart';
+import 'package:infantry_house_app/views/widgets/activities_view/academies_view/models/academies_item_model.dart';
 
 import '../../../../generated/l10n.dart';
 import 'manager/academies_cubit.dart';

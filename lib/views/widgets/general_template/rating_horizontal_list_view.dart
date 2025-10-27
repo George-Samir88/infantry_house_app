@@ -3,7 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
-import '../../../models/rating_model.dart';
+import 'models/rating_model.dart';
 
 class RatingsHorizontalView extends StatelessWidget {
   final List<RatingModel> ratings;

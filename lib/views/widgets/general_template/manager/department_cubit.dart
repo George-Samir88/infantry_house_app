@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:infantry_house_app/models/menu_item_model.dart';
 import 'package:infantry_house_app/utils/map_firebase_error.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../helper_functions/collection_exists.dart';
-import '../../../../models/carousel_models.dart';
-import '../../../../models/menu_button_model.dart';
-import '../../../../models/menu_title_model.dart';
-import '../../../../models/sub_screen_model.dart';
+import '../models/carousel_models.dart';
+import '../models/menu_button_model.dart';
+import '../models/menu_item_model.dart';
+import '../models/menu_title_model.dart';
+import '../models/sub_screen_model.dart';
 
 part 'department_state.dart';
 

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:infantry_house_app/models/carousel_models.dart';
 import 'package:infantry_house_app/utils/custom_elevated_button.dart';
 import 'package:infantry_house_app/utils/custom_snackBar.dart';
 import 'package:lottie/lottie.dart';
@@ -18,6 +17,7 @@ import '../../../utils/empty_carousel_item.dart';
 import '../../../utils/custom_carousel_item.dart';
 import '../../../utils/custom_edit_button.dart';
 import '../../../utils/dots_indicator.dart';
+import '../general_template/models/carousel_models.dart';
 import 'manager/activity_cubit.dart';
 
 class ActivityEditCarouselTemplateView extends StatefulWidget {

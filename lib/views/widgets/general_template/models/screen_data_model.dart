@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:infantry_house_app/models/menu_item_model.dart';
+
+import 'menu_item_model.dart';
 
 class ScreenData {
   List<Widget> carouselWidgets;

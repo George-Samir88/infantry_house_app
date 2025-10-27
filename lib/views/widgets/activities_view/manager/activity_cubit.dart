@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../helper_functions/collection_exists.dart';
-import '../../../../models/carousel_models.dart';
 import '../../../../utils/map_firebase_error.dart';
+import '../../general_template/models/carousel_models.dart';
 
 part 'activity_state.dart';
 

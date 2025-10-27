@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
 
-import '../../../models/menu_item_model.dart';
+import 'models/menu_item_model.dart';
+
 
 class CustomItemsInGridEditView extends StatelessWidget {
   const CustomItemsInGridEditView({super.key, required this.menuItemModel});

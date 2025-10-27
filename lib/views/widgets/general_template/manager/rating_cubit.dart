@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:infantry_house_app/models/complaints_model.dart';
 
 import '../../../../generated/l10n.dart';
-import '../../../../models/rating_model.dart';
+import '../models/complaints_model.dart';
+import '../models/rating_model.dart';
 
 part 'rating_state.dart';
 

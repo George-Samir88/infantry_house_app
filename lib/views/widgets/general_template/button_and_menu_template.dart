@@ -11,11 +11,11 @@ import 'package:infantry_house_app/views/widgets/general_template/shimmer_loader
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
-import '../../../models/menu_title_model.dart';
 import '../../../utils/custom_edit_button.dart';
 import '../../../utils/custom_snackBar.dart';
 import 'custom_menu_items_horizontal_grid_view.dart';
 import 'menu_items_horizontal_grid_view_shimmer_loading.dart';
+import 'models/menu_title_model.dart';
 
 class ButtonAndMenuTemplate extends StatelessWidget {
   const ButtonAndMenuTemplate({super.key});

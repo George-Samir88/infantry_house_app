@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../global_variables.dart';
-import '../../../models/menu_item_model.dart';
+import '../general_template/models/menu_item_model.dart';
 import 'manager/cart_cubit/cart_cubit.dart';
 
 class CustomCartGridView extends StatelessWidget {

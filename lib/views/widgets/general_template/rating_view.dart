@@ -16,13 +16,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../generated/l10n.dart';
 import '../../../global_variables.dart';
-import '../../../models/menu_item_model.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_snackBar.dart';
 import '../cart_view/manager/cart_cubit/cart_cubit.dart';
 import 'item_complaints_view.dart';
 import 'manager/rating_cubit.dart';
+import 'models/menu_item_model.dart';
 
 class RatingView extends StatefulWidget {
   const RatingView({

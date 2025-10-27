@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
-import 'package:infantry_house_app/models/menu_title_model.dart';
 import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/custom_error_template.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
@@ -15,6 +14,7 @@ import '../../../../utils/custom_elevated_button.dart';
 import '../../../utils/custom_dialog.dart';
 import '../../../utils/custom_snackBar.dart';
 import '../../../utils/no_internet_connection_template.dart';
+import 'models/menu_title_model.dart';
 
 class EditMenuButtonsAndMenuTitleTemplate extends StatefulWidget {
   const EditMenuButtonsAndMenuTitleTemplate({

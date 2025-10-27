@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:infantry_house_app/models/menu_item_model.dart';
 import 'package:infantry_house_app/utils/custom_empty_items_template.dart';
 import 'package:infantry_house_app/utils/custom_error_template.dart';
 import 'package:infantry_house_app/utils/no_internet_connection_template.dart';
@@ -14,6 +13,7 @@ import '../../../generated/l10n.dart';
 import '../../../utils/custom_appbar_editing_view.dart';
 import '../../../utils/custom_snackBar.dart';
 import 'feedback_list_view.dart';
+import 'models/menu_item_model.dart';
 
 class ItemComplaintsView extends StatefulWidget {
   const ItemComplaintsView({super.key, required this.menuItemModel});

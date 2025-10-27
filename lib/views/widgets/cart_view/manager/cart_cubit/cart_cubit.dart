@@ -1,12 +1,12 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../models/menu_item_model.dart';
+import '../../../general_template/models/menu_item_model.dart';
 
 part 'cart_state.dart';
 
 class CartCubit extends Cubit<FoodCartState> {
-  CartCubit() : super(CartInitial()) {}
+  CartCubit() : super(CartInitial());
 
   // Cart items list with quantities
   List<Map<String, dynamic>> cartItems =
