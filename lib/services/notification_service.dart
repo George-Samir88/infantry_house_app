@@ -64,7 +64,7 @@ class NotificationService {
     try {
       if (payload == 'alert') {
         navigatorKey.currentState?.pushNamedAndRemoveUntil(
-          '/home',
+          '/notifications',
               (route) => route.isFirst,
         );
       } else if (payload == 'notification' || payload.startsWith('/offer')) {
@@ -74,7 +74,7 @@ class NotificationService {
         );
       } else {
         navigatorKey.currentState?.pushNamedAndRemoveUntil(
-          '/home',
+          '/notifications',
               (route) => route.isFirst,
         );
       }
