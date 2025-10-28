@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:infantry_house_app/views/widgets/home_view/home_view.dart';
+import 'package:infantry_house_app/views/widgets/notification_view/notification_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +17,8 @@ import 'views/widgets/login_view/manager/autologin_cubit.dart';
 import 'views/widgets/home_view/manager/home_cubit.dart';
 import 'views/widgets/cart_view/manager/cart_cubit/cart_cubit.dart';
 import 'views/widgets/splash_view/splash_view.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 @pragma('vm:entry-point') // ✅ required annotation for background access
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -93,6 +97,11 @@ class _InfantryHouseAppState extends State<InfantryHouseApp> {
         splitScreenMode: true,
         builder:
             (context, child) => MaterialApp(
+              navigatorKey: navigatorKey,
+              routes: {
+                '/home': (_) => const HomeView(), // your real HomeView widget
+                '/notifications': (_) => const NotificationsView(),
+              },
               locale: _locale,
               localizationsDelegates: const [
                 S.delegate,

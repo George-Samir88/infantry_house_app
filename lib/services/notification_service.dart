@@ -7,12 +7,18 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
+import '../main.dart';
+
+/// 🔹 Refactored Notification Service for FCM + Local Notifications
 class NotificationService {
+  // Firebase Messaging instance
   static final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+
+  // Local Notifications plugin
   static final FlutterLocalNotificationsPlugin _localNotifications =
   FlutterLocalNotificationsPlugin();
 
-  /// 🔹 Default Android notification channel
+  // Default Android notification channel
   static const AndroidNotificationChannel _defaultChannel =
   AndroidNotificationChannel(
     'default_channel_id',
@@ -21,24 +27,27 @@ class NotificationService {
     importance: Importance.high,
   );
 
-  /// 🔹 Initialize Firebase Messaging + Local Notifications
+  /// Initialize FCM & Local Notifications
   static Future<void> init() async {
     await _initLocalNotifications();
     await _initFirebaseMessaging();
   }
 
-  /// 🔹 Initialize local notifications
+  /// Initialize Local Notifications
   static Future<void> _initLocalNotifications() async {
-    const androidInit =
-    AndroidInitializationSettings('@drawable/ic_stat_notification');
+    const androidInit = AndroidInitializationSettings(
+      '@drawable/ic_stat_notification',
+    );
+
     const initSettings = InitializationSettings(android: androidInit);
 
+    // Capture notification taps
     await _localNotifications.initialize(
       initSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
-        if (response.payload != null) {
-          log("🚀 Notification tapped with payload: ${response.payload}");
-          // TODO: Add navigation logic here if needed
+        if (response.payload != null && response.payload!.isNotEmpty) {
+          log("🚀 Notification tapped: ${response.payload}");
+          handleNotificationClick(response.payload!);
         }
       },
     );
@@ -50,34 +59,57 @@ class NotificationService {
         ?.createNotificationChannel(_defaultChannel);
   }
 
-  /// 🔹 Initialize Firebase Messaging listeners
+  /// Handle notification click navigation
+  static void handleNotificationClick(String payload) {
+    try {
+      if (payload == 'alert') {
+        navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          '/home',
+              (route) => route.isFirst,
+        );
+      } else if (payload == 'notification' || payload.startsWith('/offer')) {
+        navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          '/notifications',
+              (route) => route.isFirst,
+        );
+      } else {
+        navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          '/home',
+              (route) => route.isFirst,
+        );
+      }
+    } catch (e) {
+      log('⚠️ Navigation error: $e');
+    }
+  }
+
+  /// Initialize Firebase Messaging listeners
   static Future<void> _initFirebaseMessaging() async {
     await _messaging.requestPermission();
-
     await _messaging.subscribeToTopic('all');
     log("✅ Subscribed to topic: all");
 
     final token = await _messaging.getToken();
     log("📱 FCM Token: $token");
 
-    // Foreground message
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      _showNotification(message);
-    });
+    // Foreground messages
+    FirebaseMessaging.onMessage.listen((message) => _showNotification(message));
 
-    // Background or terminated open
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      log("🚀 App opened from background: ${message.data}");
+    // Background / App opened from terminated
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      final route = message.data['route'];
+      if (route != null) handleNotificationClick(route);
     });
 
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       if (message != null) {
-        log("💡 App opened from terminated: ${message.data}");
+        final route = message.data['route'];
+        if (route != null) handleNotificationClick(route);
       }
     });
   }
 
-  /// 🔹 Display notification with image or expandable text
+  /// Display notification (image or expandable text)
   static Future<void> _showNotification(RemoteMessage message) async {
     final notification = message.notification;
     if (notification == null) return;
@@ -88,7 +120,6 @@ class NotificationService {
     StyleInformation? style;
 
     if (imageUrl != null && imageUrl.isNotEmpty) {
-      // Try to download and display the image
       try {
         final filePath = await _downloadAndSaveFile(imageUrl, 'bigPicture');
         bigPictureStyle = BigPictureStyleInformation(
@@ -98,11 +129,10 @@ class NotificationService {
         );
         style = bigPictureStyle;
       } catch (e) {
-        log("⚠️ Error loading image for notification: $e");
+        log("⚠️ Error loading image: $e");
         style = BigTextStyleInformation(notification.body ?? '');
       }
     } else {
-      // Long text notification if no image
       style = BigTextStyleInformation(
         notification.body ?? '',
         contentTitle: notification.title ?? '',
@@ -125,25 +155,24 @@ class NotificationService {
       notification.title,
       notification.body,
       NotificationDetails(android: androidDetails),
-      payload: message.data.toString(),
+      payload: message.data['route'] ?? message.data['offerId'] ?? '',
     );
   }
 
-  /// 🔹 Download and save image for BigPictureStyle
+  /// Download and cache image for BigPicture notifications
   static Future<String> _downloadAndSaveFile(String url, String fileName) async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final String filePath = '${directory.path}/$fileName';
-    final http.Response response = await http.get(Uri.parse(url));
-    final File file = File(filePath);
+    final dir = await getApplicationDocumentsDirectory();
+    final path = '${dir.path}/$fileName';
+    final response = await http.get(Uri.parse(url));
+    final file = File(path);
     await file.writeAsBytes(response.bodyBytes);
-    return filePath;
+    return path;
   }
 
-  /// 🔹 Background message handler
+  /// Background message handler (must be top-level or static)
   @pragma('vm:entry-point')
-  static Future<void> firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
+  static Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     await Firebase.initializeApp();
-    log("🔹 Background message: ${message.notification?.title}");
+    log("🔹 Background message received: ${message.notification?.title}");
   }
 }
