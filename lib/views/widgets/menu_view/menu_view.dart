@@ -11,6 +11,7 @@ import 'package:infantry_house_app/views/widgets/help_view/help_view.dart';
 import 'package:infantry_house_app/views/widgets/home_view/manager/home_cubit.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/manager/user_data_cubit.dart';
 import 'package:infantry_house_app/views/widgets/menu_view/user_tile_shimmer.dart';
+import 'package:infantry_house_app/views/widgets/notification_view/notification_view.dart';
 import 'package:infantry_house_app/views/widgets/setting_view/setting_view.dart';
 
 import '../app_complaints_view/submit_app_complaints_view.dart';
@@ -285,6 +286,23 @@ class _MenuViewState extends State<MenuView> {
                                   },
                                   icon: Icons.contact_mail,
                                   title: S.of(context).ContactUs,
+                                ),
+                              ),
+                              FadeInUp(
+                                delay: const Duration(milliseconds: 500),
+                                child: AnimatedGridItem(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) =>
+                                                const NotificationsView(),
+                                      ),
+                                    );
+                                  },
+                                  icon: Icons.notifications_active_outlined,
+                                  title: S.of(context).Notifications,
                                 ),
                               ),
                             ],

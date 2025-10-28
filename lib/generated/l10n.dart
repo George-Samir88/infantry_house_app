@@ -2509,6 +2509,66 @@ class S {
       args: [],
     );
   }
+
+  /// `الإشعارات`
+  String get notifications_title {
+    return Intl.message(
+      'الإشعارات',
+      name: 'notifications_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `لا توجد إشعارات حالياً`
+  String get notifications_empty {
+    return Intl.message(
+      'لا توجد إشعارات حالياً',
+      name: 'notifications_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `الموضوع`
+  String get notifications_topic {
+    return Intl.message(
+      'الموضوع',
+      name: 'notifications_topic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `النوع`
+  String get notifications_type {
+    return Intl.message(
+      'النوع',
+      name: 'notifications_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `معرّف العرض`
+  String get notifications_offer {
+    return Intl.message(
+      'معرّف العرض',
+      name: 'notifications_offer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `إشعار بدون عنوان`
+  String get notifications_noTitle {
+    return Intl.message(
+      'إشعار بدون عنوان',
+      name: 'notifications_noTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

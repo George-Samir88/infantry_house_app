@@ -245,6 +245,11 @@
   "VisitUs": "Visit Us",
   "cannotLaunchUrl": "Cannot launch this URL",
   "locationSubtitle": "38H3+M6H, Ismail Bridge, Al Fangary, Beside Mansheyat Al Bakri, Heliopolis, Cairo",
-  "instagram": "Instagram"
-
+  "instagram": "Instagram",
+  "notifications_title": "Notifications",
+  "notifications_empty": "No notifications yet",
+  "notifications_topic": "Topic",
+  "notifications_type": "Type",
+  "notifications_offer": "Offer ID",
+  "notifications_noTitle": "Untitled Notification"
 }

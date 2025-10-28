@@ -398,6 +398,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "locationSubtitle": MessageLookupByLibrary.simpleMessage(
             "38H3+M6H، جسر إسماعيل، الفنجري، بجوار منشية البكري، مصر الجديدة، القاهرة"),
         "m8sla": MessageLookupByLibrary.simpleMessage("مغسلة"),
+        "notifications_empty":
+            MessageLookupByLibrary.simpleMessage("لا توجد إشعارات حالياً"),
+        "notifications_noTitle":
+            MessageLookupByLibrary.simpleMessage("إشعار بدون عنوان"),
+        "notifications_offer":
+            MessageLookupByLibrary.simpleMessage("معرّف العرض"),
+        "notifications_title":
+            MessageLookupByLibrary.simpleMessage("الإشعارات"),
+        "notifications_topic": MessageLookupByLibrary.simpleMessage("الموضوع"),
+        "notifications_type": MessageLookupByLibrary.simpleMessage("النوع"),
         "t3delE3lan": MessageLookupByLibrary.simpleMessage("تعديل الإعلانات"),
         "t3delKwaem": MessageLookupByLibrary.simpleMessage("تعديل القوائم"),
         "unauthenticated": MessageLookupByLibrary.simpleMessage(

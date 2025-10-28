@@ -244,8 +244,11 @@
   "VisitUs": "زورنا",
   "cannotLaunchUrl": "لا يمكن فتح هذا الرابط",
   "locationSubtitle": "38H3+M6H، جسر إسماعيل، الفنجري، بجوار منشية البكري، مصر الجديدة، القاهرة",
-  "instagram": "انستجرام"
-
-
-
+  "instagram": "انستجرام",
+  "notifications_title": "الإشعارات",
+  "notifications_empty": "لا توجد إشعارات حالياً",
+  "notifications_topic": "الموضوع",
+  "notifications_type": "النوع",
+  "notifications_offer": "معرّف العرض",
+  "notifications_noTitle": "إشعار بدون عنوان"
 }

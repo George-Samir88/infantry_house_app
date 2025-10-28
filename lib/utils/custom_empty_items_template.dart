@@ -127,15 +127,11 @@ class CustomEmptyWidgetTemplate extends StatelessWidget {
     super.key,
     this.iconOfCustomEditButton,
     this.isShowCustomEditButton = false,
-    this.errorMessage,
     required this.onRetry,
   });
 
   final IconData? iconOfCustomEditButton;
   final bool isShowCustomEditButton;
-
-  /// Optional custom error message (fallback uses localized text)
-  final String? errorMessage;
 
   /// Callback for retry or fix button
   final void Function() onRetry;

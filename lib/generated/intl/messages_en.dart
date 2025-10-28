@@ -405,6 +405,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "locationSubtitle": MessageLookupByLibrary.simpleMessage(
             "38H3+M6H, Ismail Bridge, Al Fangary, Beside Mansheyat Al Bakri, Heliopolis, Cairo"),
         "m8sla": MessageLookupByLibrary.simpleMessage("Washing"),
+        "notifications_empty":
+            MessageLookupByLibrary.simpleMessage("No notifications yet"),
+        "notifications_noTitle":
+            MessageLookupByLibrary.simpleMessage("Untitled Notification"),
+        "notifications_offer": MessageLookupByLibrary.simpleMessage("Offer ID"),
+        "notifications_title":
+            MessageLookupByLibrary.simpleMessage("Notifications"),
+        "notifications_topic": MessageLookupByLibrary.simpleMessage("Topic"),
+        "notifications_type": MessageLookupByLibrary.simpleMessage("Type"),
         "t3delE3lan":
             MessageLookupByLibrary.simpleMessage("Edit Advertisements"),
         "t3delKwaem": MessageLookupByLibrary.simpleMessage("Edit Category"),
