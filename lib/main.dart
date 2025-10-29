@@ -3,20 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:infantry_house_app/views/widgets/home_view/home_view.dart';
-import 'package:infantry_house_app/views/widgets/notification_view/notification_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'features/widgets/cart_view/manager/cart_cubit/cart_cubit.dart';
+import 'features/widgets/home_view/home_view.dart';
+import 'features/widgets/home_view/manager/home_cubit.dart';
+import 'features/widgets/login_view/manager/autologin_cubit.dart';
+import 'features/widgets/notification_view/notification_view.dart';
+import 'features/widgets/splash_view/splash_view.dart';
 import 'firebase_options.dart';
 import 'bloc_observer.dart';
 import 'generated/l10n.dart';
 import 'services/notification_service.dart';
-import 'views/widgets/login_view/manager/autologin_cubit.dart';
-import 'views/widgets/home_view/manager/home_cubit.dart';
-import 'views/widgets/cart_view/manager/cart_cubit/cart_cubit.dart';
-import 'views/widgets/splash_view/splash_view.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
