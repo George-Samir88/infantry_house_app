@@ -193,15 +193,20 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         );
   }
 
-  Future<void> createSubScreen({required String superCatName}) async {
+  Future<void> createSubScreen({
+    required String subScreenArName,
+    required String subScreenEnName,
+  }) async {
     try {
       emit(DepartmentCreateSubScreensNamesLoadingState());
       if (!await hasInternetConnection()) return;
       // Step 1: جهز الـ model
       final newSubScreen = SubScreenModel(
-        subScreenName: superCatName.trim(),
+        subScreenArName: subScreenArName.trim(),
+        subScreenEnName: subScreenEnName.trim(),
         createdAt: DateTime.now(),
-        uid: "", // هنحدثه بعدين بالـ doc.id
+        uid: "",
+        // هنحدثه بعدين بالـ doc.id
         updatedAt: null,
       );
 
@@ -220,7 +225,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       await docRef.update({'uid': docRef.id});
       // Step 4: add menu title
       final MenuTitleModel menuTitleModel = MenuTitleModel(
-        menuTitle: null,
+        menuTitleAr: null,
+        menuTitleEn: null,
         uid: null,
         createdAt: DateTime.now(),
         updatedAt: null,
@@ -242,7 +248,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
   }
 
   Future<void> updateSubScreen({
-    required String newSuperCatName,
+    required String newSuperCatNameAr,
+    required String newSuperCatNameEn,
     required String subScreenUID,
   }) async {
     try {
@@ -254,7 +261,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           .collection('super_categories')
           .doc(subScreenUID)
           .update({
-            'super_cat_name': newSuperCatName.trim(),
+            'sub_screen_ar_name': newSuperCatNameAr.trim(),
+            'sub_screen_en_name': newSuperCatNameEn.trim(),
             'updated_at': DateTime.now(),
           });
       emit(DepartmentUpdateSubScreensNamesSuccessState());
@@ -680,8 +688,13 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
-  Future<void> updateMenuTitle({required String? menuTitle}) async {
-    if (menuTitle == null || menuTitle.trim().isEmpty) {
+  Future<void> updateMenuTitle({
+    required String? menuTitleAr,
+    required String? menuTitleEn,
+  }) async {
+    if (menuTitleAr == null ||
+        menuTitleEn == null ||
+        menuTitleAr.trim().isEmpty) {
       emit(
         DepartmentUpdateMenuTitleFailureState(
           failure: "Menu title cannot be empty",
@@ -707,19 +720,22 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         // 🔥 لو فيه doc قديم -> نعمل update
         final docRef = querySnapshot.docs.first.reference;
         await docRef.update({
-          'menu_title': menuTitle,
+          'menu_title_ar': menuTitleAr,
+          'menu_title_en': menuTitleEn,
           'updated_at': DateTime.now(),
         });
       } else {
         // 🔥 لو مفيش -> نعمل create
         await subTitleCollection.add({
-          'menu_title': menuTitle,
+          'menu_title_ar': menuTitleAr,
+          'menu_title_en': menuTitleEn,
           'created_at': DateTime.now(),
         });
       }
 
       // 🔥 تحديث الكاش والـ state المحلي
-      menuTitleCache[selectedSubScreenID!]?.menuTitle = menuTitle;
+      menuTitleCache[selectedSubScreenID!]?.menuTitleAr = menuTitleAr;
+      menuTitleCache[selectedSubScreenID!]?.menuTitleEn = menuTitleEn;
 
       emit(DepartmentUpdateMenuTitleSuccessState());
     } on FirebaseException catch (e) {
@@ -776,7 +792,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
     }
   }
 
-  Future<void> createMenuButton({required String buttonTitle}) async {
+  Future<void> createMenuButton({
+    required String buttonTitleAr,
+    required String buttonTitleEn,
+  }) async {
     try {
       emit(DepartmentCreateMenuButtonLoadingState());
       if (!await hasInternetConnection()) return;
@@ -792,7 +811,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       final newButton = MenuButtonModel(
         uid: docRef.id,
-        buttonTitle: buttonTitle.trim(),
+        buttonTitleAr: buttonTitleAr.trim(),
+        buttonTitleEn: buttonTitleEn.trim(),
         createdAt: DateTime.now().toIso8601String(),
         updatedAt: null,
       );
@@ -917,7 +937,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   Future<void> updateMenuButton({
     required String buttonId,
-    required String newTitle,
+    required String newTitleAr,
+    required String newTitleEn,
   }) async {
     try {
       emit(DepartmentUpdateMenuButtonLoadingState());
@@ -932,7 +953,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
       // ✅ تحديث في Firestore
       await docRef.update({
-        'button_title': newTitle.trim(),
+        'button_title_ar': newTitleAr.trim(),
+        'button_title_en': newTitleEn.trim(),
         'updated_at': DateTime.now().toIso8601String(),
       });
 
@@ -949,7 +971,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           // زرار جديد بنفس الـ uid مع التايتل الجديد
           final updatedButton = MenuButtonModel(
             uid: oldEntry.uid,
-            buttonTitle: newTitle.trim(),
+            buttonTitleAr: newTitleAr.trim(),
+            buttonTitleEn: newTitleEn.trim(),
             createdAt: oldEntry.createdAt,
             updatedAt: DateTime.now().toIso8601String(),
           );
@@ -1072,10 +1095,12 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   ///--------------MenuItems CRUD operations--------------
   Future<void> createMenuItem({
-    required String title,
+    required String titleAr,
+    required String titleEn,
     required String price,
     required String imagePath,
-    required String description,
+    required String descriptionAr,
+    required String descriptionEn,
   }) async {
     try {
       emit(DepartmentCreateMenuItemLoadingState());
@@ -1083,7 +1108,8 @@ class DepartmentCubit extends Cubit<DepartmentState> {
       // ✅ حضر الـ model
       final menuItemModel = MenuItemModel(
         id: "",
-        title: title.trim(),
+        titleAr: titleAr.trim(),
+        titleEn: titleEn.trim(),
         image: imagePath,
         price: price,
         averageRating: 0.0,
@@ -1092,9 +1118,9 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         createdAt: DateTime.now(),
         updatedAt: null,
         hasFeedback: false,
-        description: description,
+        descriptionAr: descriptionAr,
+        descriptionEn: descriptionEn,
       );
-
       // ✅ Reference للـ Firestore
       final docRef =
           firestore
@@ -1212,10 +1238,12 @@ class DepartmentCubit extends Cubit<DepartmentState> {
 
   Future<void> updateMenuItem({
     required String itemId,
-    String? title,
+    String? titleAr,
+    String? titleEn,
     String? price,
     String? image,
-    String? description,
+    String? descriptionAr,
+    String? descriptionEn,
   }) async {
     try {
       emit(DepartmentUpdateMenuItemLoadingState());
@@ -1225,8 +1253,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
         'updatedAt': DateTime.now().toIso8601String(),
       };
 
-      if (title != null) updates['title'] = title.trim();
-      if (description != null) updates['description'] = description;
+      if (titleAr != null) updates['title_ar'] = titleAr.trim();
+      if (titleEn != null) updates['title_en'] = titleEn.trim();
+      if (descriptionAr != null) updates['description_ar'] = descriptionAr;
+      if (descriptionEn != null) updates['description_en'] = descriptionEn;
       if (price != null) updates['price'] = price;
       if (image != null) updates['image'] = image;
 
@@ -1256,7 +1286,10 @@ class DepartmentCubit extends Cubit<DepartmentState> {
           if (index != -1) {
             final oldItem = currentItems[index];
             final updatedItem = oldItem.copyWith(
-              title: title ?? oldItem.title,
+              titleAr: titleAr ?? oldItem.titleAr,
+              titleEn: titleEn ?? oldItem.titleEn,
+              descriptionAr: descriptionAr ?? oldItem.descriptionAr,
+              descriptionEn: descriptionEn ?? oldItem.descriptionEn,
               price: price ?? oldItem.price,
               image: image ?? oldItem.image,
               updatedAt: DateTime.now(),

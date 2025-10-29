@@ -27,7 +27,8 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
     with SingleTickerProviderStateMixin {
   TextEditingController arabicTextEditingController = TextEditingController();
   TextEditingController englishTextEditingController = TextEditingController();
-  TextEditingController updatedSubScreenController = TextEditingController();
+  TextEditingController updatedSubScreenArController = TextEditingController();
+  TextEditingController updatedSubScreenEnController = TextEditingController();
 
   late AnimationController _animationController;
 
@@ -174,26 +175,38 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                           onTap: () async {
                                             if (await cubit
                                                 .hasInternetConnection()) {
-                                              updatedSubScreenController.text =
-                                                  cubit
+                                              updatedSubScreenArController
+                                                  .text = cubit
                                                       .subScreensList[index]
-                                                      .subScreenName;
+                                                      .subScreenArName;
+                                              updatedSubScreenEnController
+                                                  .text = cubit
+                                                      .subScreensList[index]
+                                                      .subScreenEnName;
                                               if (!context.mounted) return;
                                               showInputDialog(
                                                 context: context,
-                                                controller:
-                                                    updatedSubScreenController,
+                                                englishController:
+                                                    updatedSubScreenEnController,
+                                                arabicController:
+                                                    updatedSubScreenArController,
                                                 onUpdateConfirmed: (value) {
-                                                  if (updatedSubScreenController
-                                                      .text
-                                                      .isNotEmpty) {
+                                                  if (updatedSubScreenArController
+                                                          .text
+                                                          .isNotEmpty &&
+                                                      updatedSubScreenEnController
+                                                          .text
+                                                          .isNotEmpty) {
                                                     Navigator.of(context).pop();
-                                                    String value =
-                                                        updatedSubScreenController
-                                                            .text
-                                                            .trim();
                                                     cubit.updateSubScreen(
-                                                      newSuperCatName: value,
+                                                      newSuperCatNameAr:
+                                                          updatedSubScreenArController
+                                                              .text
+                                                              .trim(),
+                                                      newSuperCatNameEn:
+                                                          updatedSubScreenEnController
+                                                              .text
+                                                              .trim(),
                                                       subScreenUID:
                                                           cubit
                                                               .subScreensList[index]
@@ -238,9 +251,13 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                             ),
                                             child: Center(
                                               child: Text(
-                                                cubit
-                                                    .subScreensList[index]
-                                                    .subScreenName,
+                                                GlobalData().isArabic
+                                                    ? cubit
+                                                        .subScreensList[index]
+                                                        .subScreenArName
+                                                    : cubit
+                                                        .subScreensList[index]
+                                                        .subScreenEnName,
                                                 style: TextStyle(
                                                   color: Color(0xff5E3D2E),
                                                   fontSize:
@@ -341,19 +358,18 @@ class _EditSubScreenTemplateViewState extends State<EditSubScreenTemplateView>
                                               .validate()) {
                                             if (!context.mounted) return;
                                             FocusScope.of(context).unfocus();
-                                            final value =
-                                                GlobalData().isArabic
-                                                    ? arabicTextEditingController
-                                                        .text
-                                                    : englishTextEditingController
-                                                        .text;
-                                            arabicTextEditingController.clear();
-                                            englishTextEditingController
-                                                .clear();
                                             cubit.createSubScreen(
-                                              superCatName: value,
+                                              subScreenArName:
+                                                  arabicTextEditingController
+                                                      .text,
+                                              subScreenEnName:
+                                                  englishTextEditingController
+                                                      .text,
                                             );
                                           }
+                                          arabicTextEditingController.clear();
+                                          englishTextEditingController
+                                              .clear();
                                         }
                                       },
                                       text: S.of(context).EdaftGded,

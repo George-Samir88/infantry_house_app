@@ -6,7 +6,6 @@ import 'package:infantry_house_app/global_variables.dart';
 
 import 'models/menu_item_model.dart';
 
-
 class CustomItemsInGridEditView extends StatelessWidget {
   const CustomItemsInGridEditView({super.key, required this.menuItemModel});
 
@@ -38,7 +37,9 @@ class CustomItemsInGridEditView extends StatelessWidget {
               FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  menuItemModel.title,
+                  GlobalData().isArabic
+                      ? menuItemModel.titleAr
+                      : menuItemModel.titleEn,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12.sp,

@@ -84,9 +84,11 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
     }
   }
 
-  TextEditingController titleController = TextEditingController();
+  TextEditingController titleArController = TextEditingController();
+  TextEditingController titleEnController = TextEditingController();
   TextEditingController priceController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+  TextEditingController descriptionArController = TextEditingController();
+  TextEditingController descriptionEnController = TextEditingController();
   bool isShowValidationErrorMessages = false;
 
   bool _validateImage(File? image) {
@@ -142,11 +144,27 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
                   //------mobile design
                   if (!GlobalData().isTabletLayout) ...[
                     Text(
-                      S.of(context).EsmElsanf,
+                      S.of(context).EsmElsanfInAr,
                       style: TextStyle(fontSize: 20.sp),
                     ),
                     CustomTextFormField(
-                      textEditingController: titleController,
+                      textEditingController: titleArController,
+                      textInputType: TextInputType.text,
+                      hintText: S.of(context).Ad5lEsmElsnf,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return S.of(context).MnFdlkD5lEsmElsnf;
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      S.of(context).EsmElsanfInEn,
+                      style: TextStyle(fontSize: 20.sp),
+                    ),
+                    CustomTextFormField(
+                      textEditingController: titleEnController,
                       textInputType: TextInputType.text,
                       hintText: S.of(context).Ad5lEsmElsnf,
                       validator: (value) {
@@ -184,11 +202,27 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                S.of(context).EsmElsanf,
+                                S.of(context).EsmElsanfInAr,
                                 style: TextStyle(fontSize: 20.sp),
                               ),
                               CustomTextFormField(
-                                textEditingController: titleController,
+                                textEditingController: titleArController,
+                                textInputType: TextInputType.text,
+                                hintText: S.of(context).Ad5lEsmElsnf,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return S.of(context).MnFdlkD5lEsmElsnf;
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 5.h),
+                              Text(
+                                S.of(context).EsmElsanfInEn,
+                                style: TextStyle(fontSize: 20.sp),
+                              ),
+                              CustomTextFormField(
+                                textEditingController: titleEnController,
                                 textInputType: TextInputType.text,
                                 hintText: S.of(context).Ad5lEsmElsnf,
                                 validator: (value) {
@@ -228,11 +262,27 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
                       ],
                     ),
                   Text(
-                    S.of(context).Description,
+                    S.of(context).DescriptionAr,
                     style: TextStyle(fontSize: 20.sp),
                   ),
                   CustomTextFormField(
-                    textEditingController: descriptionController,
+                    textEditingController: descriptionArController,
+                    textInputType: TextInputType.text,
+                    hintText: S.of(context).EnterDescription,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return S.of(context).PleaseEnterDescription;
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 8.h),
+                  Text(
+                    S.of(context).DescriptionEn,
+                    style: TextStyle(fontSize: 20.sp),
+                  ),
+                  CustomTextFormField(
+                    textEditingController: descriptionEnController,
                     textInputType: TextInputType.text,
                     hintText: S.of(context).EnterDescription,
                     validator: (value) {
@@ -295,17 +345,21 @@ class _AddNewItemTemplateViewState extends State<AddNewItemTemplateView>
                             bool validateImageForm = _validateImage(_imageFile);
                             if (validateTextForm && validateImageForm) {
                               cubit.createMenuItem(
-                                title: titleController.text,
+                                titleAr: titleArController.text,
                                 price: priceController.text,
                                 imagePath:
                                     _imageFile?.path ?? "Error in adding image",
-                                description: descriptionController.text,
+                                descriptionAr: descriptionArController.text,
+                                titleEn: titleEnController.text,
+                                descriptionEn: descriptionEnController.text,
                               );
                               if (!context.mounted) return;
                               FocusScope.of(context).unfocus();
-                              titleController.clear();
+                              titleArController.clear();
+                              titleEnController.clear();
+                              descriptionEnController.clear();
                               priceController.clear();
-                              descriptionController.clear();
+                              descriptionArController.clear();
                               _imageFile = null;
                             }
                           }

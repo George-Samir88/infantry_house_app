@@ -171,7 +171,7 @@ class _AcademiesAddNewItemViewState extends State<AcademiesAddNewItemView>
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    S.of(context).Description,
+                    S.of(context).DescriptionAr,
                     style: TextStyle(fontSize: 20.sp),
                   ),
                   CustomTextFormField(

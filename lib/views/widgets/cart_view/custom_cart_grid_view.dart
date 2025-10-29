@@ -93,7 +93,7 @@ class CustomCartGridView extends StatelessWidget {
                         FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            item.title,
+                            GlobalData().isArabic ? item.titleAr : item.titleEn,
                             style: TextStyle(
                               overflow: TextOverflow.ellipsis,
                               color: Colors.white,

@@ -194,7 +194,7 @@ class _AcademiesUpdateAndDeleteItemViewState
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    S.of(context).Description,
+                    S.of(context).DescriptionAr,
                     style: TextStyle(
                       fontSize: GlobalData().isTabletLayout ? 10.sp : 20.sp,
                     ),

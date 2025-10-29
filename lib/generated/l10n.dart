@@ -770,11 +770,21 @@ class S {
     );
   }
 
-  /// `إسم الصنف`
-  String get EsmElsanf {
+  /// `أدخل اسم الصنف بالعربية`
+  String get EsmElsanfInAr {
     return Intl.message(
-      'إسم الصنف',
-      name: 'EsmElsanf',
+      'أدخل اسم الصنف بالعربية',
+      name: 'EsmElsanfInAr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أدخل اسم الصنف بالانجليزية`
+  String get EsmElsanfInEn {
+    return Intl.message(
+      'أدخل اسم الصنف بالانجليزية',
+      name: 'EsmElsanfInEn',
       desc: '',
       args: [],
     );
@@ -1210,11 +1220,21 @@ class S {
     );
   }
 
-  /// `أدخل اسم التصنيف`
-  String get Ad5lEsmEltsnef {
+  /// `أدخل اسم التصنيف بالعربية`
+  String get Ad5lEsmEltsnefInAr {
     return Intl.message(
-      'أدخل اسم التصنيف',
-      name: 'Ad5lEsmEltsnef',
+      'أدخل اسم التصنيف بالعربية',
+      name: 'Ad5lEsmEltsnefInAr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أدخل اسم التصنيف بالانجليزية`
+  String get Ad5lEsmEltsnefInEn {
+    return Intl.message(
+      'أدخل اسم التصنيف بالانجليزية',
+      name: 'Ad5lEsmEltsnefInEn',
       desc: '',
       args: [],
     );
@@ -1370,11 +1390,21 @@ class S {
     );
   }
 
-  /// `وصف`
-  String get Description {
+  /// `وصف بالعربية`
+  String get DescriptionAr {
     return Intl.message(
-      'وصف',
-      name: 'Description',
+      'وصف بالعربية',
+      name: 'DescriptionAr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `وصف بالانجليزية`
+  String get DescriptionEn {
+    return Intl.message(
+      'وصف بالانجليزية',
+      name: 'DescriptionEn',
       desc: '',
       args: [],
     );

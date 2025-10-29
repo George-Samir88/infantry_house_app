@@ -42,8 +42,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Ad5lEsmElkaemaInEnglish":
             MessageLookupByLibrary.simpleMessage("أدخل اسم القسم بالانجليزية"),
         "Ad5lEsmElsnf": MessageLookupByLibrary.simpleMessage("أدخل اسم الصنف"),
-        "Ad5lEsmEltsnef":
-            MessageLookupByLibrary.simpleMessage("أدخل اسم التصنيف"),
+        "Ad5lEsmEltsnefInAr":
+            MessageLookupByLibrary.simpleMessage("أدخل اسم التصنيف بالعربية"),
+        "Ad5lEsmEltsnefInEn": MessageLookupByLibrary.simpleMessage(
+            "أدخل اسم التصنيف بالانجليزية"),
         "Ad5lMola7zat":
             MessageLookupByLibrary.simpleMessage("أدخل ملاحظاتك أو أي اقتراح"),
         "Ad5lS3rElsnf": MessageLookupByLibrary.simpleMessage("أدخل سعر الصنف"),
@@ -100,7 +102,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "Delete": MessageLookupByLibrary.simpleMessage("حذف"),
         "DeletedSuccessfully":
             MessageLookupByLibrary.simpleMessage("تم الحذف بنجاح"),
-        "Description": MessageLookupByLibrary.simpleMessage("وصف"),
+        "DescriptionAr": MessageLookupByLibrary.simpleMessage("وصف بالعربية"),
+        "DescriptionEn":
+            MessageLookupByLibrary.simpleMessage("وصف بالانجليزية"),
         "DontHaveAnAccount":
             MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
         "EdaftGded": MessageLookupByLibrary.simpleMessage("إضافة جديد"),
@@ -129,7 +133,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "ErrorLoadingData": MessageLookupByLibrary.simpleMessage(
             "حدث خطأ أثناء تحميل البيانات"),
         "ErrorOccurred": MessageLookupByLibrary.simpleMessage("حدث خطأ!"),
-        "EsmElsanf": MessageLookupByLibrary.simpleMessage("إسم الصنف"),
+        "EsmElsanfInAr":
+            MessageLookupByLibrary.simpleMessage("أدخل اسم الصنف بالعربية"),
+        "EsmElsanfInEn":
+            MessageLookupByLibrary.simpleMessage("أدخل اسم الصنف بالانجليزية"),
         "FAQs": MessageLookupByLibrary.simpleMessage("الأسئلة الشائعة"),
         "Facebook": MessageLookupByLibrary.simpleMessage("فيسبوك"),
         "FailedPrecondition": MessageLookupByLibrary.simpleMessage(

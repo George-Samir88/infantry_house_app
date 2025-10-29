@@ -15,7 +15,9 @@ class CartCubit extends Cubit<FoodCartState> {
   // Method to add an item to the cart (call this from your grid view)
   void addToCart(MenuItemModel item) {
     final existingItemIndex = cartItems.indexWhere(
-      (entry) => entry['item'].title == item.title,
+      (entry) =>
+          entry['item'].title == item.titleAr ||
+          entry['item'].title == item.titleEn,
     );
     if (existingItemIndex != -1) {
       // If item exists, increase quantity

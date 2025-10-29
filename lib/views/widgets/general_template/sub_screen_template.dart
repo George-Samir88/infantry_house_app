@@ -115,9 +115,13 @@ class _SubScreenTemplateState extends State<SubScreenTemplate> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          cubit
-                                              .subScreensList[index]
-                                              .subScreenName,
+                                          GlobalData().isArabic
+                                              ? cubit
+                                                  .subScreensList[index]
+                                                  .subScreenArName
+                                              : cubit
+                                                  .subScreensList[index]
+                                                  .subScreenEnName,
                                           style: TextStyle(
                                             color: const Color(0xff5E3D2E),
                                             fontSize:

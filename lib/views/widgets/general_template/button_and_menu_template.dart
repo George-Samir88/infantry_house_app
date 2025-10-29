@@ -56,7 +56,10 @@ class ButtonAndMenuTemplate extends StatelessWidget {
 
     // 🔹 Success state (title available)
     return Text(
-      menuTitleModel.menuTitle ?? S.of(context).EdaftGded,
+      (GlobalData().isArabic
+              ? menuTitleModel.menuTitleAr
+              : menuTitleModel.menuTitleEn) ??
+          S.of(context).EdaftGded,
       style: TextStyle(
         fontSize: GlobalData().isTabletLayout ? 16.sp : 20.sp,
         fontWeight: FontWeight.bold,
@@ -152,7 +155,9 @@ class ButtonAndMenuTemplate extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        cubit.menuButtonList[index].buttonTitle!,
+                        GlobalData().isArabic
+                            ? cubit.menuButtonList[index].buttonTitleAr!
+                            : cubit.menuButtonList[index].buttonTitleEn!,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: isSelected ? 14.sp : 12.sp,

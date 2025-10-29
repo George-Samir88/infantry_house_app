@@ -32,8 +32,8 @@ class EditMenuButtonsAndMenuTitleTemplate extends StatefulWidget {
 class _EditMenuButtonsAndMenuTitleTemplateState
     extends State<EditMenuButtonsAndMenuTitleTemplate>
     with SingleTickerProviderStateMixin {
-  TextEditingController arabicTextEditingController = TextEditingController();
-  TextEditingController englishTextEditingController = TextEditingController();
+  TextEditingController menuButtonArController = TextEditingController();
+  TextEditingController menuButtonEnController = TextEditingController();
   TextEditingController menuTitleARTextEditingController =
       TextEditingController();
   TextEditingController menuTitleENTextEditingController =
@@ -80,14 +80,18 @@ class _EditMenuButtonsAndMenuTitleTemplateState
 
   @override
   void didChangeDependencies() {
+    menuTitleENTextEditingController.text =
+        widget.menuTitleModel.menuTitleEn ?? S.of(context).EdaftGded;
     menuTitleARTextEditingController.text =
-        widget.menuTitleModel.menuTitle ?? S.of(context).EdaftGded;
+        widget.menuTitleModel.menuTitleAr ?? S.of(context).EdaftGded;
     super.didChangeDependencies();
   }
 
   final GlobalKey<FormState> buttonsFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> menuTitleFormKey = GlobalKey<FormState>();
-  final TextEditingController updateMenuButtonController =
+  final TextEditingController updateMenuButtonArController =
+      TextEditingController();
+  final TextEditingController updateMenuButtonEnController =
       TextEditingController();
   ScrollController scrollController = ScrollController();
 
@@ -166,7 +170,7 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                       padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: CustomTextFormField(
                         textEditingController: menuTitleARTextEditingController,
-                        hintText: S.of(context).Ad5lEsmEltsnef,
+                        hintText: S.of(context).Ad5lEsmEltsnefInAr,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return S.of(context).MnFdlkAd5lEsmEltsnef;
@@ -181,7 +185,7 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                       padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: CustomTextFormField(
                         textEditingController: menuTitleENTextEditingController,
-                        hintText: S.of(context).Ad5lEsmEltsnef,
+                        hintText: S.of(context).Ad5lEsmEltsnefInEn,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return S.of(context).MnFdlkAd5lEsmEltsnef;
@@ -201,8 +205,10 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                             if (await cubit.hasInternetConnection()) {
                               if (menuTitleFormKey.currentState!.validate()) {
                                 cubit.updateMenuTitle(
-                                  menuTitle:
+                                  menuTitleAr:
                                       menuTitleARTextEditingController.text,
+                                  menuTitleEn:
+                                      menuTitleENTextEditingController.text,
                                 );
                                 if (!context.mounted) return;
                                 FocusScope.of(context).unfocus();
@@ -249,22 +255,30 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                                       buttonId:
                                           cubit.menuButtonList[index].uid!,
                                     );
-                                    updateMenuButtonController.text =
+                                    updateMenuButtonEnController.text =
                                         cubit
-                                            .menuButtonList[cubit
-                                                .selectedButtonIndex]
-                                            .buttonTitle!;
+                                            .menuButtonList[index]
+                                            .buttonTitleEn!;
+                                    updateMenuButtonArController.text =
+                                        cubit
+                                            .menuButtonList[index]
+                                            .buttonTitleAr!;
                                     if (!context.mounted) return;
                                     showInputDialog(
                                       context: context,
-                                      controller: updateMenuButtonController,
+                                      arabicController:
+                                          updateMenuButtonArController,
+                                      englishController:
+                                          updateMenuButtonEnController,
                                       onUpdateConfirmed: (String value) {
                                         Navigator.pop(context);
                                         cubit.updateMenuButton(
+                                          newTitleEn:
+                                              updateMenuButtonEnController.text,
                                           buttonId:
                                               cubit.menuButtonList[index].uid!,
-                                          newTitle:
-                                              updateMenuButtonController.text,
+                                          newTitleAr:
+                                              updateMenuButtonArController.text,
                                         );
                                       },
                                       onDeletePressed: () {
@@ -304,7 +318,13 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                                   ),
                                   child: Center(
                                     child: Text(
-                                      cubit.menuButtonList[index].buttonTitle!,
+                                      GlobalData().isArabic
+                                          ? cubit
+                                              .menuButtonList[index]
+                                              .buttonTitleAr!
+                                          : cubit
+                                              .menuButtonList[index]
+                                              .buttonTitleAr!,
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: isSelected ? 16.sp : 14.sp,
@@ -351,7 +371,7 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: CustomTextFormField(
-                        textEditingController: arabicTextEditingController,
+                        textEditingController: menuButtonArController,
                         hintText: S.of(context).Ad5lEsmElkaemaInArabic,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -366,7 +386,7 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: CustomTextFormField(
-                        textEditingController: englishTextEditingController,
+                        textEditingController: menuButtonEnController,
                         hintText: S.of(context).Ad5lEsmElkaemaInEnglish,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -393,15 +413,13 @@ class _EditMenuButtonsAndMenuTitleTemplateState
                                       if (buttonsFormKey.currentState!
                                           .validate()) {
                                         cubit.createMenuButton(
-                                          buttonTitle:
-                                              GlobalData().isArabic
-                                                  ? arabicTextEditingController
-                                                      .text
-                                                  : englishTextEditingController
-                                                      .text,
+                                          buttonTitleAr:
+                                              menuButtonArController.text,
+                                          buttonTitleEn:
+                                              menuButtonEnController.text,
                                         );
-                                        arabicTextEditingController.clear();
-                                        englishTextEditingController.clear();
+                                        menuButtonArController.clear();
+                                        menuButtonEnController.clear();
                                         if (!context.mounted) return;
                                         FocusScope.of(context).unfocus();
                                       }

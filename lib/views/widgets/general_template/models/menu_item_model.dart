@@ -1,9 +1,11 @@
 class MenuItemModel {
   final String id;
-  final String title;
+  final String titleAr;
+  final String titleEn;
   final String image;
   final String price;
-  final String description;
+  final String descriptionAr;
+  final String descriptionEn;
   final double averageRating;
   final int ratingCount;
   final String menuButtonId;
@@ -13,7 +15,8 @@ class MenuItemModel {
 
   MenuItemModel({
     required this.id,
-    required this.title,
+    required this.titleAr,
+    required this.titleEn,
     required this.image,
     required this.price,
     required this.averageRating,
@@ -22,16 +25,19 @@ class MenuItemModel {
     required this.createdAt,
     required this.updatedAt,
     required this.hasFeedback,
-    required this.description,
+    required this.descriptionAr,
+    required this.descriptionEn,
   });
 
   /// Convert Firestore/JSON map to model
   factory MenuItemModel.fromMap(Map<String, dynamic> map, {String? id}) {
     return MenuItemModel(
       id: id ?? map['id'] ?? '',
-      description: map['description'] ?? '',
+      descriptionAr: map['description_ar'] ?? '',
+      descriptionEn: map['description_en'] ?? '',
       hasFeedback: map['hasFeedback'] ?? false,
-      title: map['title'] ?? '',
+      titleAr: map['title_ar'] ?? '',
+      titleEn: map['title_en'] ?? '',
       image: map['image'] ?? '',
       price: map['price'] ?? '',
       averageRating: (map['averageRating'] ?? 0).toDouble(),
@@ -52,10 +58,12 @@ class MenuItemModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'title': title,
+      'title_ar': titleAr,
+      'title_en': titleEn,
       'image': image,
       'price': price,
-      'description': description,
+      'description_ar': descriptionAr,
+      'description_en': descriptionEn,
       'averageRating': averageRating,
       'ratingCount': ratingCount,
       'menuButtonId': menuButtonId,
@@ -68,7 +76,8 @@ class MenuItemModel {
   /// Clone with updated values
   MenuItemModel copyWith({
     String? id,
-    String? title,
+    String? titleAr,
+    String? titleEn,
     String? image,
     String? price,
     double? averageRating,
@@ -76,12 +85,15 @@ class MenuItemModel {
     String? menuButtonId,
     DateTime? createdAt,
     DateTime? updatedAt,
-    String? description,
+    String? descriptionAr,
+    String? descriptionEn,
   }) {
     return MenuItemModel(
       id: id ?? this.id,
-      description: description ?? this.description,
-      title: title ?? this.title,
+      descriptionAr: descriptionAr ?? this.descriptionAr,
+      descriptionEn: descriptionAr ?? this.descriptionEn,
+      titleAr: titleAr ?? this.titleAr,
+      titleEn: titleEn ?? this.titleEn,
       image: image ?? this.image,
       price: price ?? this.price,
       averageRating: averageRating ?? this.averageRating,
@@ -95,6 +107,6 @@ class MenuItemModel {
 
   @override
   String toString() {
-    return 'MenuItemModel(id: $id, title: $title, price: $price, avgRating: $averageRating, ratingCount: $ratingCount)';
+    return 'MenuItemModel(id: $id, title_ar: $titleAr,title_en: $titleEn price: $price, avgRating: $averageRating, ratingCount: $ratingCount)';
   }
 }

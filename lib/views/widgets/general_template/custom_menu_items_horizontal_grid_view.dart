@@ -126,7 +126,9 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                               FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text(
-                                  cubit.menuItemsList[gridIndex].title,
+                                  GlobalData().isArabic
+                                      ? cubit.menuItemsList[gridIndex].titleAr
+                                      : cubit.menuItemsList[gridIndex].titleEn,
                                   style: TextStyle(
                                     overflow: TextOverflow.ellipsis,
                                     color: Colors.white,
@@ -197,7 +199,7 @@ class CustomMenuItemsHorizontalGridView extends StatelessWidget {
                               showSnackBar(
                                 context: context,
                                 message:
-                                    "${S.of(context).AddedSuccessfully} ${cubit.menuItemsList[gridIndex].title} ${S.of(context).ToCard}",
+                                    "${S.of(context).AddedSuccessfully} ${GlobalData().isArabic ? cubit.menuItemsList[gridIndex].titleAr : cubit.menuItemsList[gridIndex].titleEn} ${S.of(context).ToCard}",
                               );
                             },
                             child: CircleAvatar(

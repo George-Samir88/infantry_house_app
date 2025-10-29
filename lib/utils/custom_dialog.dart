@@ -5,7 +5,8 @@ import '../generated/l10n.dart';
 
 void showInputDialog({
   required BuildContext context,
-  required TextEditingController controller,
+  required TextEditingController arabicController,
+  required TextEditingController englishController,
   required void Function(String value)? onUpdateConfirmed,
   required void Function()? onDeletePressed,
 }) {
@@ -24,18 +25,39 @@ void showInputDialog({
               S.of(context).UpdateTitle,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
             ),
-            content: TextField(
-              controller: controller,
-              style: TextStyle(fontSize: 12.sp),
-              decoration: InputDecoration(
-                hintText: S.of(context).TypeTitle,
-                hintStyle: TextStyle(fontSize: 12.sp),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.r),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: arabicController,
+                  style: TextStyle(fontSize: 12.sp),
+                  decoration: InputDecoration(
+                    hintText: S.of(context).TypeTitle,
+                    hintStyle: TextStyle(fontSize: 12.sp),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    errorText: errorText,
+                    errorStyle: TextStyle(fontSize: 10.sp),
+                  ),
                 ),
-                errorText: errorText,
-                errorStyle: TextStyle(fontSize: 10.sp),
-              ),
+                SizedBox(
+                  height: 5.h,
+                ),
+                TextField(
+                  controller: englishController,
+                  style: TextStyle(fontSize: 12.sp),
+                  decoration: InputDecoration(
+                    hintText: S.of(context).TypeTitle,
+                    hintStyle: TextStyle(fontSize: 12.sp),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    errorText: errorText,
+                    errorStyle: TextStyle(fontSize: 10.sp),
+                  ),
+                ),
+              ],
             ),
             actionsAlignment: MainAxisAlignment.end,
             // aligns to right
@@ -65,7 +87,7 @@ void showInputDialog({
                             ),
                           ),
                           onPressed: () {
-                            String value = controller.text.trim();
+                            String value = arabicController.text.trim();
                             if (value.isEmpty) {
                               setState(() {
                                 errorText = S.of(context).FieldCannotBeEmpty;
@@ -82,7 +104,7 @@ void showInputDialog({
                       ),
                     ],
                   ),
-                  SizedBox(height: 5.h),
+                  SizedBox(height: 10.h),
                   Row(
                     children: [
                       Expanded(
