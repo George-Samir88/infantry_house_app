@@ -6,7 +6,7 @@ class AcademyModel {
   final String academyNameAr;
   final String academyNameEn;
   final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? updatedAt; // ✅ Nullable
   final List<OfferModel> offers;
 
   AcademyModel({
@@ -21,12 +21,16 @@ class AcademyModel {
   /// 🟢 Convert from Firestore Document to Model
   factory AcademyModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
+
     return AcademyModel(
       id: doc.id,
       academyNameAr: data['academyNameAr'] ?? '',
       academyNameEn: data['academyNameEn'] ?? '',
       createdAt: (data['createdAt'] as Timestamp).toDate(),
-      updatedAt: (data['updatedAt'] as Timestamp).toDate(),
+      // ✅ handle null or missing updatedAt field
+      updatedAt: data['updatedAt'] != null
+          ? (data['updatedAt'] as Timestamp).toDate()
+          : null,
       offers: (data['offers'] as List<dynamic>?)
           ?.map((offer) =>
           OfferModel.fromMap(Map<String, dynamic>.from(offer)))
@@ -41,7 +45,8 @@ class AcademyModel {
       'academyNameAr': academyNameAr,
       'academyNameEn': academyNameEn,
       'createdAt': Timestamp.fromDate(createdAt),
-      'updatedAt': Timestamp.fromDate(updatedAt),
+      // ✅ Only include updatedAt if it's not null
+      if (updatedAt != null) 'updatedAt': Timestamp.fromDate(updatedAt!),
       'offers': offers.map((o) => o.toMap()).toList(),
     };
   }

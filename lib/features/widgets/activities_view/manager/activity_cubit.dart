@@ -149,27 +149,6 @@ class ActivityCubit extends Cubit<ActivityState> {
     }
   }
 
-  // List<Widget> carouselItems = [
-  //   CustomCarouselItem(
-  //     imagePath: 'assets/images/coffee.jpg',
-  //     isPickedImage: false,
-  //   ),
-  //   CustomCarouselItem(
-  //     imagePath: 'assets/images/coffee2.jpg',
-  //     isPickedImage: false,
-  //   ),
-  // ];
-
-  // ///-----------------------Carousel Items Crud Operations-----------------------
-  // void addCarouselItem({required CustomCarouselItem customCarouselItem}) {
-  //   carouselItems.add(customCarouselItem);
-  //   emit(ActivityCreateCarouselLoadingState());
-  // }
-  //
-  // void removeCarouselItem({required int index}) {
-  //   carouselItems.removeAt(index);
-  //   emit(ActivityRemoveLoadingCarouselState());
-  // }
 
   ///---------------- Helper Functions ----------------
 

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infantry_house_app/global_variables.dart';
+import 'package:infantry_house_app/utils/app_loader.dart';
 import 'package:infantry_house_app/utils/check_key_map_exist_before_adding.dart';
+import 'package:infantry_house_app/utils/custom_dialog.dart';
 import 'package:infantry_house_app/utils/custom_text_form_field.dart';
 import 'package:lottie/lottie.dart';
 
@@ -13,16 +15,15 @@ import '../../../../utils/custom_edit_button.dart';
 import '../../../../utils/custom_snackBar.dart';
 import 'manager/academies_cubit.dart';
 
-class AcademiesEditScreenDepartmentView extends StatefulWidget {
-  const AcademiesEditScreenDepartmentView({super.key});
+class AcademiesEditAcademyView extends StatefulWidget {
+  const AcademiesEditAcademyView({super.key});
 
   @override
-  State<AcademiesEditScreenDepartmentView> createState() =>
-      _AcademiesEditScreenDepartmentViewState();
+  State<AcademiesEditAcademyView> createState() =>
+      _AcademiesEditAcademyViewState();
 }
 
-class _AcademiesEditScreenDepartmentViewState
-    extends State<AcademiesEditScreenDepartmentView>
+class _AcademiesEditAcademyViewState extends State<AcademiesEditAcademyView>
     with SingleTickerProviderStateMixin {
   TextEditingController arabicTextEditingController = TextEditingController();
   TextEditingController englishTextEditingController = TextEditingController();
@@ -83,12 +84,23 @@ class _AcademiesEditScreenDepartmentViewState
           title: S.of(context).T3delElaksam,
         ),
       ),
-      body: BlocBuilder<AcademiesCubit, AcademiesState>(
+      body: BlocConsumer<AcademiesCubit, AcademiesState>(
+        listener: (context, state) {
+          if (state is AcademyCreateFailureState) {
+            showSnackBar(
+              context: context,
+              message: state.failure,
+              backgroundColor: Colors.redAccent,
+            );
+          } else if (state is AcademyCreateSuccessState) {
+            _playAnimation();
+          }
+        },
         builder: (context, state) {
           var cubit = context.read<AcademiesCubit>();
           List<String?> newButtonTitlesList = [];
-          newButtonTitlesList =
-              cubit.mapBetweenCategoriesAndActivities.keys.toList();
+          // newButtonTitlesList =
+          //     cubit.mapBetweenCategoriesAndActivities.keys.toList();
           return Form(
             key: formKey,
             child: ListView(
@@ -129,41 +141,20 @@ class _AcademiesEditScreenDepartmentViewState
                                 color: Color(0xffFAF7F0),
                                 borderRadius: BorderRadius.circular(14.r),
                               ),
-                              child: Center(
-                                child: Text(
-                                  cubit.mapBetweenCategoriesAndActivities.keys
-                                      .toList()[index],
-                                  style: TextStyle(
-                                    color: Color(0xff5E3D2E),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
+                              child: GestureDetector(
+                                onTap: () {
+                                  // showInputDialog(context: context, arabicController: , englishController: , onUpdateConfirmed: , onDeletePressed: );
+                                },
+                                child: Center(
+                                  child: Text(
+                                    "   cubit.mapBetweenCategoriesAndActivities.keys.toList()[index]",
+                                    style: TextStyle(
+                                      color: Color(0xff5E3D2E),
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Positioned(
-                              left: GlobalData().isArabic ? -10.w : null,
-                              right: GlobalData().isArabic ? null : -10.w,
-                              bottom: -15.h,
-                              child: CustomEditButton(
-                                onTap: () {
-                                  cubit.removeExistingCategory(
-                                    categoryTitle:
-                                        cubit
-                                            .mapBetweenCategoriesAndActivities
-                                            .keys
-                                            .toList()[index],
-                                  );
-                                },
-                                height:
-                                    GlobalData().isTabletLayout ? 28.h : 25.h,
-                                width:
-                                    GlobalData().isTabletLayout ? 20.w : 35.w,
-                                iconSize:
-                                    GlobalData().isTabletLayout ? 18.r : 20.r,
-                                icon: Icons.cancel,
-                                iconColor: Colors.white,
-                                backgroundColor: Colors.red,
                               ),
                             ),
                           ],
@@ -227,59 +218,44 @@ class _AcademiesEditScreenDepartmentViewState
                   ),
                 ),
                 SizedBox(height: 30.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: CustomElevatedButton(
-                          textColor: Color(0xFF6D3A2D),
-                          backGroundColor: Colors.grey[300],
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              bool existingScreen =
-                                  checkKeyMapExistBeforeAdding(
-                                    cubit.mapBetweenCategoriesAndActivities,
-                                    arabicTextEditingController.text,
+                state is AcademyCreateLoadingState
+                    ? const AppLoader()
+                    : Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: CustomElevatedButton(
+                              textColor: Color(0xFF6D3A2D),
+                              backGroundColor: Colors.grey[300],
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                  cubit.createAcademy(
+                                    academyNameAr:
+                                        arabicTextEditingController.text,
+                                    academyNameEn:
+                                        englishTextEditingController.text,
                                   );
-                              if (!existingScreen) {
-                                cubit.addNewCategory(
-                                  newCategoryName:
-                                      arabicTextEditingController.text,
-                                );
-                                arabicTextEditingController.clear();
-                                englishTextEditingController.clear();
-                                FocusScope.of(context).unfocus();
-                              } else if (existingScreen) {
-                                showSnackBar(
-                                  context: context,
-                                  message:
-                                      S
-                                          .of(context)
-                                          .TheSectionAlreadyExistsYouCannotAddANewSectionWithTheSameName,
-                                  backgroundColor: Colors.red,
-                                );
-                              }
-                            }
-                          },
-                          text: S.of(context).EdaftGded,
-                          tabletLayout: GlobalData().isTabletLayout,
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      if (cubit.mapBetweenCategoriesAndActivities.isNotEmpty)
-                        Expanded(
-                          child: CustomElevatedButton(
-                            onPressed: () {
-                              _playAnimation();
-                            },
-                            text: S.of(context).hefz,
-                            tabletLayout: GlobalData().isTabletLayout,
+                                  arabicTextEditingController.clear();
+                                  englishTextEditingController.clear();
+                                  FocusScope.of(context).unfocus();
+                                }
+                              },
+                              text: S.of(context).EdaftGded,
+                              tabletLayout: GlobalData().isTabletLayout,
+                            ),
                           ),
-                        ),
-                    ],
-                  ),
-                ),
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: CustomElevatedButton(
+                              onPressed: () {},
+                              text: S.of(context).hefz,
+                              tabletLayout: GlobalData().isTabletLayout,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                 SizedBox(height: 10.h),
                 Visibility(
                   visible: isAnimationVisible,

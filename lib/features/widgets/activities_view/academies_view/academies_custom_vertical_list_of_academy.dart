@@ -48,12 +48,13 @@ class CustomVerticalListOfAcademies extends StatelessWidget {
               Expanded(
                 child: ListView.builder(
                   padding: EdgeInsets.zero,
-                  itemCount:
-                      cubit
-                          .mapBetweenCategoriesAndActivities[cubit
-                              .selectedCategory]
-                          ?.length ??
-                      0,
+                  itemCount: 0,
+                  // itemCount:
+                  //     cubit
+                  //         .mapBetweenCategoriesAndActivities[cubit
+                  //             .selectedCategory]
+                  //         ?.length ??
+                  //     0,
                   itemBuilder: (BuildContext context, int index) {
                     return AnimationConfiguration.staggeredList(
                       position: index,
@@ -63,19 +64,19 @@ class CustomVerticalListOfAcademies extends StatelessWidget {
                         child: FadeInAnimation(
                           child: Padding(
                             padding: EdgeInsets.only(
-                              bottom:
-                                  index ==
-                                          cubit
-                                                  .mapBetweenCategoriesAndActivities[cubit
-                                                      .selectedCategory]!
-                                                  .length -
-                                              1
-                                      ? 0
-                                      : 10.0.h,
+                              // bottom:
+                              //     index ==
+                              //             cubit
+                              //                     .mapBetweenCategoriesAndActivities[cubit
+                              //                         .selectedCategory]!
+                              //                     .length -
+                              //                 1
+                              //         ? 0
+                              //         : 10.0.h,
                             ),
                             child: GestureDetector(
                               onTap: () {
-                                cubit.changeSelectedItemIndex(index: index);
+                                cubit.changeSelectedAcademyIndex(index: index);
                                 cubit.triggerRotation();
                               },
                               child: IntrinsicHeight(
@@ -86,7 +87,7 @@ class CustomVerticalListOfAcademies extends StatelessWidget {
                                     AnimatedContainer(
                                       decoration: BoxDecoration(
                                         color:
-                                            cubit.currentSelectedItemIndex ==
+                                            cubit.selectedAcademyIndex ==
                                                     index
                                                 ? Colors.amberAccent
                                                 : Colors.transparent,
@@ -100,21 +101,21 @@ class CustomVerticalListOfAcademies extends StatelessWidget {
                                       ),
                                       curve: Curves.ease,
                                       duration: Duration(milliseconds: 300),
-                                      child: Center(
-                                        child: _buildCircularImage(
-                                          cubit
-                                              .mapBetweenCategoriesAndActivities[cubit
-                                                  .selectedCategory]![index]
-                                              .activityImage,
-                                        ),
-                                      ),
+                                      // child: Center(
+                                      //   child: _buildCircularImage(
+                                      //     cubit
+                                      //         .mapBetweenCategoriesAndActivities[cubit
+                                      //             .selectedCategory]![index]
+                                      //         .activityImage,
+                                      //   ),
+                                      // ),
                                     ),
                                     SizedBox(width: 2.w),
                                     AnimatedContainer(
                                       curve: Curves.easeInOutQuad,
                                       duration: Duration(milliseconds: 300),
                                       width:
-                                          cubit.currentSelectedItemIndex ==
+                                          cubit.selectedAcademyIndex ==
                                                   index
                                               ? 6.0.w
                                               : 0,

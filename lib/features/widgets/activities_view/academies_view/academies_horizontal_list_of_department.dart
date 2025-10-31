@@ -28,8 +28,8 @@ class AcademiesHorizontalListOfDepartment extends StatelessWidget {
                   },
                   child: CustomItemInHorizontalListOfAcademies(
                     categoryTitle:
-                        cubit.mapBetweenCategoriesAndActivities.keys
-                            .toList()[index],
+
+                            "ddddd",
                     isSelected: index == cubit.currentSelectedCategoryIndex,
                   ),
                 ),
@@ -40,7 +40,7 @@ class AcademiesHorizontalListOfDepartment extends StatelessWidget {
         separatorBuilder: (context, index) {
           return SizedBox(width: 12.w);
         },
-        itemCount: cubit.mapBetweenCategoriesAndActivities.keys.toList().length,
+        itemCount: 1,
       ),
     );
   }

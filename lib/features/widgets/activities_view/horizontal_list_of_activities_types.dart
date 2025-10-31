@@ -3,14 +3,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:infantry_house_app/features/widgets/activities_view/subscription_view/subscriptions_view_body.dart';
 
+import '../../../generated/l10n.dart';
 import 'academies_view/academies_view.dart';
 import 'custom_activity_card_item.dart';
 
 class HorizontalListOfActivitiesTypes extends StatelessWidget {
+  final String departmentId;
+  final bool canManage;
+  final S loc;
+
   const HorizontalListOfActivitiesTypes({
     super.key,
     required this.activityTitle,
     required this.activityImages,
+    required this.departmentId,
+    required this.canManage,
+    required this.loc,
   });
 
   final List<String> activityTitle;
@@ -43,7 +51,12 @@ class HorizontalListOfActivitiesTypes extends StatelessWidget {
                             : Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AcademiesView(),
+                                builder:
+                                    (context) => AcademiesView(
+                                      loc: loc,
+                                      canManage: canManage,
+                                      departmentId: departmentId,
+                                    ),
                               ),
                             );
                       },

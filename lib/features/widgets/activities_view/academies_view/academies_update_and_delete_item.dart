@@ -241,13 +241,13 @@ class _AcademiesUpdateAndDeleteItemViewState
                       Expanded(
                         child: CustomElevatedButton(
                           onPressed: () {
-                            cubit.removeExistingItem(
-                              activity:
-                                  cubit.mapBetweenCategoriesAndActivities.values
-                                      .toList()[cubit
-                                      .currentSelectedCategoryIndex][cubit
-                                      .currentSelectedItemIndex],
-                            );
+                            // cubit.removeExistingItem(
+                            //   activity:
+                            //       cubit.mapBetweenCategoriesAndActivities.values
+                            //           .toList()[cubit
+                            //           .currentSelectedCategoryIndex][cubit
+                            //           .selectedAcademyIndex],
+                            // );
                             AcademiesItemModel? tmpItem =
                                 widget.academiesItemModel;
                             Timer deletionTimer = Timer(
@@ -267,7 +267,7 @@ class _AcademiesUpdateAndDeleteItemViewState
                                 label: S.of(context).Undo,
                                 onPressed: () {
                                   deletionTimer.cancel();
-                                  cubit.addNewItem(newActivity: tmpItem!);
+                                  // cubit.addNewItem(newActivity: tmpItem!);
                                 },
                               ),
                             );
@@ -287,13 +287,13 @@ class _AcademiesUpdateAndDeleteItemViewState
                                 _formKey.currentState!.validate();
                             bool validateImageForm = _validateImage(_imageFile);
                             if (validateTextForm && validateImageForm) {
-                              cubit.updateDailyActivityItem(
-                                title: titleController.text,
-                                description: descriptionController.text,
-                                trainerName: trainerNameController.text,
-                                activityImage: imagePath,
-                                price: priceController.text,
-                              );
+                              // cubit.updateDailyActivityItem(
+                              //   title: titleController.text,
+                              //   description: descriptionController.text,
+                              //   trainerName: trainerNameController.text,
+                              //   activityImage: imagePath,
+                              //   price: priceController.text,
+                              // );
                               FocusScope.of(context).unfocus();
                               _playAnimation();
                             }

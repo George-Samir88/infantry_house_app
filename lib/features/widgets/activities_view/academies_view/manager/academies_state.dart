@@ -1,29 +1,37 @@
 part of 'academies_cubit.dart';
 
-@immutable
 sealed class AcademiesState {}
 
-final class DailyGamesInitial extends AcademiesState {}
+final class AcademyInitial extends AcademiesState {}
 
-final class DailyGamesChangeCurrentSelectedIndexState extends AcademiesState {}
+final class AcademyChangeCurrentSelectedIndexState extends AcademiesState {}
 
-final class DailyGamesChangeCurrentCategoryIndexState extends AcademiesState {}
+final class AcademyChangeCurrentCategoryIndexState extends AcademiesState {}
 
-final class DailyGamesTriggerAnimationState extends AcademiesState {}
+final class AcademyTriggerAnimationState extends AcademiesState {}
 
-final class DailyGamesInitialAnimationState extends AcademiesState {}
+final class AcademyInitialAnimationState extends AcademiesState {}
 
-///-----------------------------Categories Crud------------------------------
-final class DailyGamesAddNewCategoryState extends AcademiesState {}
+///-----------------------------Academy Crud------------------------------
+final class AcademyCreateSuccessState extends AcademiesState {}
 
-final class DailyGamesRemoveCategoryState extends AcademiesState {}
+final class AcademyCreateLoadingState extends AcademiesState {}
 
-final class DailyGamesResetCategorySelectionState extends AcademiesState {}
+final class AcademyCreateFailureState extends AcademiesState {
+  final String failure;
+
+  AcademyCreateFailureState({required this.failure});
+}
 
 ///-----------------------------Items Crud------------------------------
-final class DailyGamesAddNewItemState extends AcademiesState {}
+final class AcademyAddNewItemState extends AcademiesState {}
 
-final class DailyGamesRemoveItemState extends AcademiesState {}
+final class AcademyRemoveItemState extends AcademiesState {}
 
-final class DailyGamesUpdateItemState extends AcademiesState {}
+final class AcademyUpdateItemState extends AcademiesState {}
 
+final class AcademyNoInternetConnectionState extends AcademiesState {
+  final String message;
+
+  AcademyNoInternetConnectionState({required this.message});
+}

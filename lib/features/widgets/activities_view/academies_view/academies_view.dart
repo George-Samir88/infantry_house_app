@@ -10,12 +10,26 @@ import 'academies_view_in_case_of_empty.dart';
 import 'manager/academies_cubit.dart';
 
 class AcademiesView extends StatelessWidget {
-  const AcademiesView({super.key});
+  final S loc;
+  final bool canManage;
+  final String departmentId;
+
+  const AcademiesView({
+    super.key,
+    required this.loc,
+    required this.canManage,
+    required this.departmentId,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AcademiesCubit()..initialRotation(),
+      create:
+          (context) => AcademiesCubit(
+            loc: loc,
+            canManage: canManage,
+            departmentId: departmentId,
+          )..initialRotation(),
       child: Scaffold(
         backgroundColor: Color(0xffF5F5F5),
         appBar: PreferredSize(
@@ -37,9 +51,10 @@ class AcademiesView extends StatelessWidget {
                 top: 20.0.h,
               ),
               child:
-                  cubit.mapBetweenCategoriesAndActivities.isNotEmpty
-                      ? AcademiesViewBodyInCaseOfNotEmpty(cubit: cubit)
-                      : AcademiesViewInCaseOfEmpty(cubit: cubit),
+                  // cubit.mapBetweenCategoriesAndActivities.isNotEmpty
+                  //     ? AcademiesViewBodyInCaseOfNotEmpty(cubit: cubit)
+                  //     :
+                  AcademiesViewInCaseOfEmpty(cubit: cubit),
             );
           },
         ),

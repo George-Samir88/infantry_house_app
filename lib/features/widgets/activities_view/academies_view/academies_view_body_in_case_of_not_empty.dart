@@ -8,7 +8,7 @@ import '../../../../utils/custom_empty_items_template.dart';
 import 'academies_add_new_item_view.dart';
 import 'academies_custom_description_of_activity_item.dart';
 import 'academies_custom_vertical_list_of_academy.dart';
-import 'academies_edit_screen_department_view.dart';
+import 'academies_edit_academy_view.dart';
 import 'academies_horizontal_list_of_department.dart';
 import 'academies_update_and_delete_item.dart';
 import 'manager/academies_cubit.dart';
@@ -46,7 +46,7 @@ class AcademiesViewBodyInCaseOfNotEmpty extends StatelessWidget {
                       builder:
                           (context) => BlocProvider.value(
                             value: cubit,
-                            child: AcademiesEditScreenDepartmentView(),
+                            child: AcademiesEditAcademyView(),
                           ),
                     ),
                   );
@@ -79,10 +79,11 @@ class AcademiesViewBodyInCaseOfNotEmpty extends StatelessWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (cubit
-                                    .mapBetweenCategoriesAndActivities[cubit
-                                        .selectedCategory]
-                                    ?.isNotEmpty ??
+                            if (
+                            // cubit
+                            //         .mapBetweenCategoriesAndActivities[cubit
+                            //             .selectedCategory]
+                            //         ?.isNotEmpty ??
                                 false) ...[
                               Expanded(
                                 flex: 1,
@@ -96,15 +97,15 @@ class AcademiesViewBodyInCaseOfNotEmpty extends StatelessWidget {
                                 child: Stack(
                                   clipBehavior: Clip.none,
                                   children: [
-                                    CustomDescriptionOfAcademyItem(
-                                      academiesItemModel:
-                                          cubit
-                                              .mapBetweenCategoriesAndActivities
-                                              .values
-                                              .toList()[cubit
-                                              .currentSelectedCategoryIndex][cubit
-                                              .currentSelectedItemIndex],
-                                    ),
+                                    // CustomDescriptionOfAcademyItem(
+                                    //   academiesItemModel:
+                                    //       cubit
+                                    //           .mapBetweenCategoriesAndActivities
+                                    //           .values
+                                    //           .toList()[cubit
+                                    //           .currentSelectedCategoryIndex][cubit
+                                    //           .selectedAcademyIndex],
+                                    // ),
                                     Positioned(
                                       left: GlobalData().isArabic ? 10.w : null,
                                       right:
@@ -123,15 +124,15 @@ class AcademiesViewBodyInCaseOfNotEmpty extends StatelessWidget {
                                                     context,
                                                   ) => BlocProvider.value(
                                                     value: cubit,
-                                                    child: AcademiesUpdateAndDeleteItemView(
-                                                      academiesItemModel:
-                                                          cubit
-                                                              .mapBetweenCategoriesAndActivities
-                                                              .values
-                                                              .toList()[cubit
-                                                              .currentSelectedCategoryIndex][cubit
-                                                              .currentSelectedItemIndex],
-                                                    ),
+                                                    // child: AcademiesUpdateAndDeleteItemView(
+                                                    //   academiesItemModel:
+                                                    //       cubit
+                                                    //           .mapBetweenCategoriesAndActivities
+                                                    //           .values
+                                                    //           .toList()[cubit
+                                                    //           .currentSelectedCategoryIndex][cubit
+                                                    //           .selectedAcademyIndex],
+                                                    // ),
                                                   ),
                                             ),
                                           );
@@ -143,10 +144,11 @@ class AcademiesViewBodyInCaseOfNotEmpty extends StatelessWidget {
                                 ),
                               ),
                             ],
-                            if (cubit
-                                    .mapBetweenCategoriesAndActivities[cubit
-                                        .selectedCategory]
-                                    ?.isEmpty ??
+                            if (
+                            // cubit
+                            //         .mapBetweenCategoriesAndActivities[cubit
+                            //             .selectedCategory]
+                            //         ?.isEmpty ??
                                 true) ...[
                               Expanded(
                                 child: Padding(

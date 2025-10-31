@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../utils/custom_edit_button.dart';
-import 'academies_edit_screen_department_view.dart';
+import 'academies_edit_academy_view.dart';
 import 'manager/academies_cubit.dart';
 
 class AcademiesViewInCaseOfEmpty extends StatelessWidget {
@@ -40,7 +40,7 @@ class AcademiesViewInCaseOfEmpty extends StatelessWidget {
                   builder:
                       (context) => BlocProvider.value(
                         value: cubit,
-                        child: AcademiesEditScreenDepartmentView(),
+                        child: AcademiesEditAcademyView(),
                       ),
                 ),
               );

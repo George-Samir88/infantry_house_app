@@ -191,6 +191,9 @@ class _ActivitiesViewBodyState extends State<ActivitiesViewBody> {
                 ),
                 SizedBox(height: 30.h),
                 HorizontalListOfActivitiesTypes(
+                  canManage: canManage,
+                  departmentId: widget.screenId,
+                  loc: loc,
                   activityTitle: activityTitle,
                   activityImages: activityImages,
                 ),

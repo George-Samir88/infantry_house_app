@@ -233,15 +233,16 @@ class _AcademiesAddNewItemViewState extends State<AcademiesAddNewItemView>
                       bool validateTextForm = _formKey.currentState!.validate();
                       bool validateImageForm = _validateImage(_imageFile);
                       if (validateTextForm && validateImageForm) {
-                        cubit.addNewItem(
-                          newActivity: AcademiesItemModel(
-                            trainerName: trainerNameController.text,
-                            activityImage: _imageFile!.path,
-                            price: priceController.text,
-                            title: titleController.text,
-                            description: descriptionController.text,
-                          ),
-                        );
+
+                        // cubit.addNewItem(
+                        //   newActivity: AcademiesItemModel(
+                        //     trainerName: trainerNameController.text,
+                        //     activityImage: _imageFile!.path,
+                        //     price: priceController.text,
+                        //     title: titleController.text,
+                        //     description: descriptionController.text,
+                        //   ),
+                        // );
                         FocusScope.of(context).unfocus();
                         titleController.clear();
                         priceController.clear();
